@@ -18,8 +18,28 @@ class Home extends BaseController
 
     public function index()
     {
-        ServerLogger::log($this->userModel->test());
+        return view('welcome_message');
+    }
 
+    public function setSession()
+    {
+        $newdata = [
+            'username' => 'johndoe',
+            'email' => 'johndoe@some-site.com',
+            'logged_in' => true,
+        ];
+
+        $this->session->set($newdata);
+//        ServerLogger::log($this->session->session_id);
+//        session()->remove('username');
+        return view('welcome_message');
+    }
+
+    public function getSession()
+    {
+        $name = $this->session->get('username');
+        ServerLogger::log($name);
+        ServerLogger::log($this->session->has('username'));
         return view('welcome_message');
     }
 }
