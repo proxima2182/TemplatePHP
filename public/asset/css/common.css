@@ -1,0 +1,366 @@
+@charset "utf-8";
+
+#container {
+    width: 100%;
+    min-width: 1070px;
+    overflow: hidden;
+}
+
+.mainview {
+    width: 100%;
+    height: 300px;
+    position: relative;
+
+}
+
+.mainview .darkness {
+    position: absolute;
+    width: 100%;
+    height: 300px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.mainview img {
+    width: 70px;
+    position: absolute;
+    top: 50%;
+    margin-top: -70px;
+    left: 50%;
+    margin-left: -35px;
+
+}
+
+.mainview h2 {
+    width: 100%;
+    margin: 0 auto;
+    position: absolute;
+    padding-left: 10px;
+    letter-spacing: 20px;
+    top: 180px;
+    text-align: center;
+    font-size: 27px;
+    color: #fff;
+
+}
+
+.mainview p {
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: #fff;
+    position: absolute;
+    top: 220px;
+    letter-spacing: -0.5px;
+}
+
+
+.navigation {
+    width: 840px;
+    margin: 40px auto;
+    border: 2px solid #e3e3e3;
+}
+
+.navigation li {
+    width: 120px;
+    height: 150px;
+    float: left;
+    position: relative;
+}
+
+.navigation li:after {
+    content: "";
+    width: 2px;
+    height: 100%;
+    background: #e3e3e3;
+    position: absolute;
+    top: 0;
+    right: 0;
+    /*    margin-right:15%;*/
+}
+
+.navigation .icon07:after {
+    display: none;
+
+}
+
+.navigation li a {
+    display: block;
+    height: 100%;
+    /*    margin: 20px;*/
+}
+
+.navigation li a p {
+    text-align: center;
+    font-size: 15px;
+    height: 30px;
+    font-weight: 600;
+}
+
+.navigation li a .image_wrap {
+    width: 120px;
+    height: 120px;
+    line-height: 120px;
+    text-align: center;
+    vertical-align: middle;
+    display: block;
+}
+
+.navigation li a img {
+    width: 60px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+
+.navigation li a .on {
+    display: none;
+}
+
+/*메인로우1 아이콘 호버*/
+.navigation li:hover .on, .navigation li.selected .on {
+    display: inline-block;
+}
+
+.navigation li:hover .off, .navigation li.selected .off {
+    display: none;
+}
+
+.navigation li a:hover img, .navigation li.selected img {
+    width: 80px;
+}
+
+.navigation .icon01 a:hover p, .navigation .icon01.selected a p {
+    color: #1b3a93;
+}
+
+.navigation .icon02 a:hover p, .navigation .icon02.selected a p {
+    color: #278484;
+}
+
+.navigation .icon03 a:hover p, .navigation .icon03.selected a p {
+    color: #c56184;
+}
+
+.navigation .icon04 a:hover p, .navigation .icon04.selected a p {
+    color: #d77914;
+}
+
+.navigation .icon05 a:hover p, .navigation .icon05.selected a p {
+    color: #63992f;
+}
+
+.navigation .icon07 a:hover p, .navigation .icon07.selected a p {
+    color: #5d5598;
+}
+
+.navigation .icon06 a:hover p, .navigation .icon06.selected a p {
+    color: #5d5598;
+}
+
+#container div.decoration_wrap {
+    width: 100%;
+    margin-top: 200px;
+    border-top: 1px solid #a0bcbf;
+    position: relative;
+}
+
+.decoration_wrap .inner {
+    width: 1070px;
+    margin: 0 auto;
+    padding-top: 40px;
+    position: relative;
+}
+
+
+.inner .center_decoration {
+    height: 30px;
+    width: 200px;
+    line-height: 30px;
+    background: #fff;
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    top: -5px;
+}
+
+.inner .center_decoration h3 {
+    font-size: 18px;
+    margin: 0;
+    text-align: center;
+    color: #a0bcbf;
+}
+.inner .center_decoration h3.sub_title {
+    width: 100%;
+    text-align: center;
+    font-size: 45px;
+    line-height: 60px;
+    color: #333;
+    position: absolute;
+    margin: 0;
+    bottom: 30px;
+}
+
+.inner .center_decoration .circle {
+    width: 8px;
+    height: 8px;
+    background: #a0bcbf;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    margin-top: -14px;
+    z-index: 5;
+}
+
+.inner .center_decoration .circle.start {
+    left: -4px;
+}
+
+.inner .center_decoration .circle.end {
+    right: -4px;
+}
+
+h2.no_permission {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 30px;
+    text-align: center;
+    color: #4f4f4f;
+}
+
+
+
+@media (max-width: 1070px) {
+    #container {
+        min-width: 300px;
+    }
+
+    .navigation {
+        width: 100vw;
+        margin: 0 auto;
+        font-size: 0;
+        text-align: center;
+        border: 0;
+    }
+
+    .navigation li {
+        width: 25vw;
+        display: inline-block;
+        height: auto;
+        float: none;
+    }
+
+    .navigation li:after {
+        display: none;
+    }
+
+    .navigation li a .image_wrap {
+        width: 100%;
+        height: 25vw;
+        line-height: 25vw;
+
+    }
+
+    .navigation li a:hover img {
+        width: 60%;
+    }
+
+    .navigation li a img {
+        width: 60%;
+        max-width: 15vw;
+    }
+
+    .navigation li a p {
+        font-size: 2.5vw;
+    }
+    .decoration_wrap .inner {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .mainview {
+        height: 200px;
+    }
+
+    .mainview .darkness {
+        height: 200px;
+    }
+
+    .mainview img {
+        width: 50px;
+        height: 50px;
+        margin-left: -25px;
+    }
+
+    .mainview h2 {
+        top: 100px;
+        letter-spacing: 10px;
+        font-size: 20px;
+        padding-left: 6px;
+    }
+
+    .mainview p {
+        top: 140px;
+    }
+
+    #container div.decoration_wrap {
+        margin-top: 120px;
+        height: auto;
+    }
+    #container .inner .center_decoration {
+        width: 150px;
+        margin-left: -75px;
+    }
+    #container .inner .center_decoration h3 {
+        font-size: 16px;
+    }
+    #container .inner .center_decoration h3.sub_title {
+        font-size: 30px;
+        line-height: 40px;
+        bottom: 30px;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 1070px) {
+    .navigation {
+        width: 90vw;
+    }
+
+    .navigation li {
+        width: 12.85vw;
+        height: auto;
+        float: left;
+    }
+
+    .navigation li a .image_wrap {
+        width: 100%;
+        height: 100px;
+        line-height: 100px;
+
+    }
+
+    .navigation li a:hover img {
+        width: 60%;
+    }
+
+    .navigation li a img {
+        width: 60%;
+        max-width: 48px;
+    }
+
+    .navigation li a p {
+        font-size: 13px;
+    }
+
+    #container div.decoration_wrap {
+        margin-top: 150px;
+    }
+    .inner .center_decoration h3.sub_title {
+        font-size: 40px;
+        line-height: 50px;
+        bottom: 30px;
+    }
+}
+
