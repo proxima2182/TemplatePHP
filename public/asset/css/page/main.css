@@ -1,0 +1,169 @@
+#header {
+    position: absolute;
+    top: 0;
+    /*z-index: 100;*/
+}
+
+#fullpage .section {
+    position: relative;
+}
+
+.slick {
+    width: 100%;
+    margin: 0px auto;
+    position: relative;
+}
+
+.slick button.slick-prev {
+    left: 10px;
+    background: url('/asset/images/icon/left_button_white@2x.png') no-repeat center;
+}
+
+.slick button.slick-next {
+    right: 10px;
+    background: url('/asset/images/icon/right_button_white@2x.png') no-repeat center;
+}
+
+
+.slick button {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    margin-top: -20px;
+    z-index: 100;
+    text-indent: -9999px;
+    border: none;
+    cursor: pointer;
+    background-color: #ffffff;
+    background-blend-mode: multiply;
+}
+
+.slick .slick-element {
+    widt-h: 100%;
+    display: inline-block;
+    background: gray;
+}
+
+@keyframes slideOut {
+    from {
+        top: -60px;
+    }
+
+    to {
+        top: 0;
+    }
+}
+
+
+@keyframes slideIn {
+    from {
+        top: 0;
+    }
+
+    to {
+        top: -60px;
+    }
+}
+
+/*#section_start .main-slider{*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    bottom: 0;*/
+/*    right: 0;*/
+/*    z-index: -10;*/
+/*}*/
+#section_start .content-wrap {
+    position: relative;
+}
+
+#section_start .slider-text-wrap {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    text-align: center;
+    /*background: rgba(0, 0, 0, 0.3);*/
+}
+
+#section_start .slider-text-wrap .text-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /*width: 500px;*/
+    /*height: 200px;*/
+    /*margin-top: -100px;*/
+    /*margin-left: -250px;*/
+    padding: 15px 20px 40px 20px;
+    display: inline-block;
+    vertical-align: middle;
+    color: #fff;
+    border: 1px solid #bbb;
+    background: rgba(0,0,0,0.5);
+}
+
+#section_start .slider-text-wrap .text-box .title {
+    font-size: 24px;
+    line-height: 50px;
+    font-weight: 400;
+}
+
+#section_start .slider-text-wrap .text-box .content {
+    font-size: 16px;
+}
+
+/*TODO need to set video height automatically*/
+#section_01 video {
+    position: absolute;
+    top: -10vh;
+    left: -40vw;
+    bottom: -10vh;
+    right: -40vw;
+    z-index: -10;
+    height: 120vh;
+    width: 180vw;
+    min-width: 1080px;
+    /*min-width: 120%;*/
+    min-height: 120vh;
+}
+
+#section_01::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -9;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+#section_01 .wrap {
+    width: 350px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    padding-top: 100px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#section_01 .wrap .text-box {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    color: #fff;
+}
+
+#section_01 .wrap .text-box .title {
+    font-size: 26px;
+    line-height: 50px;
+    font-weight: 600;
+}
+
+#section_01 .wrap .text-box .content {
+    font-size: 18px;
+}

@@ -18,7 +18,12 @@ class Home extends BaseController
 
     public function index()
     {
-        return view('welcome_message');
+        $this->userModel->checkAdmin();
+//        return view('header', ["links" => ["test" => "a", "test2" => "a"], "is_login" => false])
+//            .view('main')
+//            .view('footer');
+        return view('main', ["links" => ["test" => "a", "test2" => "a"], "is_login" => false]);
+//        return view('welcome_message');
     }
 
     public function setSession()

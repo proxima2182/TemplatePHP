@@ -1,0 +1,199 @@
+@charset "utf-8";
+
+body {
+    position: relative;
+}
+
+.inner {
+    width: 1200px;
+    min-width: 1070px;
+    margin: 0 auto;
+    position: relative;
+    height: 100%;
+}
+
+#container {
+    height: 300px;
+}
+
+/*헤더시작*/
+#header {
+    width: 100%;
+    position: relative;
+    background: #222;
+}
+
+#header .inner {
+    width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#header .logo {
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#header .logo a {
+    display: block;
+    height: 100%;
+    line-height: inherit;
+}
+
+#header .logo a img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/*#header .logo a img {*/
+/*    width: 255px;*/
+/*    display: inline-block;*/
+/*}*/
+
+.utill {
+    height: 80px;
+    position: relative;
+    background: #222;
+}
+
+.utill ul {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+}
+
+.utill li {
+    float: left;
+    font-size: 14px;
+}
+
+.utill li a {
+    color: #fff;
+}
+
+.utill li:after {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 8px;
+    background: #fff;
+    margin: 0 10px;
+}
+
+.utill li.last:after {
+    display: none;
+}
+
+.gnb {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background: #222;
+}
+
+.gnb > li {
+    margin: 0px 40px;
+    height: auto;
+    text-align: center;
+    float: left;
+}
+
+.gnb > li > a {
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    display: block;
+}
+
+.gnb > li > a:hover {
+    color: #bbb;
+}
+
+#container {
+    padding-bottom: 150px;
+}
+
+#footer {
+    width: 100%;
+    min-width: 1070px;
+    font-size: 0;
+    background: #222;
+}
+
+#footer .inner {
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/*footer logo*/
+#footer .inner .logo {
+    width: 200px;
+    /*height: 50px;*/
+    margin-left: -10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#footer .inner .logo img {
+    width: 100%;
+}
+
+/*footer content*/
+#footer .inner .text-box {
+    margin-top: 15px;
+}
+
+#footer .text-box ul li {
+    line-height: 25px;
+}
+
+#footer .text-box ul li p {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 15px;
+    color: #fff;
+}
+
+/*(style) footer front bar*/
+#footer .text-box ul li:before {
+    content: "";
+    width: 2px;
+    height: 26px;
+    background: #fff;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+#footer .terms {
+    margin-top: 40px;
+    font-size: 13px;
+    line-height: 40px;
+    color: #fff;
+}
+
+#footer .text-box .terms li {
+    margin-right: 0;
+}
+
+#footer .text-box .terms li.first {
+    margin-right: 15px;
+}
+
+#footer .text-box .terms .first:after {
+    content: "";
+    width: 1px;
+    height: 8px;
+    background: #bebbae;
+    display: inline-block;
+    margin-left: 15px;
+}
+
+#footer .text-box .terms {
+    position: absolute;
+    right: 15px;
+    top: 20px;
+}
