@@ -1,5 +1,76 @@
 <?php
 if (!isset($links) && !isset($is_login)) return;
+
+//dummy data
+$points = [
+    [
+        'name' => 'point A',
+        'address' => 'point A Address',
+        'latitude' => 33.452278,
+        'longitude' => 126.567803,
+    ],
+    [
+        'name' => 'point B',
+        'address' => 'point B Address',
+        'latitude' => 33.452671,
+        'longitude' => 126.574792,
+    ],
+    [
+        'name' => 'point C',
+        'address' => 'point C Address',
+        'latitude' => 33.451744,
+        'longitude' => 126.572441,
+    ],
+    [
+        'name' => 'point D',
+        'address' => 'point D Address',
+        'latitude' => 33.452744,
+        'longitude' => 126.572441,
+    ],
+    [
+        'name' => 'point E',
+        'address' => 'point E Address',
+        'latitude' => 33.453744,
+        'longitude' => 126.572441,
+    ],
+    [
+        'name' => 'point F',
+        'address' => 'point F Address',
+        'latitude' => 33.454744,
+        'longitude' => 126.572441,
+    ],
+    [
+        'name' => 'point G',
+        'address' => 'point G Address',
+        'latitude' => 33.455744,
+        'longitude' => 126.572441,
+    ],
+    [
+        'name' => 'point AA',
+        'address' => 'point AA Address',
+        'latitude' => 33.756744,
+        'longitude' => 126.572441,
+    ],
+    [
+        'name' => 'point AB',
+        'address' => 'point AB Address',
+        'latitude' => 33.866744,
+        'longitude' => 126.572441,
+    ],
+    [
+        'name' => 'point AC',
+        'address' => 'point AC Address',
+        'latitude' => 34.476744,
+        'longitude' => 126.572441,
+    ],
+];
+$sliderImageUris = [
+    '/asset/images/slider/drilling-rig-4581167_1280.jpeg',
+    '/asset/images/slider/film-4613426_1280.jpeg',
+    '/asset/images/slider/geometry-7209216_1280.jpeg',
+    '/asset/images/slider/record-player-1851576_1280.jpeg',
+    '/asset/images/slider/vacation-2302013_1280.jpeg',
+]
 ?>
 <!doctype html>
 <html lang="ko">
@@ -9,24 +80,44 @@ if (!isset($links) && !isset($is_login)) return;
           content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
     <title>Template</title>
 
-    <link rel="stylesheet" type="text/css" href="/asset/css/default.css"/>
-    <link rel="stylesheet" type="text/css" href="/asset/css/include.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/default.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/include.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/page/main.css"/>
 
     <script type="text/javascript" src="/asset/js/fullpage/jquery.min.js"></script>
     <script type="text/javascript" src="/asset/js/fullpage/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/asset/js/fullpage/jquery.fullPage.js"></script>
     <script type="text/javascript" src="/asset/js/slick/slick.min.js"></script>
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=221aa6cfc43d262a0a90ca26facc9708"></script>
 
     <script type="text/javascript" src="/asset/js/page/main.js"></script>
+    <script type="text/javascript">
+        addEventListener('customMapLoad', function () {
+            let points = [];
+            <?php
+            foreach($points as $index => $point) {
+            ?>
+            points.push({
+                name: '<?=$point['name']?>',
+                latitude: '<?=$point['latitude']?>',
+                longitude: '<?=$point['longitude']?>',
+            })
+            <?php
+            }
+            ?>
+            setMapPoints(points)
+        })
+    </script>
 
-    <link rel="stylesheet" type="text/css" href="/asset/css/page/main.css"/>
 </head>
 
 <body>
 <div id="fullpage">
-    <div class="section " id="section_start">
+    <div class="section " id="page-start">
         <header id="header">
             <div class="inner">
                 <div class="utill">
@@ -61,29 +152,19 @@ if (!isset($links) && !isset($is_login)) return;
         <div class="main-slider-wrap">
             <div class="content-wrap">
                 <div class="slick">
-                    <div class="slick-element"
-                         style="background: url('/asset/images/slider/drilling-rig-4581167_1280.jpeg') no-repeat; background-size: cover; font-size: 0;">
-                        Slider #01
-                    </div>
-                    <div class="slick-element"
-                         style="background: url('/asset/images/slider/film-4613426_1280.jpeg') no-repeat; background-size: cover; font-size: 0;">
-                        Slider #02
-                    </div>
-                    <div class="slick-element"
-                         style="background: url('/asset/images/slider/geometry-7209216_1280.jpeg') no-repeat; background-size: cover; font-size: 0;">
-                        Slider #03
-                    </div>
-                    <div class="slick-element"
-                         style="background: url('/asset/images/slider/record-player-1851576_1280.jpeg') no-repeat; background-size: cover; font-size: 0;">
-                        Slider #04
-                    </div>
-                    <div class="slick-element"
-                         style="background: url('/asset/images/slider/vacation-2302013_1280.jpeg') no-repeat; background-size: cover; font-size: 0;">
-                        Slider #05
-                    </div>
+                    <?php
+                    foreach ($sliderImageUris as $index => $uri) {
+                        ?>
+                        <div class="slick-element"
+                             style="background: url('<?= $uri ?>') no-repeat; background-size: cover; font-size: 0;">
+                            Slider #<?= $index ?>
+                        </div>
+                        <?php
+                    }
+                    ?>
                 </div>
                 <div class="slider-text-wrap">
-                    <div class="text-box">
+                    <div class="text-wrap">
                         <h3 class="title">Lorem ipsum</h3>
                         <ul class="content cf">
                             <li><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></li>
@@ -98,14 +179,14 @@ if (!isset($links) && !isset($is_login)) return;
         </div>
     </div>
 
-    <div class="section" id="section_01">
+    <div class="section" id="page-intro">
         <video id="video" allow="autoplay;" muted autoplay loop>
             <source src="/asset/video/pexels-kelly-2491284-4096x2160-24fps.mp4" type="video/mp4">
         </video>
 
-        <div class="inner">
-            <div class="wrap">
-                <div class="text-box">
+        <div class="page-inner">
+            <div class="text-box">
+                <div class="text-wrap">
                     <h3 class="title">Lorem ipsum</h3>
                     <ul class="content cf">
                         <li><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></li>
@@ -119,11 +200,103 @@ if (!isset($links) && !isset($is_login)) return;
         </div>
     </div>
 
-    <div class="section" id="section_last">
+    <div class="section" id="page-video">
+        <div class="page-inner">
+            <div class="content-box">
+                <iframe class="main-video"
+                        width="560" height="315"
+                        src="https://www.youtube.com/embed/isTo5kISXMg?rel=0&controls=0&playsinline=1"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                </iframe>
+                <hr>
+                <div class="text-wrap">
+                    <h3 class="title">Lorem ipsum</h3>
+                    <ul class="content cf">
+                        <li><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></li>
+                        <li><p>Proin semper dolor in purus iaculis ullamcorper.</p></li>
+                        <li><p>In eu posuere sapien, id finibus libero.</p></li>
+                        <li><p>Fusce fringilla enim dolor.</p></li>
+                        <li><p>Vivamus et arcu sit amet ante gravida malesuada.</p></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="page-map">
+        <div class="page-inner">
+            <div class="list-wrap">
+                <ul>
+                    <?php
+                    foreach ($points as $index => $point) {
+                        ?>
+                        <li class="selector">
+                            <div class="text-wrap">
+                                <div class="title"><?= $point['name'] ?></div>
+                                <div class="content"><?= $point['address'] ?></div>
+                            </div>
+                        </li>
+                        <?php
+                    }
+                    ?>
+                </ul>
+            </div>
+            <div class="map-box">
+                <div id="map" style="width:100%;height:100%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="page-last">
+        <div class="page-inner">
+            <div class="content-wrap">
+                <div class="form-box">
+                    <h3 class="title">Enquiries about membership</h3>
+                    <div class="input-wrap">
+                        <p class="input-title">Name</p>
+                        <input type="text" name="name"/>
+                    </div>
+                    <div class="input-wrap">
+                        <p class="input-title">Phone Number</p>
+                        <input type="phone" name="phone"/>
+                    </div>
+                    <div class="input-wrap">
+                        <p class="input-title">Region</p>
+                        <input type="text" name="region"/>
+                    </div>
+                    <div class="input-wrap">
+                        <p class="input-title">Inquiry</p>
+                        <textarea class="content" rows="4" name="content"></textarea>
+                    </div>
+                    <div class="text-wrap">
+                        <div class="title"></div>
+                        <div class="content">
+                            작성하신 이름과 전화번호는 상담접수 용도로만 사용됩니다.
+                            <br/>
+                            - 개인정보 수집, 이용 목적 : 상담접수
+                            <br/>
+                            - 수집하려는 개인정보 항목 : 이름, 전화번호
+                            <br/>
+                            - 개인정보의 보유 및 이용기간 : 상담 완료 후 파기
+                        </div>
+                    </div>
+                    <div class="input-wrap agreement">
+                        <span class="input-title">개인 정보 취급 방침에 동의</span>
+                        <input type="checkbox" name="agreement"/>
+                    </div>
+                    <div class="submit-box">
+                        <a href="javascript:requestRegister();" class="button submit">제출</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <footer id="footer">
             <div class="inner">
                 <a href="/" class="logo"><img src="/asset/images/include/logo_footer.png" alt="footer logo"></a>
-                <div class="text-box">
+                <div class="text-wrap">
                     <ul class="cf">
                         <li><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></li>
                         <li><p>Mauris laoreet lacinia neque, quis maximus felis finibus id.</p></li>

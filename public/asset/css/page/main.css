@@ -4,28 +4,49 @@
     /*z-index: 100;*/
 }
 
+#footer {
+    position: absolute;
+    bottom: 0;
+}
+
 #fullpage .section {
+    position: relative;
+    overflow: hidden;
+}
+
+/*
+slider 페이지
+ */
+#page-start .content-wrap {
     position: relative;
 }
 
-.slick {
+#page-start .slider-text-wrap {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    text-align: center;
+}
+
+#page-start .slick {
     width: 100%;
     margin: 0px auto;
     position: relative;
 }
 
-.slick button.slick-prev {
+#page-start .slick button.slick-prev {
     left: 10px;
     background: url('/asset/images/icon/left_button_white@2x.png') no-repeat center;
 }
 
-.slick button.slick-next {
+#page-start .slick button.slick-next {
     right: 10px;
     background: url('/asset/images/icon/right_button_white@2x.png') no-repeat center;
 }
 
-
-.slick button {
+#page-start .slick button {
     width: 40px;
     height: 40px;
     position: absolute;
@@ -39,7 +60,7 @@
     background-blend-mode: multiply;
 }
 
-.slick .slick-element {
+#page-start .slick .slick-element {
     widt-h: 100%;
     display: inline-block;
     background: gray;
@@ -55,7 +76,6 @@
     }
 }
 
-
 @keyframes slideIn {
     from {
         top: 0;
@@ -66,56 +86,32 @@
     }
 }
 
-/*#section_start .main-slider{*/
-/*    position: absolute;*/
-/*    top: 0;*/
-/*    left: 0;*/
-/*    bottom: 0;*/
-/*    right: 0;*/
-/*    z-index: -10;*/
-/*}*/
-#section_start .content-wrap {
-    position: relative;
-}
 
-#section_start .slider-text-wrap {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;
-    text-align: center;
-    /*background: rgba(0, 0, 0, 0.3);*/
-}
-
-#section_start .slider-text-wrap .text-box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    /*width: 500px;*/
-    /*height: 200px;*/
-    /*margin-top: -100px;*/
-    /*margin-left: -250px;*/
-    padding: 15px 20px 40px 20px;
+#page-start .slider-text-wrap .text-wrap {
+    padding: 20px 30px 50px 30px;
     display: inline-block;
     vertical-align: middle;
+    line-height: normal;
     color: #fff;
     border: 1px solid #bbb;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
 }
 
-#section_start .slider-text-wrap .text-box .title {
+#page-start .slider-text-wrap .text-wrap .title {
     font-size: 24px;
     line-height: 50px;
     font-weight: 400;
 }
 
-#section_start .slider-text-wrap .text-box .content {
+#page-start .slider-text-wrap .text-wrap .content {
     font-size: 16px;
 }
 
+/*
+video background 패이지
+ */
 /*TODO need to set video height automatically*/
-#section_01 video {
+#page-intro video {
     position: absolute;
     top: -10vh;
     left: -40vw;
@@ -129,7 +125,7 @@
     min-height: 120vh;
 }
 
-#section_01::after {
+#page-intro::after {
     content: "";
     position: absolute;
     top: 0;
@@ -140,7 +136,7 @@
     background: rgba(0, 0, 0, 0.3);
 }
 
-#section_01 .wrap {
+#page-intro .text-box {
     width: 350px;
     position: absolute;
     top: 0;
@@ -150,7 +146,7 @@
     background: rgba(0, 0, 0, 0.5);
 }
 
-#section_01 .wrap .text-box {
+#page-intro .text-wrap {
     position: absolute;
     left: 20px;
     right: 20px;
@@ -158,12 +154,203 @@
     color: #fff;
 }
 
-#section_01 .wrap .text-box .title {
+#page-intro .text-wrap .title {
     font-size: 26px;
     line-height: 50px;
     font-weight: 600;
 }
 
-#section_01 .wrap .text-box .content {
+#page-intro .text-wrap .content {
     font-size: 18px;
+}
+
+
+/*
+youtube 패이지
+ */
+
+#page-video .page-inner {
+    padding-top: 100px;
+    text-align: center;
+}
+
+#page-video .content-box {
+    width: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+
+#page-video hr {
+    margin: 40px 0;
+}
+
+#page-video .main-video {
+    display: inline-block;
+}
+
+#page-video .text-wrap {
+    color: #000;
+}
+
+#page-video .text-wrap .title {
+    font-size: 26px;
+    line-height: 50px;
+    font-weight: 600;
+}
+
+#page-video .text-wrap .content {
+    font-size: 18px;
+}
+
+/*
+map 패이지
+ */
+#page-map {
+    /*background: #bbb;*/
+}
+
+#page-map .page-inner {
+    text-align: center;
+    /*background: #fff;*/
+    font-size: 0;
+    position: relative;
+}
+
+#page-map .page-inner > div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#page-map .list-wrap {
+    top: 140px;
+    left: 40px;
+    bottom: 40px;
+    width: 300px;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 10;
+    overflow-y: scroll;
+}
+
+#page-map .list-wrap li:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: #eee;
+}
+
+#page-map .list-wrap li .text-wrap {
+    padding: 15px;
+    text-align: left;
+}
+
+#page-map .list-wrap .title {
+    font-size: 18px;
+    line-height: 25px;
+    color: #000;
+}
+
+#page-map .list-wrap .content {
+    font-size: 16px;
+    color: #666;
+}
+
+#page-map .map-box {
+    width: 100%;
+    height: 100%;
+}
+
+/*
+submit 페이지
+ */
+#page-last {
+    /*background: #999;*/
+}
+
+#page-last .page-inner {
+    height: 100%;
+    /*background: #fff;*/
+    padding-top: 100px;
+    padding-bottom: 230px;
+}
+
+#page-last .page-inner {
+    text-align: center;
+}
+
+#page-last .page-inner .content-wrap {
+    height: 500px;
+    line-height: normal;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#page-last .page-inner .content-wrap .title {
+    font-size: 18px;
+    line-height: 40px;
+    font-weight: 400;
+}
+
+#page-last .form-box {
+    display: inline-block;
+    padding: 15px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+}
+
+#page-last .page-inner .input-wrap {
+    margin-top: 10px;
+}
+
+#page-last .page-inner .input-wrap * {
+    vertical-align: top;
+    display: inline-block;
+    line-height: 25px;
+}
+
+#page-last .page-inner .input-wrap .input-title {
+    width: 150px;
+    text-align: right;
+    margin-right: 15px;
+}
+
+#page-last .form-box input, #page-last .form-box textarea {
+    width: 400px;
+    resize: none;
+    border: 1px solid #bbb;
+}
+
+#page-last .form-box .input-wrap.agreement .input-title{
+    width: auto;
+}
+
+#page-last .form-box input[type=checkbox] {
+    margin: 4px;
+    width: 16px;
+    height: 16px;
+    accent-color: #222;
+}
+#page-last .form-box input[type=checkbox]:focus {
+    margin: 4px;
+    width: 16px;
+    height: 16px;
+}
+
+#page-last .form-box input:focus, #page-last .form-box textarea:focus {
+    border: 2px solid #bbb;
+    margin: -1px;
+}
+
+#page-last .form-box .text-wrap {
+    width: 600px;
+    padding: 15px;
+    margin-top: 15px;
+    border: 1px solid #000;
+    text-align: left;
+}
+
+#page-last .page-inner .button {
+    margin-top: 15px;
 }

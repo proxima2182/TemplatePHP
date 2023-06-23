@@ -3,7 +3,7 @@
 <footer id="footer">
     <div class="inner">
         <a href="/" class="logo"><img src="/asset/images/include/logo_footer.png" alt="footer logo"></a>
-        <div class="text-box">
+        <div class="text-wrap">
             <ul class="cf">
                 <li><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></li>
                 <li><p>Mauris laoreet lacinia neque, quis maximus felis finibus id.</p></li>

@@ -142,15 +142,15 @@ body {
 }
 
 /*footer content*/
-#footer .inner .text-box {
+#footer .inner .text-wrap {
     margin-top: 15px;
 }
 
-#footer .text-box ul li {
+#footer .text-wrap ul li {
     line-height: 25px;
 }
 
-#footer .text-box ul li p {
+#footer .text-wrap ul li p {
     display: inline-block;
     vertical-align: middle;
     font-size: 15px;
@@ -158,7 +158,7 @@ body {
 }
 
 /*(style) footer front bar*/
-#footer .text-box ul li:before {
+#footer .text-wrap ul li:before {
     content: "";
     width: 2px;
     height: 26px;
@@ -175,15 +175,15 @@ body {
     color: #fff;
 }
 
-#footer .text-box .terms li {
+#footer .text-wrap .terms li {
     margin-right: 0;
 }
 
-#footer .text-box .terms li.first {
+#footer .text-wrap .terms li.first {
     margin-right: 15px;
 }
 
-#footer .text-box .terms .first:after {
+#footer .text-wrap .terms .first:after {
     content: "";
     width: 1px;
     height: 8px;
@@ -192,7 +192,7 @@ body {
     margin-left: 15px;
 }
 
-#footer .text-box .terms {
+#footer .text-wrap .terms {
     position: absolute;
     right: 15px;
     top: 20px;
