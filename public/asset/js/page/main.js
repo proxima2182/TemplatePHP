@@ -5,7 +5,7 @@ $(document).ready(function () {
      * activate full page
      */
     $('#fullpage').fullpage({
-        anchors: ['0', '1', '2', '3', '4'],
+        anchors: ['0', '1', '2', '3', '4', '5'],
         menu: '#menu',
         onLeave: function (index, nextIndex, direction) {
             if (index === 1) {
@@ -105,6 +105,8 @@ $(document).ready(function () {
         }
     });
 
+    windowResize();
+
     /**
      * activate slick
      * @type {number}
@@ -115,9 +117,11 @@ $(document).ready(function () {
         autoplay: true,
         autoplaySpeed: 2000,
     });
-
-    windowResize();
-
+    $('#page-preview .slick').slick({
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplay: false,
+    });
 
     let container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
     let options = { //지도를 생성할 때 필요한 기본 옵션
@@ -151,8 +155,11 @@ function windowResize() {
     $('#page-video .page-inner').css({
         'line-height': `${window.innerHeight - 100}px`,
     })
+    $('#page-preview .page-inner').css({
+        'line-height': `${window.innerHeight - 100}px`,
+    })
     $('#page-last .page-inner').css({
-        'line-height': `${window.innerHeight - 350}px`,
+        'line-height': `${window.innerHeight - 265}px`,
     })
 }
 
@@ -189,7 +196,6 @@ function setMapPoints(points) {
     }
 
     map.setBounds(bounds);
-    console.log(bounds)
     map.setLevel(map.getLevel() + 1);
     // map.setMinLevel(12)
     // map.setMaxLevel(13)

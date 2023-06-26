@@ -4,7 +4,7 @@ body {
     position: relative;
 }
 
-.inner {
+.header-inner, .footer-inner {
     width: 1200px;
     min-width: 1070px;
     margin: 0 auto;
@@ -21,12 +21,6 @@ body {
     width: 100%;
     position: relative;
     background: #222;
-}
-
-#header .inner {
-    width: 1200px;
-    margin: 0 auto;
-    position: relative;
 }
 
 #header .logo {
@@ -123,13 +117,12 @@ body {
     background: #222;
 }
 
-#footer .inner {
-    margin: 0 auto;
-    padding: 20px;
+#footer .footer-inner {
+    padding: 20px 20px 40px 20px;
 }
 
 /*footer logo*/
-#footer .inner .logo {
+#footer .footer-inner .logo {
     width: 200px;
     /*height: 50px;*/
     margin-left: -10px;
@@ -137,12 +130,12 @@ body {
     vertical-align: middle;
 }
 
-#footer .inner .logo img {
+#footer .footer-inner .logo img {
     width: 100%;
 }
 
 /*footer content*/
-#footer .inner .text-wrap {
+#footer .footer-inner .text-wrap {
     margin-top: 15px;
 }
 
@@ -169,31 +162,10 @@ body {
 }
 
 #footer .terms {
-    margin-top: 40px;
     font-size: 13px;
     line-height: 40px;
     color: #fff;
-}
-
-#footer .text-wrap .terms li {
-    margin-right: 0;
-}
-
-#footer .text-wrap .terms li.first {
-    margin-right: 15px;
-}
-
-#footer .text-wrap .terms .first:after {
-    content: "";
-    width: 1px;
-    height: 8px;
-    background: #bebbae;
-    display: inline-block;
-    margin-left: 15px;
-}
-
-#footer .text-wrap .terms {
     position: absolute;
     right: 15px;
-    top: 20px;
+    bottom: 0;
 }

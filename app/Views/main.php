@@ -119,7 +119,7 @@ $sliderImageUris = [
 <div id="fullpage">
     <div class="section " id="page-start">
         <header id="header">
-            <div class="inner">
+            <div class="header-inner">
                 <div class="utill">
                     <ul class="cf">
                         <?php
@@ -139,29 +139,21 @@ $sliderImageUris = [
                 </div>
                 <h1 class="logo"><a href="/"><img src="/asset/images/include/logo.png" alt="header logo"></a></h1>
                 <ul class="gnb cf">
-                    <?php
-                    foreach ($links as $name => $link) {
-                        ?>
+                    <?php foreach ($links as $name => $link) { ?>
                         <li><a href="<?= $link ?>"><?= $name ?></a></li>
-                        <?php
-                    }
-                    ?>
+                    <?php } ?>
                 </ul>
             </div>
         </header>
         <div class="main-slider-wrap">
             <div class="content-wrap">
                 <div class="slick">
-                    <?php
-                    foreach ($sliderImageUris as $index => $uri) {
-                        ?>
+                    <?php foreach ($sliderImageUris as $index => $uri) { ?>
                         <div class="slick-element"
                              style="background: url('<?= $uri ?>') no-repeat; background-size: cover; font-size: 0;">
                             Slider #<?= $index ?>
                         </div>
-                        <?php
-                    }
-                    ?>
+                    <?php } ?>
                 </div>
                 <div class="slider-text-wrap">
                     <div class="text-wrap">
@@ -204,7 +196,7 @@ $sliderImageUris = [
         <div class="page-inner">
             <div class="content-box">
                 <iframe class="main-video"
-                        width="560" height="315"
+                        width="680" height="400"
                         src="https://www.youtube.com/embed/isTo5kISXMg?rel=0&controls=0&playsinline=1"
                         title="YouTube video player"
                         frameborder="0"
@@ -226,23 +218,53 @@ $sliderImageUris = [
         </div>
     </div>
 
+
+    <div class="section" id="page-preview">
+        <div class="page-inner">
+            <div class="content-box">
+                <h3 class="title">
+                    Preview
+                </h3>
+                <div class="preview-slider">
+                    <div class="slick">
+                        <?php for ($i = 0; $i < 6; $i++) { ?>
+                            <div class="slick-element">
+                                <div class="element-box">
+                                    <div class="image-wrap">
+                                        <img src="/asset/images/object.png">
+                                    </div>
+                                    <div class="text-wrap">
+                                        <h4 class="title">Lorem ipsum</h4>
+                                        <p class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                            Proin semper dolor in purus iaculis ullamcorper. In eu posuere sapien, id
+                                            finibus libero.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <a href="javascript:requestRegister();" class="selector more"><span>See More</span><img src="/asset/images/icon/arrow_right.png"/></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="section" id="page-map">
         <div class="page-inner">
-            <div class="list-wrap">
-                <ul>
-                    <?php
-                    foreach ($points as $index => $point) {
-                        ?>
-                        <li class="selector">
-                            <div class="text-wrap">
-                                <div class="title"><?= $point['name'] ?></div>
-                                <div class="content"><?= $point['address'] ?></div>
-                            </div>
-                        </li>
-                        <?php
-                    }
-                    ?>
-                </ul>
+            <div class="list-box">
+                <h3 class="title">Map Locations</h3>
+                <div class="list-wrap">
+                    <ul>
+                        <?php foreach ($points as $index => $point) { ?>
+                            <li class="selector">
+                                <div class="text-wrap">
+                                    <div class="title"><?= $point['name'] ?></div>
+                                    <div class="content"><?= $point['address'] ?></div>
+                                </div>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </div>
             </div>
             <div class="map-box">
                 <div id="map" style="width:100%;height:100%;"></div>
@@ -294,7 +316,7 @@ $sliderImageUris = [
             </div>
         </div>
         <footer id="footer">
-            <div class="inner">
+            <div class="footer-inner">
                 <a href="/" class="logo"><img src="/asset/images/include/logo_footer.png" alt="footer logo"></a>
                 <div class="text-wrap">
                     <ul class="cf">

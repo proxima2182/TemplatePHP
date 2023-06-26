@@ -14,39 +14,8 @@
     overflow: hidden;
 }
 
-/*
-slider 페이지
- */
-#page-start .content-wrap {
-    position: relative;
-}
 
-#page-start .slider-text-wrap {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;
-    text-align: center;
-}
-
-#page-start .slick {
-    width: 100%;
-    margin: 0px auto;
-    position: relative;
-}
-
-#page-start .slick button.slick-prev {
-    left: 10px;
-    background: url('/asset/images/icon/left_button_white@2x.png') no-repeat center;
-}
-
-#page-start .slick button.slick-next {
-    right: 10px;
-    background: url('/asset/images/icon/right_button_white@2x.png') no-repeat center;
-}
-
-#page-start .slick button {
+.slick button {
     width: 40px;
     height: 40px;
     position: absolute;
@@ -55,15 +24,32 @@ slider 페이지
     z-index: 100;
     text-indent: -9999px;
     border: none;
-    cursor: pointer;
     background-color: #ffffff;
     background-blend-mode: multiply;
+
+    cursor: pointer;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
-#page-start .slick .slick-element {
-    widt-h: 100%;
-    display: inline-block;
-    background: gray;
+.slick {
+    width: 100%;
+    margin: 0px auto;
+    position: relative;
+}
+
+.slick button.slick-prev {
+    left: 10px;
+    background: url('/asset/images/icon/button_left_white@2x.png') no-repeat center;
+}
+
+.slick button.slick-next {
+    right: 10px;
+    background: url('/asset/images/icon/button_right_white@2x.png') no-repeat center;
 }
 
 @keyframes slideOut {
@@ -86,25 +72,47 @@ slider 페이지
     }
 }
 
+/*
+slider 페이지
+ */
+#page-start .content-wrap {
+    position: relative;
+}
+
+#page-start .slider-text-wrap {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    text-align: center;
+}
+
+#page-start .slick .slick-element {
+    widt-h: 100%;
+    display: inline-block;
+    background: gray;
+}
 
 #page-start .slider-text-wrap .text-wrap {
     padding: 20px 30px 50px 30px;
     display: inline-block;
     vertical-align: middle;
     line-height: normal;
-    color: #fff;
-    border: 1px solid #bbb;
-    background: rgba(0, 0, 0, 0.5);
+    color: #000;
+    border: 1px solid #fff;
+    background: rgba(255, 255, 255, 0.6);
 }
 
 #page-start .slider-text-wrap .text-wrap .title {
-    font-size: 24px;
+    font-size: 26px;
     line-height: 50px;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 #page-start .slider-text-wrap .text-wrap .content {
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 400;
 }
 
 /*
@@ -143,7 +151,7 @@ video background 패이지
     left: 0;
     bottom: 0;
     padding-top: 100px;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.6);
 }
 
 #page-intro .text-wrap {
@@ -151,7 +159,7 @@ video background 패이지
     left: 20px;
     right: 20px;
     bottom: 20px;
-    color: #fff;
+    color: #000;
 }
 
 #page-intro .text-wrap .title {
@@ -162,6 +170,7 @@ video background 패이지
 
 #page-intro .text-wrap .content {
     font-size: 18px;
+    font-weight: 400;
 }
 
 
@@ -204,6 +213,95 @@ youtube 패이지
 }
 
 /*
+preview 페이지
+ */
+
+/*slick button override*/
+#page-preview .slick button.slick-prev {
+    left: -60px;
+    background: url('/asset/images/icon/button_left@2x.png') no-repeat center;
+}
+
+/*slick button override*/
+#page-preview .slick button.slick-next {
+    right: -60px;
+    background: url('/asset/images/icon/button_right@2x.png') no-repeat center;
+}
+
+#page-preview .page-inner {
+    padding-top: 100px;
+    text-align: center;
+}
+
+#page-preview .content-box {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+
+#page-preview .page-inner h3.title {
+    padding: 0 20px;
+    font-size: 26px;
+    line-height: 50px;
+    font-weight: 600;
+}
+
+#page-preview .page-inner .preview-slider {
+    width: 900px;
+    margin-top: 15px;
+    display: inline-block;
+}
+
+#page-preview .page-inner .slick-element .element-box {
+    overflow: hidden;
+    margin: 15px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+#page-preview .page-inner .slick-element .image-wrap {
+    width: 100%;
+    height: 200px;
+    display: inline-block;
+    text-align: center;
+    line-height: 200px;
+}
+
+#page-preview .page-inner .slick-element .image-wrap img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#page-preview .page-inner .slick-element .text-wrap {
+    text-align: left;
+    background: #222;
+    color: #fff;
+    padding: 10px;
+}
+
+#page-preview .page-inner .slick-element .text-wrap .title {
+    font-size: 18px;
+    line-height: 30px;
+}
+
+#page-preview .page-inner .slick-element .text-wrap .content {
+    font-size: 16px;
+    height: 120px;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    display: inline-block;
+}
+
+#page-preview .selector.more {
+    line-height: 30px;
+}
+
+#page-preview .selector.more * {
+    vertical-align: middle;
+    margin: 0 5px;
+}
+
+/*
 map 패이지
  */
 #page-map {
@@ -222,15 +320,33 @@ map 패이지
     vertical-align: top;
 }
 
-#page-map .list-wrap {
-    top: 140px;
+#page-map .list-box {
+    top: 190px;
     left: 40px;
     bottom: 40px;
     width: 300px;
     position: absolute;
-    background: rgba(255, 255, 255, 0.8);
     z-index: 10;
+}
+
+#page-map .list-box h3.title {
+    font-size: 22px;
+    line-height: 50px;
+    font-weight: 600;
+    color: #222;
+    /*text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);*/
+    position: absolute;
+    top: -50px;
+    left: 10px;
+    z-index: 10;
+}
+
+#page-map .list-wrap {
+    height: 100%;
+    /*background: rgba(255, 255, 255, 0.8);*/
+    background: #fff;
     overflow-y: scroll;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 #page-map .list-wrap li:after {
@@ -273,7 +389,7 @@ submit 페이지
     height: 100%;
     /*background: #fff;*/
     padding-top: 100px;
-    padding-bottom: 230px;
+    padding-bottom: 165px;
 }
 
 #page-last .page-inner {
@@ -281,7 +397,6 @@ submit 페이지
 }
 
 #page-last .page-inner .content-wrap {
-    height: 500px;
     line-height: normal;
     text-align: center;
     display: inline-block;
@@ -289,15 +404,15 @@ submit 페이지
 }
 
 #page-last .page-inner .content-wrap .title {
-    font-size: 18px;
-    line-height: 40px;
-    font-weight: 400;
+    font-size: 24px;
+    line-height: 50px;
+    font-weight: 600;
 }
 
 #page-last .form-box {
     display: inline-block;
-    padding: 15px;
-    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+    padding: 15px 45px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 #page-last .page-inner .input-wrap {
@@ -322,7 +437,7 @@ submit 페이지
     border: 1px solid #bbb;
 }
 
-#page-last .form-box .input-wrap.agreement .input-title{
+#page-last .form-box .input-wrap.agreement .input-title {
     width: auto;
 }
 
@@ -332,6 +447,7 @@ submit 페이지
     height: 16px;
     accent-color: #222;
 }
+
 #page-last .form-box input[type=checkbox]:focus {
     margin: 4px;
     width: 16px;
@@ -339,8 +455,7 @@ submit 페이지
 }
 
 #page-last .form-box input:focus, #page-last .form-box textarea:focus {
-    border: 2px solid #bbb;
-    margin: -1px;
+    border: 1px solid #000;
 }
 
 #page-last .form-box .text-wrap {

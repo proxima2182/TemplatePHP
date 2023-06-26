@@ -17,7 +17,7 @@ if (!isset($links) && !isset($is_login)) return;
 <body>
 <div id="wrap">
 <header id="header">
-    <div class="inner">
+    <div class="header-inner">
         <div class="utill">
             <ul class="cf">
                 <?php

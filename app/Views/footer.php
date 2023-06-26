@@ -1,7 +1,7 @@
 </div>
 
 <footer id="footer">
-    <div class="inner">
+    <div class="footer-inner">
         <a href="/" class="logo"><img src="/asset/images/include/logo_footer.png" alt="footer logo"></a>
         <div class="text-wrap">
             <ul class="cf">
