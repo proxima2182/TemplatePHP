@@ -243,7 +243,7 @@ $sliderImageUris = [
                             </div>
                         <?php } ?>
                     </div>
-                    <a href="javascript:requestRegister();" class="selector more"><span>See More</span><img src="/asset/images/icon/arrow_right.png"/></a>
+                    <a href="javascript:requestRegister();" class="button more"><span>See More</span><img src="/asset/images/icon/arrow_right.png"/></a>
                 </div>
             </div>
         </div>
@@ -256,7 +256,7 @@ $sliderImageUris = [
                 <div class="list-wrap">
                     <ul>
                         <?php foreach ($points as $index => $point) { ?>
-                            <li class="selector">
+                            <li class="button">
                                 <div class="text-wrap">
                                     <div class="title"><?= $point['name'] ?></div>
                                     <div class="content"><?= $point['address'] ?></div>
