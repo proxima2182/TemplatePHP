@@ -1,6 +1,9 @@
+#container {
+    width: 100%;
+}
 
 .page-inner, .container-inner {
-    width: 1200px;
+    min-width: 1200px;
     margin: 0 auto;
     height: 100%;
     box-sizing: border-box;
@@ -24,4 +27,54 @@
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+}
+
+/*slick 관련 default 설정*/
+/*slick 내부에서 display 가 block 인 경우는 slick height 가 비정상적으로 나온다*/
+.slick {
+    width: 100%;
+    margin: 0px auto;
+    position: relative;
+}
+
+.slick-list {
+    overflow: hidden;
+}
+
+.slick-element {
+    display: inline-block;
+}
+
+.slick button {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    margin-top: -20px;
+    z-index: 100;
+    text-indent: -9999px;
+    border: none;
+    background-color: #ffffff;
+    background-blend-mode: multiply;
+
+    cursor: pointer;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.slick button.slick-disabled {
+    visibility: hidden;
+}
+.slick button.slick-prev {
+    left: 0;
+    background: url('/asset/images/icon/button_left@2x.png') no-repeat center;
+}
+
+.slick button.slick-next {
+    right: 0;
+    background: url('/asset/images/icon/button_right@2x.png') no-repeat center;
 }

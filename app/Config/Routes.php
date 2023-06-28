@@ -34,6 +34,7 @@ $routes->get('/get-session', 'Home::getSession');
 $routes->get('/set-session', 'Home::setSession');
 $routes->get('/board', 'BoardController::index');
 $routes->get('/board/([0-9]+)', 'BoardController::index/$1');
+$routes->get('/api/board/get/([0-9]+)', 'ApiController::getBoard/$1');
 
 /*
  * --------------------------------------------------------------------

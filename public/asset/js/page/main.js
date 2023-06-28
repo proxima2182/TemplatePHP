@@ -144,13 +144,13 @@ $(document).ready(function () {
  */
 function windowResize() {
     let header_height = $('#header').height();
-    let slick_height = window.innerHeight - header_height
+    let content_height = window.innerHeight - header_height
     $('#page-start .main-slider-wrap').css('padding-top', header_height);
-    $('#page-start .main-slider-wrap .slick').css('height', slick_height);
-    $('#page-start .main-slider-wrap .slick .slick-element').css('height', slick_height);
+    $('#page-start .main-slider-wrap .slick').css('height', content_height);
+    $('#page-start .main-slider-wrap .slick .slick-element').css('height', content_height);
 
     $('#page-start .slider-text-wrap').css({
-        'line-height': `${slick_height}px`,
+        'line-height': `${content_height}px`,
     })
     $('#page-video .page-inner').css({
         'line-height': `${window.innerHeight - 100}px`,

@@ -10,7 +10,8 @@ body, h1, h2, h3, h4, h5, h6, p {
 }
 
 body {
-    min-width: 1070px;
+    width: 100%;
+    min-width: 1200px;
     font-family: 'NotoSans', 'NotoSerif', sans-serif;
     font-weight: 200;
 }
@@ -40,10 +41,4 @@ input, textarea {
     outline: none;
 }
 
-/*전체시작*/
-#wrap {
-    width: 100%;
-}
 
-
-/*반응형관련*/

@@ -6,10 +6,11 @@ body {
 
 .header-inner, .footer-inner {
     width: 1200px;
-    min-width: 1070px;
+    min-width: 1200px;
+    height: 100%;
     margin: 0 auto;
     position: relative;
-    height: 100%;
+    box-sizing: border-box;
 }
 
 /*헤더시작*/

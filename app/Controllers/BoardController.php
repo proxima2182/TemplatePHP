@@ -22,6 +22,10 @@ class BoardController extends BaseController
                 'css' => parent::generateAssetStatement("css", [
                     '/page/board_grid',
                 ]),
+                'js' => parent::generateAssetStatement("js", [
+                    '/slick/slick.min.js',
+                    '/module/board_popup',
+                ]),
             ])
             . view('board_grid', [
                 'pagination' => [

@@ -194,7 +194,7 @@ $sliderImageUris = [
 
     <div class="section" id="page-video">
         <div class="page-inner">
-            <div class="content-box">
+            <div class="inner-box">
                 <iframe class="main-video"
                         width="680" height="400"
                         src="https://www.youtube.com/embed/isTo5kISXMg?rel=0&controls=0&playsinline=1"
@@ -221,7 +221,7 @@ $sliderImageUris = [
 
     <div class="section" id="page-preview">
         <div class="page-inner">
-            <div class="content-box">
+            <div class="inner-box">
                 <h3 class="title">
                     Preview
                 </h3>

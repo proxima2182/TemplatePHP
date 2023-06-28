@@ -14,44 +14,6 @@
     overflow: hidden;
 }
 
-
-.slick button {
-    width: 40px;
-    height: 40px;
-    position: absolute;
-    top: 50%;
-    margin-top: -20px;
-    z-index: 100;
-    text-indent: -9999px;
-    border: none;
-    background-color: #ffffff;
-    background-blend-mode: multiply;
-
-    cursor: pointer;
-    user-drag: none;
-    -webkit-user-drag: none;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-}
-
-.slick {
-    width: 100%;
-    margin: 0px auto;
-    position: relative;
-}
-
-.slick button.slick-prev {
-    left: 10px;
-    background: url('/asset/images/icon/button_left_white@2x.png') no-repeat center;
-}
-
-.slick button.slick-next {
-    right: 10px;
-    background: url('/asset/images/icon/button_right_white@2x.png') no-repeat center;
-}
-
 @keyframes slideOut {
     from {
         top: -60px;
@@ -78,6 +40,16 @@ slider 페이지
 #page-start .content-wrap {
     position: relative;
 }
+#page-start .slick button.slick-prev {
+    left: 10px;
+    background: url('/asset/images/icon/button_left_white@2x.png') no-repeat center;
+}
+
+#page-start .slick button.slick-next {
+    right: 10px;
+    background: url('/asset/images/icon/button_right_white@2x.png') no-repeat center;
+}
+
 
 #page-start .slider-text-wrap {
     position: absolute;
@@ -183,7 +155,7 @@ youtube 패이지
     text-align: center;
 }
 
-#page-video .content-box {
+#page-video .inner-box {
     width: 100%;
     display: inline-block;
     vertical-align: middle;
@@ -216,16 +188,13 @@ youtube 패이지
 preview 페이지
  */
 
-/*slick button override*/
+/*slick override*/
 #page-preview .slick button.slick-prev {
     left: -60px;
-    background: url('/asset/images/icon/button_left@2x.png') no-repeat center;
 }
 
-/*slick button override*/
 #page-preview .slick button.slick-next {
     right: -60px;
-    background: url('/asset/images/icon/button_right@2x.png') no-repeat center;
 }
 
 #page-preview .page-inner {
@@ -233,7 +202,7 @@ preview 페이지
     text-align: center;
 }
 
-#page-preview .content-box {
+#page-preview .inner-box {
     display: inline-block;
     vertical-align: middle;
     line-height: normal;
