@@ -105,7 +105,7 @@ $(document).ready(function () {
         }
     });
 
-    windowResize();
+    resizeWindow();
 
     /**
      * activate slick
@@ -142,7 +142,7 @@ $(document).ready(function () {
 /**
  * window resize
  */
-function windowResize() {
+function resizeWindow() {
     let header_height = $('#header').height();
     let content_height = window.innerHeight - header_height
     $('#page-start .main-slider-wrap').css('padding-top', header_height);
@@ -164,7 +164,7 @@ function windowResize() {
 }
 
 addEventListener("resize", (event) => {
-    windowResize();
+    resizeWindow();
 });
 
 function setMapPoints(points) {

@@ -1,3 +1,96 @@
+<?php
+$reply = [
+    'page' => 1,
+    'per-page' => 5,
+    'total' => 13,
+    'total-page' => 3,
+    'array' => [
+        [
+            'user_name' => 'Lorem Ipsum',
+            'depth' => 0,
+            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'created_at' => '2023-07-03 22:35:00',
+            'nested_reply' => [
+                'page' => 1,
+                'per_page' => 10,
+                'total' => 2,
+                'total_page' => 3,
+                'array' => [
+                    [
+                        'user_name' => 'Lorem Ipsum',
+                        'depth' => 1,
+                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                        'created_at' => '2023-07-03 22:35:00',
+                    ],
+                    [
+                        'user_name' => 'Lorem Ipsum',
+                        'depth' => 1,
+                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                        'created_at' => '2023-07-03 22:35:00',
+                    ],
+                ],
+            ],
+        ],
+        [
+            'user_name' => 'Lorem Ipsum',
+            'depth' => 0,
+            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'created_at' => '2023-07-03 22:35:00',
+            'nested_reply' => [
+                'page' => 1,
+                'per_page' => 10,
+                'total' => 0,
+                'total_page' => 0,
+                'array' => [],
+            ],
+        ],
+        [
+            'user_name' => 'Lorem Ipsum',
+            'depth' => 0,
+            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'created_at' => '2023-07-03 22:35:00',
+            'nested_reply' => [
+                'page' => 1,
+                'per_page' => 10,
+                'total' => 0,
+                'total_page' => 0,
+                'array' => [],
+            ],
+        ],
+        [
+            'user_name' => 'Lorem Ipsum',
+            'depth' => 0,
+            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'created_at' => '2023-07-03 22:35:00',
+            'nested_reply' => [
+                'page' => 1,
+                'per_page' => 10,
+                'total' => 0,
+                'total_page' => 0,
+                'array' => [],
+            ],
+        ],
+        [
+            'user_name' => 'Lorem Ipsum',
+            'depth' => 0,
+            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'created_at' => '2023-07-03 22:35:00',
+            'nested_reply' => [
+                'page' => 1,
+                'per_page' => 10,
+                'total' => 0,
+                'total_page' => 0,
+                'array' => [],
+            ],
+        ],
+    ],
+];
+
+$images = [
+    '/asset/images/object.png',
+]
+?>
+
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="title">
@@ -5,34 +98,28 @@
         </h3>
         <div class="detail-wrap">
             <div class="column-wrap line-after">
-                <span class="column title">Lorem ipsum</span>
-                <span class="column created_at">2023-06-29 00:00:00</span>
+                <span class="column title"><?= $title ?></span>
+                <span class="column created_at"><?= $created_at ?></span>
             </div>
             <div class="text-wrap line-after">
-                <div class="content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
-                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
-                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
-                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
-                    volutpat quis mauris eu vestibulum.
-                </div>
+                <div class="content"><?= $content ?></div>
             </div>
             <div class="slider-wrap">
                 <div class="slider-box">
                     <div class="slick">
-                        <div class="slick-element"
-                             style="background: url('/asset/images/object.png') no-repeat center; background-size: cover; font-size: 0;">
-                            Slider #0
-                        </div>
+                        <?php foreach ($images as $index => $image) { ?>
+                            <div class="slick-element"
+                                 style="background: url('<?= $image ?>') no-repeat center; background-size: cover; font-size: 0;">
+                                Slider #<?= $index ?>
+                            </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="reply-wrap">
-
-        </div>
     </div>
 </div>
+<?= \App\Helpers\HtmlHelper::getReply($reply); ?>
 <script type="text/javascript">
     $('.slider-wrap .slick').slick({
         slidesToShow: 4,

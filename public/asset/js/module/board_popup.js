@@ -143,12 +143,15 @@ function openPopup(id) {
                 <div class="slick">`
 
             // TODO add loop
-            html +=
-                `
+            for (let index in data.images) {
+                let image = data.images[index];
+                html +=
+                    `
                     <div class="slick-element"
-                         style="background: url('${data.image_url}') no-repeat center; background-size: cover; font-size: 0;">
+                         style="background: url('${image}') no-repeat center; background-size: cover; font-size: 0;">
                         Slider #0
                     </div>`
+            }
             html +=
                 `
                 </div>
@@ -161,7 +164,7 @@ function openPopup(id) {
     </div>
 </div>`
             $('#container').append(html)
-            windowResize();
+            resizeWindow();
             $('.popup-wrap .popup .slider-wrap .slick').slick({
                 slidesToShow: 3,
                 slidesToScroll: 1,
@@ -176,7 +179,7 @@ function openPopup(id) {
                     }
                 })
             }
-            addEventListener("resize", windowResize);
+            addEventListener("resize", resizeWindow);
         },
         error: function (request, textStatus, error) {
         },
@@ -189,7 +192,7 @@ function closePopup() {
         'animation-duration': '0.2s',
         'animation-name': 'popupFadeOut',
     })
-    removeEventListener('resize', windowResize);
+    removeEventListener('resize', resizeWindow);
     timeoutId = setTimeout(function () {
         let popup_wrap = $('.popup-wrap').get(0);
         if (popup_wrap) {
@@ -203,7 +206,7 @@ function closePopup() {
 /**
  * window resize
  */
-function windowResize(event) {
+function resizeWindow(event) {
     $('.popup-wrap').css({
         'line-height': `${window.innerHeight}px`,
     })

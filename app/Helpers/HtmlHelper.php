@@ -15,4 +15,23 @@ final class HtmlHelper
         }
         return View("pagination", $data);
     }
+
+    public static function getReply($input): string
+    {
+        $data = [];
+        if (isset($input)) {
+            if (isset($input['page']) && isset($input['per-page']) && isset($input['total']) && isset($input['total-page'])) {
+                $data['pagination'] = [
+                    'page' => $input['page'],
+                    'per-page' => $input['per-page'],
+                    'total' => $input['total'],
+                    'total-page' => $input['total-page'],
+                ];
+            }
+            if (isset($input['array'])) {
+                $data['array'] = $input['array'];
+            }
+        }
+        return View("reply", $data);
+    }
 }

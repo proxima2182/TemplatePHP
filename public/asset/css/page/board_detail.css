@@ -26,7 +26,7 @@ h3.title {
     min-height: 600px;
 }
 
-.column-wrap .column {
+.detail-wrap .column-wrap .column {
     padding: 10px 20px;
     line-height: 35px;
     text-align: left;
@@ -37,29 +37,30 @@ h3.title {
     vertical-align: bottom;
 }
 
-.column-wrap .column.title {
+.detail-wrap .column-wrap .column.title {
     width: 60%;
 }
 
-.column-wrap .column.created_at {
+.detail-wrap .column-wrap .column.created_at {
     width: 40%;
     text-align: right;
 }
 
-.text-wrap {
+.detail-wrap .text-wrap {
     text-align: left;
 }
 
-.text-wrap .content {
+.detail-wrap .text-wrap .content {
     margin: 20px 40px;
     min-height: 150px;
     font-size: 18px;
 }
 
-.slider-wrap .slider-box {
+.detail-wrap .slider-wrap .slider-box {
     padding: 0 40px;
 }
-.slider-wrap .slick-element{
+
+.detail-wrap .slider-wrap .slick-element {
     height: 250px;
     line-height: 200px;
     text-align: center;
@@ -67,10 +68,11 @@ h3.title {
 }
 
 /*slick override*/
-.slider-wrap .slick button.slick-prev {
+.detail-wrap .slider-wrap .slick button.slick-prev {
     left: -40px;
 }
 
-.slider-wrap .slick button.slick-next {
+.detail-wrap .slider-wrap .slick button.slick-next {
     right: -40px;
 }
+

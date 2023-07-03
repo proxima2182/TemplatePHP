@@ -64,7 +64,7 @@ $points = [
         'longitude' => 126.572441,
     ],
 ];
-$sliderImageUris = [
+$sliderImages = [
     '/asset/images/slider/drilling-rig-4581167_1280.jpeg',
     '/asset/images/slider/film-4613426_1280.jpeg',
     '/asset/images/slider/geometry-7209216_1280.jpeg',
@@ -148,9 +148,9 @@ $sliderImageUris = [
         <div class="main-slider-wrap">
             <div class="slider-box">
                 <div class="slick">
-                    <?php foreach ($sliderImageUris as $index => $uri) { ?>
+                    <?php foreach ($sliderImages as $index => $image) { ?>
                         <div class="slick-element"
-                             style="background: url('<?= $uri ?>') no-repeat center; background-size: cover; font-size: 0;">
+                             style="background: url('<?= $image ?>') no-repeat center; background-size: cover; font-size: 0;">
                             Slider #<?= $index ?>
                         </div>
                     <?php } ?>
