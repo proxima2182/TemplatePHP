@@ -39,21 +39,19 @@
 <!--                    src="/asset/images/icon/button_close_white.png"/></a>-->
 <!--        </div>-->
 <!--        <div class="popup-inner">-->
-<!--            <div class="content-wrap">-->
-<!--                <div class="slider-wrap">-->
-<!--                    <div class="slick">-->
-<!--                        <div class="slick-element"-->
-<!--                             style="background: url('/asset/images/object.png') no-repeat; background-size: cover; font-size: 0;">-->
-<!--                            Slider #0-->
-<!--                        </div>-->
+<!--            <div class="slider-wrap">-->
+<!--                <div class="slick">-->
+<!--                    <div class="slick-element"-->
+<!--                         style="background: url('/asset/images/object.png') no-repeat; background-size: cover; font-size: 0;">-->
+<!--                        Slider #0-->
 <!--                    </div>-->
 <!--                </div>-->
-<!--                <div class="text-wrap">-->
-<!--                    <h4 class="title">Lorem ipsum</h4>-->
-<!--                    <p class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.-->
-<!--                        Proin semper dolor in purus iaculis ullamcorper. In eu posuere sapien, id-->
-<!--                        finibus libero.</p>-->
-<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="text-wrap">-->
+<!--                <h4 class="title">Lorem ipsum</h4>-->
+<!--                <p class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.-->
+<!--                    Proin semper dolor in purus iaculis ullamcorper. In eu posuere sapien, id-->
+<!--                    finibus libero.</p>-->
 <!--            </div>-->
 <!--        </div>-->
 <!--    </div>-->

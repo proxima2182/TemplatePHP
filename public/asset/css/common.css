@@ -1,5 +1,6 @@
 #container {
     width: 100%;
+    text-align: center;
 }
 
 .page-inner, .container-inner {
@@ -11,6 +12,7 @@
 }
 
 .button {
+    display: inline-block;
     user-drag: none;
     -webkit-user-drag: none;
     user-select: none;

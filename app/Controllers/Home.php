@@ -22,7 +22,7 @@ class Home extends BaseController
 //        return view('header', ["links" => ["test" => "a", "test2" => "a"], "is_login" => false])
 //            .view('main')
 //            .view('footer');
-        return view('main', ["links" => ["test" => "a", "test2" => "a"], "is_login" => false]);
+        return view('/page/main', ["links" => ["test" => "a", "test2" => "a"], "is_login" => false]);
 //        return view('welcome_message');
     }
 

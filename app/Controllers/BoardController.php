@@ -15,9 +15,11 @@ class BoardController extends BaseController
         $this->userModel = model('App\Models\UserModel');
     }
 
-    public function index($page = 1)
+    public function index() {
+
+    }
+    public function getGridBoard($page = 1): string
     {
-        ServerLogger::log($page);
         return parent::loadHeader([
                 'css' => parent::generateAssetStatement("css", [
                     '/page/board_grid',
@@ -27,7 +29,47 @@ class BoardController extends BaseController
                     '/module/board_popup',
                 ]),
             ])
-            . view('board_grid', [
+            . view('/page/board_grid', [
+                'pagination' => [
+                    'per-page' => 30,
+                    'page' => 6,
+                    'total' => 180,
+                    'total-page' => 6,
+                ],
+                'pagination_link' => '/board'
+            ])
+            . view('footer');
+    }
+
+    public function getTableBoard($page = 1): string
+    {
+        return parent::loadHeader([
+                'css' => parent::generateAssetStatement("css", [
+                    '/page/board_table',
+                ]),
+            ])
+            . view('/page/board_table', [
+                'pagination' => [
+                    'per-page' => 30,
+                    'page' => 6,
+                    'total' => 180,
+                    'total-page' => 6,
+                ],
+                'pagination_link' => '/board'
+            ])
+            . view('footer');
+    }
+    public function getBoardDetail($id = 1): string
+    {
+        return parent::loadHeader([
+                'css' => parent::generateAssetStatement("css", [
+                    '/page/board_detail',
+                ]),
+                'js' => parent::generateAssetStatement("js", [
+                    '/slick/slick.min.js',
+                ]),
+            ])
+            . view('/page/board_detail', [
                 'pagination' => [
                     'per-page' => 30,
                     'page' => 6,

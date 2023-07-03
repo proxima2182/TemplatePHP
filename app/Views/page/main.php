@@ -146,11 +146,11 @@ $sliderImageUris = [
             </div>
         </header>
         <div class="main-slider-wrap">
-            <div class="content-wrap">
+            <div class="slider-box">
                 <div class="slick">
                     <?php foreach ($sliderImageUris as $index => $uri) { ?>
                         <div class="slick-element"
-                             style="background: url('<?= $uri ?>') no-repeat; background-size: cover; font-size: 0;">
+                             style="background: url('<?= $uri ?>') no-repeat center; background-size: cover; font-size: 0;">
                             Slider #<?= $index ?>
                         </div>
                     <?php } ?>
@@ -243,7 +243,8 @@ $sliderImageUris = [
                             </div>
                         <?php } ?>
                     </div>
-                    <a href="javascript:requestRegister();" class="button more"><span>See More</span><img src="/asset/images/icon/arrow_right.png"/></a>
+                    <a href="javascript:requestRegister();" class="button more"><span>See More</span><img
+                            src="/asset/images/icon/arrow_right.png"/></a>
                 </div>
             </div>
         </div>
@@ -274,7 +275,7 @@ $sliderImageUris = [
 
     <div class="section" id="page-last">
         <div class="page-inner">
-            <div class="content-wrap">
+            <div class="form-wrap">
                 <div class="form-box">
                     <h3 class="title">Enquiries about membership</h3>
                     <div class="input-wrap">

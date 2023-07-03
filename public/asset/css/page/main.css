@@ -37,7 +37,7 @@
 /*
 slider 페이지
  */
-#page-start .content-wrap {
+#page-start .slider-box {
     position: relative;
 }
 #page-start .slick button.slick-prev {
@@ -58,12 +58,6 @@ slider 페이지
     right: 0;
     top: 0;
     text-align: center;
-}
-
-#page-start .slick .slick-element {
-    widt-h: 100%;
-    display: inline-block;
-    background: gray;
 }
 
 #page-start .slider-text-wrap .text-wrap {
@@ -326,6 +320,10 @@ map 패이지
     background: #eee;
 }
 
+#page-map .list-wrap .button {
+    width: 100%;
+}
+
 #page-map .list-wrap li .text-wrap {
     padding: 15px;
     text-align: left;
@@ -365,14 +363,14 @@ submit 페이지
     text-align: center;
 }
 
-#page-last .page-inner .content-wrap {
+#page-last .page-inner .form-wrap {
     line-height: normal;
     text-align: center;
     display: inline-block;
     vertical-align: middle;
 }
 
-#page-last .page-inner .content-wrap .title {
+#page-last .page-inner .form-wrap .title {
     font-size: 24px;
     line-height: 50px;
     font-weight: 600;

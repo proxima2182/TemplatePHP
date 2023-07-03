@@ -139,25 +139,23 @@ function openPopup(id) {
                     src="/asset/images/icon/button_close_white.png"/></a>
         </div>
         <div class="popup-inner">
-            <div class="content-wrap">
-                <div class="slider-wrap">
-                    <div class="slick">`
+            <div class="slider-wrap">
+                <div class="slick">`
 
             // TODO add loop
             html +=
                 `
-                        <div class="slick-element"
-                             style="background: url('${data.image_url}') no-repeat; background-size: cover; font-size: 0;">
-                            Slider #0
-                        </div>`
+                    <div class="slick-element"
+                         style="background: url('${data.image_url}') no-repeat center; background-size: cover; font-size: 0;">
+                        Slider #0
+                    </div>`
             html +=
                 `
-                    </div>
                 </div>
-                <div class="text-wrap">
-                    <h4 class="title">${data.title}</h4>
-                    <p class="content">${data.content}</p>
-                </div>
+            </div>
+            <div class="text-wrap">
+                <h4 class="title">${data.title}</h4>
+                <p class="content">${data.content}</p>
             </div>
         </div>
     </div>

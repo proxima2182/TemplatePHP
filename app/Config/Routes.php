@@ -33,7 +33,9 @@ $routes->get('/', 'Home::index');
 $routes->get('/get-session', 'Home::getSession');
 $routes->get('/set-session', 'Home::setSession');
 $routes->get('/board', 'BoardController::index');
-$routes->get('/board/([0-9]+)', 'BoardController::index/$1');
+$routes->get('/board/grid(/([0-9]*))*', 'BoardController::getGridBoard/$1');
+$routes->get('/board/table(/([0-9]*))*', 'BoardController::getTableBoard/$1');
+$routes->get('/board/detail/([0-9]+)', 'BoardController::getBoardDetail/$1');
 $routes->get('/api/board/get/([0-9]+)', 'ApiController::getBoard/$1');
 
 /*
