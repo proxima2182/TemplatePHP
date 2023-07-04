@@ -29,6 +29,7 @@ class ApiController extends BaseController
 
     public function getReply($id)
     {
+        $page = $queryParams['page'] ?? 1;
         return json_encode([
             'page' => 3,
             'per-page' => 10,
@@ -36,15 +37,16 @@ class ApiController extends BaseController
             'total-page' => 3,
             'array' => [
                 [
+                    'id'=> 6,
                     'user_name' => 'Lorem Ipsum',
                     'depth' => 0,
                     'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                     'created_at' => '2023-07-03 22:35:00',
                     'nested_reply' => [
                         'page' => 1,
-                        'per_page' => 10,
+                        'per-page' => 10,
                         'total' => 2,
-                        'total_page' => 3,
+                        'total-page' => 3,
                         'array' => [
                             [
                                 'user_name' => 'Lorem Ipsum',
@@ -62,30 +64,60 @@ class ApiController extends BaseController
                     ],
                 ],
                 [
+                    'id'=> 7,
                     'user_name' => 'Lorem Ipsum',
                     'depth' => 0,
                     'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                     'created_at' => '2023-07-03 22:35:00',
                     'nested_reply' => [
                         'page' => 1,
-                        'per_page' => 10,
+                        'per-page' => 10,
                         'total' => 0,
-                        'total_page' => 0,
+                        'total-page' => 0,
                         'array' => [],
                     ],
                 ],
                 [
+                    'id'=> 8,
                     'user_name' => 'Lorem Ipsum',
                     'depth' => 0,
                     'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                     'created_at' => '2023-07-03 22:35:00',
                     'nested_reply' => [
                         'page' => 1,
-                        'per_page' => 10,
+                        'per-page' => 10,
                         'total' => 0,
-                        'total_page' => 0,
+                        'total-page' => 0,
                         'array' => [],
                     ],
+                ],
+            ],
+        ]);
+    }
+
+    public function getNestedReply($reply_id)
+    {
+        $queryParams = $this->request->getGet();
+        $page = $queryParams['page'] ?? 1;
+        return json_encode([
+            'page' => 3,
+            'per-page' => 10,
+            'total' => 2,
+            'total-page' => 3,
+            'array' => [
+                [
+                    'id'=> 9,
+                    'user_name' => 'Lorem Ipsum',
+                    'depth' => 1,
+                    'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    'created_at' => '2023-07-03 22:35:00',
+                ],
+                [
+                    'id'=> 10,
+                    'user_name' => 'Lorem Ipsum',
+                    'depth' => 1,
+                    'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    'created_at' => '2023-07-03 22:35:00',
                 ],
             ],
         ]);

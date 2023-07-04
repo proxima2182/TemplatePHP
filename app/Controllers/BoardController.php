@@ -26,7 +26,7 @@ class BoardController extends BaseController
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/slick/slick.min.js',
-                    '/module/board_popup',
+                    '/module/popup_board',
                 ]),
             ])
             . view('/page/board_grid', [
@@ -36,7 +36,7 @@ class BoardController extends BaseController
                     'total' => 180,
                     'total-page' => 6,
                 ],
-                'pagination_link' => '/board'
+                'pagination_link' => '/board/grid/'
             ])
             . view('footer');
     }
@@ -55,7 +55,7 @@ class BoardController extends BaseController
                     'total' => 180,
                     'total-page' => 6,
                 ],
-                'pagination_link' => '/board'
+                'pagination_link' => '/board/table/'
             ])
             . view('footer');
     }

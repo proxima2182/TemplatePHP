@@ -36,8 +36,12 @@ $routes->get('/board', 'BoardController::index');
 $routes->get('/board/grid(/([0-9]*))*', 'BoardController::getGridBoard/$1');
 $routes->get('/board/table(/([0-9]*))*', 'BoardController::getTableBoard/$1');
 $routes->get('/board/detail/([0-9]+)', 'BoardController::getBoardDetail/$1');
+
+
+//api
 $routes->get('/api/board/get/([0-9]+)', 'ApiController::getBoard/$1');
-$routes->get('/api/reply/get/([0-9]+)', 'ApiController::getReply/$1');
+$routes->get('/api/board/get/([0-9]+)/reply', 'ApiController::getReply/$1');
+$routes->get('/api/board/nested-reply/get/([0-9]+)', 'ApiController::getNestedReply/$1');
 
 /*
  * --------------------------------------------------------------------
