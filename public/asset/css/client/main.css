@@ -14,7 +14,7 @@
     overflow: hidden;
 }
 
-@keyframes slideOut {
+@keyframes headerSlideOut {
     from {
         top: -60px;
     }
@@ -24,7 +24,7 @@
     }
 }
 
-@keyframes slideIn {
+@keyframes headerSlideIn {
     from {
         top: 0;
     }

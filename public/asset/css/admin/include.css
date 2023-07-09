@@ -1,0 +1,289 @@
+@charset "utf-8";
+
+@keyframes gnbFixedSlideRight {
+    from {
+        left: -150px;
+    }
+
+    to {
+        left: 0;
+    }
+}
+
+@keyframes gnbFixedSlideLeft {
+    from {
+        left: 0;
+    }
+
+    to {
+        left: -150px;
+    }
+}
+
+@keyframes gnbAbsoluteSlideRight {
+    from {
+        left: 0;
+    }
+
+    to {
+        left: 150px;
+    }
+}
+
+@keyframes gnbAbsoluteSlideLeft {
+    from {
+        left: 150px;
+    }
+
+    to {
+        left: 0;
+    }
+}
+
+body {
+    position: relative;
+}
+
+#wrap, .header-inner, .footer-inner {
+    width: 1200px;
+    min-width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+#wrap {
+    position: relative;
+}
+
+#wrap {
+    margin: 60px auto;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+/*헤더시작*/
+#header {
+    width: 100%;
+    background: #222;
+}
+
+#header .logo {
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#header .logo a {
+    display: block;
+    height: 100%;
+    line-height: inherit;
+}
+
+#header .logo a img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/*#header .logo a img {*/
+/*    width: 255px;*/
+/*    display: inline-block;*/
+/*}*/
+
+.utill {
+    height: 60px;
+    position: relative;
+    background: #222;
+}
+
+.utill ul {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+}
+
+.utill li {
+    float: left;
+    font-size: 14px;
+}
+
+.utill li a {
+    color: #fff;
+}
+
+.utill li:after {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 8px;
+    background: #fff;
+    margin: 0 10px;
+}
+
+.utill li.last:after {
+    display: none;
+}
+
+.gnb-wrap {
+    width: 150px;
+    position: fixed;
+    top: 60px;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.gnb {
+    line-height: 40px;
+    text-align: right;
+    background: #fff;
+    border: 1px solid #000;
+    position: absolute;
+    z-index: 10;
+}
+
+.gnb > ul > li {
+    width: 148px;
+    height: 60px;
+    line-height: 60px;
+}
+
+.gnb > ul > li > a {
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    text-align: right;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+    display: inline-block;
+}
+
+.gnb > ul > li > a span {
+}
+
+.gnb > ul > li:hover {
+    background: #000;
+}
+
+.gnb > ul > li:hover > a {
+    color: #fff;
+}
+
+#footer {
+    width: 100%;
+    min-width: 1070px;
+    font-size: 0;
+    background: #222;
+}
+
+#footer .footer-inner {
+    padding: 20px 20px 40px 20px;
+}
+
+/*footer logo*/
+#footer .footer-inner .logo {
+    width: 200px;
+    /*height: 50px;*/
+    margin-left: -10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#footer .footer-inner .logo img {
+    width: 100%;
+}
+
+/*footer content*/
+#footer .footer-inner .text-wrap {
+    margin-top: 15px;
+}
+
+#footer .text-wrap ul li {
+    line-height: 25px;
+}
+
+#footer .text-wrap ul li p {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 15px;
+    color: #fff;
+}
+
+/*(style) footer front bar*/
+#footer .text-wrap ul li:before {
+    content: "";
+    width: 2px;
+    height: 26px;
+    background: #fff;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+#footer .terms {
+    font-size: 13px;
+    line-height: 40px;
+    color: #fff;
+    position: absolute;
+    right: 15px;
+    bottom: 0;
+}
+
+.button.navigation {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    z-index: 15;
+}
+
+.button.navigation span {
+    height: 1px;
+    width: 20px;
+    display: inline-block;
+    background: #fff;
+    position: absolute;
+    left: 10px;
+    top: 20px;
+}
+
+.button.menu span.middle {
+    opacity: 0;
+}
+
+.button.menu span.top, .button.menu span.bottom {
+    transition: all 0.5s;
+}
+
+.button.navigation span.top {
+    /*top: 15px;*/
+    transform: rotate(135deg);
+}
+
+.button.navigation span.bottom {
+    /*top: 25px;*/
+    transform: rotate(225deg);
+}
+
+.gnb .button.close {
+    left: 105px;
+    top: 5px;
+}
+
+.gnb .button.close span {
+    background: #000;
+}
+
+.gnb-wrap.fixed .gnb {
+    padding-top: 50px;
+}
+.gnb-wrap.absolute .button.navigation {
+    opacity: 0;
+}
+

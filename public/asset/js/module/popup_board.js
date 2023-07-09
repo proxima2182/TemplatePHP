@@ -135,8 +135,9 @@ function openPopup(id) {
 </style>
     <div class="popup">
         <div class="interface">
-            <a href="javascript:closePopup()" class="button close"><img
-                    src="/asset/images/icon/button_close_white.png"/></a>
+            <a href="javascript:closePopup()" class="button close">
+                <img src="/asset/images/icon/button_close_white.png"/>
+            </a>
         </div>
         <div class="popup-inner">
             <div class="slider-wrap">

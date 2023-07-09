@@ -83,9 +83,9 @@ $sliderImages = [
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/default.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/common.css"/>
-    <link rel="stylesheet" type="text/css" href="/asset/css/include.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/client/include.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="/asset/css/page/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/client/main.css"/>
 
     <script type="text/javascript" src="/asset/js/fullpage/jquery.min.js"></script>
     <script type="text/javascript" src="/asset/js/fullpage/jquery-ui.min.js"></script>
@@ -94,7 +94,7 @@ $sliderImages = [
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=221aa6cfc43d262a0a90ca26facc9708"></script>
 
-    <script type="text/javascript" src="/asset/js/page/main.js"></script>
+    <script type="text/javascript" src="/asset/js/client/main.js"></script>
     <script type="text/javascript">
         addEventListener('customMapLoad', function () {
             let points = [];

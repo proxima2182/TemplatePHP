@@ -27,7 +27,7 @@ $(document).ready(function () {
                             'position': 'absolute',
                             'top': '0',
                             'animation-duration': '0.2s',
-                            'animation-name': 'slideOut',
+                            'animation-name': 'headerSlideOut',
                         })
                     }
 
@@ -62,7 +62,7 @@ $(document).ready(function () {
                 if (header) {
                     header.css({
                         'animation-duration': '0.2s',
-                        'animation-name': 'slideIn',
+                        'animation-name': 'headerSlideIn',
                     })
                 }
 

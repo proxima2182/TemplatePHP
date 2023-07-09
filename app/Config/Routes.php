@@ -36,6 +36,8 @@ $routes->get('/board', 'BoardController::index');
 $routes->get('/board/grid(/([0-9]*))*', 'BoardController::getGridBoard/$1');
 $routes->get('/board/table(/([0-9]*))*', 'BoardController::getTableBoard/$1');
 $routes->get('/board/detail/([0-9]+)', 'BoardController::getBoardDetail/$1');
+//admin pages
+$routes->get('/admin', 'AdminController::index');
 
 
 //api

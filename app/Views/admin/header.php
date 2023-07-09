@@ -12,13 +12,14 @@ if (!isset($links) && !isset($is_login)) return;
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css">
     <link rel="stylesheet" type="text/css" href="/asset/css/default.css">
     <link rel="stylesheet" type="text/css" href="/asset/css/common.css"/>
-    <link rel="stylesheet" type="text/css" href="/asset/css/include.css">
+    <link rel="stylesheet" type="text/css" href="/asset/css/admin/include.css">
     <?php
     if (isset($css)) echo $css;
     ?>
 
     <script type="text/javascript" src="/asset/js/fullpage/jquery.min.js"></script>
     <script type="text/javascript" src="/asset/js/fullpage/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/asset/js/admin/navigation.js"></script>
     <?php
     if (isset($js)) echo $js;
     if (isset($javascript)) echo $javascript;
@@ -40,12 +41,20 @@ if (!isset($links) && !isset($is_login)) return;
                     <?php } ?>
                 </ul>
             </div>
-            <h1 class="logo"><a href="/"><img src="/asset/images/include/logo.png" alt="header logo"></a></h1>
-            <ul class="gnb cf">
-                <?php foreach ($links as $name => $link) { ?>
-                    <li><a href="<?= $link ?>"><?= $name ?></a></li>
-                <?php } ?>
-            </ul>
+            <div class="gnb-wrap fixed">
+                <div class="gnb fixed">
+                    <ul class="cf">
+                        <?php foreach ($links as $name => $link) { ?>
+                            <li><a href="<?= $link ?>" class="button"><?= $name ?></a></li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </div>
+            <a href="javascript:closeNavigation()" class="button navigation menu">
+                <span class="top"></span>
+                <span class="middle"></span>
+                <span class="bottom"></span>
+            </a>
         </div>
     </header>
     <div id="container">

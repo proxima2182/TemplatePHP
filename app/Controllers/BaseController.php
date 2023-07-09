@@ -106,7 +106,7 @@ abstract class BaseController extends Controller
         return $result;
     }
 
-    function loadHeader($input_data): string
+    function loadHeader($input_data, $is_admin = false): string
     {
         if ($this->is_login) {
             $this->session->set_userdata([
@@ -123,6 +123,20 @@ abstract class BaseController extends Controller
         if(isset($input_data['js'])) {
             $data['js'] = $input_data['js'];
         }
-        return view('header', $data);
+        return view($is_admin ? 'admin/header' :'client/header', $data);
+    }
+
+    function loadAdminHeader($input_data): string
+    {
+        return $this->loadHeader($input_data, true);
+    }
+
+    function loadFooter($is_admin = false): string
+    {
+        return view($is_admin ? 'admin/footer' :'client/footer' );
+    }
+    function loadAdminFooter(): string
+    {
+        return $this->loadFooter(true);
     }
 }

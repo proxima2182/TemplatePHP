@@ -22,14 +22,14 @@ class BoardController extends BaseController
     {
         return parent::loadHeader([
                 'css' => parent::generateAssetStatement("css", [
-                    '/page/board_grid',
+                    '/client/board/grid',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/slick/slick.min.js',
                     '/module/popup_board',
                 ]),
             ])
-            . view('/page/board_grid', [
+            . view('/client/board/grid', [
                 'pagination' => [
                     'per-page' => 30,
                     'page' => 6,
@@ -38,17 +38,17 @@ class BoardController extends BaseController
                 ],
                 'pagination_link' => '/board/grid/'
             ])
-            . view('footer');
+            .parent::loadFooter();
     }
 
     public function getTableBoard($page = 1): string
     {
         return parent::loadHeader([
                 'css' => parent::generateAssetStatement("css", [
-                    '/page/board_table',
+                    '/client/board/table',
                 ]),
             ])
-            . view('/page/board_table', [
+            . view('/client/board/table', [
                 'pagination' => [
                     'per-page' => 30,
                     'page' => 6,
@@ -57,7 +57,7 @@ class BoardController extends BaseController
                 ],
                 'pagination_link' => '/board/table/'
             ])
-            . view('footer');
+            .parent::loadFooter();
     }
     public function getBoardDetail($id = 1): string
     {
@@ -73,13 +73,13 @@ class BoardController extends BaseController
         ];
         return parent::loadHeader([
                 'css' => parent::generateAssetStatement("css", [
-                    '/page/board_detail',
+                    '/client/board/detail',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/slick/slick.min.js',
                 ]),
             ])
-            . view('/page/board_detail', $data)
-            . view('footer');
+            . view('/client/board/detail', $data)
+            .parent::loadFooter();
     }
 }
