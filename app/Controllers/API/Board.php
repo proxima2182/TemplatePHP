@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\API;
 
-class ApiController extends BaseController
+use App\Controllers\BaseController;
+
+class Board extends BaseController
 {
     protected $db;
     protected $userModel;

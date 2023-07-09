@@ -1,0 +1,66 @@
+.inner-box {
+    padding: 40px 0 120px 0;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+
+h3.title {
+    padding: 0 20px;
+    font-size: 26px;
+    line-height: 120px;
+    font-weight: 600;
+}
+
+.info-wrap {
+    text-align: center;
+    width: 1125px;
+    padding: 20px 0 40px 0;
+    display: inline-block;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.form-box {
+    padding-bottom: 40px;
+}
+
+.info-wrap .input-wrap {
+    margin-top: 10px;
+    font-size: 0;
+}
+
+.info-wrap .input-wrap * {
+    vertical-align: top;
+    display: inline-block;
+    line-height: 25px;
+    font-size: 18px;
+}
+
+.info-wrap .input-wrap .input-title {
+    width: 150px;
+    text-align: right;
+    margin-right: 15px;
+    font-weight: 400;
+}
+
+.info-wrap .input-wrap input {
+    font-weight: 200;
+}
+
+.button-wrap {
+    padding-top: 15px;
+}
+
+.button {
+    min-width: 100px;
+    padding: 10px 20px;
+}
+
+.button.edit-profile {
+    background: #000;
+    color: #fff;
+}
+
+.button.change-password {
+    border: 1px solid #000;
+}
