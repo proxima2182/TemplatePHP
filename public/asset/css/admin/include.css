@@ -139,7 +139,8 @@ body {
     line-height: 40px;
     text-align: right;
     background: #fff;
-    border: 1px solid #000;
+    border: 1px solid #eee;
+    /*background: #eee;*/
     position: absolute;
     z-index: 10;
 }
@@ -240,7 +241,7 @@ body {
     position: absolute;
     left: 10px;
     top: 10px;
-    z-index: 15;
+    z-index: 5;
 }
 
 .button.navigation span {
@@ -277,13 +278,10 @@ body {
 }
 
 .gnb .button.close span {
-    background: #000;
+    background: #222;
 }
 
 .gnb-wrap.fixed .gnb {
     padding-top: 50px;
-}
-.gnb-wrap.absolute .button.navigation {
-    opacity: 0;
 }
 

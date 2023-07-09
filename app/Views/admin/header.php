@@ -42,7 +42,7 @@ if (!isset($links) && !isset($is_login)) return;
                 </ul>
             </div>
             <div class="gnb-wrap fixed">
-                <div class="gnb fixed">
+                <div class="gnb">
                     <ul class="cf">
                         <?php foreach ($links as $name => $link) { ?>
                             <li><a href="<?= $link ?>" class="button"><?= $name ?></a></li>
