@@ -48,6 +48,10 @@ if (!isset($links) && !isset($is_login)) return;
                             <li><a href="<?= $link ?>" class="button"><?= $name ?></a></li>
                         <?php } ?>
                     </ul>
+                    <a href="javascript:closeNavigation()" class="button navigation close">
+                        <span class="top"></span>
+                        <span class="bottom"></span>
+                    </a>
                 </div>
             </div>
             <a href="javascript:closeNavigation()" class="button navigation menu">

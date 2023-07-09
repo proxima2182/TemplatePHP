@@ -180,11 +180,5 @@ addEventListener("resize", (event) => {
 $(document).ready(function () {
     if (window.innerWidth > 1500) {
         setNavigationAbsolute();
-    } else {
-        $('.gnb').append(`
-        <a href="javascript:closeNavigation()" class="button navigation close">
-            <span class="top"></span>
-            <span class="bottom"></span>
-        </a>`)
     }
 })
