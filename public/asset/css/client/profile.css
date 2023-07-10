@@ -13,18 +13,21 @@ h3.title {
 }
 
 .info-wrap {
-    text-align: center;
     width: 1125px;
     padding: 20px 0 40px 0;
+    text-align: center;
     display: inline-block;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 .form-box {
+    width: 800px;
+    display: inline-block;
     padding-bottom: 40px;
 }
 
 .info-wrap .input-wrap {
+    text-align: left;
     margin-top: 10px;
     font-size: 0;
 }
@@ -32,35 +35,50 @@ h3.title {
 .info-wrap .input-wrap * {
     vertical-align: top;
     display: inline-block;
-    line-height: 25px;
+    line-height: 30px;
     font-size: 18px;
 }
 
 .info-wrap .input-wrap .input-title {
-    width: 150px;
+    width: calc(45% - 15px);
     text-align: right;
     margin-right: 15px;
     font-weight: 400;
 }
 
 .info-wrap .input-wrap input {
+    width: 55%;
     font-weight: 200;
 }
 
+.info-wrap .form-box input[type=checkbox] {
+    margin: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+
 .button-wrap {
-    padding-top: 15px;
+    padding-top: 20px;
 }
 
 .button {
     min-width: 100px;
     padding: 10px 20px;
+    margin: 0 10px;
 }
 
-.button.edit-profile {
-    background: #000;
-    color: #fff;
+.error-message-wrap {
+    height: 60px;
+    line-height: 60px;
 }
-
-.button.change-password {
-    border: 1px solid #000;
+.error-message-box {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+.error-message-wrap .error-message-box * {
+    color: #dd4814;
+    font-size: 16px;
+    line-height: 20px;
 }

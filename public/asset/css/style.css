@@ -12,6 +12,7 @@
     position: relative;
 }
 
+/*button style*/
 .button {
     display: inline-block;
     user-drag: none;
@@ -22,6 +23,27 @@
     -ms-user-select: none;
 }
 
+.button.black {
+    background: #000;
+    color: #fff;
+    border: 1px solid #000;
+}
+
+.button.black:hover {
+    background: #444;
+}
+
+.button.white {
+    background: #ffff;
+    color: #000;
+    border: 1px solid #000;
+}
+
+.button.white:hover {
+    background: #ddd;
+}
+
+
 .selector {
     cursor: pointer;
     user-drag: none;
@@ -30,6 +52,39 @@
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+}
+
+/*input style*/
+input, textarea {
+    resize: none;
+    border: 1px solid #bbb;
+    margin: -1px;
+}
+
+input:focus, textarea:focus {
+    border: 1px solid #000;
+}
+
+body input[readonly], body textarea[readonly] {
+    border: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+input.under-line, textarea.under-line {
+    border: none;
+    border-bottom: 1px solid #bbb;
+    margin-bottom: -1px;
+}
+
+input.under-line:focus, textarea.under-line:focus {
+    border-bottom: 1px solid #000;
+}
+
+input[type=checkbox] {
+    accent-color: #222;
 }
 
 /*slick 관련 default 설정*/
@@ -72,6 +127,7 @@
 .slick button.slick-disabled {
     visibility: hidden;
 }
+
 .slick button.slick-prev {
     left: 0;
     background: url('/asset/images/icon/button_left@2x.png') no-repeat center;

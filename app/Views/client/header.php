@@ -11,7 +11,7 @@ if (!isset($links) && !isset($is_login)) return;
 
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css">
     <link rel="stylesheet" type="text/css" href="/asset/css/default.css">
-    <link rel="stylesheet" type="text/css" href="/asset/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/client/include.css">
     <?php
     if (isset($css)) echo $css;

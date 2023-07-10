@@ -40,12 +40,5 @@ img {
 input, textarea {
     outline: none;
     font-family: 'NotoSans', 'NotoSerif', sans-serif;
-}
-
-input[readonly], textarea[readonly] {
-    border: none;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    pointer-events: none;
+    box-sizing: border-box;
 }

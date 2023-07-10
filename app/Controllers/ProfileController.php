@@ -9,11 +9,15 @@ class ProfileController extends BaseController
         $data = [
             'username' => 'admin',
             'name' => 'admin',
-            'email' => 'admin@gmail.com'
+            'email' => 'admin@gmail.com',
+            'notification' => '1'
         ];
 
         return parent::loadHeader([
                 'css' => parent::generateAssetStatement("css", [
+                    '/client/profile',
+                ]),
+                'js' => parent::generateAssetStatement("js", [
                     '/client/profile',
                 ]),
             ])

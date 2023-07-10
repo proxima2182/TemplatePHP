@@ -82,7 +82,7 @@ $sliderImages = [
 
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/default.css"/>
-    <link rel="stylesheet" type="text/css" href="/asset/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/client/include.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/client/main.css"/>
@@ -311,7 +311,7 @@ $sliderImages = [
                         <input type="checkbox" name="agreement"/>
                     </div>
                     <div class="submit-box">
-                        <a href="javascript:requestRegister();" class="button submit">제출</a>
+                        <a href="javascript:requestRegister();" class="button submit black">제출</a>
                     </div>
                 </div>
             </div>
