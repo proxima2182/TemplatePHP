@@ -16,6 +16,7 @@ class ProfileController extends BaseController
         return parent::loadHeader([
                 'css' => parent::generateAssetStatement("css", [
                     '/client/profile',
+                    '/common/input',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/client/profile',

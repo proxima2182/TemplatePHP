@@ -5,14 +5,12 @@
         </h3>
         <div class="list-wrap">
             <div class="list-box">
-                <ul class="column-title">
-                    <li>
-                        <div class="column-wrap">
-                            <span class="column title">Title</span>
-                            <span class="column created_at">Created At</span>
-                        </div>
-                    </li>
-                </ul>
+                <div class="column-title">
+                    <div class="column-wrap">
+                        <span class="column title">Title</span>
+                        <span class="column created_at">Created At</span>
+                    </div>
+                </div>
                 <ul>
                     <?php for ($i = 0; $i < 6; $i++) { ?>
                         <li>

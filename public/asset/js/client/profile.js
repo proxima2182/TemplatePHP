@@ -1,7 +1,7 @@
 function changePassword() {
     $('h3.title').html('Change Password')
-    $('.info-wrap').empty();
-    $('.info-wrap').prepend(`
+    $('.form-wrap').empty();
+    $('.form-wrap').prepend(`
     <div class="form-box password">
         <div class="input-wrap">
             <p class="input-title">Current Password</p>
@@ -32,7 +32,7 @@ function refreshProfile() {
         url: `/api/profile`,
         success: function (data, textStatus, request) {
             $('h3.title').html('Profile')
-            const wrap = $('.info-wrap');
+            const wrap = $('.form-wrap');
             wrap.empty();
 
             wrap.prepend(`
@@ -69,9 +69,9 @@ function refreshProfile() {
 
 function editProfile() {
     $('h3.title').html('Edit Profile')
-    $('.form-box input.editable').removeAttr('readonly')
-    $('.button-wrap').remove();
-    $('.info-wrap').append(`
+    $('.form-wrap .editable').removeAttr('readonly')
+    $('.form-wrap .button-wrap').remove();
+    $('.form-wrap').append(`
     <div class="error-message-wrap">
         <div class="error-message-box">
         </div>

@@ -6,11 +6,11 @@ if (!isset($username) || !isset($name) || !isset($email)) return;
         <h3 class="title">
             Profile
         </h3>
-        <div class="info-wrap">
+        <div class="form-wrap">
             <div class="form-box profile">
                 <div class="input-wrap">
                     <p class="input-title">Username</p>
-                    <input type="text" name="name" class="under-line" readonly value="<?= $username ?>"/>
+                    <input type="text" name="username" class="under-line" readonly value="<?= $username ?>"/>
                 </div>
                 <div class="input-wrap">
                     <p class="input-title">Name</p>
@@ -18,7 +18,7 @@ if (!isset($username) || !isset($name) || !isset($email)) return;
                 </div>
                 <div class="input-wrap">
                     <p class="input-title">Email</p>
-                    <input type="text" name="name" class="under-line editable" readonly value="<?= $email ?>"/>
+                    <input type="text" name="email" class="under-line editable" readonly value="<?= $email ?>"/>
                 </div>
                 <div class="input-wrap">
                     <p class="input-title">Notification</p>

@@ -37,7 +37,7 @@ img {
     clear: both;
 }
 
-input, textarea {
+input, textarea, select {
     outline: none;
     font-family: 'NotoSans', 'NotoSerif', sans-serif;
     box-sizing: border-box;

@@ -38,7 +38,7 @@ $routes->get('/board/grid(/([0-9]*))*', 'BoardController::getGridBoard/$1');
 $routes->get('/board/table(/([0-9]*))*', 'BoardController::getTableBoard/$1');
 $routes->get('/board/detail/([0-9]+)', 'BoardController::getBoardDetail/$1');
 //admin pages
-$routes->get('/admin', 'AdminController::index');
+$routes->get('/admin/boards(/([0-9]*))*', 'AdminController::getBoards/$1');
 
 
 //api
@@ -46,6 +46,9 @@ $routes->get('/api/board/get/([0-9]+)', '\App\Controllers\API\Board::getBoard/$1
 $routes->get('/api/board/get/([0-9]+)/reply', '\App\Controllers\API\Board::getReply/$1');
 $routes->get('/api/board/nested-reply/get/([0-9]+)', '\App\Controllers\API\Board::getNestedReply/$1');
 $routes->get('/api/profile', '\App\Controllers\API\Profile::index');
+$routes->get('/api/admin/board/get/([0-9]+)', '\App\Controllers\API\Admin::getBoard/$1');
+$routes->post('/api/admin/board/update/([0-9]+)', '\App\Controllers\API\Admin::updateBoard/$1');
+
 
 /*
  * --------------------------------------------------------------------
