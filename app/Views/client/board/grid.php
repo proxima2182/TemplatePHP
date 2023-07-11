@@ -39,50 +39,50 @@
             url: `/api/board/get/${id}`,
             success: function (data, textStatus, request) {
                 let style = `
-<style>
-.popup-wrap .popup .slider-wrap {
-    width: 600px;
-    display: inline-block;
-    text-align: center;
-    position: relative;
-}
+                <style>
+                .popup-wrap .popup .slider-wrap {
+                    width: 600px;
+                    display: inline-block;
+                    text-align: center;
+                    position: relative;
+                }
 
-.popup-wrap .popup .slider-wrap .slick-element {
-    height: 200px;
-    display: inline-block;
-}
+                .popup-wrap .popup .slider-wrap .slick-element {
+                    height: 200px;
+                    display: inline-block;
+                }
 
-.popup-wrap .popup .slick button {
-    width: 30px;
-    height: 30px;
-}
+                .popup-wrap .popup .slick button {
+                    width: 30px;
+                    height: 30px;
+                }
 
-.popup-wrap .popup .slick button.slick-prev {
-    left: -30px;
-}
+                .popup-wrap .popup .slick button.slick-prev {
+                    left: -30px;
+                }
 
-.popup-wrap .popup .slick button.slick-next {
-    right: -30px;
-}
+                .popup-wrap .popup .slick button.slick-next {
+                    right: -30px;
+                }
 
-.popup-wrap .popup .text-wrap {
-    margin: 20px 50px 0 50px;
-    text-align: left;
-}
+                .popup-wrap .popup .text-wrap {
+                    margin: 20px 50px 0 50px;
+                    text-align: left;
+                }
 
-.popup-wrap .popup .text-wrap .title {
-    font-size: 18px;
-    line-height: 30px;
-}
+                .popup-wrap .popup .text-wrap .title {
+                    font-size: 18px;
+                    line-height: 30px;
+                }
 
-.popup-wrap .popup .content {
-    font-size: 16px;
-    text-overflow: ellipsis;
-    white-space: normal;
-    overflow: hidden;
-    display: inline-block;
-}
-</style>`;
+                .popup-wrap .popup .content {
+                    font-size: 16px;
+                    text-overflow: ellipsis;
+                    white-space: normal;
+                    overflow: hidden;
+                    display: inline-block;
+                }
+                </style>`;
                 let html = `
             <div class="slider-wrap">
                 <div class="slick">`;

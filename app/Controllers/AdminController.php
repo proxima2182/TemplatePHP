@@ -14,6 +14,7 @@ class AdminController extends BaseController
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/module/popup',
+                    '/admin/board',
                 ]),
             ])
             . view('/admin/board', [
