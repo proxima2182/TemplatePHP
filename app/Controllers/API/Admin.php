@@ -22,7 +22,7 @@ class Admin extends BaseController
             'code' => 'popup',
             'type' => 'grid',
             'alias' => '팝업',
-            'description' => '팝업 저장용',
+            'description' => '팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용\n팝업 저장용팝업 저장용팝업 저장용팝업 저장용',
             'is_reply' => '0',
             'is_public' => '0',
             'is_editable' => '1',

@@ -34,4 +34,8 @@ final class HtmlHelper
         }
         return View("reply", $data);
     }
+
+    public static function covertTextarea($string) {
+        return str_replace('\n', '&#10;', $string);
+    }
 }

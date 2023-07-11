@@ -5,12 +5,12 @@ namespace App\Controllers;
 class AdminController extends BaseController
 {
 
-    function getBoards($page = 1): string
+    function getBoard($page = 1): string
     {
         return parent::loadAdminHeader([
                 'css' => parent::generateAssetStatement("css", [
                     '/common/table',
-                    '/admin/boards',
+                    '/admin/board',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/module/popup',

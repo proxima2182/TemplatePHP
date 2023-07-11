@@ -1,0 +1,27 @@
+.list-wrap .column.code {
+    width: 20%;
+}
+
+.list-wrap .column.type {
+    width: 20%;
+}
+
+.list-wrap .column.alias {
+    width: 45%;
+}
+
+.list-wrap .column.public {
+    width: 15%;
+}
+
+.list-wrap .column-wrap {
+    position: relative;
+}
+
+.list-wrap .button.detail {
+    width: 40px;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    padding: 0;
+}

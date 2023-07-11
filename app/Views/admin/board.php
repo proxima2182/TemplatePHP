@@ -15,15 +15,18 @@
                 </div>
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
-                        <li>
-                            <a href="javascript:openPopupDetail('<?= $item['id'] ?>')" class="button column-wrap">
+                        <li class=" column-wrap">
+                            <a href="#" class="button row">
                                 <span class="column code"><?= $item['code'] ?></span>
                                 <span class="column type"><?= $item['type'] ?></span>
                                 <span class="column alias"><?= $item['alias'] ?></span>
-                                <?php
-                                ?>
-                                <span class="column public"><img
-                                        src="/asset/images/icon/<?= $item['is_public'] == 0 ? 'none.png' : 'check.png' ?>"></span>
+                                <span class="column public">
+                                    <img
+                                        src="/asset/images/icon/<?= $item['is_public'] == 0 ? 'none.png' : 'check.png' ?>"/>
+                                </span>
+                            </a>
+                            <a href="javascript:openPopupDetail('<?= $item['id'] ?>')" class="button detail">
+                                <img src="/asset/images/icon/detail@2x.png"/>
                             </a>
                         </li>
                     <?php } ?>

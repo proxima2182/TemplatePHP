@@ -166,11 +166,11 @@ body {
 }
 
 .gnb > ul > li:hover {
-    background: #000;
+    background: #eee;
 }
 
 .gnb > ul > li:hover > a {
-    color: #fff;
+    /*color: #fff;*/
 }
 
 #footer {

@@ -83,6 +83,8 @@ abstract class BaseController extends Controller
         return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
     }
 
+    /**view functions**/
+
     protected function generateAssetStatement(string $type, array $files): string
     {
         $result = null;
@@ -117,13 +119,13 @@ abstract class BaseController extends Controller
             'links' => $this->links,
             'is_login' => $this->is_login,
         ];
-        if(isset($input_data['css'])) {
+        if (isset($input_data['css'])) {
             $data['css'] = $input_data['css'];
         }
-        if(isset($input_data['js'])) {
+        if (isset($input_data['js'])) {
             $data['js'] = $input_data['js'];
         }
-        return view($is_admin ? 'admin/header' :'client/header', $data);
+        return view($is_admin ? 'admin/header' : 'client/header', $data);
     }
 
     function loadAdminHeader($input_data): string
@@ -133,8 +135,9 @@ abstract class BaseController extends Controller
 
     function loadFooter($is_admin = false): string
     {
-        return view($is_admin ? 'admin/footer' :'client/footer' );
+        return view($is_admin ? 'admin/footer' : 'client/footer');
     }
+
     function loadAdminFooter(): string
     {
         return $this->loadFooter(true);

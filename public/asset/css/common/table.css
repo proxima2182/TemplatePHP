@@ -22,7 +22,7 @@ h3.title {
     font-size: 0;
 }
 
-.list-wrap .column-wrap {
+.list-wrap .column-wrap a {
     width: 100%;
     padding: 0 20px;
     box-sizing: border-box;
@@ -61,11 +61,11 @@ h3.title {
     background: #000;
 }
 
-.list-wrap li .button {
+.list-wrap li .button.row {
     position: relative;
 }
 
-.list-wrap li .button:hover:after {
+.list-wrap li .button.row:hover:after {
     content: "";
     display: block;
     background: rgba(200, 200, 200, 0.1);

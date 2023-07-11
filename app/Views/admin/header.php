@@ -17,6 +17,7 @@ if (!isset($links) && !isset($is_login)) return;
     if (isset($css)) echo $css;
     ?>
 
+    <script type="text/javascript" src="/asset/js/default.js"></script>
     <script type="text/javascript" src="/asset/js/fullpage/jquery.min.js"></script>
     <script type="text/javascript" src="/asset/js/fullpage/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/asset/js/admin/navigation.js"></script>

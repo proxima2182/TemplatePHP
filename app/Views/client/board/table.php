@@ -13,8 +13,8 @@
                 </div>
                 <ul>
                     <?php for ($i = 0; $i < 6; $i++) { ?>
-                        <li>
-                            <a href="/board/detail/<?= $i ?>" class="button column-wrap">
+                        <li class=" column-wrap">
+                            <a href="/board/detail/<?= $i ?>" class="button row">
                                 <span class="column title">Lorem ipsum</span>
                                 <span class="column created_at">2023-06-29 00:00:00</span>
                             </a>

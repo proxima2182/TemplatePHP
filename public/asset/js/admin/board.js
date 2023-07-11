@@ -27,7 +27,7 @@ function fromDataToHtml(key, data) {
             return `
                 <div class="input-wrap">
                     <p class="input-title">${capitalized}</p>
-                    <textarea name="${key}" class="under-line editable" readonly>${data[key]}</textarea>
+                    <textarea name="${key}" class="under-line editable" readonly>${data[key].toTextareaString()}</textarea>
                 </div>`
         }
             break;

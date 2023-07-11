@@ -65,11 +65,18 @@ input:focus, textarea:focus {
     border: 1px solid #000;
 }
 
-body input[readonly], body textarea[readonly] {
+body input[readonly] {
     border: none;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    pointer-events: none;
+}
+
+body textarea[readonly] {
+    border: none;
+    /*white-space: pre-wrap;*/
+    overflow-y: scroll;
     pointer-events: none;
 }
 
