@@ -1,3 +1,6 @@
+<?php
+$is_admin_page = isset($is_admin) && $is_admin;
+?>
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="title">
@@ -14,7 +17,8 @@
                 <ul>
                     <?php for ($i = 0; $i < 6; $i++) { ?>
                         <li class=" column-wrap">
-                            <a href="/board/detail/<?= $i ?>" class="button row">
+                            <a href="<?= $is_admin_page ? '/admin/board/topic/' . $i : '/board/topic/' . $i ?>"
+                               class="button row">
                                 <span class="column title">Lorem ipsum</span>
                                 <span class="column created_at">2023-06-29 00:00:00</span>
                             </a>
@@ -27,3 +31,11 @@
         <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>
+
+<?php if (!$is_admin_page) { ?>
+    <style>
+        .list-box {
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+<?php } ?>

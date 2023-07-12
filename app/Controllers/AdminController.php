@@ -5,19 +5,19 @@ namespace App\Controllers;
 class AdminController extends BaseController
 {
 
-    function getBoard($page = 1): string
+    function getBoards($page = 1): string
     {
         return parent::loadAdminHeader([
                 'css' => parent::generateAssetStatement("css", [
                     '/common/table',
-                    '/admin/board',
+                    '/admin/boards',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/module/popup',
-                    '/admin/board',
+                    '/admin/boards',
                 ]),
             ])
-            . view('/admin/board', [
+            . view('/admin/boards', [
                 'array' => [
                     [
                         'id' => '1',
@@ -50,8 +50,53 @@ class AdminController extends BaseController
                     'total' => 180,
                     'total-page' => 6,
                 ],
-                'pagination_link' => '/admin/board/'
+                'pagination_link' => '/admin/boards'
             ])
-            .parent::loadAdminFooter();
+            . parent::loadAdminFooter();
+    }
+
+    function getBoard($code, $id): string
+    {
+        return parent::loadAdminHeader([
+                'css' => parent::generateAssetStatement("css", [
+                    '/common/table',
+                    '/board/table',
+                ]),
+            ])
+            . view('/board/table', [
+                'is_admin' => true,
+                'pagination' => [
+                    'per-page' => 30,
+                    'page' => 6,
+                    'total' => 180,
+                    'total-page' => 6,
+                ],
+                'pagination_link' => '/admin/board/' . $code
+            ])
+            . parent::loadAdminFooter();
+    }
+
+    public function getBoardTopic($id = 1): string
+    {
+        $data = [
+            'images' => ['/asset/images/object.png'],
+            'title' => 'Lorem ipsum',
+            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
+                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
+                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
+                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
+                    volutpat quis mauris eu vestibulum.',
+            'created_at' => '2023-06-29 00:00:00',
+        ];
+        return parent::loadAdminHeader([
+                'css' => parent::generateAssetStatement("css", [
+                    '/board/topic',
+                ]),
+                'js' => parent::generateAssetStatement("js", [
+                    '/slick/slick.min.js',
+                ]),
+            ])
+            . view('/board/topic', $data)
+            . parent::loadAdminFooter();
     }
 }

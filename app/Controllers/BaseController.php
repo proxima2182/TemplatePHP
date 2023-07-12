@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Helpers\ServerLogger;
+use App\Helpers\Utils;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -70,19 +70,6 @@ abstract class BaseController extends Controller
         $this->session = \Config\Services::session();
     }
 
-    /* common functions */
-    function startsWith($haystack, $needle): bool
-    {
-        // search backwards starting from haystack length characters from the end
-        return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
-    }
-
-    function endsWith($haystack, $needle): bool
-    {
-        // search forward starting from end minus needle length characters
-        return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
-    }
-
     /**view functions**/
 
     protected function generateAssetStatement(string $type, array $files): string
@@ -91,16 +78,16 @@ abstract class BaseController extends Controller
         switch ($type) {
             case 'css' :
                 foreach ($files as $key => $file) {
-                    $file .= $this->endsWith($file, '.css') ? '' : '.css';
-                    $filename = "/asset/css" . ($this->startsWith($file, '/') ? '' : '/') . $file;
+                    $file .= Utils::endsWith($file, '.css') ? '' : '.css';
+                    $filename = "/asset/css" . (Utils::startsWith($file, '/') ? '' : '/') . $file;
                     $result .= "<link href=\"" . $filename . "\" type=\"text/css\" rel=\"stylesheet\"/>\n";
                 }
                 break;
             case 'js':
             case 'javascript':
                 foreach ($files as $key => $file) {
-                    $file .= $this->endsWith($file, '.js') ? '' : '.js';
-                    $filename = "/asset/js" . ($this->startsWith($file, '/') ? '' : '/') . $file;
+                    $file .= Utils::endsWith($file, '.js') ? '' : '.js';
+                    $filename = "/asset/js" . (Utils::startsWith($file, '/') ? '' : '/') . $file;
                     $result .= "<script src=\"" . $filename . "\" type=\"text/javascript\"></script>\n";
                 }
                 break;

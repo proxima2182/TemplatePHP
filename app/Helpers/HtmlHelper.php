@@ -11,6 +11,9 @@ final class HtmlHelper
             $data['pagination'] = $pagination;
         }
         if (isset($pagination_link)) {
+            if (Utils::endsWith($pagination_link, '/')) {
+                $pagination_link = substr_replace($pagination_link, '', -1);
+            }
             $data['pagination_link'] = $pagination_link;
         }
         return View("pagination", $data);
@@ -35,7 +38,8 @@ final class HtmlHelper
         return View("reply", $data);
     }
 
-    public static function covertTextarea($string) {
+    public static function covertTextarea($string)
+    {
         return str_replace('\n', '&#10;', $string);
     }
 }

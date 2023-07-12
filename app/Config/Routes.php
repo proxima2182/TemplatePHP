@@ -19,7 +19,7 @@ $routes->set404Override();
 // where controller filters or CSRF protection are bypassed.
 // If you don't want to define all routes, please use the Auto Routing (Improved).
 // Set `$autoRoutesImproved` to true in `app/Config/Feature.php` and set the following to true.
- $routes->setAutoRoute(false);
+$routes->setAutoRoute(false);
 
 /*
  * --------------------------------------------------------------------
@@ -35,9 +35,11 @@ $routes->get('/set-session', 'Home::setSession');
 $routes->get('/profile', 'ProfileController::index');
 $routes->get('/board/grid(/([0-9]*))*', 'BoardController::getGridBoard/$1');
 $routes->get('/board/table(/([0-9]*))*', 'BoardController::getTableBoard/$1');
-$routes->get('/board/detail/([0-9]+)', 'BoardController::getBoardDetail/$1');
+$routes->get('/board/topic/([0-9]+)', 'BoardController::getBoardTopic/$1');
 //admin pages
-$routes->get('/admin/board(/([0-9]*))*', 'AdminController::getBoard/$1');
+$routes->get('/admin/boards(/([0-9]*))*', 'AdminController::getBoards/$1');
+$routes->get('/admin/board/topic/([0-9]+)', 'AdminController::getBoardTopic/$1');
+$routes->get('/admin/board/([a-zA-Z]*)(/([0-9]*))*', 'AdminController::getBoard/$1/$2');
 
 
 //api

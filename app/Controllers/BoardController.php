@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Helpers\ServerLogger;
-
 class BoardController extends BaseController
 {
     protected $db;
@@ -15,30 +13,32 @@ class BoardController extends BaseController
         $this->userModel = model('App\Models\UserModel');
     }
 
-    public function index() {
+    public function index()
+    {
 
     }
+
     public function getGridBoard($page = 1): string
     {
         return parent::loadHeader([
                 'css' => parent::generateAssetStatement("css", [
-                    '/client/board/grid',
+                    '/board/grid',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/slick/slick.min.js',
                     '/module/popup',
                 ]),
             ])
-            . view('/client/board/grid', [
+            . view('/board/grid', [
                 'pagination' => [
                     'per-page' => 30,
                     'page' => 6,
                     'total' => 180,
                     'total-page' => 6,
                 ],
-                'pagination_link' => '/board/grid/'
+                'pagination_link' => '/board/grid'
             ])
-            .parent::loadFooter();
+            . parent::loadFooter();
     }
 
     public function getTableBoard($page = 1): string
@@ -46,21 +46,22 @@ class BoardController extends BaseController
         return parent::loadHeader([
                 'css' => parent::generateAssetStatement("css", [
                     '/common/table',
-                    '/client/board/table',
+                    '/board/table',
                 ]),
             ])
-            . view('/client/board/table', [
+            . view('/board/table', [
                 'pagination' => [
                     'per-page' => 30,
                     'page' => 6,
                     'total' => 180,
                     'total-page' => 6,
                 ],
-                'pagination_link' => '/board/table/'
+                'pagination_link' => '/board/table'
             ])
-            .parent::loadFooter();
+            . parent::loadFooter();
     }
-    public function getBoardDetail($id = 1): string
+
+    public function getBoardTopic($id = 1): string
     {
         $data = [
             'images' => ['/asset/images/object.png'],
@@ -74,13 +75,13 @@ class BoardController extends BaseController
         ];
         return parent::loadHeader([
                 'css' => parent::generateAssetStatement("css", [
-                    '/client/board/detail',
+                    '/board/topic',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/slick/slick.min.js',
                 ]),
             ])
-            . view('/client/board/detail', $data)
-            .parent::loadFooter();
+            . view('/board/topic', $data)
+            . parent::loadFooter();
     }
 }

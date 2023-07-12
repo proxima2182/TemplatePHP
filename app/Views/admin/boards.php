@@ -16,7 +16,7 @@
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
                         <li class=" column-wrap">
-                            <a href="#" class="button row">
+                            <a href="/admin/board/<?=$item['code']?>" class="button row">
                                 <span class="column code"><?= $item['code'] ?></span>
                                 <span class="column type"><?= $item['type'] ?></span>
                                 <span class="column alias"><?= $item['alias'] ?></span>
