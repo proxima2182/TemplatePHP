@@ -50,7 +50,10 @@ async function openPopupDetail(id) {
         $.ajax({
             type: 'GET',
             url: `/api/board/get/${id}`,
-            success: function (data, textStatus, request) {
+            success: function (response, textStatus, request) {
+                if(!response.success)
+                    return;
+                let data = response.data;
                 let style = `
                 <style>
                 /*<?php echo file_get_contents('./asset/css/common/input.css');?>*/

@@ -37,7 +37,9 @@
         $.ajax({
             type: 'GET',
             url: `/api/topic/get/${id}`,
-            success: function (data, textStatus, request) {
+            success: function (response, textStatus, request) {
+                if(!response.success) return;
+                let data = response.data;
                 let style = `
                 <style>
                 .popup-wrap .popup .slider-wrap {

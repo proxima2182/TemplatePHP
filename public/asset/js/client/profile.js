@@ -30,7 +30,9 @@ function refreshProfile() {
     $.ajax({
         type: 'GET',
         url: `/api/profile`,
-        success: function (data, textStatus, request) {
+        success: function (response, textStatus, request) {
+            if (!response.success) return;
+            let data = response.data;
             $('h3.title').html('Profile')
             const wrap = $('.form-wrap');
             wrap.empty();
@@ -93,13 +95,13 @@ function confirmChangePassword() {
         }
     }
 
-    if(data['current_password'].length == 0 || data['new_password'].length == 0 || data['confirm_password'].length == 0) {
+    if (data['current_password'].length == 0 || data['new_password'].length == 0 || data['confirm_password'].length == 0) {
         $('.error-message-box').append(`<p>fields are empty.</p>`)
     }
-    if(data['current_password'] == data['new_password']) {
+    if (data['current_password'] == data['new_password']) {
         $('.error-message-box').append(`<p>please enter different password with original.</p>`)
     }
-    if(data['new_password'] != data['confirm_password']) {
+    if (data['new_password'] != data['confirm_password']) {
         $('.error-message-box').append(`<p>please confirm new password is same.</p>`)
     }
 }

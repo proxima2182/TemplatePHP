@@ -324,7 +324,9 @@
             $.ajax({
                 type: 'GET',
                 url: `/api/topic/get/${id}/reply`,
-                success: function (data, textStatus, request) {
+                success: function (response, textStatus, request) {
+                    if (!response.success) return;
+                    let data = response.data;
                     const wrap = $('.reply-wrap');
                     wrap.empty()
 
@@ -343,7 +345,9 @@
             $.ajax({
                 type: 'GET',
                 url: `/api/topic/reply/get/${reply_id}/nested?page=${page + 1}`,
-                success: function (data, textStatus, request) {
+                success: function (response, textStatus, request) {
+                    if (!response.success) return;
+                    let data = response.data;
                     addReplyNestedItems(`#reply-${reply_id} .nested-reply`, data.array)
 
                     let moreButtonWrap = $(`#reply-${reply_id} .button-wrap`)

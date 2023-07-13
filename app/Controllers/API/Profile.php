@@ -3,6 +3,7 @@
 namespace App\Controllers\API;
 
 use App\Controllers\BaseController;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class Profile extends BaseController
 {
@@ -15,13 +16,22 @@ class Profile extends BaseController
         $this->userModel = model('App\Models\UserModel');
     }
 
-    public function index()
+    /**
+     * [get] /api/profile
+     * @return ResponseInterface
+     */
+    public function index(): ResponseInterface
     {
-        return json_encode([
-            'username' => 'admin',
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'notification' => '1',
-        ]);
+        $response = [
+            'success' => true,
+            'data' => [
+                'username' => 'admin',
+                'name' => 'admin',
+                'email' => 'admin@gmail.com',
+                'notification' => '1',
+            ],
+            'message' => ""
+        ];
+        return $this->response->setJSON($response);
     }
 }
