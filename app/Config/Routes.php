@@ -37,6 +37,7 @@ $routes->get('/board/grid(/([0-9]*))*', 'BoardController::getGridBoard/$1');
 $routes->get('/board/table(/([0-9]*))*', 'BoardController::getTableBoard/$1');
 $routes->get('/board/topic/([0-9]+)', 'BoardController::getBoardTopic/$1');
 $routes->get('/board/topic/[0-9]+/edit', 'BoardController::editBoardTopic/$1');
+$routes->get('/test/image/(:any)', 'API\ImageFile::getImage/$1');
 //admin pages
 $routes->get('/admin/boards(/([0-9]*))*', 'AdminController::getBoards/$1');
 $routes->get('/admin/board/topic/([0-9]+)', 'AdminController::getBoardTopic/$1');
@@ -45,15 +46,16 @@ $routes->get('/admin/board/([a-zA-Z]*)(/([0-9]*))*', 'AdminController::getBoard/
 
 
 //api
-$routes->post('/api/topic/create', '\App\Controllers\API\Topic::createTopic');
-$routes->post('/api/topic/update/([0-9]+)', '\App\Controllers\API\Topic::updateTopic/$1');
-$routes->get('/api/topic/get/([0-9]+)', '\App\Controllers\API\Topic::getTopic/$1');
-$routes->delete('/api/topic/delete/([0-9]+)', '\App\Controllers\API\Topic::deleteTopic/$1');
-$routes->get('/api/topic/get/([0-9]+)/reply', '\App\Controllers\API\Topic::getReply/$1');
-$routes->get('/api/topic/reply/get/([0-9]+)/nested', '\App\Controllers\API\Topic::getNestedReply/$1');
-$routes->get('/api/profile', '\App\Controllers\API\Profile::index');
-$routes->get('/api/board/get/([0-9]+)', '\App\Controllers\API\Board::getBoard/$1');
-$routes->post('/api/board/update/([0-9]+)', '\App\Controllers\API\Board::updateBoard/$1');
+$routes->post('/api/topic/create', 'API\Topic::createTopic');
+$routes->post('/api/topic/update/([0-9]+)', 'API\Topic::updateTopic/$1');
+$routes->get('/api/topic/get/([0-9]+)', 'API\Topic::getTopic/$1');
+$routes->delete('/api/topic/delete/([0-9]+)', 'API\Topic::deleteTopic/$1');
+$routes->get('/api/topic/get/([0-9]+)/reply', 'API\Topic::getReply/$1');
+$routes->get('/api/topic/reply/get/([0-9]+)/nested', 'API\Topic::getNestedReply/$1');
+$routes->get('/api/profile', 'API\Profile::index');
+$routes->get('/api/board/get/([0-9]+)', 'API\Board::getBoard/$1');
+$routes->post('/api/board/update/([0-9]+)', 'API\Board::updateBoard/$1');
+$routes->post('/api/image-file/upload', 'API\ImageFile::upload/$1');
 
 
 /*

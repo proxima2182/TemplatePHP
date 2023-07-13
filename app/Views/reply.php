@@ -324,7 +324,7 @@
             $.ajax({
                 type: 'GET',
                 url: `/api/topic/get/${id}/reply`,
-                success: function (response, textStatus, request) {
+                success: function (response, status, request) {
                     if (!response.success) return;
                     let data = response.data;
                     const wrap = $('.reply-wrap');
@@ -335,7 +335,7 @@
 
                     resizeReplyWrap();
                 },
-                error: function (request, textStatus, error) {
+                error: function (request, status, error) {
                 },
                 dataType: 'json'
             })
@@ -345,7 +345,7 @@
             $.ajax({
                 type: 'GET',
                 url: `/api/topic/reply/get/${reply_id}/nested?page=${page + 1}`,
-                success: function (response, textStatus, request) {
+                success: function (response, status, request) {
                     if (!response.success) return;
                     let data = response.data;
                     addReplyNestedItems(`#reply-${reply_id} .nested-reply`, data.array)
@@ -368,7 +368,7 @@
 
                     resizeReplyWrap();
                 },
-                error: function (request, textStatus, error) {
+                error: function (request, status, error) {
                 },
                 dataType: 'json'
             })

@@ -14,6 +14,7 @@
 
 /*button style*/
 .button {
+    cursor: pointer;
     display: inline-block;
     user-drag: none;
     -webkit-user-drag: none;

@@ -178,10 +178,10 @@ $reply = [
         $.ajax({
             type: 'DELETE',
             url: `/api/topic/delete/${id}`,
-            success: function (data, textStatus, request) {
+            success: function (response, status, request) {
                 //TODO refresh
             },
-            error: function (request, textStatus, error) {
+            error: function (request, status, error) {
                 console.log(error)
             },
             dataType: 'json'

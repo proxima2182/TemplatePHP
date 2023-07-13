@@ -18,7 +18,10 @@
                     <div class="slick">
                         <div class="slick-element add"
                              style="background: url('/asset/images/icon/plus_circle.png') no-repeat center; font-size: 0;">
-                            <a href="#" class="button"></a>
+                            <label for="file" class="button"></label>
+                            <input type="file" name="file" multiple id="file" onchange="onFileUpload(this);"
+                                    accept="image/*"/>
+                            <!--                            <a href="#" class="button"></a>-->
                         </div>
                         <?php foreach ($images as $index => $image) { ?>
                             <div class="slick-element"
@@ -32,6 +35,11 @@
                                 </div>
                             </div>
                         <?php } ?>
+
+                        <div class="slick-element"
+                             style="background: url('./writable/uploads/object.png') no-repeat center; background-size: cover; font-size: 0;">
+                            Slider #1
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,10 +73,10 @@
             type: 'POST',
             data: data,
             url: `/api/topic/update/${id}`,
-            success: function (data, textStatus, request) {
+            success: function (response, status, request) {
                 //TODO refresh
             },
-            error: function (request, textStatus, error) {
+            error: function (request, status, error) {
                 console.log(error)
             },
             dataType: 'json'
@@ -77,5 +85,45 @@
 
     function deleteImage(index) {
         $('.slider-wrap .slick').slick('slickRemove', index);
+    }
+
+    function onFileUpload(input, id) {
+        if(input.files.length == 0) return;
+        let form = new FormData();
+        for(let i in input.files) {
+            let file = input.files[i];
+            form.append("file", file);
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: `/api/image-file/upload`,
+            data: form,
+            processData: false,
+            contentType: false,
+            cache: false,
+            dataType: "multipart/form-data",
+            success: function (response, status, request) {
+                console.log(response)
+                // console.log(res.success);
+                // if (res.success == true) {
+                //     $('#ajaxImgUpload').attr('src', 'https://via.placeholder.com/300');
+                //     $('#alertMsg').html(res.msg);
+                //     $('#alertMessage').show();
+                // } else if (res.success == false) {
+                //     $('#alertMsg').html(res.msg);
+                //     $('#alertMessage').show();
+                // }
+                // setTimeout(function () {
+                //     $('#alertMsg').html('');
+                //     $('#alertMessage').hide();
+                // }, 4000);
+                // $('.uploadBtn').html('Upload');
+                // $('.uploadBtn').prop('Enabled');
+                // document.getElementById("upload_image_form").reset();
+            },
+            error: function (request, status, error) {
+            },
+        });
     }
 </script>

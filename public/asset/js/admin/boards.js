@@ -50,7 +50,7 @@ async function openPopupDetail(id) {
         $.ajax({
             type: 'GET',
             url: `/api/board/get/${id}`,
-            success: function (response, textStatus, request) {
+            success: function (response, status, request) {
                 if(!response.success)
                     return;
                 let data = response.data;
@@ -85,7 +85,7 @@ async function openPopupDetail(id) {
                 html += `</div>`;
                 openPopup(style, html)
             },
-            error: function (request, textStatus, error) {
+            error: function (request, status, error) {
             },
             dataType: 'json'
         });
@@ -113,10 +113,10 @@ function confirmEditBoard(id) {
     $.ajax({
         type: 'POST',
         url: `/api/board/update/${id}`,
-        success: function (data, textStatus, request) {
+        success: function (data, status, request) {
             location.reload()
         },
-        error: function (request, textStatus, error) {
+        error: function (request, status, error) {
         },
         dataType: 'json'
     });

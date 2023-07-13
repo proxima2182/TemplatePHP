@@ -37,7 +37,7 @@
         $.ajax({
             type: 'GET',
             url: `/api/topic/get/${id}`,
-            success: function (response, textStatus, request) {
+            success: function (response, status, request) {
                 if(!response.success) return;
                 let data = response.data;
                 let style = `
@@ -115,7 +115,7 @@
                     });
                 })
             },
-            error: function (request, textStatus, error) {
+            error: function (request, status, error) {
             },
             dataType: 'json'
         });
