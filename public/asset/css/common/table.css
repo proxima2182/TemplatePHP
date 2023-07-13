@@ -22,11 +22,11 @@ h3.title {
     font-size: 0;
 }
 
-.list-wrap .column-wrap {
+.list-wrap .row {
     text-align: left;
 }
 
-.list-wrap .column-wrap a {
+.list-wrap .row a {
     width: 100%;
     padding: 0 20px;
     box-sizing: border-box;
@@ -49,28 +49,28 @@ h3.title {
     vertical-align: middle;
 }
 
-.list-wrap .column-title .column-wrap {
+.list-wrap .row-title .row {
     padding: 0 15px;
     font-weight: 400;
 }
 
 /*테이블 내의 라인*/
-.list-wrap li:after, .list-wrap .column-title:after {
+.list-wrap li:after, .list-wrap .row-title:after {
     content: "";
     display: block;
     width: 100%;
     height: 1px;
     background: #ddd;
 }
-.list-wrap .column-title:after {
+.list-wrap .row-title:after {
     background: #000;
 }
 
-.list-wrap li .button.row {
+.list-wrap li .button.row-button {
     position: relative;
 }
 
-.list-wrap li .button.row:hover:after {
+.list-wrap li .button.row-button:hover:after {
     content: "";
     display: block;
     background: rgba(200, 200, 200, 0.1);

@@ -20,7 +20,7 @@ h3.title {
     background: #ddd;
 }
 
-.line-after.title:after {
+.line-after.row-title:after {
     background: #000;
 }
 
@@ -30,11 +30,11 @@ h3.title {
     min-height: 600px;
 }
 
-.topic-wrap .column-wrap {
+.topic-wrap .row {
     text-align: left;
 }
 
-.topic-wrap .column-wrap .column {
+.topic-wrap .row .column {
     padding: 10px;
     line-height: 35px;
     text-align: left;
@@ -44,6 +44,11 @@ h3.title {
     display: inline-block;
     vertical-align: bottom;
 }
+
+.topic-wrap .row .column.title {
+    font-size: 20px;
+}
+
 
 .topic-wrap .text-wrap {
     text-align: left;

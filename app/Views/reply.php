@@ -19,7 +19,7 @@
             margin-left: -562.5px;
         }
 
-        .reply-wrap .column-wrap .column {
+        .reply-wrap .row .column {
             padding: 10px;
             line-height: 35px;
             text-align: left;
@@ -33,26 +33,26 @@
             overflow: hidden;
         }
 
-        .reply-wrap .column-wrap .column.user {
+        .reply-wrap .row .column.user {
             width: 200px;
             font-weight: 400;
         }
 
-        .reply-wrap .column-wrap .column.content {
+        .reply-wrap .row .column.content {
             width: calc(100% - 400px);
         }
 
-        .reply-wrap .column-wrap .column.created_at {
+        .reply-wrap .row .column.created_at {
             width: 200px;
             text-align: right;
         }
 
-        .reply-wrap .nested-reply .column-wrap {
+        .reply-wrap .nested-reply .row {
             padding-left: 20px;
             background: #eee;
         }
 
-        .reply-wrap .nested-reply .column-wrap .column {
+        .reply-wrap .nested-reply .row .column {
             line-height: 25px;
         }
 
@@ -126,7 +126,7 @@
             $is_line_horizontal = true;
             foreach ($array as $index => $reply) { ?>
                 <li id="reply-<?= $reply['id'] ?>">
-                    <div class="column-wrap <?= $is_line_horizontal ? 'lines-horizontal' : 'line-after' ?>">
+                    <div class="row <?= $is_line_horizontal ? 'lines-horizontal' : 'line-after' ?>">
                         <span class="column user"><?= $reply['user_name'] ?></span>
                         <span class="column content"><?= $reply['content'] ?></span>
                         <span class="column created_at"><?= $reply['created_at'] ?></span>
@@ -139,7 +139,7 @@
                         <ul class="nested-reply">
                             <?php foreach ($reply['nested_reply']['array'] as $nested_index => $nested_reply) { ?>
                                 <li>
-                                    <div class="column-wrap">
+                                    <div class="row">
                                         <span class="column user"><?= $nested_reply['user_name'] ?></span>
                                         <span class="column content"><?= $nested_reply['content'] ?></span>
                                         <span class="column created_at"><?= $nested_reply['created_at'] ?></span>
@@ -210,7 +210,7 @@
                 let item = array[i];
                 html += `<li id="reply-${item['id']}">`;
                 html += `
-                    <div class="column-wrap ${is_line_horizontal ? 'lines-horizontal' : 'line-after'}">
+                    <div class="row ${is_line_horizontal ? 'lines-horizontal' : 'line-after'}">
                         <span class="column user">${item['user_name']}</span>
                         <span class="column content">${item['content']}</span>
                         <span class="column created_at">${item['created_at']}</span>
@@ -227,7 +227,7 @@
                     let item = nested_array[j]
                     html += `
                                 <li>
-                                    <div class="column-wrap">
+                                    <div class="row">
                                         <span class="column user">${item['user_name']}</span>
                                         <span class="column content">${item['content']}</span>
                                         <span class="column created_at">${item['created_at']}</span>
@@ -264,7 +264,7 @@
                 let item = array[i];
                 html += `
                     <li>
-                        <div class="column-wrap">
+                        <div class="row">
                             <span class="column user">${item['user_name']}</span>
                             <span class="column content">${item['content']}</span>
                             <span class="column created_at">${item['created_at']}</span>

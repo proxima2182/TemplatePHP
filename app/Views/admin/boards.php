@@ -5,8 +5,8 @@
         </h3>
         <div class="list-wrap">
             <div class="list-box">
-                <div class="column-title">
-                    <div class="column-wrap">
+                <div class="row-title">
+                    <div class="row">
                         <span class="column code">Code</span>
                         <span class="column type">Type</span>
                         <span class="column alias">Alias</span>
@@ -15,8 +15,8 @@
                 </div>
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
-                        <li class=" column-wrap">
-                            <a href="/admin/board/<?=$item['code']?>" class="button row">
+                        <li class="row">
+                            <a href="/admin/board/<?=$item['code']?>" class="button row-button">
                                 <span class="column code"><?= $item['code'] ?></span>
                                 <span class="column type"><?= $item['type'] ?></span>
                                 <span class="column alias"><?= $item['alias'] ?></span>

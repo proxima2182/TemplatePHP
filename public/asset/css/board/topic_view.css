@@ -1,9 +1,8 @@
-.topic-wrap .column-wrap .column.title {
-    font-size: 20px;
+.topic-wrap .row .column.title {
     width: 60%;
 }
 
-.topic-wrap .column-wrap .column.created_at {
+.topic-wrap .row .column.created_at {
     width: 40%;
     text-align: right;
 }

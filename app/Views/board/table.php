@@ -8,17 +8,17 @@ $is_admin_page = isset($is_admin) && $is_admin;
         </h3>
         <div class="list-wrap">
             <div class="list-box">
-                <div class="column-title">
-                    <div class="column-wrap">
+                <div class="row-title">
+                    <div class="row">
                         <span class="column title">Title</span>
                         <span class="column created_at">Created At</span>
                     </div>
                 </div>
                 <ul>
                     <?php for ($i = 0; $i < 6; $i++) { ?>
-                        <li class=" column-wrap">
+                        <li class=" row">
                             <a href="<?= $is_admin_page ? '/admin/board/topic/' . $i : '/board/topic/' . $i ?>"
-                               class="button row">
+                               class="button row-button">
                                 <span class="column title">Lorem ipsum</span>
                                 <span class="column created_at">2023-06-29 00:00:00</span>
                             </a>

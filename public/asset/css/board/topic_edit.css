@@ -4,8 +4,7 @@
     margin: 0;
 }
 
-.topic-wrap .column-wrap .column.title {
-    font-size: 20px;
+.topic-wrap .row .column.title {
     width: 100%;
 }
 

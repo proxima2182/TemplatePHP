@@ -101,7 +101,7 @@ $reply = [
             Notice
         </h3>
         <div class="topic-wrap">
-            <div class="column-wrap line-after title">
+            <div class="row row-title line-after">
                 <span class="column title"><?= $title ?></span>
                 <span class="column created_at"><?= $created_at ?></span>
             </div>
@@ -179,7 +179,7 @@ $reply = [
             type: 'DELETE',
             url: `/api/topic/delete/${id}`,
             success: function (data, textStatus, request) {
-                history.back();
+                //TODO refresh
             },
             error: function (request, textStatus, error) {
                 console.log(error)
