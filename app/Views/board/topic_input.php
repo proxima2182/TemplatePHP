@@ -16,17 +16,22 @@
             <div class="slider-wrap">
                 <div class="slider-box">
                     <div class="slick">
+                        <div class="slick-element add"
+                             style="background: url('/asset/images/icon/plus_circle.png') no-repeat center; font-size: 0;">
+                            <a href="#" class="button"></a>
+                        </div>
                         <?php foreach ($images as $index => $image) { ?>
                             <div class="slick-element"
                                  style="background: url('<?= $image ?>') no-repeat center; background-size: cover; font-size: 0;">
                                 Slider #<?= $index ?>
-                                <div class="slick-element-hover"></div>
+                                <div class="slick-element-hover">
+                                    <a href="javascript:deleteImage(<?= $index + 1 ?>)"
+                                       class="button delete-image black">
+                                        <img src="/asset/images/icon/button_close_white.png"/>
+                                    </a>
+                                </div>
                             </div>
                         <?php } ?>
-                        <div class="slick-element"
-                             style="background: url('/asset/images/icon/plus_circle.png') no-repeat center; font-size: 0;">
-                            <a href="#" class="button"></a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -68,5 +73,9 @@
             },
             dataType: 'json'
         });
+    }
+
+    function deleteImage(index) {
+        $('.slider-wrap .slick').slick('slickRemove', index);
     }
 </script>

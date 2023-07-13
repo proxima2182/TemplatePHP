@@ -100,7 +100,7 @@ class AdminController extends BaseController
                     '/module/popup',
                 ]),
             ])
-            . view('/board/topic', $data)
+            . view('/board/topic_view', $data)
             . parent::loadAdminFooter();
     }
     public function editBoardTopic($id = 1): string
@@ -120,13 +120,13 @@ class AdminController extends BaseController
         return parent::loadAdminHeader([
                 'css' => parent::generateAssetStatement("css", [
                     '/board/topic',
-                    '/board/topic_edit',
+                    '/board/topic_input',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/slick/slick.min.js',
                 ]),
             ])
-            . view('/board/topic_edit', $data)
+            . view('/board/topic_input', $data)
             . parent::loadAdminFooter();
     }
 }
