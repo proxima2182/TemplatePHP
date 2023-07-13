@@ -3,8 +3,9 @@
 namespace App\Controllers\API;
 
 use App\Controllers\BaseController;
+use App\Helpers\ServerLogger;
 
-class Board extends BaseController
+class Topic extends BaseController
 {
     protected $db;
     protected $userModel;
@@ -15,7 +16,7 @@ class Board extends BaseController
         $this->userModel = model('App\Models\UserModel');
     }
 
-    public function getBoard($id)
+    public function getTopic($id)
     {
         return json_encode([
             'images' => ['/asset/images/object.png'],
@@ -29,8 +30,17 @@ class Board extends BaseController
         ]);
     }
 
+    public function createTopic() {
+
+    }
+    public function updateTopic($id) {
+        $body = $this->request->getBody();
+        ServerLogger::log($body);
+    }
+
     public function getReply($id)
     {
+        $queryParams = $this->request->getGet();
         $page = $queryParams['page'] ?? 1;
         return json_encode([
             'page' => 3,
