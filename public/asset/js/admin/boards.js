@@ -49,7 +49,7 @@ async function openPopupDetail(id) {
         let css = await request.text()
         $.ajax({
             type: 'GET',
-            url: `/api/admin/board/get/${id}`,
+            url: `/api/board/get/${id}`,
             success: function (data, textStatus, request) {
                 let style = `
                 <style>
@@ -109,7 +109,7 @@ function editBoard(id) {
 function confirmEditBoard(id) {
     $.ajax({
         type: 'POST',
-        url: `/api/admin/board/update/${id}`,
+        url: `/api/board/update/${id}`,
         success: function (data, textStatus, request) {
             location.reload()
         },

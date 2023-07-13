@@ -1,4 +1,7 @@
 <?php
+$is_admin_page = isset($is_admin) && $is_admin;
+?>
+<?php
 $reply = [
     'page' => 1,
     'per-page' => 5,
@@ -6,7 +9,7 @@ $reply = [
     'total-page' => 3,
     'array' => [
         [
-            'id'=> 0,
+            'id' => 0,
             'user_name' => 'Lorem Ipsum',
             'depth' => 0,
             'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -33,7 +36,7 @@ $reply = [
             ],
         ],
         [
-            'id'=> 1,
+            'id' => 1,
             'user_name' => 'Lorem Ipsum',
             'depth' => 0,
             'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -47,7 +50,7 @@ $reply = [
             ],
         ],
         [
-            'id'=> 3,
+            'id' => 3,
             'user_name' => 'Lorem Ipsum',
             'depth' => 0,
             'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -61,7 +64,7 @@ $reply = [
             ],
         ],
         [
-            'id'=> 4,
+            'id' => 4,
             'user_name' => 'Lorem Ipsum',
             'depth' => 0,
             'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -75,7 +78,7 @@ $reply = [
             ],
         ],
         [
-            'id'=> 5,
+            'id' => 5,
             'user_name' => 'Lorem Ipsum',
             'depth' => 0,
             'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -90,10 +93,6 @@ $reply = [
         ],
     ],
 ];
-
-$images = [
-    '/asset/images/object.png',
-]
 ?>
 
 <div class="container-inner">
@@ -101,8 +100,8 @@ $images = [
         <h3 class="title">
             Notice
         </h3>
-        <div class="detail-wrap">
-            <div class="column-wrap line-after">
+        <div class="topic-wrap">
+            <div class="column-wrap line-after title">
                 <span class="column title"><?= $title ?></span>
                 <span class="column created_at"><?= $created_at ?></span>
             </div>
@@ -121,6 +120,19 @@ $images = [
                     </div>
                 </div>
             </div>
+            <div class="control-wrap">
+                <a href="<?= $is_admin_page ? '/admin/board/topic/' . $id . '/edit' : '/board/topic/' . $id . '/edit' ?>"
+                   class="button edit">
+                    <img src="/asset/images/icon/edit.png"/>
+                    <span>Edit</span>
+                </a>
+                <?php if ($is_admin_page) { ?>
+                    <a href="javascript:openPopupDeleteTopic(<?= $id ?>)" class="button delete">
+                        <img src="/asset/images/icon/delete.png"/>
+                        <span>Delete</span>
+                    </a>
+                <?php } ?>
+            </div>
         </div>
     </div>
 </div>
@@ -132,4 +144,47 @@ $images = [
         autoplay: false,
         infinite: false,
     })
+
+    function openPopupDeleteTopic(id) {
+        let style = `
+                <style>
+                .popup-inner .text-wrap {
+                    padding: 20px 0;
+                }
+
+                .popup-inner .button-wrap {
+                    padding-top: 20px;
+                }
+
+                .popup-inner .button {
+                    min-width: 100px;
+                    padding: 10px 20px;
+                    margin: 0 10px;
+                }
+                </style>`
+        let html = `
+        <div class="text-wrap">
+            Are you sure to delete this topic?
+        </div>`;
+        html += `
+            <div class="button-wrap controls">
+                <a href="javascript:closePopup()" class="button cancel white">Cancel</a>
+                <a href="javascript:deleteTopic(${id})" class="button confirm black">Delete</a>
+            </div>`;
+        openPopup(style, html)
+    }
+
+    function deleteTopic(id) {
+        $.ajax({
+            type: 'DELETE',
+            url: `/api/topic/delete/${id}`,
+            success: function (data, textStatus, request) {
+                history.back();
+            },
+            error: function (request, textStatus, error) {
+                console.log(error)
+            },
+            dataType: 'json'
+        });
+    }
 </script>

@@ -16,6 +16,18 @@ class Topic extends BaseController
         $this->userModel = model('App\Models\UserModel');
     }
 
+
+    public function createTopic()
+    {
+
+    }
+
+    public function updateTopic($id)
+    {
+        $body = $this->request->getBody();
+        ServerLogger::log($body);
+    }
+
     public function getTopic($id)
     {
         return json_encode([
@@ -30,12 +42,8 @@ class Topic extends BaseController
         ]);
     }
 
-    public function createTopic() {
+    public function deleteTopic($id) {
 
-    }
-    public function updateTopic($id) {
-        $body = $this->request->getBody();
-        ServerLogger::log($body);
     }
 
     public function getReply($id)
@@ -49,7 +57,7 @@ class Topic extends BaseController
             'total-page' => 3,
             'array' => [
                 [
-                    'id'=> 6,
+                    'id' => 6,
                     'user_name' => 'Lorem Ipsum',
                     'depth' => 0,
                     'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -76,7 +84,7 @@ class Topic extends BaseController
                     ],
                 ],
                 [
-                    'id'=> 7,
+                    'id' => 7,
                     'user_name' => 'Lorem Ipsum',
                     'depth' => 0,
                     'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -90,7 +98,7 @@ class Topic extends BaseController
                     ],
                 ],
                 [
-                    'id'=> 8,
+                    'id' => 8,
                     'user_name' => 'Lorem Ipsum',
                     'depth' => 0,
                     'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -118,14 +126,14 @@ class Topic extends BaseController
             'total-page' => 3,
             'array' => [
                 [
-                    'id'=> 9,
+                    'id' => 9,
                     'user_name' => 'Lorem Ipsum',
                     'depth' => 1,
                     'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                     'created_at' => '2023-07-03 22:35:00',
                 ],
                 [
-                    'id'=> 10,
+                    'id' => 10,
                     'user_name' => 'Lorem Ipsum',
                     'depth' => 1,
                     'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',

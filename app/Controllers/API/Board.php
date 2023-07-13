@@ -4,7 +4,7 @@ namespace App\Controllers\API;
 
 use App\Controllers\BaseController;
 
-class Admin extends BaseController
+class Board extends BaseController
 {
     protected $db;
     protected $userModel;

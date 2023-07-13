@@ -108,6 +108,7 @@ input[type=checkbox] {
 
 .slick-element {
     display: inline-block;
+    vertical-align: middle;
 }
 
 .slick button {

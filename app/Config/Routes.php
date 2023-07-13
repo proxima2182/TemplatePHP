@@ -36,19 +36,24 @@ $routes->get('/profile', 'ProfileController::index');
 $routes->get('/board/grid(/([0-9]*))*', 'BoardController::getGridBoard/$1');
 $routes->get('/board/table(/([0-9]*))*', 'BoardController::getTableBoard/$1');
 $routes->get('/board/topic/([0-9]+)', 'BoardController::getBoardTopic/$1');
+$routes->get('/board/topic/[0-9]+/edit', 'BoardController::editBoardTopic/$1');
 //admin pages
 $routes->get('/admin/boards(/([0-9]*))*', 'AdminController::getBoards/$1');
 $routes->get('/admin/board/topic/([0-9]+)', 'AdminController::getBoardTopic/$1');
+$routes->get('/admin/board/topic/[0-9]+/edit', 'AdminController::editBoardTopic/$1');
 $routes->get('/admin/board/([a-zA-Z]*)(/([0-9]*))*', 'AdminController::getBoard/$1/$2');
 
 
 //api
-$routes->get('/api/board/get/([0-9]+)', '\App\Controllers\API\Board::getBoard/$1');
-$routes->get('/api/board/get/([0-9]+)/reply', '\App\Controllers\API\Board::getReply/$1');
-$routes->get('/api/board/nested-reply/get/([0-9]+)', '\App\Controllers\API\Board::getNestedReply/$1');
+$routes->post('/api/topic/create', '\App\Controllers\API\Topic::createTopic');
+$routes->post('/api/topic/update/([0-9]+)', '\App\Controllers\API\Topic::updateTopic/$1');
+$routes->get('/api/topic/get/([0-9]+)', '\App\Controllers\API\Topic::getTopic/$1');
+$routes->delete('/api/topic/delete/([0-9]+)', '\App\Controllers\API\Topic::deleteTopic/$1');
+$routes->get('/api/topic/get/([0-9]+)/reply', '\App\Controllers\API\Topic::getReply/$1');
+$routes->get('/api/topic/reply/get/([0-9]+)/nested', '\App\Controllers\API\Topic::getNestedReply/$1');
 $routes->get('/api/profile', '\App\Controllers\API\Profile::index');
-$routes->get('/api/admin/board/get/([0-9]+)', '\App\Controllers\API\Admin::getBoard/$1');
-$routes->post('/api/admin/board/update/([0-9]+)', '\App\Controllers\API\Admin::updateBoard/$1');
+$routes->get('/api/board/get/([0-9]+)', '\App\Controllers\API\Board::getBoard/$1');
+$routes->post('/api/board/update/([0-9]+)', '\App\Controllers\API\Board::updateBoard/$1');
 
 
 /*

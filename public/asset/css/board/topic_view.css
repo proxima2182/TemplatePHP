@@ -1,0 +1,47 @@
+.topic-wrap .column-wrap .column.title {
+    font-size: 20px;
+    width: 60%;
+}
+
+.topic-wrap .column-wrap .column.created_at {
+    width: 40%;
+    text-align: right;
+}
+
+.topic-wrap .text-wrap .content {
+    margin: 10px 20px;
+    min-height: 150px;
+    font-size: 18px;
+}
+
+.topic-wrap .control-wrap {
+    text-align: right;
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+}
+
+.topic-wrap .control-wrap a {
+    line-height: 20px;
+    margin: 0 5px;
+    position: relative;
+}
+
+.topic-wrap .control-wrap a:hover:after {
+    content: "";
+    display: inline-block;
+    height: 1px;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    background: #000;
+}
+
+.topic-wrap .control-wrap span {
+    font-size: 18px;
+}
+
+.topic-wrap .control-wrap * {
+    vertical-align: middle;
+}

@@ -1,28 +1,22 @@
 <?php if (isset($pagination) && isset($array)) { ?>
     <style>
-        .reply-wrap .lines-horizontal:after, .reply-wrap .lines-horizontal:before, .line-after:after {
+        .reply-wrap .lines-horizontal:after,
+        .reply-wrap .lines-horizontal:before,
+        .reply-wrap .line-after:after {
             content: "";
             display: block;
             width: 100%;
             height: 1px;
-            background: #000;
-        }
-
-        .line-after:after {
-            content: "";
-            display: block;
-            width: 100%;
-            height: 1px;
-            background: #000;
+            background: #ddd;
         }
 
         .reply-wrap {
-            width: 1200px;
+            width: 1125px;
             font-size: 0;
             position: absolute;
             bottom: 0;
             left: 50%;
-            margin-left: -600px;
+            margin-left: -562.5px;
         }
 
         .reply-wrap .column-wrap .column {
@@ -62,15 +56,21 @@
             line-height: 25px;
         }
 
-        .reply-wrap .button.more {
-            width: 100%;
-            box-sizing: border-box;
-            padding-left: 30px;
-            padding-bottom: 10px;
-            line-height: 20px;
-            text-align: left;
-            font-size: 14px;
+        .reply-wrap .button-wrap.more {
+            text-align: right;
+            padding: 0 20px;
             background: #eee;
+        }
+
+        .reply-wrap .button.more {
+            padding: 5px 10px;
+            box-sizing: border-box;
+            line-height: 20px;
+            font-size: 14px;
+        }
+
+        .reply-wrap .button.more * {
+            vertical-align: middle;
         }
 
         .reply-wrap .pages {
@@ -148,9 +148,11 @@
                             <?php } ?>
                         </ul>
                         <?php if ($reply['nested_reply']['page'] < $reply['nested_reply']['total-page']) { ?>
-                            <div class="button-wrap">
-                                <a href="javascript:loadNestedReply(<?= $reply['id'] ?>,1);" class="button more">See
-                                    More</a>
+                            <div class="button-wrap more">
+                                <a href="javascript:loadNestedReply(<?= $reply['id'] ?>,1);" class="button more">
+                                    <span>See More</span>
+                                    <img src="/asset/images/icon/plus.png"/>
+                                </a>
                             </div>
                         <?php }
                     } ?>
@@ -235,8 +237,11 @@
                 html += `</ul>`;
                 if (item['nested_reply']['page'] < item['nested_reply']['total-page']) {
                     html += `
-                            <div class="button-wrap">
-                                <a href="javascript:loadNestedReply(${item['id']},1);" class="button more">See More</a>
+                            <div class="button-wrap more">
+                                <a href="javascript:loadNestedReply(${item['id']},1);" class="button more">
+                                    <span>See More</span>
+                                    <img src="/asset/images/icon/plus.png"/>
+                                </a>
                             </div>`;
                 }
                 html += `</li>`;
@@ -318,7 +323,7 @@
         function loadReply(id) {
             $.ajax({
                 type: 'GET',
-                url: `/api/board/get/${id}/reply`,
+                url: `/api/topic/get/${id}/reply`,
                 success: function (data, textStatus, request) {
                     const wrap = $('.reply-wrap');
                     wrap.empty()
@@ -337,7 +342,7 @@
         function loadNestedReply(reply_id, page = 1) {
             $.ajax({
                 type: 'GET',
-                url: `/api/board/nested-reply/get/${reply_id}?page=${page + 1}`,
+                url: `/api/topic/reply/get/${reply_id}/nested?page=${page + 1}`,
                 success: function (data, textStatus, request) {
                     addReplyNestedItems(`#reply-${reply_id} .nested-reply`, data.array)
 
@@ -348,7 +353,12 @@
                     } else {
                         moreButtonWrap.empty()
                         moreButtonWrap.append(
-                            `<a href="javascript:loadNestedReply(${reply_id},${page + 1});" class="button more">See More</a>`
+                            `<div class="button-wrap more">
+                                <a href="javascript:loadNestedReply(${reply_id},${page + 1});" class="button more">
+                                    <span>See More</span>
+                                    <img src="/asset/images/icon/plus.png"/>
+                                </a>
+                            </div>`
                         )
                     }
 

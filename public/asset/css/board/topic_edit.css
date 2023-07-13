@@ -1,0 +1,45 @@
+.topic-wrap input, .topic-wrap textarea {
+    border: none;
+    width: 100%;
+    margin: 0;
+}
+
+.topic-wrap .column-wrap .column.title {
+    font-size: 20px;
+    width: 100%;
+}
+
+.topic-wrap .text-wrap .content {
+    min-height: 400px;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 200;
+}
+
+.topic-wrap .slider-wrap .slick-element {
+    position: relative;
+}
+
+.topic-wrap .slider-wrap .slick-element a {
+    width: 100%;
+    height: 100%;
+}
+
+.topic-wrap .slider-wrap .slick-element-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.topic-wrap .button-wrap {
+    padding-top: 20px;
+}
+
+.topic-wrap .button {
+    min-width: 100px;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 18px;
+}

@@ -36,7 +36,7 @@
     function openPopupDetail(id) {
         $.ajax({
             type: 'GET',
-            url: `/api/board/get/${id}`,
+            url: `/api/topic/get/${id}`,
             success: function (data, textStatus, request) {
                 let style = `
                 <style>
