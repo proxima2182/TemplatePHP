@@ -26,12 +26,12 @@ h3.title {
 
 .topic-wrap {
     width: 1125px;
-    font-size: 0;
     min-height: 600px;
 }
 
 .topic-wrap .row {
     text-align: left;
+    font-size: 0;
 }
 
 .topic-wrap .row .column {
@@ -48,7 +48,6 @@ h3.title {
 .topic-wrap .row .column.title {
     font-size: 20px;
 }
-
 
 .topic-wrap .text-wrap {
     text-align: left;

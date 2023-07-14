@@ -53,7 +53,8 @@ class Topic extends BaseController
         return $this->response->setJSON($response);
     }
 
-    public function deleteTopic($id) {
+    public function deleteTopic($id)
+    {
 
     }
 
@@ -62,7 +63,7 @@ class Topic extends BaseController
      * @param $id
      * @return ResponseInterface
      */
-    public function getReply($id): ResponseInterface
+    public function getTopicReply($id): ResponseInterface
     {
         $queryParams = $this->request->getGet();
         $page = $queryParams['page'] ?? 1;
@@ -131,6 +132,32 @@ class Topic extends BaseController
                         ],
                     ],
                 ],
+            ],
+            'message' => ""
+        ];
+        return $this->response->setJSON($response);
+    }
+
+    /**
+     * [get] /api/topic/reply/get/{id}
+     * @param $reply_id
+     * @return ResponseInterface
+     */
+    public function getReply($reply_id): ResponseInterface
+    {
+        $queryParams = $this->request->getGet();
+        $page = $queryParams['page'] ?? 1;
+
+        $response = [
+            'success' => true,
+            'data' => [
+                'id' => 6,
+                'user_id' => 1,
+                'topic_id' => 1,
+                'user_name' => 'Lorem Ipsum',
+                'depth' => 0,
+                'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                'created_at' => '2023-07-03 22:35:00',
             ],
             'message' => ""
         ];

@@ -38,8 +38,9 @@
             type: 'GET',
             url: `/api/topic/get/${id}`,
             success: function (response, status, request) {
-                if(!response.success) return;
+                if (!response.success) return;
                 let data = response.data;
+                let className = 'popup-detail';
                 let style = `
                 <style>
                 .popup-wrap .popup .slider-wrap {
@@ -106,7 +107,7 @@
                 <h4 class="title">${data.title}</h4>
                 <p class="content">${data.content}</p>
             </div>`
-                openPopup(style, html, function () {
+                openPopup(className, style, html, function () {
                     $('.popup-wrap .popup .slider-wrap .slick').slick({
                         slidesToShow: 3,
                         slidesToScroll: 1,

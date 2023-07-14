@@ -76,7 +76,7 @@ class AdminController extends BaseController
             . parent::loadAdminFooter();
     }
 
-    public function getBoardTopic($id = 1): string
+    public function getTopic($id = 1): string
     {
         $data = [
             'is_admin' => true,
@@ -103,7 +103,7 @@ class AdminController extends BaseController
             . view('/board/topic_view', $data)
             . parent::loadAdminFooter();
     }
-    public function editBoardTopic($id = 1): string
+    public function editTopic($id = 1): string
     {
         $data = [
             'is_admin' => true,
@@ -127,6 +127,57 @@ class AdminController extends BaseController
                 ]),
             ])
             . view('/board/topic_input', $data)
+            . parent::loadAdminFooter();
+    }
+    function getReply($page = 1): string
+    {
+        return parent::loadAdminHeader([
+                'css' => parent::generateAssetStatement("css", [
+                    '/common/table',
+                    '/admin/reply',
+                ]),
+                'js' => parent::generateAssetStatement("js", [
+                    '/module/popup',
+                ]),
+            ])
+            . view('/admin/reply', [
+                'array' => [
+                    [
+                        'id' => 6,
+                        'user_id' => 1,
+                        'topic_id' => 1,
+                        'user_name' => 'Lorem Ipsum',
+                        'depth' => 0,
+                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                        'created_at' => '2023-07-03 22:35:00',
+                    ],
+                    [
+                        'id' => 7,
+                        'user_id' => 1,
+                        'topic_id' => 1,
+                        'user_name' => 'Lorem Ipsum',
+                        'depth' => 0,
+                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                        'created_at' => '2023-07-03 22:35:00',
+                    ],
+                    [
+                        'id' => 8,
+                        'user_id' => 1,
+                        'topic_id' => 1,
+                        'user_name' => 'Lorem Ipsum',
+                        'depth' => 0,
+                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                        'created_at' => '2023-07-03 22:35:00',
+                    ],
+                ],
+                'pagination' => [
+                    'page' => 3,
+                    'per-page' => 10,
+                    'total' => 13,
+                    'total-page' => 3,
+                ],
+                'pagination_link' => '/admin/boards'
+            ])
             . parent::loadAdminFooter();
     }
 }

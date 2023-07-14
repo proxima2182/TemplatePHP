@@ -5,9 +5,9 @@ let popupTimeoutId;
  * (큰 차이는 없으나 slick에 영향줌)
  * @param id
  */
-function openPopup(style, html, callback) {
+function openPopup(className, style, html, callback) {
     $('#container').append(`
-<div class="popup-wrap">
+<div class="popup-wrap ${className}">
 <style>
 @keyframes popupFadeIn {
     from {
@@ -33,7 +33,7 @@ function openPopup(style, html, callback) {
     }
 }
 
-.popup-wrap {
+.${className} {
     text-align: center;
     position: fixed;
     top: 0;
@@ -44,7 +44,7 @@ function openPopup(style, html, callback) {
     z-index: 15;
 }
 
-.popup-wrap .popup {
+.${className} .popup {
     width: 700px;
     line-height: normal;
     display: inline-block;
@@ -56,20 +56,20 @@ function openPopup(style, html, callback) {
     animation-name: popupFadeIn;
 }
 
-.popup-wrap .popup-inner {
+.${className} .popup-inner {
     overflow-y: scroll;
     max-height: 400px;
     overflow-x: hidden;
     padding: 40px 20px;
 }
 
-.popup-wrap .popup .interface {
+.${className} .popup .interface {
     height: 40px;
     background: #222;
     position: relative;
 }
 
-.popup-wrap .popup .button.close {
+.${className} .popup .button.close {
     width: 30px;
     height: 30px;
     line-height: 30px;
@@ -80,12 +80,12 @@ function openPopup(style, html, callback) {
     margin-top: -15px;
 }
 
-.popup-wrap .popup .button.close img {
+.${className} .popup .button.close img {
     display: inline-block;
     vertical-align: middle;
 }
 
-.popup-wrap .popup .slider-wrap {
+.${className} .popup .slider-wrap {
     width: 600px;
     display: inline-block;
     text-align: center;
@@ -95,7 +95,7 @@ function openPopup(style, html, callback) {
 ${style ?? ''}
     <div class="popup">
         <div class="interface">
-            <a href="javascript:closePopup()" class="button close">
+            <a href="javascript:closePopup('${className}')" class="button close">
                 <img src="/asset/images/icon/button_close_white.png"/>
             </a>
         </div>
@@ -106,29 +106,31 @@ ${style ?? ''}
 </div>`)
     resizeWindow();
     if (callback && typeof callback == 'function') callback();
-    let popup_wrap = $('.popup-wrap').get(0);
-    if (popup_wrap) {
-        popup_wrap.addEventListener('click', function (event) {
+    let element = $(`.${className}`).get(0);
+    if (element) {
+        element.addEventListener('click', function (event) {
             if (event.target.className && event.target.className.includes("popup-wrap")) {
-                closePopup()
+                console.log(className)
+                closePopup(className)
             }
         })
     }
     addEventListener("resize", resizeWindow);
 }
 
-function closePopup() {
-    $('.popup-wrap .popup').css({
+function closePopup(className) {
+    let popupWrap = $(`.${className}`)
+    popupWrap.find('.popup').css({
         'animation-duration': '0.2s',
         'animation-name': 'popupFadeOut',
     })
     removeEventListener('resize', resizeWindow);
     popupTimeoutId = setTimeout(function () {
-        let popup_wrap = $('.popup-wrap').get(0);
-        if (popup_wrap) {
-            removeEventListener('click', closePopup);
+        let element = popupWrap.get(0);
+        if (element) {
+            element.removeEventListener('click', closePopup);
         }
-        $('.popup-wrap').remove()
+        popupWrap.remove()
         clearTimeout(popupTimeoutId)
     }, 150)
 }

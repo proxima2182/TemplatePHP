@@ -103,7 +103,7 @@ $reply = [
         <div class="topic-wrap">
             <div class="row row-title line-after">
                 <span class="column title"><?= $title ?></span>
-                <span class="column created_at"><?= $created_at ?></span>
+                <span class="column  created-at"><?= $created_at ?></span>
             </div>
             <div class="text-wrap line-after">
                 <div class="content"><?= $content ?></div>
@@ -121,7 +121,7 @@ $reply = [
                 </div>
             </div>
             <div class="control-wrap">
-                <a href="<?= $is_admin_page ? '/admin/board/topic/' . $id . '/edit' : '/board/topic/' . $id . '/edit' ?>"
+                <a href="<?= $is_admin_page ? '/admin/topic/' . $id . '/edit' : '/topic/' . $id . '/edit' ?>"
                    class="button edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span>Edit</span>
@@ -146,17 +146,18 @@ $reply = [
     })
 
     function openPopupDeleteTopic(id) {
+        let className = 'popup-delete';
         let style = `
                 <style>
-                .popup-inner .text-wrap {
+                .${className} .popup-inner .text-wrap {
                     padding: 20px 0;
                 }
 
-                .popup-inner .button-wrap {
+                .${className} .popup-inner .button-wrap {
                     padding-top: 20px;
                 }
 
-                .popup-inner .button {
+                .${className} .popup-inner .button {
                     min-width: 100px;
                     padding: 10px 20px;
                     margin: 0 10px;
@@ -168,10 +169,10 @@ $reply = [
         </div>`;
         html += `
             <div class="button-wrap controls">
-                <a href="javascript:closePopup()" class="button cancel white">Cancel</a>
+                <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
                 <a href="javascript:deleteTopic(${id})" class="button confirm black">Delete</a>
             </div>`;
-        openPopup(style, html)
+        openPopup(className, style, html)
     }
 
     function deleteTopic(id) {

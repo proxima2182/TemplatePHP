@@ -33,16 +33,17 @@ $routes->get('/', 'Home::index');
 $routes->get('/get-session', 'Home::getSession');
 $routes->get('/set-session', 'Home::setSession');
 $routes->get('/profile', 'ProfileController::index');
-$routes->get('/board/grid(/([0-9]*))*', 'BoardController::getGridBoard/$1');
-$routes->get('/board/table(/([0-9]*))*', 'BoardController::getTableBoard/$1');
-$routes->get('/board/topic/([0-9]+)', 'BoardController::getBoardTopic/$1');
-$routes->get('/board/topic/[0-9]+/edit', 'BoardController::editBoardTopic/$1');
+$routes->get('/board/grid(/([0-9]+))*', 'BoardController::getGridBoard/$1');
+$routes->get('/board/table(/([0-9]+))*', 'BoardController::getTableBoard/$1');
+$routes->get('/topic/([0-9]+)', 'BoardController::getTopic/$1');
+$routes->get('/topic/[0-9]+/edit', 'BoardController::editTopic/$1');
 $routes->get('/test/image/(:any)', 'API\ImageFile::getImage/$1');
 //admin pages
-$routes->get('/admin/boards(/([0-9]*))*', 'AdminController::getBoards/$1');
-$routes->get('/admin/board/topic/([0-9]+)', 'AdminController::getBoardTopic/$1');
-$routes->get('/admin/board/topic/[0-9]+/edit', 'AdminController::editBoardTopic/$1');
-$routes->get('/admin/board/([a-zA-Z]*)(/([0-9]*))*', 'AdminController::getBoard/$1/$2');
+$routes->get('/admin/boards(/([0-9]+))*', 'AdminController::getBoards/$1');
+$routes->get('/admin/boards/([a-zA-Z]+)(/([0-9]+))*', 'AdminController::getBoard/$1/$2');
+$routes->get('/admin/topic/([0-9]+)', 'AdminController::getTopic/$1');
+$routes->get('/admin/topic/[0-9]+/edit', 'AdminController::editTopic/$1');
+$routes->get('/admin/topic/reply(/[0-9]+)*', 'AdminController::getReply/$1');
 
 
 //api
@@ -50,8 +51,9 @@ $routes->post('/api/topic/create', 'API\Topic::createTopic');
 $routes->post('/api/topic/update/([0-9]+)', 'API\Topic::updateTopic/$1');
 $routes->get('/api/topic/get/([0-9]+)', 'API\Topic::getTopic/$1');
 $routes->delete('/api/topic/delete/([0-9]+)', 'API\Topic::deleteTopic/$1');
-$routes->get('/api/topic/get/([0-9]+)/reply', 'API\Topic::getReply/$1');
+$routes->get('/api/topic/get/([0-9]+)/reply', 'API\Topic::getTopicReply/$1');
 $routes->get('/api/topic/reply/get/([0-9]+)/nested', 'API\Topic::getNestedReply/$1');
+$routes->get('/api/topic/reply/get/([0-9]+)', 'API\Topic::getReply/$1');
 $routes->get('/api/profile', 'API\Profile::index');
 $routes->get('/api/board/get/([0-9]+)', 'API\Board::getBoard/$1');
 $routes->post('/api/board/update/([0-9]+)', 'API\Board::updateBoard/$1');

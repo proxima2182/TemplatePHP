@@ -61,7 +61,7 @@ class BoardController extends BaseController
             . parent::loadFooter();
     }
 
-    public function getBoardTopic($id = 1): string
+    public function getTopic($id = 1): string
     {
         $data = [
             'id' => 0,
@@ -87,7 +87,7 @@ class BoardController extends BaseController
             . view('/board/topic_view', $data)
             . parent::loadFooter();
     }
-    public function editBoardTopic($id = 1): string
+    public function editTopic($id = 1): string
     {
         $data = [
             'id' => 0,

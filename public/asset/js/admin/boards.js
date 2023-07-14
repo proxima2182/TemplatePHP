@@ -1,3 +1,5 @@
+const className = 'popup-detail'
+
 function fromDataToHtml(key, data) {
     if (!data[key]) return;
     if (key.startsWith('is_')) {
@@ -45,13 +47,13 @@ function fromDataToHtml(key, data) {
 async function openPopupDetail(id) {
     try {
         let request = await fetch('/asset/css/common/input.css')
-        if(!request.ok) throw request;
+        if (!request.ok) throw request;
         let css = await request.text()
         $.ajax({
             type: 'GET',
             url: `/api/board/get/${id}`,
             success: function (response, status, request) {
-                if(!response.success)
+                if (!response.success)
                     return;
                 let data = response.data;
                 let style = `
@@ -83,7 +85,7 @@ async function openPopupDetail(id) {
                 }
 
                 html += `</div>`;
-                openPopup(style, html)
+                openPopup(className, style, html)
             },
             error: function (request, status, error) {
             },
@@ -104,7 +106,7 @@ function editBoard(id) {
         </div>
     </div>
     <div class="button-wrap controls">
-        <a href="javascript:closePopup()" class="button cancel white">Cancel</a>
+        <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
         <a href="javascript:confirmEditBoard(${id})" class="button confirm black">Confirm</a>
     </div>`);
 }

@@ -42,7 +42,7 @@
             width: calc(100% - 400px);
         }
 
-        .reply-wrap .row .column.created_at {
+        .reply-wrap .row .column.created-at {
             width: 200px;
             text-align: right;
         }
@@ -129,7 +129,7 @@
                     <div class="row <?= $is_line_horizontal ? 'lines-horizontal' : 'line-after' ?>">
                         <span class="column user"><?= $reply['user_name'] ?></span>
                         <span class="column content"><?= $reply['content'] ?></span>
-                        <span class="column created_at"><?= $reply['created_at'] ?></span>
+                        <span class="column created-at"><?= $reply['created_at'] ?></span>
                     </div>
                     <?php
                     $is_line_horizontal = false;
@@ -142,7 +142,7 @@
                                     <div class="row">
                                         <span class="column user"><?= $nested_reply['user_name'] ?></span>
                                         <span class="column content"><?= $nested_reply['content'] ?></span>
-                                        <span class="column created_at"><?= $nested_reply['created_at'] ?></span>
+                                        <span class="column created-at"><?= $nested_reply['created_at'] ?></span>
                                     </div>
                                 </li>
                             <?php } ?>
@@ -213,7 +213,7 @@
                     <div class="row ${is_line_horizontal ? 'lines-horizontal' : 'line-after'}">
                         <span class="column user">${item['user_name']}</span>
                         <span class="column content">${item['content']}</span>
-                        <span class="column created_at">${item['created_at']}</span>
+                        <span class="column  created-at">${item['created_at']}</span>
                     </div>`;
                 is_line_horizontal = false;
 
@@ -230,7 +230,7 @@
                                     <div class="row">
                                         <span class="column user">${item['user_name']}</span>
                                         <span class="column content">${item['content']}</span>
-                                        <span class="column created_at">${item['created_at']}</span>
+                                        <span class="column  created-at">${item['created_at']}</span>
                                     </div>
                                 </li>`;
                 }
@@ -267,7 +267,7 @@
                         <div class="row">
                             <span class="column user">${item['user_name']}</span>
                             <span class="column content">${item['content']}</span>
-                            <span class="column created_at">${item['created_at']}</span>
+                            <span class="column  created-at">${item['created_at']}</span>
                         </div>
                     </li>`;
             }

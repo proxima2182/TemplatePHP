@@ -16,7 +16,7 @@
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
                         <li class="row">
-                            <a href="/admin/board/<?=$item['code']?>" class="button row-button">
+                            <a href="javascript:openPopupDetail('<?= $item['id'] ?>')" class="button row-button">
                                 <span class="column code"><?= $item['code'] ?></span>
                                 <span class="column type"><?= $item['type'] ?></span>
                                 <span class="column alias"><?= $item['alias'] ?></span>
@@ -25,7 +25,7 @@
                                         src="/asset/images/icon/<?= $item['is_public'] == 0 ? 'none.png' : 'check.png' ?>"/>
                                 </span>
                             </a>
-                            <a href="javascript:openPopupDetail('<?= $item['id'] ?>')" class="button detail">
+                            <a href="/admin/boards/<?= $item['code'] ?>" class="button detail">
                                 <img src="/asset/images/icon/detail@2x.png"/>
                             </a>
                         </li>

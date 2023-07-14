@@ -2,8 +2,9 @@
     width: 60%;
 }
 
-.topic-wrap .row .column.created_at {
+.topic-wrap .row .column.created-at {
     width: 40%;
+    font-size: 16px;
     text-align: right;
 }
 
