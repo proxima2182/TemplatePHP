@@ -10,14 +10,14 @@ class AdminController extends BaseController
         return parent::loadAdminHeader([
                 'css' => parent::generateAssetStatement("css", [
                     '/common/table',
-                    '/admin/boards',
+                    '/admin/board',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/module/popup',
-                    '/admin/boards',
+                    '/admin/board',
                 ]),
             ])
-            . view('/admin/boards', [
+            . view('/admin/board', [
                 'array' => [
                     [
                         'id' => '1',

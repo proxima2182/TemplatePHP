@@ -1,7 +1,7 @@
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="title">
-            Boards
+            Board
         </h3>
         <div class="list-wrap">
             <div class="list-box">
@@ -25,7 +25,7 @@
                                         src="/asset/images/icon/<?= $item['is_public'] == 0 ? 'none.png' : 'check.png' ?>"/>
                                 </span>
                             </a>
-                            <a href="/admin/boards/<?= $item['code'] ?>" class="button detail">
+                            <a href="/admin/board/<?= $item['code'] ?>" class="button detail">
                                 <img src="/asset/images/icon/detail@2x.png"/>
                             </a>
                         </li>

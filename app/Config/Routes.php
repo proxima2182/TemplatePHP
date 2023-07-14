@@ -39,8 +39,8 @@ $routes->get('/topic/([0-9]+)', 'BoardController::getTopic/$1');
 $routes->get('/topic/[0-9]+/edit', 'BoardController::editTopic/$1');
 $routes->get('/test/image/(:any)', 'API\ImageFile::getImage/$1');
 //admin pages
-$routes->get('/admin/boards(/([0-9]+))*', 'AdminController::getBoards/$1');
-$routes->get('/admin/boards/([a-zA-Z]+)(/([0-9]+))*', 'AdminController::getBoard/$1/$2');
+$routes->get('/admin/board(/([0-9]+))*', 'AdminController::getBoards/$1');
+$routes->get('/admin/board/([a-zA-Z]+)(/([0-9]+))*', 'AdminController::getBoard/$1/$2');
 $routes->get('/admin/topic/([0-9]+)', 'AdminController::getTopic/$1');
 $routes->get('/admin/topic/[0-9]+/edit', 'AdminController::editTopic/$1');
 $routes->get('/admin/topic/reply(/[0-9]+)*', 'AdminController::getReply/$1');
