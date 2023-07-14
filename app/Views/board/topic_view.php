@@ -149,6 +149,10 @@ $reply = [
         let className = 'popup-delete';
         let style = `
                 <style>
+                body .${className} .popup {
+                    width: 500px;
+                }
+
                 .${className} .popup-inner .text-wrap {
                     padding: 20px 0;
                 }

@@ -15,6 +15,7 @@
 }
 
 .topic-wrap .control-wrap {
+    line-height: 20px;
     text-align: right;
     position: absolute;
     bottom: 20px;
@@ -43,5 +44,5 @@
 }
 
 .topic-wrap .control-wrap * {
-    vertical-align: middle;
+    vertical-align: bottom;
 }
