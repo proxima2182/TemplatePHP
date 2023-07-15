@@ -5,7 +5,7 @@ namespace App\Controllers\API;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class Board extends BaseController
+class Location extends BaseController
 {
     protected $db;
     protected $userModel;
@@ -17,11 +17,11 @@ class Board extends BaseController
     }
 
     /**
-     * [get] /api/board/get/{id}
+     * [get] /api/location/get/{id}
      * @param $id
      * @return ResponseInterface
      */
-    public function getBoard($id): ResponseInterface
+    public function getLocation($id): ResponseInterface
     {
         $response = [
             'success' => false,
@@ -31,16 +31,11 @@ class Board extends BaseController
         $response = [
             'success' => true,
             'data' => [
-                'id' => '1',
-                'code' => 'popup',
-                'type' => 'grid',
-                'alias' => '팝업',
-                'description' => '팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용\n팝업 저장용팝업 저장용팝업 저장용팝업 저장용',
-                'is_reply' => '0',
-                'is_public' => '0',
-                'is_editable' => '1',
-                'created_at' => '2023-06-29 00:00:00',
-                'updated_at' => '2023-06-29 00:00:00',
+                'id' => 0,
+                'name' => 'point A',
+                'address' => 'point A Address',
+                'latitude' => 33.452278,
+                'longitude' => 126.567803,
             ],
             'message' => ""
         ];
@@ -48,10 +43,10 @@ class Board extends BaseController
     }
 
     /**
-     * [post] /api/board/create
-     * @return ResponseInterface
+     * [post] /api/location/create
+     * @return void
      */
-    public function createBoard(): ResponseInterface
+    public function createLocation()
     {
         $response = [
             'success' => false,
@@ -62,11 +57,11 @@ class Board extends BaseController
     }
 
     /**
-     * [post] /api/board/update/{id}
+     * [post] /api/location/update/{id}
      * @param $id
-     * @return ResponseInterface
+     * @return void
      */
-    public function updateBoard($id): ResponseInterface
+    public function updateLocation($id)
     {
         $response = [
             'success' => false,

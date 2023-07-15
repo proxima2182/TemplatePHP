@@ -17,18 +17,6 @@ class Topic extends BaseController
         $this->userModel = model('App\Models\UserModel');
     }
 
-
-    public function createTopic()
-    {
-
-    }
-
-    public function updateTopic($id)
-    {
-        $body = $this->request->getBody();
-        ServerLogger::log($body);
-    }
-
     /**
      * [get] /api/topic/get/{id}
      * @param $id
@@ -36,6 +24,11 @@ class Topic extends BaseController
      */
     public function getTopic($id): ResponseInterface
     {
+        $response = [
+            'success' => false,
+            'data' => [],
+            'message' => ""
+        ];
         $response = [
             'success' => true,
             'data' => [
@@ -53,9 +46,46 @@ class Topic extends BaseController
         return $this->response->setJSON($response);
     }
 
-    public function deleteTopic($id)
+    public function createTopic()
     {
+        $response = [
+            'success' => false,
+            'data' => [],
+            'message' => ""
+        ];
+        return $this->response->setJSON($response);
+    }
 
+    /**
+     * [post] /api/topic/update/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function updateTopic($id): ResponseInterface
+    {
+        $response = [
+            'success' => false,
+            'data' => [],
+            'message' => ""
+        ];
+        $body = $this->request->getBody();
+        ServerLogger::log($body);
+        return $this->response->setJSON($response);
+    }
+
+    /**
+     * [delete] /api/topic/delete/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function deleteTopic($id): ResponseInterface
+    {
+        $response = [
+            'success' => false,
+            'data' => [],
+            'message' => ""
+        ];
+        return $this->response->setJSON($response);
     }
 
     /**
@@ -65,6 +95,11 @@ class Topic extends BaseController
      */
     public function getTopicReply($id): ResponseInterface
     {
+        $response = [
+            'success' => false,
+            'data' => [],
+            'message' => ""
+        ];
         $queryParams = $this->request->getGet();
         $page = $queryParams['page'] ?? 1;
 
@@ -145,6 +180,11 @@ class Topic extends BaseController
      */
     public function getReply($reply_id): ResponseInterface
     {
+        $response = [
+            'success' => false,
+            'data' => [],
+            'message' => ""
+        ];
         $queryParams = $this->request->getGet();
         $page = $queryParams['page'] ?? 1;
 
@@ -174,6 +214,11 @@ class Topic extends BaseController
      */
     public function getNestedReply($reply_id): ResponseInterface
     {
+        $response = [
+            'success' => false,
+            'data' => [],
+            'message' => ""
+        ];
         $queryParams = $this->request->getGet();
         $page = $queryParams['page'] ?? 1;
 

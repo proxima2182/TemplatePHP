@@ -44,20 +44,25 @@ $routes->get('/admin/board/([a-zA-Z]+)(/([0-9]+))*', 'AdminController::getBoard/
 $routes->get('/admin/topic/([0-9]+)', 'AdminController::getTopic/$1');
 $routes->get('/admin/topic/[0-9]+/edit', 'AdminController::editTopic/$1');
 $routes->get('/admin/topic/reply(/[0-9]+)*', 'AdminController::getReply/$1');
+$routes->get('/admin/location(/[0-9]+)*', 'AdminController::getLocation/$1');
 
 
 //api
+$routes->get('/api/topic/get/([0-9]+)', 'API\Topic::getTopic/$1');
 $routes->post('/api/topic/create', 'API\Topic::createTopic');
 $routes->post('/api/topic/update/([0-9]+)', 'API\Topic::updateTopic/$1');
-$routes->get('/api/topic/get/([0-9]+)', 'API\Topic::getTopic/$1');
 $routes->delete('/api/topic/delete/([0-9]+)', 'API\Topic::deleteTopic/$1');
 $routes->get('/api/topic/get/([0-9]+)/reply', 'API\Topic::getTopicReply/$1');
 $routes->get('/api/topic/reply/get/([0-9]+)/nested', 'API\Topic::getNestedReply/$1');
 $routes->get('/api/topic/reply/get/([0-9]+)', 'API\Topic::getReply/$1');
 $routes->get('/api/profile', 'API\Profile::index');
 $routes->get('/api/board/get/([0-9]+)', 'API\Board::getBoard/$1');
+$routes->post('/api/board/create', 'API\Board::createBoard');
 $routes->post('/api/board/update/([0-9]+)', 'API\Board::updateBoard/$1');
 $routes->post('/api/image-file/upload', 'API\ImageFile::upload/$1');
+$routes->get('/api/location/get/([0-9]+)', 'API\Location::getLocation/$1');
+$routes->post('/api/location/create', 'API\Location::createLocation');
+$routes->post('/api/location/update/([0-9]+)', 'API\Location::updateLocation/$1');
 
 
 /*

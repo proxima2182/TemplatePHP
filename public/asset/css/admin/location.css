@@ -1,0 +1,15 @@
+.list-wrap .column.name {
+    width: 20%;
+}
+
+.list-wrap .column.address {
+    width: 50%;
+}
+
+.list-wrap .column.latitude {
+    width: 15%;
+}
+
+.list-wrap .column.longitude {
+    width: 15%;
+}

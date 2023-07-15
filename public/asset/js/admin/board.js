@@ -58,8 +58,11 @@ async function openPopupDetail(id) {
                 let data = response.data;
                 let style = `
                 <style>
-                /*<?php echo file_get_contents('./asset/css/common/input.css');?>*/
                 ${css}
+                .form-wrap .button-wrap {
+                    margin-top: 40px;
+                }
+
                 .form-wrap .input-wrap .input-title {
                     width: calc(35% - 15px);
                 }
@@ -106,9 +109,43 @@ function editBoard(id) {
         </div>
     </div>
     <div class="button-wrap controls">
-        <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
+        <a href="javascript:cancelEdit(${id})" class="button cancel white">Cancel</a>
         <a href="javascript:confirmEditBoard(${id})" class="button confirm black">Confirm</a>
     </div>`);
+}
+
+function cancelEdit(id) {
+    $.ajax({
+        type: 'GET',
+        url: `/api/board/get/${id}`,
+        success: function (response, status, request) {
+            if (!response.success)
+                return;
+            let data = response.data;
+            let html = `<div class="form-wrap">`;
+            let keys = ['code', 'alias', 'type', 'is_public', 'is_reply', 'description'];
+            for (let i in keys) {
+                let key = keys[i];
+                let extracted = fromDataToHtml(key, data);
+                if (extracted) {
+                    html += extracted;
+                }
+            }
+            if (data['is_editable'] == 1) {
+                html += `
+                <div class="button-wrap">
+                    <a href="javascript:editBoard(${data['id']})" class="button edit-profile black">Edit</a>
+                </div>`;
+            }
+
+            html += `</div>`;
+            $('.popup-inner').children().remove();
+            $('.popup-inner').append(html)
+        },
+        error: function (request, status, error) {
+        },
+        dataType: 'json'
+    });
 }
 
 function confirmEditBoard(id) {

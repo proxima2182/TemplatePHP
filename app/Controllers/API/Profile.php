@@ -23,6 +23,11 @@ class Profile extends BaseController
     public function index(): ResponseInterface
     {
         $response = [
+            'success' => false,
+            'data' => [],
+            'message' => ""
+        ];
+        $response = [
             'success' => true,
             'data' => [
                 'username' => 'admin',
