@@ -11,7 +11,7 @@ function fromDataToHtml(key, data, typeSet) {
     let name = key;
     if (set) {
         type = set['type'];
-        if (set['editable']) {
+        if (set['editable'] != undefined) {
             editable = set['editable'] == true || set['editable'] == 1;
         } else {
             editable = true;

@@ -306,7 +306,7 @@ class AdminController extends BaseController
                     [
                         'id' => 1,
                         'username' => 'admin',
-                        'type'=> 'admin',
+                        'type' => 'admin',
                         'name' => 'admin',
                         'email' => 'admin@gmail.com',
                         'created_at' => '2023-06-29 00:00:00',
@@ -314,7 +314,7 @@ class AdminController extends BaseController
                     [
                         'id' => 2,
                         'username' => 'admin',
-                        'type'=> 'admin',
+                        'type' => 'admin',
                         'name' => 'admin',
                         'email' => 'admin@gmail.com',
                         'created_at' => '2023-06-29 00:00:00',
@@ -322,7 +322,7 @@ class AdminController extends BaseController
                     [
                         'id' => 3,
                         'username' => 'admin',
-                        'type'=> 'admin',
+                        'type' => 'admin',
                         'name' => 'admin',
                         'email' => 'admin@gmail.com',
                         'created_at' => '2023-06-29 00:00:00',
@@ -335,6 +335,40 @@ class AdminController extends BaseController
                     'total-page' => 6,
                 ],
                 'pagination_link' => '/admin/user'
+            ])
+            . parent::loadAdminFooter();
+    }
+
+    function getSetting($page = 1): string
+    {
+        return parent::loadAdminHeader([
+                'css' => parent::generateAssetStatement("css", [
+                    '/common/table',
+                    '/admin/setting',
+                ]),
+                'js' => parent::generateAssetStatement("js", [
+                    '/module/popup',
+                    '/module/popup_input',
+                ]),
+            ])
+            . view('/admin/setting', [
+                'array' => [
+                    [
+                        'id' => 1,
+                        'code' => 'test',
+                        'name' => 'test',
+                        'value' => 'admin',
+                        'updated_at' => '2023-06-29 00:00:00',
+                        'created_at' => '2023-06-29 00:00:00',
+                    ],
+                ],
+                'pagination' => [
+                    'per-page' => 30,
+                    'page' => 6,
+                    'total' => 180,
+                    'total-page' => 6,
+                ],
+                'pagination_link' => '/admin/setting'
             ])
             . parent::loadAdminFooter();
     }
