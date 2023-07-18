@@ -44,9 +44,9 @@ class Location extends BaseController
 
     /**
      * [post] /api/location/create
-     * @return void
+     * @return ResponseInterface
      */
-    public function createLocation()
+    public function createLocation(): ResponseInterface
     {
         $response = [
             'success' => false,
@@ -59,9 +59,9 @@ class Location extends BaseController
     /**
      * [post] /api/location/update/{id}
      * @param $id
-     * @return void
+     * @return ResponseInterface
      */
-    public function updateLocation($id)
+    public function updateLocation($id): ResponseInterface
     {
         $response = [
             'success' => false,

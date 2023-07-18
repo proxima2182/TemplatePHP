@@ -3,7 +3,6 @@
 namespace Models;
 
 require APPPATH.'Models/BaseModel.php';
-use CodeIgniter\Model;
 
 /*
  * column_name      type            comment

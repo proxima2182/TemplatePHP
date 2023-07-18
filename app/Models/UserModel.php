@@ -3,6 +3,7 @@
 namespace Models;
 
 require APPPATH.'Models/BaseModel.php';
+
 use App\Helpers\ServerLogger;
 use Leaf\Helpers\Password;
 

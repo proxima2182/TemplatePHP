@@ -14,7 +14,7 @@ class AdminController extends BaseController
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/module/popup',
-                    '/admin/board',
+                    '/module/popup_input',
                 ]),
             ])
             . view('/admin/board', [
@@ -202,6 +202,7 @@ class AdminController extends BaseController
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/module/popup',
+                    '/module/popup_input',
                 ]),
             ])
             . view('/admin/location', [

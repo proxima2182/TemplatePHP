@@ -37,3 +37,67 @@
         <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>
+<script type="text/javascript">
+    initializeEditablePopup({
+        getGetUrl: function (id) {
+            return `/api/board/get/${id}`
+        },
+        getCreateUrl: function () {
+            return `/api/board/create`
+        },
+        getUpdateUrl: function (id) {
+            return `/api/board/update/${id}`
+        },
+        getHtml: function (data) {
+            let typeSet = {
+                code: {
+                    type: 'text',
+                },
+                alias: {
+                    type: 'text',
+                },
+                type: {
+                    type: 'select',
+                    values: [
+                        {
+                            value: 'grid',
+                            name: 'Grid',
+                        },
+                        {
+                            value: 'table',
+                            name: 'Table',
+                        },
+                    ]
+                },
+                is_reply: {
+                    type: 'checkbox',
+                },
+                is_public: {
+                    type: 'checkbox',
+                },
+                description: {
+                    type: 'textarea',
+                },
+            }
+            let keys = Object.keys(typeSet);
+            let html = `<div class="form-wrap">`;
+
+            for (let i in keys) {
+                let key = keys[i];
+                let extracted = fromDataToHtml(key, data, typeSet);
+                if (extracted) {
+                    html += extracted;
+                }
+            }
+            if (data['is_editable'] == 1) {
+                html += `
+                <div class="button-wrap">
+                    <a href="javascript:edit(${data['id']})" class="button edit-profile black">Edit</a>
+                </div>`;
+            }
+
+            html += `</div>`;
+            return html;
+        },
+    })
+</script>
