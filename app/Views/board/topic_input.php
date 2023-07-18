@@ -30,7 +30,7 @@
                                 <div class="slick-element-hover">
                                     <a href="javascript:deleteImage(<?= $index + 1 ?>)"
                                        class="button delete-image black">
-                                        <img src="/asset/images/icon/button_close_white.png"/>
+                                        <img src="/asset/images/icon/cancel_white.png"/>
                                     </a>
                                 </div>
                             </div>

@@ -1,5 +1,5 @@
 const className = 'popup-editable';
-let getGetUrl, getUpdateUrl, getCreateUrl;
+let getGetUrl, getUpdateUrl, getCreateUrl, getDeleteUrl;
 let getHtml;
 
 function fromDataToHtml(key, data, typeSet) {
@@ -73,6 +73,7 @@ function initializeEditablePopup(input) {
     getGetUrl = input.getGetUrl;
     getCreateUrl = input.getCreateUrl;
     getUpdateUrl = input.getUpdateUrl;
+    getDeleteUrl = input.getDeleteUrl;
     getHtml = input.getHtml;
 }
 
@@ -104,7 +105,6 @@ async function openPopupDetail(id) {
                     width: 65%;
                 }
                 </style>`
-                console.log(response['type_set'])
                 openPopup(className, style, getHtml(data))
             },
             error: function (request, status, error) {
@@ -120,15 +120,55 @@ function edit(id) {
     $('.form-wrap .editable').removeAttr('readonly')
     $('.form-wrap .editable').removeAttr('disabled')
     $('.form-wrap .button-wrap').remove();
+    $('.form-wrap .control-wrap').remove();
     $('.form-wrap').append(`
     <div class="error-message-wrap">
         <div class="error-message-box">
         </div>
     </div>
-    <div class="button-wrap controls">
-        <a href="javascript:cancelEdit(${id})" class="button cancel white">Cancel</a>
-        <a href="javascript:confirmEdit(${id})" class="button confirm black">Confirm</a>
+    <div class="control-wrap line-before">
+        <a href="javascript:cancelEdit(${id});" class="button cancel">
+            <img src="/asset/images/icon/cancel.png"/>
+            <span>Cancel</span>
+        </a>
+        <a href="javascript:confirmEdit(${id});" class="button confirm">
+            <img src="/asset/images/icon/check.png"/>
+            <span>Confirm</span>
+        </a>
     </div>`);
+}
+
+function openPopupDelete(id) {
+    let className = 'popup-delete';
+    let style = `
+    <style>
+    body .${className} .popup {
+        width: 500px;
+    }
+
+    .${className} .popup-inner .text-wrap {
+        padding: 20px 0;
+    }
+
+    .${className} .popup-inner .button-wrap {
+        padding-top: 20px;
+    }
+
+    .${className} .popup-inner .button {
+        min-width: 100px;
+        padding: 10px 20px;
+        margin: 0 10px;
+    }
+    </style>`
+    let html = `
+    <div class="text-wrap">
+        Are you sure to delete?
+    </div>
+    <div class="button-wrap controls">
+        <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
+        <a href="javascript:confirmDelete(${id})" class="button confirm black">Delete</a>
+    </div>`;
+    openPopup(className, style, html)
 }
 
 function cancelEdit(id) {
@@ -152,6 +192,19 @@ function confirmEdit(id) {
     $.ajax({
         type: 'POST',
         url: getUpdateUrl(id),
+        success: function (data, status, request) {
+            location.reload()
+        },
+        error: function (request, status, error) {
+        },
+        dataType: 'json'
+    });
+}
+
+function confirmDelete(id) {
+    $.ajax({
+        type: 'DELETE',
+        url: getDeleteUrl(id),
         success: function (data, status, request) {
             location.reload()
         },

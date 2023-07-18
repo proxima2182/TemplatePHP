@@ -1,8 +1,7 @@
 <?php if (isset($pagination) && isset($array)) { ?>
     <style>
         .reply-wrap .lines-horizontal:after,
-        .reply-wrap .lines-horizontal:before,
-        .reply-wrap .line-after:after {
+        .reply-wrap .lines-horizontal:before {
             content: "";
             display: block;
             width: 100%;

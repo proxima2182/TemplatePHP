@@ -47,8 +47,15 @@
     margin-top: 20px;
 }
 
-.form-wrap .button {
+.form-wrap .button-wrap .button {
     min-width: 100px;
     padding: 10px 20px;
     margin: 0 10px;
+}
+
+.form-wrap .control-wrap {
+    margin-top: 40px;
+    line-height: 20px;
+    text-align: right;
+    font-weight: 600;
 }

@@ -247,4 +247,18 @@ class Topic extends BaseController
         return $this->response->setJSON($response);
     }
 
+    /**
+     * [delete] /api/topic/reply/delete/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function deleteReply($id): ResponseInterface
+    {
+        $response = [
+            'success' => false,
+            'data' => [],
+            'message' => ""
+        ];
+        return $this->response->setJSON($response);
+    }
 }

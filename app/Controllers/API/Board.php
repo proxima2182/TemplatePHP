@@ -75,4 +75,19 @@ class Board extends BaseController
         ];
         return $this->response->setJSON($response);
     }
+
+    /**
+     * [delete] /api/board/delete/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function deleteBoard($id): ResponseInterface
+    {
+        $response = [
+            'success' => false,
+            'data' => [],
+            'message' => ""
+        ];
+        return $this->response->setJSON($response);
+    }
 }

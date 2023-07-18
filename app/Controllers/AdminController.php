@@ -100,7 +100,7 @@ class AdminController extends BaseController
                     '/module/popup',
                 ]),
             ])
-            . view('/board/admin/topic', $data)
+            . view('/board/topic_view', $data)
             . parent::loadAdminFooter();
     }
 

@@ -58,6 +58,7 @@
 /*input style*/
 input, textarea {
     resize: none;
+    padding: 0;
     border: 1px solid #bbb;
     margin: -1px;
 }
@@ -93,6 +94,41 @@ input.under-line:focus, textarea.under-line:focus {
 
 input[type=checkbox] {
     accent-color: #222;
+}
+
+.line-before:before, .line-after:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: #ddd;
+}
+
+.control-wrap a {
+    height: 20px;
+    line-height: 20px;
+    margin: 10px 5px;
+    font-weight: 200;
+    position: relative;
+}
+
+.control-wrap a:hover:after {
+    content: "";
+    display: inline-block;
+    height: 1px;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    background: #000;
+}
+
+.control-wrap span {
+    font-size: 18px;
+}
+
+.control-wrap * {
+    vertical-align: bottom;
 }
 
 /*slick 관련 default 설정*/

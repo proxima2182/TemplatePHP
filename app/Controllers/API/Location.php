@@ -70,4 +70,19 @@ class Location extends BaseController
         ];
         return $this->response->setJSON($response);
     }
+
+    /**
+     * [delete] /api/location/delete/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function deleteLocation($id): ResponseInterface
+    {
+        $response = [
+            'success' => false,
+            'data' => [],
+            'message' => ""
+        ];
+        return $this->response->setJSON($response);
+    }
 }

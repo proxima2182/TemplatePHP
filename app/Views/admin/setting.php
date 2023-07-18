@@ -3,6 +3,12 @@
         <h3 class="title">
             Setting
         </h3>
+        <div class="control-wrap">
+            <a href="javascript:create();" class="button create">
+                <img src="/asset/images/icon/plus.png"/>
+                <span>Create</span>
+            </a>
+        </div>
         <div class="list-wrap">
             <div class="list-box">
                 <div class="row-title">
@@ -30,6 +36,18 @@
     </div>
 </div>
 <script type="text/javascript">
+    const typeSet = {
+        code: {
+            type: 'text',
+            editable: false,
+        },
+        name: {
+            type: 'text',
+        },
+        value: {
+            type: 'text',
+        },
+    }
     initializeEditablePopup({
         getGetUrl: function (id) {
             return `/api/setting/get/${id}`
@@ -40,19 +58,10 @@
         getUpdateUrl: function (id) {
             return `/api/setting/update/${id}`
         },
+        getDeleteUrl: function (id) {
+            return `/api/setting/delete/${id}`
+        },
         getHtml: function (data) {
-            let typeSet = {
-                code: {
-                    type: 'text',
-                    editable: false,
-                },
-                name: {
-                    type: 'text',
-                },
-                value: {
-                    type: 'text',
-                },
-            }
             let keys = Object.keys(typeSet);
             let html = `<div class="form-wrap">`;
 
@@ -64,8 +73,16 @@
                 }
             }
             html += `
-            <div class="button-wrap">
-                <a href="javascript:edit(${data['id']})" class="button edit-profile black">Edit</a>
+            <div class="control-wrap line-before">
+                <a href="javascript:edit(${data['id']})"
+                   class="button edit">
+                    <img src="/asset/images/icon/edit.png"/>
+                    <span>Edit</span>
+                </a>
+                <a href="javascript:openPopupDelete(${data['id']});" class="button delete">
+                    <img src="/asset/images/icon/delete.png"/>
+                    <span>Delete</span>
+                </a>
             </div>`;
 
             html += `</div>`;

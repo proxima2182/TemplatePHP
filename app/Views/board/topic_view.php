@@ -169,7 +169,7 @@ $reply = [
                 </style>`
         let html = `
         <div class="text-wrap">
-            Are you sure to delete this topic?
+            Are you sure to delete?
         </div>`;
         html += `
             <div class="button-wrap controls">

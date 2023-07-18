@@ -48,6 +48,9 @@
         getUpdateUrl: function (id) {
             return `/api/board/update/${id}`
         },
+        getDeleteUrl: function (id) {
+            return `/api/board/delete/${id}`
+        },
         getHtml: function (data) {
             let typeSet = {
                 code: {
@@ -91,8 +94,16 @@
             }
             if (data['is_editable'] == 1) {
                 html += `
-                <div class="button-wrap">
-                    <a href="javascript:edit(${data['id']})" class="button edit-profile black">Edit</a>
+                <div class="control-wrap line-before">
+                    <a href="javascript:edit(${data['id']})"
+                       class="button edit">
+                        <img src="/asset/images/icon/edit.png"/>
+                        <span>Edit</span>
+                    </a>
+                    <a href="javascript:openPopupDelete(${data['id']});" class="button delete">
+                        <img src="/asset/images/icon/delete.png"/>
+                        <span>Delete</span>
+                    </a>
                 </div>`;
             }
 

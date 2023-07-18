@@ -57,18 +57,22 @@ $routes->delete('/api/topic/delete/([0-9]+)', 'API\Topic::deleteTopic/$1');
 $routes->get('/api/topic/get/([0-9]+)/reply', 'API\Topic::getTopicReply/$1');
 $routes->get('/api/topic/reply/get/([0-9]+)/nested', 'API\Topic::getNestedReply/$1');
 $routes->get('/api/topic/reply/get/([0-9]+)', 'API\Topic::getReply/$1');
+$routes->delete('/api/topic/reply/delete/([0-9]+)', 'API\Topic::deleteReply/$1');
 $routes->get('/api/profile', 'API\Profile::index');
 $routes->get('/api/board/get/([0-9]+)', 'API\Board::getBoard/$1');
 $routes->post('/api/board/create', 'API\Board::createBoard');
 $routes->post('/api/board/update/([0-9]+)', 'API\Board::updateBoard/$1');
+$routes->delete('/api/board/delete/([0-9]+)', 'API\Board::deleteBoard/$1');
 $routes->post('/api/image-file/upload', 'API\ImageFile::upload/$1');
 $routes->get('/api/location/get/([0-9]+)', 'API\Location::getLocation/$1');
 $routes->post('/api/location/create', 'API\Location::createLocation');
 $routes->post('/api/location/update/([0-9]+)', 'API\Location::updateLocation/$1');
+$routes->delete('/api/location/delete/([0-9]+)', 'API\Location::deleteLocation/$1');
 $routes->get('/api/user/get/([0-9]+)', 'API\User::getUser/$1');
 $routes->get('/api/setting/get/([0-9]+)', 'API\Setting::getSetting/$1');
 $routes->post('/api/setting/create', 'API\Setting::createSetting');
 $routes->post('/api/setting/update/([0-9]+)', 'API\Setting::updateSetting/$1');
+$routes->delete('/api/setting/delete/([0-9]+)', 'API\Setting::deleteSetting/$1');
 
 
 /*

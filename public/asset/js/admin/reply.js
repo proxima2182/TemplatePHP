@@ -12,13 +12,6 @@ function openPopupDetail(id) {
             .${className} .line-after.row-title:after {
                 background: #000;
             }
-            .${className} .line-after:after {
-                content: "";
-                display: block;
-                width: 100%;
-                height: 1px;
-                background: #ddd;
-            }
 
             .${className} .popup-inner {
                 padding: 40px 20px 60px 20px;
@@ -64,35 +57,9 @@ function openPopupDetail(id) {
             .${className} .control-wrap.absolute {
                 text-align: right;
                 position: absolute;
-                bottom: 35px;
+                bottom: 20px;
                 right: 40px;
                 font-weight: 200;
-            }
-
-            .${className} .control-wrap a {
-                height: 20px;
-                line-height: 20px;
-                margin: 0 5px;
-                position: relative;
-            }
-
-            .${className} .control-wrap a:hover:after {
-                content: "";
-                display: inline-block;
-                height: 1px;
-                position: absolute;
-                bottom: -5px;
-                left: 0;
-                right: 0;
-                background: #000;
-            }
-
-            .${className} .control-wrap span {
-                font-size: 18px;
-            }
-
-            .${className} .control-wrap * {
-                vertical-align: bottom;
             }
             </style>`
             let html = `
@@ -147,11 +114,24 @@ function openPopupDeleteReply(id) {
     </style>`
     let html = `
     <div class="text-wrap">
-        Are you sure to delete this topic?
+        Are you sure to delete?
     </div>
     <div class="button-wrap controls">
         <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
-        <a href="javascript:deleteTopic(${id})" class="button confirm black">Delete</a>
+        <a href="javascript:deleteReply(${id})" class="button confirm black">Delete</a>
     </div>`;
     openPopup(className, style, html)
+}
+
+function deleteReply(id) {
+    $.ajax({
+        type: 'POST',
+        url: `/api/topic/reply/delete/${id}`,
+        success: function (data, status, request) {
+            location.reload()
+        },
+        error: function (request, status, error) {
+        },
+        dataType: 'json'
+    });
 }

@@ -77,12 +77,6 @@
                     html += extracted;
                 }
             }
-            // html += `
-            // <div class="button-wrap">
-            //     <a href="javascript:edit(${data['id']})" class="button edit-profile black">Edit</a>
-            // </div>`;
-            //
-            // html += `</div>`;
             return html;
         },
     })

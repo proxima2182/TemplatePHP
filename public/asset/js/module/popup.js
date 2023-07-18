@@ -60,27 +60,29 @@ function openPopup(className, style, html, callback) {
     overflow-y: scroll;
     max-height: 400px;
     overflow-x: hidden;
-    padding: 40px 20px;
+    padding: 20px;
 }
 
 .${className} .popup .interface {
     height: 40px;
+    line-height: 40px;
+    text-align: right;
     background: #222;
     position: relative;
+    font-size: 0;
 }
 
-.${className} .popup .button.close {
+.${className} .popup .interface .button.close {
     width: 30px;
     height: 30px;
     line-height: 30px;
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: middle;
     text-align: center;
-    position: absolute;
-    right: 5px;
-    top: 50%;
-    margin-top: -15px;
 }
 
-.${className} .popup .button.close img {
+.${className} .popup .interface .button.close *{
     display: inline-block;
     vertical-align: middle;
 }
@@ -96,7 +98,7 @@ ${style ?? ''}
     <div class="popup">
         <div class="interface">
             <a href="javascript:closePopup('${className}')" class="button close">
-                <img src="/asset/images/icon/button_close_white.png"/>
+                <img src="/asset/images/icon/cancel_white.png"/>
             </a>
         </div>
         <div class="popup-inner">
@@ -110,7 +112,6 @@ ${style ?? ''}
     if (element) {
         element.addEventListener('click', function (event) {
             if (event.target.className && event.target.className.includes("popup-wrap")) {
-                console.log(className)
                 closePopup(className)
             }
         })

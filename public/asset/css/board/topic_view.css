@@ -21,28 +21,3 @@
     bottom: 20px;
     right: 0;
 }
-
-.topic-wrap .control-wrap a {
-    line-height: 20px;
-    margin: 0 5px;
-    position: relative;
-}
-
-.topic-wrap .control-wrap a:hover:after {
-    content: "";
-    display: inline-block;
-    height: 1px;
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    right: 0;
-    background: #000;
-}
-
-.topic-wrap .control-wrap span {
-    font-size: 18px;
-}
-
-.topic-wrap .control-wrap * {
-    vertical-align: bottom;
-}
