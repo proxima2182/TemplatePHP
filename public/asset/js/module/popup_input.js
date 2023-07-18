@@ -6,49 +6,63 @@ function fromDataToHtml(key, data, typeSet) {
     if (!data[key]) return;
 
     let set = typeSet[key];
-    let type = set == undefined ? undefined : set['type']
-    let editable = set && (set['editable'] == undefined || set['editable'] == true || set['editable'] == 1)
+    let type = undefined;
+    let editable = false;
+    let name = key;
+    if (set) {
+        type = set['type'];
+        if (set['editable']) {
+            editable = set['editable'] == true || set['editable'] == 1;
+        } else {
+            editable = true;
+        }
+        if (set['name']) {
+            name = set['name'];
+        } else {
+            if (name.startsWith('is_')) {
+                name = name.replace('is_', '');
+            }
+            name = name.charAt(0).toUpperCase() + name.slice(1);
+        }
+    }
     switch (type) {
         case 'checkbox': {
-            let capitalized = key;
-            if (key.startsWith('is_')) {
-                capitalized = key.replace('is_', '');
-            }
-            capitalized = capitalized.charAt(0).toUpperCase() + capitalized.slice(1);
             return `
                 <div class="input-wrap">
-                    <p class="input-title">${capitalized}</p>
+                    <p class="input-title">${name}</p>
                     <input type="checkbox" name="${key}" ${editable ? `class="editable"` : ``} readonly ${data[key] == 1 ? 'checked' : ''}/>
                 </div>`
         }
         case 'select': {
-            let capitalized = key.charAt(0).toUpperCase() + key.slice(1);
             let html = `
             <div class="input-wrap">
-                <p class="input-title">${capitalized}</p>
+                <p class="input-title">${name}</p>
                 <select name="${key}" ${editable ? `class="editable"` : ``} disabled value="${data[key]}">`
-            for (let i in set['values']) {
-                html += `<option value="${set['values']['value']}">${set['values']['name']}</option>`
+            if (set && set['values']) {
+                try {
+                    for (let i in set['values']) {
+                        html += `<option value="${set['values']['value']}">${set['values']['name']}</option>`
+                    }
+                } catch (e) {
+                    console.log(e)
+                }
             }
             html += `
                 </select>
             </div>`
             return
         }
-        case 'textarea':
-        {
-            let capitalized = key.charAt(0).toUpperCase() + key.slice(1);
+        case 'textarea': {
             return `
                 <div class="input-wrap">
-                    <p class="input-title">${capitalized}</p>
+                    <p class="input-title">${name}</p>
                     <textarea name="${key}"  ${editable ? `class="editable under-line"` : `class="under-line"`} readonly>${data[key].toTextareaString()}</textarea>
                 </div>`
         }
         default: {
-            let capitalized = key.charAt(0).toUpperCase() + key.slice(1);
             return `
                 <div class="input-wrap">
-                    <p class="input-title">${capitalized}</p>
+                    <p class="input-title">${name}</p>
                     <input type="${type}" name="${key}" ${editable ? `class="editable under-line"` : `class="under-line"`} readonly value="${data[key]}"/>
                 </div>`
         }

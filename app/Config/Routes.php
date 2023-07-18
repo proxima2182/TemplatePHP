@@ -45,6 +45,7 @@ $routes->get('/admin/topic/([0-9]+)', 'AdminController::getTopic/$1');
 $routes->get('/admin/topic/[0-9]+/edit', 'AdminController::editTopic/$1');
 $routes->get('/admin/topic/reply(/[0-9]+)*', 'AdminController::getReply/$1');
 $routes->get('/admin/location(/[0-9]+)*', 'AdminController::getLocation/$1');
+$routes->get('/admin/user(/[0-9]+)*', 'AdminController::getUser/$1');
 
 
 //api
@@ -63,6 +64,7 @@ $routes->post('/api/image-file/upload', 'API\ImageFile::upload/$1');
 $routes->get('/api/location/get/([0-9]+)', 'API\Location::getLocation/$1');
 $routes->post('/api/location/create', 'API\Location::createLocation');
 $routes->post('/api/location/update/([0-9]+)', 'API\Location::updateLocation/$1');
+$routes->get('/api/user/get/([0-9]+)', 'API\User::getUser/$1');
 
 
 /*

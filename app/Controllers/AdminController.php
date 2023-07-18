@@ -50,7 +50,7 @@ class AdminController extends BaseController
                     'total' => 180,
                     'total-page' => 6,
                 ],
-                'pagination_link' => '/admin/boards'
+                'pagination_link' => '/admin/board'
             ])
             . parent::loadAdminFooter();
     }
@@ -100,7 +100,7 @@ class AdminController extends BaseController
                     '/module/popup',
                 ]),
             ])
-            . view('/board/topic_view', $data)
+            . view('/board/admin/topic', $data)
             . parent::loadAdminFooter();
     }
 
@@ -188,7 +188,7 @@ class AdminController extends BaseController
                     'total' => 13,
                     'total-page' => 3,
                 ],
-                'pagination_link' => '/admin/boards'
+                'pagination_link' => '/admin/topic/reply'
             ])
             . parent::loadAdminFooter();
     }
@@ -284,7 +284,57 @@ class AdminController extends BaseController
                     'total' => 180,
                     'total-page' => 6,
                 ],
-                'pagination_link' => '/admin/boards'
+                'pagination_link' => '/admin/location'
+            ])
+            . parent::loadAdminFooter();
+    }
+
+    function getUser($page = 1): string
+    {
+        return parent::loadAdminHeader([
+                'css' => parent::generateAssetStatement("css", [
+                    '/common/table',
+                    '/admin/user',
+                ]),
+                'js' => parent::generateAssetStatement("js", [
+                    '/module/popup',
+                    '/module/popup_input',
+                ]),
+            ])
+            . view('/admin/user', [
+                'array' => [
+                    [
+                        'id' => 1,
+                        'username' => 'admin',
+                        'type'=> 'admin',
+                        'name' => 'admin',
+                        'email' => 'admin@gmail.com',
+                        'created_at' => '2023-06-29 00:00:00',
+                    ],
+                    [
+                        'id' => 2,
+                        'username' => 'admin',
+                        'type'=> 'admin',
+                        'name' => 'admin',
+                        'email' => 'admin@gmail.com',
+                        'created_at' => '2023-06-29 00:00:00',
+                    ],
+                    [
+                        'id' => 3,
+                        'username' => 'admin',
+                        'type'=> 'admin',
+                        'name' => 'admin',
+                        'email' => 'admin@gmail.com',
+                        'created_at' => '2023-06-29 00:00:00',
+                    ],
+                ],
+                'pagination' => [
+                    'per-page' => 30,
+                    'page' => 6,
+                    'total' => 180,
+                    'total-page' => 6,
+                ],
+                'pagination_link' => '/admin/user'
             ])
             . parent::loadAdminFooter();
     }

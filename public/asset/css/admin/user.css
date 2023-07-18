@@ -11,18 +11,22 @@ h3.title {
     font-weight: 600;
 }
 
-.list-wrap .column.name {
+.list-wrap .column.username {
     width: 20%;
 }
 
-.list-wrap .column.address {
-    width: 50%;
-}
-
-.list-wrap .column.latitude {
+.list-wrap .column.type {
     width: 15%;
 }
 
-.list-wrap .column.longitude {
+.list-wrap .column.name {
     width: 15%;
+}
+
+.list-wrap .column.email {
+    width: 30%;
+}
+
+.list-wrap .column.created-at {
+    width: 20%;
 }
