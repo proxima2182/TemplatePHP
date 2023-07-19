@@ -22,13 +22,13 @@ class BoardController extends BaseController
     {
         return parent::loadHeader([
                 'css' => parent::generateAssetStatement("css", [
-                    '/board/grid',
+                    '/client/board/grid',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/slick/slick.min.js',
                 ]),
             ])
-            . view('/board/grid', [
+            . view('/client/board/grid', [
                 'pagination' => [
                     'per-page' => 30,
                     'page' => 6,
@@ -45,10 +45,10 @@ class BoardController extends BaseController
         return parent::loadHeader([
                 'css' => parent::generateAssetStatement("css", [
                     '/common/table',
-                    '/board/table',
+                    '/client/board/table',
                 ]),
             ])
-            . view('/board/table', [
+            . view('/client/board/table', [
                 'pagination' => [
                     'per-page' => 30,
                     'page' => 6,
@@ -75,14 +75,14 @@ class BoardController extends BaseController
         ];
         return parent::loadHeader([
                 'css' => parent::generateAssetStatement("css", [
-                    '/board/topic',
-                    '/board/topic_view',
+                    '/client/board/topic',
+                    '/client/board/topic_view',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/slick/slick.min.js',
                 ]),
             ])
-            . view('/board/topic_view', $data)
+            . view('/client/board/topic_view', $data)
             . parent::loadFooter();
     }
     public function editTopic($id = 1): string
@@ -100,14 +100,14 @@ class BoardController extends BaseController
         ];
         return parent::loadHeader([
                 'css' => parent::generateAssetStatement("css", [
-                    '/board/topic',
-                    '/board/topic_input',
+                    '/client/board/topic',
+                    '/client/board/topic_input',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/slick/slick.min.js',
                 ]),
             ])
-            . view('/board/topic_input', $data)
+            . view('/client/board/topic_input', $data)
             . parent::loadFooter();
     }
 }

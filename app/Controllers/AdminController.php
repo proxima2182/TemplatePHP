@@ -59,10 +59,10 @@ class AdminController extends BaseController
         return parent::loadAdminHeader([
                 'css' => parent::generateAssetStatement("css", [
                     '/common/table',
-                    '/board/table',
+                    '/admin/board/table',
                 ]),
             ])
-            . view('/board/table', [
+            . view('/admin/board/table', [
                 'is_admin' => true,
                 'pagination' => [
                     'per-page' => 30,
@@ -91,14 +91,14 @@ class AdminController extends BaseController
         ];
         return parent::loadAdminHeader([
                 'css' => parent::generateAssetStatement("css", [
-                    '/board/topic',
-                    '/board/topic_view',
+                    '/admin/board/topic',
+                    '/admin/board/topic_view',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/slick/slick.min.js',
                 ]),
             ])
-            . view('/board/topic_view', $data)
+            . view('/admin/board/topic_view', $data)
             . parent::loadAdminFooter();
     }
 
@@ -118,14 +118,14 @@ class AdminController extends BaseController
         ];
         return parent::loadAdminHeader([
                 'css' => parent::generateAssetStatement("css", [
-                    '/board/topic',
-                    '/board/topic_input',
+                    '/admin/board/topic',
+                    '/admin/board/topic_input',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/slick/slick.min.js',
                 ]),
             ])
-            . view('/board/topic_input', $data)
+            . view('/admin/board/topic_input', $data)
             . parent::loadAdminFooter();
     }
 

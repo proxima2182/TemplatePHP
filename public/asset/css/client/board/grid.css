@@ -1,0 +1,81 @@
+.inner-box {
+    padding: 40px 0;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+
+h3.title {
+    margin: 40px 20px;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.list-wrap {
+    width: 1125px;
+    min-height: 800px;
+    display: inline-block;
+    font-size: 0;
+}
+
+.list-wrap li {
+    width: 270px;
+    margin-left: 15px;
+    margin-bottom: 25px;
+    display: inline-block;
+    overflow: hidden;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.list-wrap li.first {
+    margin-left: 0;
+}
+
+.list-wrap li .image-wrap {
+    width: 100%;
+    height: 200px;
+    display: inline-block;
+    text-align: center;
+    line-height: 200px;
+}
+
+.list-wrap li .image-wrap img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.list-wrap li .text-wrap {
+    text-align: left;
+    background: #222;
+    color: #fff;
+    padding: 10px;
+}
+
+.list-wrap li .text-wrap .title {
+    font-size: 18px;
+    line-height: 30px;
+}
+
+.list-wrap li .text-wrap .content {
+    font-size: 16px;
+    height: 120px;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.list-wrap li .button {
+    position: relative;
+}
+
+.list-wrap li .button:hover:after {
+    content: "";
+    display: block;
+    background: rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
