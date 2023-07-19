@@ -54,7 +54,7 @@ class AdminController extends BaseController
             . parent::loadAdminFooter();
     }
 
-    function getBoard($code, $id): string
+    function getBoard($code, $id = 1): string
     {
         return parent::loadAdminHeader([
                 'css' => parent::generateAssetStatement("css", [
@@ -366,4 +366,75 @@ class AdminController extends BaseController
             ])
             . parent::loadAdminFooter();
     }
+
+    function getCategories($page = 1): string
+    {
+        return parent::loadAdminHeader([
+                'css' => parent::generateAssetStatement("css", [
+                    '/common/table',
+                    '/admin/category',
+                ]),
+                'js' => parent::generateAssetStatement("js", [
+                    '/module/popup_input',
+                ]),
+            ])
+            . view('/admin/category', [
+                'array' => [
+                    [
+                        'id' => 0,
+                        'code' => 'code1',
+                        'name' => 'Category1',
+                        'category_default_name' => 'point A Address',
+                        'category_default_path' => 'point A Address',
+                    ],
+                    [
+                        'id' => 1,
+                        'code' => 'code2',
+                        'name' => 'Category2',
+                        'category_default_name' => null,
+                        'category_default_path' => null,
+                    ],
+                ],
+                'pagination' => [
+                    'per-page' => 30,
+                    'page' => 6,
+                    'total' => 180,
+                    'total-page' => 6,
+                ],
+                'pagination_link' => '/admin/category'
+            ])
+            . parent::loadAdminFooter();
+    }
+
+    function getCategory($code, $id = 1): string
+    {
+        return parent::loadAdminHeader([
+                'css' => parent::generateAssetStatement("css", [
+                    '/common/table',
+                    '/admin/category_path',
+                ]),
+                'js' => parent::generateAssetStatement("js", [
+                    '/module/popup_input',
+                ]),
+            ])
+            . view('/admin/category_path', [
+                'array' => [
+                    [
+                        'id' => 0,
+                        'name' => 'point A Address',
+                        'path' => 'point A Address',
+                        'priority' => 1,
+                    ],
+                ],
+                'pagination' => [
+                    'per-page' => 30,
+                    'page' => 6,
+                    'total' => 180,
+                    'total-page' => 6,
+                ],
+                'pagination_link' => '/admin/category/' . $code
+            ])
+            . parent::loadAdminFooter();
+    }
+
 }

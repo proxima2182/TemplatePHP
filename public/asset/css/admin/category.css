@@ -1,0 +1,44 @@
+.inner-box {
+    padding: 40px 0;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+
+h3.title {
+    margin: 40px 20px;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.container-inner .control-wrap {
+    text-align: right;
+}
+
+.list-wrap .column.code {
+    width: 20%;
+}
+
+.list-wrap .column.name {
+    width: 20%;
+}
+
+.list-wrap .column.category-default-name {
+    width: 20%;
+}
+
+.list-wrap .column.category_default_path {
+    width: 60%;
+}
+
+.list-wrap .row {
+    position: relative;
+}
+
+.list-wrap .button.detail {
+    width: 40px;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    padding: 0;
+}

@@ -33,6 +33,7 @@ function fromDataToHtml(key, data, typeSet) {
     let set = typeSet[key];
     let type = undefined;
     let editable = false;
+    let integer = false;
     let name = key;
     if (set) {
         type = set['type'];
@@ -48,6 +49,9 @@ function fromDataToHtml(key, data, typeSet) {
                 name = name.replace('is_', '');
             }
             name = name.charAt(0).toUpperCase() + name.slice(1);
+        }
+        if(set['integer'] == true || set['integer'] == 1) {
+            integer = true;
         }
     }
     let value = undefined;
@@ -92,7 +96,7 @@ function fromDataToHtml(key, data, typeSet) {
             return `
                 <div class="input-wrap">
                     <p class="input-title">${name}</p>
-                    <input type="${type}" name="${key}" ${editable ? `class="editable under-line"` : `class="under-line"`} ${value ? `readonly` : ``} value="${value ?? ''}"/>
+                    <input type="${type}" name="${key}" ${editable ? `class="editable under-line"` : `class="under-line"`} ${value ? `readonly` : ``} ${integer ? `oninput="this.value=this.value.replace(/[^0-9]/g,'');"` : ``} value="${value ?? ''}"/>
                 </div>`
         }
     }

@@ -41,13 +41,15 @@ $routes->get('/topic/[0-9]+/edit', 'BoardController::editTopic/$1');
 $routes->get('/test/image/(:any)', 'API\ImageFile::getImage/$1');
 //admin pages
 $routes->get('/admin/board(/([0-9]+))*', 'AdminController::getBoards/$1');
-$routes->get('/admin/board/([a-zA-Z]+)(/([0-9]+))*', 'AdminController::getBoard/$1/$2');
+$routes->get('/admin/board/([a-zA-Z][a-zA-Z0-9]*)(/([0-9]+))*', 'AdminController::getBoard/$1/$2');
 $routes->get('/admin/topic/([0-9]+)', 'AdminController::getTopic/$1');
 $routes->get('/admin/topic/[0-9]+/edit', 'AdminController::editTopic/$1');
 $routes->get('/admin/topic/reply(/[0-9]+)*', 'AdminController::getReply/$1');
 $routes->get('/admin/location(/[0-9]+)*', 'AdminController::getLocation/$1');
 $routes->get('/admin/user(/[0-9]+)*', 'AdminController::getUser/$1');
 $routes->get('/admin/setting(/[0-9]+)*', 'AdminController::getSetting/$1');
+$routes->get('/admin/category(/[0-9]+)*', 'AdminController::getCategories/$1');
+$routes->get('/admin/category/([a-zA-Z][a-zA-Z0-9]*)(/([0-9]+))*', 'AdminController::getCategory/$1/$2');
 
 
 //api
@@ -74,6 +76,14 @@ $routes->get('/api/setting/get/([0-9]+)', 'API\Setting::getSetting/$1');
 $routes->post('/api/setting/create', 'API\Setting::createSetting');
 $routes->post('/api/setting/update/([0-9]+)', 'API\Setting::updateSetting/$1');
 $routes->delete('/api/setting/delete/([0-9]+)', 'API\Setting::deleteSetting/$1');
+$routes->get('/api/category/get/([0-9]+)', 'API\Category::getCategory/$1');
+$routes->post('/api/category/create', 'API\Category::createCategory');
+$routes->post('/api/category/update/([0-9]+)', 'API\Category::updateCategory/$1');
+$routes->delete('/api/category/delete/([0-9]+)', 'API\Category::deleteCategory/$1');
+$routes->get('/api/category/path/get/([0-9]+)', 'API\Category::getCategoryPath/$1');
+$routes->post('/api/category/path/create', 'API\Category::createCategoryPath');
+$routes->post('/api/category/path/update/([0-9]+)', 'API\Category::updateCategoryPath/$1');
+$routes->delete('/api/category/path/delete/([0-9]+)', 'API\Category::deleteCategoryPath/$1');
 
 
 /*
