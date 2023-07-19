@@ -17,7 +17,7 @@
                 <div class="slider-box">
                     <div class="slick">
                         <div class="slick-element add"
-                             style="background: url('/asset/images/icon/plus_circle.png') no-repeat center; font-size: 0;">
+                             style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                             <label for="file" class="button"></label>
                             <input type="file" name="file" multiple id="file" onchange="onFileUpload(this);"
                                     accept="image/*"/>

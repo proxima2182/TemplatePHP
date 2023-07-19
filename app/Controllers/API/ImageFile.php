@@ -31,7 +31,7 @@ class ImageFile extends BaseController
                     'img_name' => $imageFile->getClientName(),
                     'file' => $imageFile->getClientMimeType()
                 ];
-                // TODO $save = $builder->insert($data);
+                //TODO $save = $builder->insert($data);
                 $response = [
                     'success' => true,
                     'data' => [],

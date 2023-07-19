@@ -89,7 +89,7 @@
                 let html = `
             <div class="slider-wrap">
                 <div class="slick">`;
-                // TODO add loop
+                //TODO add loop
                 for (let index in data.images) {
                     let image = data.images[index];
                     html +=

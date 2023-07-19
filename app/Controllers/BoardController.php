@@ -26,7 +26,6 @@ class BoardController extends BaseController
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/slick/slick.min.js',
-                    '/module/popup',
                 ]),
             ])
             . view('/board/grid', [
@@ -81,7 +80,6 @@ class BoardController extends BaseController
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/slick/slick.min.js',
-                    '/module/popup',
                 ]),
             ])
             . view('/board/topic_view', $data)

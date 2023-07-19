@@ -60,7 +60,6 @@ input, textarea {
     resize: none;
     padding: 0;
     border: 1px solid #bbb;
-    margin: -1px;
 }
 
 input:focus, textarea:focus {
@@ -82,10 +81,14 @@ body textarea[readonly] {
     pointer-events: none;
 }
 
+input.under-line[readonly], textarea.under-line[readonly] {
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0);
+}
+
 input.under-line, textarea.under-line {
     border: none;
     border-bottom: 1px solid #bbb;
-    margin-bottom: -1px;
 }
 
 input.under-line:focus, textarea.under-line:focus {
@@ -102,6 +105,10 @@ input[type=checkbox] {
     width: 100%;
     height: 1px;
     background: #ddd;
+}
+
+.control-wrap {
+    font-size: 0;
 }
 
 .control-wrap a {

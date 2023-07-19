@@ -199,7 +199,7 @@ function openPopupDelete(id) {
     }
 
     .${className} .popup-inner .button-wrap {
-        padding-top: 20px;
+        margin-top: 20px;
     }
 
     .${className} .popup-inner .button-wrap .button {

@@ -101,16 +101,6 @@ function openPopupDeleteReply(id) {
     .${className} .popup-inner .text-wrap {
         padding: 20px 0;
     }
-
-    .${className} .popup-inner .button-wrap {
-        padding-top: 20px;
-    }
-
-    .${className} .popup-inner .button {
-        min-width: 100px;
-        padding: 10px 20px;
-        margin: 0 10px;
-    }
     </style>`
     let html = `
     <div class="text-wrap">

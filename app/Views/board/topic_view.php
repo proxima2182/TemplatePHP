@@ -161,7 +161,7 @@ $reply = [
                     padding-top: 20px;
                 }
 
-                .${className} .popup-inner .button {
+                .${className} .popup-inner .button-wrap .button {
                     min-width: 100px;
                     padding: 10px 20px;
                     margin: 0 10px;

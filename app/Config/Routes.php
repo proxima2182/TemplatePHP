@@ -33,6 +33,7 @@ $routes->get('/', 'Home::index');
 $routes->get('/get-session', 'Home::getSession');
 $routes->get('/set-session', 'Home::setSession');
 $routes->get('/profile', 'ProfileController::index');
+$routes->get('/register', 'RegisterController::index');
 $routes->get('/board/grid(/([0-9]+))*', 'BoardController::getGridBoard/$1');
 $routes->get('/board/table(/([0-9]+))*', 'BoardController::getTableBoard/$1');
 $routes->get('/topic/([0-9]+)', 'BoardController::getTopic/$1');

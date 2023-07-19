@@ -20,6 +20,7 @@ if (!isset($links) && !isset($is_login)) return;
     <script type="text/javascript" src="/asset/js/default.js"></script>
     <script type="text/javascript" src="/asset/js/fullpage/jquery.min.js"></script>
     <script type="text/javascript" src="/asset/js/fullpage/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/asset/js/module/popup.js"></script>
     <script type="text/javascript" src="/asset/js/admin/navigation.js"></script>
     <?php
     if (isset($js)) echo $js;
@@ -38,7 +39,7 @@ if (!isset($links) && !isset($is_login)) return;
                         <li class="last"><a href="/logout">Logout</a></li>
                     <?php } else { ?>
                         <li><a href="/register">Register</a></li>
-                        <li class="last"><a href="/login">Login</a></li>
+                        <li class="last"><a href="javascript:openPopupLogin();">Login</a></li>
                     <?php } ?>
                 </ul>
             </div>

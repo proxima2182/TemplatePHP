@@ -13,7 +13,6 @@ class AdminController extends BaseController
                     '/admin/board',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
-                    '/module/popup',
                     '/module/popup_input',
                 ]),
             ])
@@ -97,7 +96,6 @@ class AdminController extends BaseController
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/slick/slick.min.js',
-                    '/module/popup',
                 ]),
             ])
             . view('/board/topic_view', $data)
@@ -139,7 +137,6 @@ class AdminController extends BaseController
                     '/admin/reply',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
-                    '/module/popup',
                     '/admin/reply',
                 ]),
             ])
@@ -201,7 +198,6 @@ class AdminController extends BaseController
                     '/admin/location',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
-                    '/module/popup',
                     '/module/popup_input',
                 ]),
             ])
@@ -297,7 +293,6 @@ class AdminController extends BaseController
                     '/admin/user',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
-                    '/module/popup',
                     '/module/popup_input',
                 ]),
             ])
@@ -347,7 +342,6 @@ class AdminController extends BaseController
                     '/admin/setting',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
-                    '/module/popup',
                     '/module/popup_input',
                 ]),
             ])

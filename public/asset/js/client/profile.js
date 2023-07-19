@@ -7,13 +7,13 @@ function changePassword() {
             <p class="input-title">Current Password</p>
             <input type="password" name="current_password" class="under-line"/>
         </div>
-        <div class="input-wrap">
+        <div class="input-wrap" style="margin-top: 40px">
             <p class="input-title">New Password</p>
             <input type="password" name="new_password" class="under-line"/>
         </div>
         <div class="input-wrap">
             <p class="input-title">Confirm New Password</p>
-            <input type="password" name="confirm_password" class="under-line"/>
+            <input type="password" name="confirm_new_password" class="under-line"/>
         </div>
     </div>
     <div class="error-message-wrap">
@@ -95,13 +95,13 @@ function confirmChangePassword() {
         }
     }
 
-    if (data['current_password'].length == 0 || data['new_password'].length == 0 || data['confirm_password'].length == 0) {
+    if (data['current_password'].length == 0 || data['new_password'].length == 0 || data['confirm_new_password'].length == 0) {
         $('.error-message-box').append(`<p>fields are empty.</p>`)
     }
     if (data['current_password'] == data['new_password']) {
         $('.error-message-box').append(`<p>please enter different password with original.</p>`)
     }
-    if (data['new_password'] != data['confirm_password']) {
+    if (data['new_password'] != data['confirm_new_password']) {
         $('.error-message-box').append(`<p>please confirm new password is same.</p>`)
     }
 }
