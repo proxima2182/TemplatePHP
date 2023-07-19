@@ -37,7 +37,7 @@
     height: 80px;
 }
 
-.form-wrap .input-wrap input[type=checkbox] {
+body .form-wrap .input-wrap input[type=checkbox] {
     margin: 5px;
     width: 20px;
     height: 20px;
@@ -51,11 +51,4 @@
     min-width: 100px;
     padding: 10px 20px;
     margin: 0 10px;
-}
-
-.form-wrap .control-wrap {
-    margin-top: 40px;
-    line-height: 20px;
-    text-align: right;
-    font-weight: 600;
 }

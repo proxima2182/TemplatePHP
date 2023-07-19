@@ -11,6 +11,10 @@ h3.title {
     font-weight: 600;
 }
 
+.container-inner .control-wrap {
+    text-align: right;
+}
+
 .list-wrap .column.name {
     width: 20%;
 }

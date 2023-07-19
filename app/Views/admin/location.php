@@ -3,6 +3,12 @@
         <h3 class="title">
             Location
         </h3>
+        <div class="control-wrap">
+            <a href="javascript:openPopupCreate();" class="button create">
+                <img src="/asset/images/icon/plus.png"/>
+                <span>Create</span>
+            </a>
+        </div>
         <div class="list-wrap">
             <div class="list-box">
                 <div class="row-title">
@@ -70,7 +76,12 @@
                     html += extracted;
                 }
             }
-            html += `
+            html += `</div>`;
+
+            return html;
+        },
+        getControlHtml: function (data) {
+            return`
             <div class="control-wrap line-before">
                 <a href="javascript:edit(${data['id']})"
                    class="button edit">
@@ -82,9 +93,6 @@
                     <span>Delete</span>
                 </a>
             </div>`;
-
-            html += `</div>`;
-            return html;
         },
     })
 </script>

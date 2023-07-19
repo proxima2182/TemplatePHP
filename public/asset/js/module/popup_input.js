@@ -1,10 +1,35 @@
 const className = 'popup-editable';
 let getGetUrl, getUpdateUrl, getCreateUrl, getDeleteUrl;
-let getHtml;
+let getHtml, getControlHtml;
+
+const popupStyle = `
+.${className} .popup-inner .button-wrap {
+    margin-top: 40px;
+}
+
+.${className} .popup-inner .button-wrap .button {
+    min-width: 100px;
+    padding: 10px 20px;
+    margin: 0 10px;
+}
+
+.${className} .popup-inner .control-wrap {
+    margin-top: 40px;
+    line-height: 20px;
+    text-align: right;
+    font-weight: 600;
+}
+
+.${className} .form-wrap .input-wrap .input-title {
+    width: calc(35% - 15px);
+}
+
+.${className} .form-wrap .input-wrap input, .form-wrap .input-wrap textarea {
+    width: 65%;
+}
+`;
 
 function fromDataToHtml(key, data, typeSet) {
-    if (!data[key]) return;
-
     let set = typeSet[key];
     let type = undefined;
     let editable = false;
@@ -25,19 +50,23 @@ function fromDataToHtml(key, data, typeSet) {
             name = name.charAt(0).toUpperCase() + name.slice(1);
         }
     }
+    let value = undefined;
+    if (data) {
+        value = data[key];
+    }
     switch (type) {
         case 'checkbox': {
             return `
                 <div class="input-wrap">
                     <p class="input-title">${name}</p>
-                    <input type="checkbox" name="${key}" ${editable ? `class="editable"` : ``} readonly ${data[key] == 1 ? 'checked' : ''}/>
+                    <input type="checkbox" name="${key}" ${editable ? `class="editable"` : ``} ${value ? `readonly` : ``} ${value && value == 1 ? 'checked' : ''}/>
                 </div>`
         }
         case 'select': {
             let html = `
             <div class="input-wrap">
                 <p class="input-title">${name}</p>
-                <select name="${key}" ${editable ? `class="editable"` : ``} disabled value="${data[key]}">`
+                <select name="${key}" ${editable ? `class="editable"` : ``} ${value ? `disabled` : ``} value="${value ?? ''}">`
             if (set && set['values']) {
                 try {
                     for (let i in set['values']) {
@@ -56,14 +85,14 @@ function fromDataToHtml(key, data, typeSet) {
             return `
                 <div class="input-wrap">
                     <p class="input-title">${name}</p>
-                    <textarea name="${key}"  ${editable ? `class="editable under-line"` : `class="under-line"`} readonly>${data[key].toTextareaString()}</textarea>
+                    <textarea name="${key}"  ${editable ? `class="editable under-line"` : `class="under-line"`}  ${value ? `readonly` : ``}>${value ? value.toTextareaString() : ''}</textarea>
                 </div>`
         }
         default: {
             return `
                 <div class="input-wrap">
                     <p class="input-title">${name}</p>
-                    <input type="${type}" name="${key}" ${editable ? `class="editable under-line"` : `class="under-line"`} readonly value="${data[key]}"/>
+                    <input type="${type}" name="${key}" ${editable ? `class="editable under-line"` : `class="under-line"`} ${value ? `readonly` : ``} value="${value ?? ''}"/>
                 </div>`
         }
     }
@@ -75,6 +104,7 @@ function initializeEditablePopup(input) {
     getUpdateUrl = input.getUpdateUrl;
     getDeleteUrl = input.getDeleteUrl;
     getHtml = input.getHtml;
+    getControlHtml = input.getControlHtml;
 }
 
 async function openPopupDetail(id) {
@@ -93,19 +123,15 @@ async function openPopupDetail(id) {
                 let style = `
                 <style>
                 ${css}
-                .form-wrap .button-wrap {
-                    margin-top: 40px;
-                }
-
-                .form-wrap .input-wrap .input-title {
-                    width: calc(35% - 15px);
-                }
-                
-                .form-wrap .input-wrap input, .form-wrap .input-wrap textarea {
-                    width: 65%;
-                }
+                ${popupStyle}
                 </style>`
                 openPopup(className, style, getHtml(data))
+                let controlHtml = getControlHtml ? getControlHtml(data) : undefined;
+                if (controlHtml) {
+                    $('.popup-inner').append(controlHtml);
+                } else {
+                    $('.popup-inner').append(`<div style="height: 20px;"></div>`);
+                }
             },
             error: function (request, status, error) {
             },
@@ -116,11 +142,33 @@ async function openPopupDetail(id) {
     }
 }
 
+async function openPopupCreate() {
+    if (!getCreateUrl || !getHtml) return;
+    try {
+        let request = await fetch('/asset/css/common/input.css')
+        if (!request.ok) throw request;
+        let css = await request.text()
+        let style = `
+        <style>
+        ${css}
+        ${popupStyle}
+        </style>`
+        openPopup(className, style, getHtml())
+        $('.popup-inner').append(`
+        <div class="button-wrap controls">
+            <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
+            <a href="javascript:confirmCreate()" class="button confirm black">Create</a>
+        </div>`);
+    } catch (e) {
+        console.log(e)
+    }
+}
+
 function edit(id) {
     $('.form-wrap .editable').removeAttr('readonly')
     $('.form-wrap .editable').removeAttr('disabled')
     $('.form-wrap .button-wrap').remove();
-    $('.form-wrap .control-wrap').remove();
+    $('.popup-wrap .control-wrap').remove();
     $('.form-wrap').append(`
     <div class="error-message-wrap">
         <div class="error-message-box">
@@ -154,7 +202,7 @@ function openPopupDelete(id) {
         padding-top: 20px;
     }
 
-    .${className} .popup-inner .button {
+    .${className} .popup-inner .button-wrap .button {
         min-width: 100px;
         padding: 10px 20px;
         margin: 0 10px;
@@ -181,6 +229,12 @@ function cancelEdit(id) {
             let data = response.data;
             $('.popup-inner').children().remove();
             $('.popup-inner').append(getHtml(data))
+            let controlHtml = getControlHtml ? getControlHtml(data) : undefined;
+            if (controlHtml) {
+                $('.popup-inner').append(controlHtml);
+            } else {
+                $('.popup-inner').append(`<div style="height: 20px;"></div>`);
+            }
         },
         error: function (request, status, error) {
         },

@@ -3,6 +3,12 @@
         <h3 class="title">
             Board
         </h3>
+        <div class="control-wrap">
+            <a href="javascript:openPopupCreate();" class="button create">
+                <img src="/asset/images/icon/plus.png"/>
+                <span>Create</span>
+            </a>
+        </div>
         <div class="list-wrap">
             <div class="list-box">
                 <div class="row-title">
@@ -92,23 +98,32 @@
                     html += extracted;
                 }
             }
-            if (data['is_editable'] == 1) {
-                html += `
-                <div class="control-wrap line-before">
-                    <a href="javascript:edit(${data['id']})"
-                       class="button edit">
-                        <img src="/asset/images/icon/edit.png"/>
-                        <span>Edit</span>
-                    </a>
-                    <a href="javascript:openPopupDelete(${data['id']});" class="button delete">
-                        <img src="/asset/images/icon/delete.png"/>
-                        <span>Delete</span>
-                    </a>
-                </div>`;
-            }
-
             html += `</div>`;
             return html;
         },
+        getControlHtml: function (data) {
+            let html = `<div class="control-wrap line-before">`;
+            let childCount = 0;
+            if (data['is_editable'] == 1) {
+                html += `
+                <a href="javascript:edit(${data['id']})"
+                   class="button edit">
+                    <img src="/asset/images/icon/edit.png"/>
+                    <span>Edit</span>
+                </a>`;
+                childCount++;
+            }
+            if (data['is_deletable'] == 1) {
+                html += `
+                <a href="javascript:openPopupDelete(${data['id']});" class="button delete">
+                    <img src="/asset/images/icon/delete.png"/>
+                    <span>Delete</span>
+                </a>`;
+                childCount++;
+            }
+            html += `</div>`;
+            if(childCount == 0) return undefined;
+            return html;
+        }
     })
 </script>
