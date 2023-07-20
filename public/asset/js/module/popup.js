@@ -1,9 +1,20 @@
+/**
+ * @file popup 용 공통 기능 스크립트
+ */
 let popupTimeoutId;
 
 /**
- * 파일로 css를 따로 둘 시 파일을 읽는 과정에서 지연이 생겨 내부에 포함시킴
- * (큰 차이는 없으나 slick에 영향줌)
- * @param id
+ * popup 열기 기능
+ * selector 를 공통으로 주면 함수가 전체 같은 동작이 적용되므로
+ * 1. event 가 들어온 element 의 제시된 조건에 해당하는 모든 parent 를 검사해서 해당 element 제어
+ *   (ex. close 시 해당 root element 제거)
+ * 2. 생성될 때 추가 selector 를 설정
+ * 2안에서 스타일 독립성도 유지할 수 있고 recursive 를 사용하지 않아도 때문에 2안으로 결정
+ * 현재는 popup 종류가 동일한게 동시에 뜰 필요가 없지만, 필요한 경우 selector 를 class 가 아닌 id 로 바꾸어주어야한다
+ * @param className     각 팝업을 각각 제어하기 위해 주는 selector name
+ * @param style
+ * @param html
+ * @param callback      팝업 세팅 완료 후 수행되어져야 할 기능 callback
  */
 function openPopup(className, style, html, callback) {
     $('#container').append(`
@@ -119,6 +130,10 @@ ${style ?? ''}
     addEventListener("resize", resizeWindow);
 }
 
+/**
+ * popup 끄기 기능
+ * @param className
+ */
 function closePopup(className) {
     let popupWrap = $(`.${className}`)
     popupWrap.find('.popup').css({
@@ -137,7 +152,8 @@ function closePopup(className) {
 }
 
 /**
- * window resize
+ * 화면 크기에 맞게 popup 크기 조정
+ * @param event
  */
 function resizeWindow(event) {
     $('.popup-wrap').css({

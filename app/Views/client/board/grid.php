@@ -11,7 +11,7 @@
                     <?php } else { ?>
                         <li>
                     <?php } ?>
-                    <a href="javascript:openPopupDetail(1);" class="button">
+                    <a href="javascript:openInputPopup(1);" class="button">
                         <div class="element-box">
                             <div class="image-wrap">
                                 <img src="/asset/images/object.png">
@@ -33,7 +33,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    function openPopupDetail(id) {
+    function openInputPopup(id) {
         $.ajax({
             type: 'GET',
             url: `/api/topic/get/${id}`,

@@ -1,4 +1,4 @@
-function openPopupDetail(id) {
+function openReplyPopup(id) {
     $.ajax({
         type: 'GET',
         url: `/api/topic/reply/get/${id}`,
@@ -77,7 +77,7 @@ function openPopupDetail(id) {
                 <div class="content">${data['content']}</div>
             </div>
             <div class="control-wrap absolute">
-                <a href="javascript:openPopupDeleteReply(${data['id']});" class="button delete">
+                <a href="javascript:openReplyPopupDelete(${data['id']});" class="button delete">
                     <img src="/asset/images/icon/delete.png"/>
                     <span>Delete</span>
                 </a>
@@ -90,7 +90,7 @@ function openPopupDetail(id) {
     });
 }
 
-function openPopupDeleteReply(id) {
+function openReplyPopupDelete(id) {
     let className = 'popup-delete';
     let style = `
     <style>
@@ -101,6 +101,16 @@ function openPopupDeleteReply(id) {
     .${className} .popup-inner .text-wrap {
         padding: 20px 0;
     }
+
+    .${className} .popup-inner .button-wrap {
+        margin-top: 20px;
+    }
+
+    .${className} .popup-inner .button-wrap .button {
+        min-width: 100px;
+        padding: 10px 20px;
+        margin: 0 10px;
+    }
     </style>`
     let html = `
     <div class="text-wrap">
@@ -108,12 +118,12 @@ function openPopupDeleteReply(id) {
     </div>
     <div class="button-wrap controls">
         <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
-        <a href="javascript:deleteReply(${id})" class="button confirm black">Delete</a>
+        <a href="javascript:confirmDeleteReply(${id})" class="button confirm black">Delete</a>
     </div>`;
     openPopup(className, style, html)
 }
 
-function deleteReply(id) {
+function confirmDeleteReply(id) {
     $.ajax({
         type: 'POST',
         url: `/api/topic/reply/delete/${id}`,

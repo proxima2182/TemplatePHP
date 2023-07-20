@@ -16,7 +16,7 @@
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
                         <li class="row">
-                            <a href="javascript:openPopupDetail('<?= $item['id'] ?>')" class="button row-button">
+                            <a href="javascript:openReplyPopup('<?= $item['id'] ?>')" class="button row-button">
                                 <span class="column user"><?= $item['user_name'] ?></span>
                                 <span class="column content"><?= $item['content'] ?></span>
                                 <span class="column board"><?= $item['board_code'] ?></span>

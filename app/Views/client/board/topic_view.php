@@ -127,7 +127,7 @@ $reply = [
                     <span>Edit</span>
                 </a>
                 <?php if ($is_admin_page) { ?>
-                    <a href="javascript:openPopupDeleteTopic(<?= $id ?>)" class="button delete">
+                    <a href="javascript:openTopicPopupDelete(<?= $id ?>)" class="button delete">
                         <img src="/asset/images/icon/delete.png"/>
                         <span>Delete</span>
                     </a>
@@ -145,7 +145,7 @@ $reply = [
         infinite: false,
     })
 
-    function openPopupDeleteTopic(id) {
+    function openTopicPopupDelete(id) {
         let className = 'popup-delete';
         let style = `
                 <style>
@@ -174,12 +174,12 @@ $reply = [
         html += `
             <div class="button-wrap controls">
                 <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
-                <a href="javascript:deleteTopic(${id})" class="button confirm black">Delete</a>
+                <a href="javascript:confirmDeleteTopic(${id})" class="button confirm black">Delete</a>
             </div>`;
         openPopup(className, style, html)
     }
 
-    function deleteTopic(id) {
+    function confirmDeleteTopic(id) {
         $.ajax({
             type: 'DELETE',
             url: `/api/topic/delete/${id}`,
