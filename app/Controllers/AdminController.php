@@ -137,7 +137,7 @@ class AdminController extends BaseController
                     '/admin/reply',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
-                    '/admin/reply',
+                    '/module/popup_input',
                 ]),
             ])
             . view('/admin/reply', [

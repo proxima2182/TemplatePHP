@@ -34,12 +34,15 @@
     </div>
 </div>
 <script type="text/javascript">
-    initializeEditablePopup({
+    /**
+     * module/popup_input
+     */
+    initializeInputPopup({
         getGetUrl: function (id) {
             return `/api/user/get/${id}`
         },
         getHtml: function (data) {
-            let typeSet = {
+            const typeSet = {
                 type: {
                     type: 'text',
                 },

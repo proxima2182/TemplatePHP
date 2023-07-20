@@ -1,9 +1,10 @@
+/**
+ * @file 메인 페이지 동작 스크립트
+ */
 let timeoutId;
 let map;
 $(document).ready(function () {
-    /**
-     * activate full page
-     */
+    // activate full page
     $('#fullpage').fullpage({
         anchors: ['0', '1', '2', '3', '4', '5'],
         menu: '#menu',
@@ -107,10 +108,7 @@ $(document).ready(function () {
 
     resizeWindow();
 
-    /**
-     * activate slick
-     * @type {number}
-     */
+    // activate slick
     $('#page-start .main-slider-wrap .slick').slick({
         slidesToShow: 1,
         slidesToScroll: 1,

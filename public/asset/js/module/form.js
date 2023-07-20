@@ -1,3 +1,6 @@
+/**
+ * @file form 관련 공통 기능 스크립트
+ */
 let getConfirmUrl, validate;
 
 function initializeForm(input) {

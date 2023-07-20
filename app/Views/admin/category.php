@@ -54,7 +54,10 @@ use App\Helpers\Utils;
     </div>
 </div>
 <script type="text/javascript">
-    initializeEditablePopup({
+    /**
+     * module/popup_input
+     */
+    initializeInputPopup({
         getGetUrl: function (id) {
             return `/api/category/get/${id}`
         },
@@ -68,7 +71,7 @@ use App\Helpers\Utils;
             return `/api/category/delete/${id}`
         },
         getHtml: function (data) {
-            let typeSet = {
+            const typeSet = {
                 code: {
                     type: 'text',
                 },

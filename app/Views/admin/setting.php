@@ -36,19 +36,10 @@
     </div>
 </div>
 <script type="text/javascript">
-    const typeSet = {
-        code: {
-            type: 'text',
-            editable: false,
-        },
-        name: {
-            type: 'text',
-        },
-        value: {
-            type: 'text',
-        },
-    }
-    initializeEditablePopup({
+    /**
+     * module/popup_input
+     */
+    initializeInputPopup({
         getGetUrl: function (id) {
             return `/api/setting/get/${id}`
         },
@@ -62,6 +53,18 @@
             return `/api/setting/delete/${id}`
         },
         getHtml: function (data) {
+            const typeSet = {
+                code: {
+                    type: 'text',
+                    editable: false,
+                },
+                name: {
+                    type: 'text',
+                },
+                value: {
+                    type: 'text',
+                },
+            }
             let keys = Object.keys(typeSet);
             let html = `<div class="form-wrap">`;
 

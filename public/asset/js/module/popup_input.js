@@ -129,7 +129,7 @@ function fromDataToHtml(key, data, typeSet) {
  *     getControlHtml: (data) => string,    특정 케이스에서 하단 버튼을 나타낼지 말지 정할 수 있도록 control 부분을 html 과 따로 받음
  * }} input
  */
-function initializeEditablePopup(input) {
+function initializeInputPopup(input) {
     getGetUrl = input.getGetUrl;
     getCreateUrl = input.getCreateUrl;
     getUpdateUrl = input.getUpdateUrl;
@@ -145,6 +145,7 @@ function initializeEditablePopup(input) {
  * @param {string}id            API 에 전달 할 id
  * @returns {Promise<void>}
  * @throws {Response}           fetch 로 파일읽기에 실패했을 경우 결과를 throw
+ * @todo throw 에 잡힌 경우 log 로 남길 필요 있음
  */
 async function openInputPopup(id) {
     if (!getGetUrl || !getHtml) return;
