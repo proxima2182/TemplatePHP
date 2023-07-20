@@ -8,8 +8,11 @@ require APPPATH.'Models/BaseModel.php';
  * column_name      type            comment
  * -----------------------------------------
  * id               INT
- * post_id          INT             FK(post)
+ * topic_id         INT             FK(topic)
  * data             BLOB
+ * priority         INT
+ * created_at       DATETIME
+ * updated_at       DATETIME
  */
 class ImageFileModel extends BaseModel
 {

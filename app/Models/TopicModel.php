@@ -9,14 +9,16 @@ require APPPATH.'Models/BaseModel.php';
  * -----------------------------------------
  * id               INT
  * user_id          INT             FK(user)
- * board_code       VARCHAR(20)     FK(board)
+ * board_id         INT             FK(board)
  * title            VARCHAR(100)
  * content          TEXT
+ * created_at       DATETIME
+ * updated_at       DATETIME
  */
-class PostModel extends BaseModel
+class TopicModel extends BaseModel
 {
     function __construct() {
         parent::__construct();
-        $this->table = 'post';
+        $this->table = 'topic';
     }
 }

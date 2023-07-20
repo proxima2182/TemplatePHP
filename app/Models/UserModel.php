@@ -16,6 +16,8 @@ use Leaf\Helpers\Password;
  * password         VARCHAR(100)    *hashed
  * name             VARCHAR(50)
  * email            VARCHAR(20)
+ * created_at       DATETIME
+ * updated_at       DATETIME
  */
 class UserModel extends BaseModel
 {

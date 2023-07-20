@@ -9,12 +9,14 @@ require APPPATH.'Models/BaseModel.php';
  * -----------------------------------------
  * id               INT
  * user_id          INT             FK(user)
- * post_id          INT             FK(post)
+ * topic_id         INT             FK(topic)
  * reply_id         INT             FK(reply)
  * content          TEXT
  * is_deleted       TINYINT(1)
  * is_public        TINYINT(1)
  * depth            INT
+ * created_at       DATETIME
+ * updated_at       DATETIME
  */
 class ReplyModel extends BaseModel
 {

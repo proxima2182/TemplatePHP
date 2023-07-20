@@ -11,6 +11,8 @@ require APPPATH.'Models/BaseModel.php';
  * name             VARCHAR(50)
  * latitude         DOUBLE
  * altitude         DOUBLE
+ * created_at       DATETIME
+ * updated_at       DATETIME
  */
 class LocationModel extends BaseModel
 {
