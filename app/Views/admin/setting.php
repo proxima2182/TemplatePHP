@@ -80,12 +80,12 @@
             return html;
         },
         getControlHtml: function (data) {
-            let html = `<div class="control-wrap line-before">
-                <a href="javascript:editInputPopup(${data['id']})"
-                   class="button edit">
-                    <img src="/asset/images/icon/edit.png"/>
-                    <span>Edit</span>
-                </a>`;
+            let html = `
+            <a href="javascript:editInputPopup(${data['id']})"
+               class="button edit">
+                <img src="/asset/images/icon/edit.png"/>
+                <span>Edit</span>
+            </a>`;
             if (data['is_deletable'] == 1) {
                 html += `
                 <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
@@ -93,7 +93,6 @@
                     <span>Delete</span>
                 </a>`;
             }
-            html += `</div>`;
             return html;
         }
     })

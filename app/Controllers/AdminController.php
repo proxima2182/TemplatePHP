@@ -437,4 +437,84 @@ class AdminController extends BaseController
             . parent::loadAdminFooter();
     }
 
+    function getReservationBoards($page = 1): string
+    {
+        return parent::loadAdminHeader([
+                'css' => parent::generateAssetStatement("css", [
+                    '/common/table',
+                    '/admin/reservation_board',
+                ]),
+                'js' => parent::generateAssetStatement("js", [
+                    '/module/popup_input',
+                ]),
+            ])
+            . view('/admin/reservation_board', [
+                'array' => [
+                    [
+                        'id' => '1',
+                        'code' => 'popup',
+                        'alias' => '팝업',
+                        'description' => '팝업 저장용',
+                        'default_confirm_comment' => '팝업 저장용',
+                        'created_at' => '2023-06-29 00:00:00',
+                        'updated_at' => '2023-06-29 00:00:00',
+                    ],
+                    [
+                        'id' => '2',
+                        'code' => 'notice',
+                        'alias' => '공지사항',
+                        'description' => '',
+                        'default_confirm_comment' => '',
+                        'created_at' => '2023-06-29 00:00:00',
+                        'updated_at' => '2023-06-29 00:00:00',
+                    ],
+                ],
+                'pagination' => [
+                    'per-page' => 30,
+                    'page' => 6,
+                    'total' => 180,
+                    'total-page' => 6,
+                ],
+                'pagination_link' => '/admin/reservation-board'
+            ])
+            . parent::loadAdminFooter();
+    }
+
+    function getReservationTable($code, $id = 1): string
+    {
+        return parent::loadAdminHeader([
+                'css' => parent::generateAssetStatement("css", [
+                    '/common/table',
+                    '/admin/reservation_table',
+                ]),
+            ])
+            . view('/admin/reservation_table', [
+                'is_admin' => true,
+                'array' => [
+                    [
+                        'id' => '1',
+                        'user_name' => 'Lorem Ipsum',
+                        'status' => 'requested',
+                        'expect_date' => '2023-07-21',
+                        'expect_time' => '00:00:00',
+                        'expect_timedate' => '2023-07-21 00:00:00',
+                        'request_comment' => '00:00:00',
+                        'request_comment' => '',
+                        'confirm_date' => null,
+                        'confirm_time' => null,
+                        'reply_comment' => null,
+                        'created_at' => '2023-06-29 00:00:00',
+                        'updated_at' => '2023-06-29 00:00:00',
+                    ],
+                ],
+                'pagination' => [
+                    'per-page' => 30,
+                    'page' => 6,
+                    'total' => 180,
+                    'total-page' => 6,
+                ],
+                'pagination_link' => '/admin/reservation-board/' . $code
+            ])
+            . parent::loadAdminFooter();
+    }
 }

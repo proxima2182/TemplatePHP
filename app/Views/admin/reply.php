@@ -97,10 +97,12 @@
                 text-align: left;
             }
 
-            .${className} .control-wrap {
-                line-height: 20px;
+            .${className} .control-wrap.top {
                 text-align: left;
-                font-weight: 600;
+            }
+
+            .${className} .control-wrap.top a{
+                font-weight: 400;
             }
 
             .${className} .control-wrap.absolute {
@@ -112,7 +114,7 @@
             }
             </style>`
                 let html = `
-            <div class="control-wrap">
+            <div class="control-wrap top">
                 <a href="/admin/topic/${data['topic_id']}" class="button detail">
                     <img src="/asset/images/icon/topic.png"/>
                     <span>${data['board_code']} / ${data['topic_title']}</span>

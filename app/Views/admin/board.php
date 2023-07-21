@@ -105,8 +105,7 @@
             return html;
         },
         getControlHtml: function (data) {
-            let html = `<div class="control-wrap line-before">`;
-            let childCount = 0;
+            let html = ``;
             if (data['is_editable'] == 1) {
                 html += `
                 <a href="javascript:editInputPopup(${data['id']})"
@@ -114,7 +113,6 @@
                     <img src="/asset/images/icon/edit.png"/>
                     <span>Edit</span>
                 </a>`;
-                childCount++;
             }
             if (data['is_deletable'] == 1) {
                 html += `
@@ -122,10 +120,7 @@
                     <img src="/asset/images/icon/delete.png"/>
                     <span>Delete</span>
                 </a>`;
-                childCount++;
             }
-            html += `</div>`;
-            if(childCount == 0) return undefined;
             return html;
         }
     })

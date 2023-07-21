@@ -92,19 +92,5 @@ use App\Helpers\Utils;
             html += `</div>`;
             return html;
         },
-        getControlHtml: function (data) {
-            return `
-            <div class="control-wrap line-before">
-                <a href="javascript:editInputPopup(${data['id']})"
-                   class="button edit">
-                    <img src="/asset/images/icon/edit.png"/>
-                    <span>Edit</span>
-                </a>
-                <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
-                    <img src="/asset/images/icon/delete.png"/>
-                    <span>Delete</span>
-                </a>
-            </div>`;
-        }
     })
 </script>

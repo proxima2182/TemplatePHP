@@ -5,6 +5,13 @@ const className = 'popup-input';
 let getGetUrl, getUpdateUrl, getCreateUrl, getDeleteUrl;
 let getHtml, getControlHtml;
 
+
+// .${className} .popup-inner .control-wrap {
+//     margin-top: 40px;
+//     line-height: 20px;
+//     text-align: right;
+//     font-weight: 600;
+// }
 const popupStyle = `
 .${className} .popup-inner .button-wrap {
     margin-top: 40px;
@@ -17,17 +24,25 @@ const popupStyle = `
 }
 
 .${className} .popup-inner .control-wrap {
-    margin-top: 40px;
     line-height: 20px;
     text-align: right;
     font-weight: 600;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+}
+
+.${className} .popup-inner .control-box {
+    padding: 5px 20px 15px 20px;
 }
 
 .${className} .form-wrap .input-wrap .input-title {
     width: calc(35% - 15px);
 }
 
-.${className} .form-wrap .input-wrap input, .form-wrap .input-wrap textarea {
+.${className} .form-wrap .input-wrap input, .${className} .form-wrap .input-wrap textarea {
     width: 65%;
 }
 `;
@@ -103,7 +118,7 @@ function fromDataToHtml(key, data, typeSet) {
             return `
                 <div class="input-wrap">
                     <p class="input-title">${name}</p>
-                    <textarea name="${key}" ${option}>${value ? value.toTextareaString() : ''}</textarea>
+                    <textarea name="${key}" onkeydown="resizeInputPopupTextarea(this)" onkeyup="resizeInputPopupTextarea(this)" ${option}>${value ? value.toTextareaString() : ''}</textarea>
                 </div>`
         }
         default: {
@@ -138,6 +153,40 @@ function initializeInputPopup(input) {
     getControlHtml = input.getControlHtml;
 }
 
+function addInputPopupControlWrap(data) {
+    let controlHtml = getControlHtml ? getControlHtml(data) : undefined;
+    if (typeof controlHtml == 'string' && controlHtml.length == 0) {
+        return;
+    }
+    $(`.${className} .popup-box`).css({
+        "padding-bottom": "61px",
+    })
+    if (controlHtml != undefined) {
+        $(`.${className} .popup-inner`).append(
+            `<div class="control-wrap line-before">
+            <div class="control-box">
+                ${controlHtml}
+            </div>
+        </div>`
+        );
+    } else {
+        $(`.${className} .popup-inner`).append(`
+        <div class="control-wrap line-before">
+            <div class="control-box">
+                <a href="javascript:editInputPopup(${data['id']})"
+                   class="button edit">
+                    <img src="/asset/images/icon/edit.png"/>
+                    <span>Edit</span>
+                </a>
+                <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
+                    <img src="/asset/images/icon/delete.png"/>
+                    <span>Delete</span>
+                </a>
+            </div>
+        </div>`);
+    }
+}
+
 /**
  * 미리 설정 한 getGetUrl 로 정보를 읽어 입력한 getHtml 규칙에 따라
  * openPopup 을 이용해 input 용 popup 을 여는 기능
@@ -165,12 +214,11 @@ async function openInputPopup(id) {
                 ${css}
                 ${popupStyle}
                 </style>`
-                openPopup(className, style, getHtml(data))
-                let controlHtml = getControlHtml ? getControlHtml(data) : undefined;
-                if (controlHtml) {
-                    $('.popup-inner').append(controlHtml);
-                } else {
-                    $('.popup-inner').append(`<div style="height: 20px;"></div>`);
+                openPopup(className, style, getHtml(data));
+                addInputPopupControlWrap(data);
+                let textarea = $(`.${className} textarea`);
+                for (let i = 0; i < textarea.length; ++i) {
+                    resizeInputPopupTextarea(textarea.get(i));
                 }
             },
             error: function (request, status, error) {
@@ -198,13 +246,12 @@ function refreshInputPopup(id) {
             if (!response.success)
                 return;
             let data = response.data;
-            $('.popup-inner').children().remove();
-            $('.popup-inner').append(getHtml(data))
-            let controlHtml = getControlHtml ? getControlHtml(data) : undefined;
-            if (controlHtml) {
-                $('.popup-inner').append(controlHtml);
-            } else {
-                $('.popup-inner').append(`<div style="height: 20px;"></div>`);
+            $(`.${className} .popup-inner`).children().remove();
+            $(`.${className} .popup-inner`).append(getHtml(data))
+            addInputPopupControlWrap(data);
+            let textarea = $(`.${className} textarea`);
+            for (let i = 0; i < textarea.length; ++i) {
+                resizeInputPopupTextarea(textarea.get(i));
             }
         },
         error: function (request, status, error) {
@@ -232,7 +279,7 @@ async function openInputPopupCreate() {
         ${popupStyle}
         </style>`
         openPopup(className, style, getHtml())
-        $('.popup-inner').append(`
+        $(`.${className} .popup-inner`).append(`
         <div class="button-wrap controls">
             <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
             <a href="javascript:confirmCreate()" class="button confirm black">Create</a>
@@ -247,24 +294,26 @@ async function openInputPopupCreate() {
  * @param {string}id
  */
 function editInputPopup(id) {
-    $('.form-wrap .editable').removeAttr('readonly')
-    $('.form-wrap .editable').removeAttr('disabled')
-    $('.form-wrap .button-wrap').remove();
-    $('.popup-wrap .control-wrap').remove();
-    $('.form-wrap').append(`
+    $(`.${className} .form-wrap .editable`).removeAttr('readonly')
+    $(`.${className} .form-wrap .editable`).removeAttr('disabled')
+    $(`.${className} .form-wrap .button-wrap`).remove();
+    $(`.${className} .popup-wrap .control-wrap`).remove();
+    $(`.${className} .form-wrap`).append(`
     <div class="error-message-wrap">
         <div class="error-message-box">
         </div>
     </div>
     <div class="control-wrap line-before">
-        <a href="javascript:refreshInputPopup(${id});" class="button cancel">
-            <img src="/asset/images/icon/cancel.png"/>
-            <span>Cancel</span>
-        </a>
-        <a href="javascript:confirmInputPopupEdit(${id});" class="button confirm">
-            <img src="/asset/images/icon/check.png"/>
-            <span>Confirm</span>
-        </a>
+        <div class="control-box">
+            <a href="javascript:refreshInputPopup(${id});" class="button cancel">
+                <img src="/asset/images/icon/cancel.png"/>
+                <span>Cancel</span>
+            </a>
+            <a href="javascript:confirmInputPopupEdit(${id});" class="button confirm">
+                <img src="/asset/images/icon/check.png"/>
+                <span>Confirm</span>
+            </a>
+        </div>
     </div>`);
 }
 
@@ -340,4 +389,15 @@ function confirmInputPopupDelete(id) {
         },
         dataType: 'json'
     });
+}
+
+function resizeInputPopupTextarea(obj) {
+    let maxHeight = 200;
+    obj.style.height = "1px";
+    let height = 5 + obj.scrollHeight;
+    if (height < maxHeight) {
+        obj.style.height = `${height}px`;
+    } else {
+        obj.style.height = `${maxHeight}px`;
+    }
 }

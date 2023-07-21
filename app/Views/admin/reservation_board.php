@@ -1,7 +1,7 @@
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="title">
-            Location
+            Reservation Board
         </h3>
         <div class="control-wrap">
             <a href="javascript:openInputPopupCreate();" class="button create">
@@ -13,20 +13,19 @@
             <div class="list-box">
                 <div class="row-title">
                     <div class="row">
-                        <span class="column name">Name</span>
-                        <span class="column address">Address</span>
-                        <span class="column latitude">Latitude</span>
-                        <span class="column longitude">Longitude</span>
+                        <span class="column code">Code</span>
+                        <span class="column alias">Alias</span>
                     </div>
                 </div>
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
                         <li class="row">
                             <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
-                                <span class="column name"><?= $item['name'] ?></span>
-                                <span class="column address"><?= $item['address'] ?></span>
-                                <span class="column latitude"><?= $item['latitude'] ?></span>
-                                <span class="column longitude"><?= $item['longitude'] ?></span>
+                                <span class="column code"><?= $item['code'] ?></span>
+                                <span class="column alias"><?= $item['alias'] ?></span>
+                            </a>
+                            <a href="/admin/reservation-board/<?= $item['code'] ?>" class="button detail">
+                                <img src="/asset/images/icon/detail@2x.png"/>
                             </a>
                         </li>
                     <?php } ?>
@@ -43,30 +42,31 @@
      */
     initializeInputPopup({
         getGetUrl: function (id) {
-            return `/api/location/get/${id}`
+            return `/api/reservation-board/get/${id}`
         },
         getCreateUrl: function () {
-            return `/api/location/create`
+            return `/api/reservation-board/create`
         },
         getUpdateUrl: function (id) {
-            return `/api/location/update/${id}`
+            return `/api/reservation-board/update/${id}`
         },
         getDeleteUrl: function (id) {
-            return `/api/location/delete/${id}`
+            return `/api/reservation-board/delete/${id}`
         },
         getHtml: function (data) {
             const typeSet = {
-                name: {
+                code: {
                     type: 'text',
                 },
-                address: {
+                alias: {
                     type: 'text',
                 },
-                latitude: {
-                    type: 'number',
+                description: {
+                    type: 'textarea',
                 },
-                longitude: {
-                    type: 'number',
+                default_confirm_comment: {
+                    type: 'textarea',
+                    name: 'Default Comment'
                 },
             }
             let keys = Object.keys(typeSet);
@@ -80,7 +80,6 @@
                 }
             }
             html += `</div>`;
-
             return html;
         },
     })

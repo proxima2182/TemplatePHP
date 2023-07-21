@@ -50,41 +50,61 @@ $routes->get('/admin/user(/[0-9]+)*', 'AdminController::getUser/$1');
 $routes->get('/admin/setting(/[0-9]+)*', 'AdminController::getSetting/$1');
 $routes->get('/admin/category(/[0-9]+)*', 'AdminController::getCategories/$1');
 $routes->get('/admin/category/([a-zA-Z][a-zA-Z0-9]*)(/([0-9]+))*', 'AdminController::getCategory/$1/$2');
+$routes->get('/admin/reservation-board(/([0-9]+))*', 'AdminController::getReservationBoards/$1');
+$routes->get('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9]*)(/([0-9]+))*', 'AdminController::getReservationTable/$1/$2');
+$routes->get('/admin/reservation/([0-9]+)', 'AdminController::getReservation/$1');
 
 
 //api
+$routes->post('/api/image-file/upload', 'API\ImageFile::upload/$1');
+
+$routes->get('/api/profile', 'API\Profile::index');
+
+$routes->get('/api/user/get/([0-9]+)', 'API\User::getUser/$1');
+
 $routes->get('/api/topic/get/([0-9]+)', 'API\Topic::getTopic/$1');
 $routes->post('/api/topic/create', 'API\Topic::createTopic');
 $routes->post('/api/topic/update/([0-9]+)', 'API\Topic::updateTopic/$1');
 $routes->delete('/api/topic/delete/([0-9]+)', 'API\Topic::deleteTopic/$1');
+
 $routes->get('/api/topic/get/([0-9]+)/reply', 'API\Topic::getTopicReply/$1');
 $routes->get('/api/topic/reply/get/([0-9]+)/nested', 'API\Topic::getNestedReply/$1');
 $routes->get('/api/topic/reply/get/([0-9]+)', 'API\Topic::getReply/$1');
 $routes->delete('/api/topic/reply/delete/([0-9]+)', 'API\Topic::deleteReply/$1');
-$routes->get('/api/profile', 'API\Profile::index');
+
 $routes->get('/api/board/get/([0-9]+)', 'API\Board::getBoard/$1');
 $routes->post('/api/board/create', 'API\Board::createBoard');
 $routes->post('/api/board/update/([0-9]+)', 'API\Board::updateBoard/$1');
 $routes->delete('/api/board/delete/([0-9]+)', 'API\Board::deleteBoard/$1');
-$routes->post('/api/image-file/upload', 'API\ImageFile::upload/$1');
+
 $routes->get('/api/location/get/([0-9]+)', 'API\Location::getLocation/$1');
 $routes->post('/api/location/create', 'API\Location::createLocation');
 $routes->post('/api/location/update/([0-9]+)', 'API\Location::updateLocation/$1');
 $routes->delete('/api/location/delete/([0-9]+)', 'API\Location::deleteLocation/$1');
-$routes->get('/api/user/get/([0-9]+)', 'API\User::getUser/$1');
+
 $routes->get('/api/setting/get/([0-9]+)', 'API\Setting::getSetting/$1');
 $routes->post('/api/setting/create', 'API\Setting::createSetting');
 $routes->post('/api/setting/update/([0-9]+)', 'API\Setting::updateSetting/$1');
 $routes->delete('/api/setting/delete/([0-9]+)', 'API\Setting::deleteSetting/$1');
+
 $routes->get('/api/category/get/([0-9]+)', 'API\Category::getCategory/$1');
 $routes->post('/api/category/create', 'API\Category::createCategory');
 $routes->post('/api/category/update/([0-9]+)', 'API\Category::updateCategory/$1');
 $routes->delete('/api/category/delete/([0-9]+)', 'API\Category::deleteCategory/$1');
+
 $routes->get('/api/category/path/get/([0-9]+)', 'API\Category::getCategoryPath/$1');
 $routes->post('/api/category/path/create', 'API\Category::createCategoryPath');
 $routes->post('/api/category/path/update/([0-9]+)', 'API\Category::updateCategoryPath/$1');
 $routes->delete('/api/category/path/delete/([0-9]+)', 'API\Category::deleteCategoryPath/$1');
 
+$routes->get('/api/reservation-board/get/([0-9]+)', 'API\Reservation::getBoard/$1');
+$routes->post('/api/reservation-board/create', 'API\Reservation::createBoard');
+$routes->post('/api/reservation-board/update/([0-9]+)', 'API\Reservation::updateBoard/$1');
+$routes->delete('/api/reservation-board/delete/([0-9]+)', 'API\Reservation::deleteBoard/$1');
+
+$routes->get('/api/reservation/get/([0-9]+)', 'API\Reservation::getReservation/$1');
+$routes->post('/api/reservation/request', 'API\Reservation::requestReservation');
+$routes->post('/api/reservation/reject/([0-9]+)', 'API\Reservation::rejectReservation/$1');
 
 /*
  * --------------------------------------------------------------------

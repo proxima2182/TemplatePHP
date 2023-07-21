@@ -67,11 +67,15 @@ function openPopup(className, style, html, callback) {
     animation-name: popupFadeIn;
 }
 
+.${className} .popup-box {
+    position: relative;
+}
+
 .${className} .popup-inner {
     overflow-y: scroll;
     max-height: 400px;
     overflow-x: hidden;
-    padding: 20px;
+    padding: 20px 20px 40px 20px;
 }
 
 .${className} .popup .interface {
@@ -112,8 +116,10 @@ ${style ?? ''}
                 <img src="/asset/images/icon/cancel_white.png"/>
             </a>
         </div>
-        <div class="popup-inner">
-        ${html ?? ''}
+        <div class="popup-box">
+            <div class="popup-inner">
+            ${html ?? ''}
+            </div>
         </div>
     </div>
 </div>`)
