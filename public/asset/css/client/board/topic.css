@@ -12,10 +12,6 @@ h3.title {
     font-weight: 600;
 }
 
-.line-after.row-title:after {
-    background: #000;
-}
-
 .topic-wrap {
     width: 1125px;
     min-height: 600px;

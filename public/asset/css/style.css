@@ -104,12 +104,22 @@ input[type=checkbox] {
     accent-color: #222;
 }
 
-.line-before:before, .line-after:after {
+.line-before:before,
+.line-after:after,
+.lines-horizontal:after,
+.lines-horizontal:before
+{
     content: "";
     display: block;
     width: 100%;
     height: 1px;
     background: #ddd;
+}
+.line-before.black:before,
+.line-after.black:after,
+.lines-horizontal.black:after,
+.lines-horizontal.black:before {
+    background: #000;
 }
 
 .control-wrap {

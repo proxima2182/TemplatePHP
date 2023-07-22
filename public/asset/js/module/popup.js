@@ -171,3 +171,40 @@ function resizeWindow(event) {
     })
 }
 
+function getPopupViewStyle(className) {
+    return `
+    <style>
+    .${className} .popup-inner {
+        padding: 20px 20px 80px 20px;
+    }
+    
+    .${className} .row {
+        text-align: left;
+        font-size: 0;
+    }
+    
+    .${className} .row .column {
+        padding: 10px;
+        line-height: 35px;
+        text-align: left;
+        box-sizing: border-box;
+        font-size: 18px;
+        font-weight: 400;
+        display: inline-block;
+        vertical-align: bottom;
+    }
+    
+    .${className} .popup-inner .control-wrap.absolute {
+        line-height: 20px;
+        text-align: right;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #fff;
+    }
+    .${className} .popup-inner .control-box {
+        padding: 5px 20px 15px 20px;
+    }
+    </style>`
+}

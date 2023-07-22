@@ -5,13 +5,6 @@ const className = 'popup-input';
 let getGetUrl, getUpdateUrl, getCreateUrl, getDeleteUrl;
 let getHtml, getControlHtml;
 
-
-// .${className} .popup-inner .control-wrap {
-//     margin-top: 40px;
-//     line-height: 20px;
-//     text-align: right;
-//     font-weight: 600;
-// }
 const popupStyle = `
 .${className} .popup-inner .button-wrap {
     margin-top: 40px;
@@ -23,10 +16,9 @@ const popupStyle = `
     margin: 0 10px;
 }
 
-.${className} .popup-inner .control-wrap {
+.${className} .popup-inner .control-wrap.absolute {
     line-height: 20px;
     text-align: right;
-    font-weight: 600;
     position: absolute;
     left: 0;
     right: 0;
@@ -163,7 +155,7 @@ function addInputPopupControlWrap(data) {
     })
     if (controlHtml != undefined) {
         $(`.${className} .popup-inner`).append(
-            `<div class="control-wrap line-before">
+            `<div class="control-wrap absolute line-before">
             <div class="control-box">
                 ${controlHtml}
             </div>

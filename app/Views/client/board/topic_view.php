@@ -101,7 +101,7 @@ $reply = [
             Notice
         </h3>
         <div class="topic-wrap">
-            <div class="row row-title line-after">
+            <div class="row row-title line-after black">
                 <span class="column title"><?= $title ?></span>
                 <span class="column  created-at"><?= $created_at ?></span>
             </div>

@@ -7,7 +7,7 @@
             Notice
         </h3>
         <div class="topic-wrap">
-            <div class="row row-title line-after">
+            <div class="row row-title line-after black">
                 <input type="text" placeholder="Title" name="title" class="column title" value="<?= $title ?>"/>
             </div>
             <div class="text-wrap line-after">

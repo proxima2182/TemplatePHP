@@ -8,16 +8,17 @@ require APPPATH.'Models/BaseModel.php';
  * column_name          type            comment
  * ---------------------------------------------
  * id                   INT
- * user_id              INT             FK(user)
  * reservation_board_id INT             FK(reservation_board)
+ * questioner_id         INT             FK(user)
+ * respondent_id        INT             FK(user)
  * status               VARCHAR(20)     requested | confirmed | rejected
  * expect_date          DATE
  * expect_time          TIME
  * expect_timedate      DATETIME
- * request_comment      TEXT
+ * question_comment        TEXT
  * confirm_date         DATE
  * confirm_time         TIME
- * reply_comment        TEXT
+ * respond_comment        TEXT
  * created_at           DATETIME
  * updated_at           DATETIME
  */

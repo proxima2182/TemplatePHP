@@ -493,16 +493,17 @@ class AdminController extends BaseController
                 'array' => [
                     [
                         'id' => '1',
-                        'user_name' => 'Lorem Ipsum',
+                        'questioner_name' => 'Lorem Ipsum',
+                        'reservation_board_id' => '0',
+                        'reservation_board_alias' => '팝업',
                         'status' => 'requested',
                         'expect_date' => '2023-07-21',
                         'expect_time' => '00:00:00',
                         'expect_timedate' => '2023-07-21 00:00:00',
-                        'request_comment' => '00:00:00',
-                        'request_comment' => '',
+                        'question_comment' => '',
                         'confirm_date' => null,
                         'confirm_time' => null,
-                        'reply_comment' => null,
+                        'respond_comment' => null,
                         'created_at' => '2023-06-29 00:00:00',
                         'updated_at' => '2023-06-29 00:00:00',
                     ],
@@ -514,6 +515,33 @@ class AdminController extends BaseController
                     'total-page' => 6,
                 ],
                 'pagination_link' => '/admin/reservation-board/' . $code
+            ])
+            . parent::loadAdminFooter();
+    }
+
+    function getReservation($id): string
+    {
+        return parent::loadAdminHeader([
+                'css' => parent::generateAssetStatement("css", [
+                    '/common/table',
+                    '/admin/reservation',
+                ]),
+            ])
+            . view('/admin/reservation', [
+                'id' => '1',
+                'questioner_name' => 'Lorem Ipsum',
+                'reservation_board_id' => '0',
+                'reservation_board_alias' => '팝업',
+                'status' => 'requested',
+                'expect_date' => '2023-07-21',
+                'expect_time' => '00:00:00',
+                'expect_timedate' => '2023-07-21 00:00:00',
+                'question_comment' => '',
+                'confirm_date' => null,
+                'confirm_time' => null,
+                'respond_comment' => null,
+                'created_at' => '2023-06-29 00:00:00',
+                'updated_at' => '2023-06-29 00:00:00',
             ])
             . parent::loadAdminFooter();
     }

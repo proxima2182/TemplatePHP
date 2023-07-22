@@ -198,6 +198,7 @@ class Topic extends BaseController
                 'user_name' => 'Lorem Ipsum',
                 'board_id' => 1,
                 'board_code' => 'notice',
+                'board_alias' => '보드이름',
                 'depth' => 0,
                 'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                 'created_at' => '2023-07-03 22:35:00',

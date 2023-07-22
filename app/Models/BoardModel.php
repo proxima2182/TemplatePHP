@@ -15,7 +15,7 @@ require APPPATH.'Models/BaseModel.php';
  * is_reply         TINYINT(1)
  * is_public        TINYINT(1)
  * is_editable      TINYINT(1)
- * is_editable      TINYINT(1)
+ * is_deleted      TINYINT(1)
  * created_at       DATETIME
  * updated_at       DATETIME
  */
