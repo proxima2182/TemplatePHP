@@ -6,6 +6,12 @@ $is_admin_page = isset($is_admin) && $is_admin;
         <h3 class="title">
             Reservation
         </h3>
+        <div class="control-wrap">
+            <a href="javascript:openReservationPopupCreate();" class="button create">
+                <img src="/asset/images/icon/plus.png"/>
+                <span>Reserve</span>
+            </a>
+        </div>
         <div class="list-wrap">
             <div class="list-box">
                 <div class="row-title">
@@ -37,7 +43,6 @@ $is_admin_page = isset($is_admin) && $is_admin;
 </div>
 
 <script type="text/javascript">
-
     /**
      * 본인의 작성물에 대한 수정은 본인만 가능하여야 하므로
      * admin 이 일방적으로 수정은 할 수 없도록 하기 때문에 삭제 기능만 가능
@@ -146,5 +151,48 @@ $is_admin_page = isset($is_admin) && $is_admin;
             },
             dataType: 'json'
         });
+    }
+
+    function openReservationPopupCreate() {
+        let className = 'popup-reservation-create';
+        let style = `
+        <style>
+        .${className} input, .${className} textarea {
+            border: none;
+            width: 100%;
+            margin: 0;
+        }
+
+        .${className} .text-wrap .comment {
+            min-height: 100px;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: 200;
+        }
+        </style>`
+        let html = `
+        <div class="calendar" id="calendar-reservation"></div>
+        <div class="time-selector"></div>
+        <div class="text-wrap line-before">
+            <textarea placeholder="Comment" name="comment" class="comment"></textarea>
+        </div>
+        <div class="control-wrap absolute line-before">
+            <div class="control-box">
+                <a href="javascript:closePopup('${className}');" class="button cancel">
+                    <img src="/asset/images/icon/cancel.png"/>
+                    <span>Cancel</span>
+                </a>
+                <a href="#" class="button confirm">
+                    <img src="/asset/images/icon/check.png"/>
+                    <span>Confirm</span>
+                </a>
+            </div>
+        </div>`;
+        openPopup(className, getPopupViewStyle(className) + style, html, function () {
+            $('#calendar-reservation').initCalendar({
+                cell_size: 60,
+            })
+            $('.time-selector').initTimeSelector()
+        })
     }
 </script>

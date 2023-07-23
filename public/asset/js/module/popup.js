@@ -128,7 +128,7 @@ ${style ?? ''}
     let element = $(`.${className}`).get(0);
     if (element) {
         element.addEventListener('click', function (event) {
-            if (event.target.className && event.target.className.includes("popup-wrap")) {
+            if (event.target.className && event.target.className.includes && event.target.className.includes("popup-wrap")) {
                 closePopup(className)
             }
         })

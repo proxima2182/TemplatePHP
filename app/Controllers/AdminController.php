@@ -487,6 +487,10 @@ class AdminController extends BaseController
                     '/common/table',
                     '/admin/reservation_table',
                 ]),
+                'js' => parent::generateAssetStatement("js", [
+                    '/module/calendar',
+                    '/module/time_selector',
+                ]),
             ])
             . view('/admin/reservation_table', [
                 'is_admin' => true,

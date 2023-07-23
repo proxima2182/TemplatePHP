@@ -11,16 +11,22 @@ h3.title {
     font-weight: 600;
 }
 
+.container-inner .control-wrap {
+    text-align: right;
+}
+
 .list-wrap .column.questioner {
     width: 20%;
 }
+
 .list-wrap .column.status {
     width: 20%;
 }
+
 .list-wrap .column.expect-date {
     width: 30%;
 }
+
 .list-wrap .column.expect-time {
     width: 30%;
 }
-
