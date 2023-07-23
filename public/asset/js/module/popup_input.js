@@ -163,7 +163,7 @@ function addInputPopupControlWrap(data) {
         );
     } else {
         $(`.${className} .popup-inner`).append(`
-        <div class="control-wrap line-before">
+        <div class="control-wrap absolute line-before">
             <div class="control-box">
                 <a href="javascript:editInputPopup(${data['id']})"
                    class="button edit">
@@ -295,7 +295,7 @@ function editInputPopup(id) {
         <div class="error-message-box">
         </div>
     </div>
-    <div class="control-wrap line-before">
+    <div class="control-wrap absolute line-before">
         <div class="control-box">
             <a href="javascript:refreshInputPopup(${id});" class="button cancel">
                 <img src="/asset/images/icon/cancel.png"/>
