@@ -16,7 +16,7 @@ let popupTimeoutId;
  * @param html
  * @param callback      팝업 세팅 완료 후 수행되어져야 할 기능 callback
  */
-function openPopup(className, style, html, callback) {
+function openPopup($parent, className, style, html, callback) {
     $('#container').append(`
 <div class="popup-wrap ${className}">
 <style>
@@ -141,18 +141,18 @@ ${style ?? ''}
  * @param className
  */
 function closePopup(className) {
-    let popupWrap = $(`.${className}`)
-    popupWrap.find('.popup').css({
+    let $popupWrap = $(`.${className}`)
+    $popupWrap.find('.popup').css({
         'animation-duration': '0.2s',
         'animation-name': 'popupFadeOut',
     })
     removeEventListener('resize', resizeWindow);
     popupTimeoutId = setTimeout(function () {
-        let element = popupWrap.get(0);
+        let element = $popupWrap.get(0);
         if (element) {
             element.removeEventListener('click', closePopup);
         }
-        popupWrap.remove()
+        $popupWrap.remove()
         clearTimeout(popupTimeoutId)
     }, 150)
 }

@@ -97,7 +97,7 @@ function fromDataToHtml(key, data, typeSet) {
                         html += `<option value="${set['values']['value']}">${set['values']['name']}</option>`
                     }
                 } catch (e) {
-                    console.log(e)
+                    console.error(e)
                 }
             }
             html += `
@@ -206,11 +206,11 @@ async function openInputPopup(id) {
                 ${css}
                 ${popupStyle}
                 </style>`
-                openPopup(className, style, getHtml(data));
+                openPopup(null, className, style, getHtml(data));
                 addInputPopupControlWrap(data);
-                let textarea = $(`.${className} textarea`);
-                for (let i = 0; i < textarea.length; ++i) {
-                    resizeInputPopupTextarea(textarea.get(i));
+                let $textarea = $(`.${className} textarea`);
+                for (let i = 0; i < $textarea.length; ++i) {
+                    resizeInputPopupTextarea($textarea.get(i));
                 }
             },
             error: function (request, status, error) {
@@ -241,9 +241,9 @@ function refreshInputPopup(id) {
             $(`.${className} .popup-inner`).children().remove();
             $(`.${className} .popup-inner`).append(getHtml(data))
             addInputPopupControlWrap(data);
-            let textarea = $(`.${className} textarea`);
-            for (let i = 0; i < textarea.length; ++i) {
-                resizeInputPopupTextarea(textarea.get(i));
+            let $textarea = $(`.${className} textarea`);
+            for (let i = 0; i < $textarea.length; ++i) {
+                resizeInputPopupTextarea($textarea.get(i));
             }
         },
         error: function (request, status, error) {
@@ -270,7 +270,7 @@ async function openInputPopupCreate() {
         ${css}
         ${popupStyle}
         </style>`
-        openPopup(className, style, getHtml())
+        openPopup(null, className, style, getHtml())
         $(`.${className} .popup-inner`).append(`
         <div class="button-wrap controls">
             <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
@@ -346,7 +346,7 @@ function openInputPopupDelete(id) {
         <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
         <a href="javascript:confirmInputPopupDelete(${id})" class="button confirm black">Delete</a>
     </div>`;
-    openPopup(className, style, html)
+    openPopup(null, className, style, html)
 }
 
 /**

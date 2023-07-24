@@ -1,20 +1,9 @@
 /**
- * @file 캘린더 자동생성 스크립트
- * @todo setCalendar 파악 및 option 으로 스타일 설정 가능 하도록 변경
+ * @file 캘린더 모듈 자동생성 스크립트
+ * @todo setCalendar 파악, 스타일 설정 option 추가
  */
 
 let today = new Date();
-
-/**
- * 시간 format에 맞도록 width에 맞게 0을 채우는 기능
- * @param n
- * @param width
- * @returns {string}
- */
-function pad(n, width) {
-    n = n + '';
-    return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
-}
 
 /**
  * jquery object 에서 해당 함수 호출 시 내부에 calendar 를 추가해주는 기능
@@ -22,10 +11,11 @@ function pad(n, width) {
  * @todo refactoring & release as an open source
  */
 jQuery.prototype.initCalendar = function (option) {
+    let $parent = this;
+    if ($parent.length == 0) return;
     let cell_size = option && option.cell_size ? option.cell_size : 60;
     let time = option && option.time ? option.time : new Date();
-    let $calendar = this;
-    $calendar.css({
+    $parent.css({
         'width': `${cell_size * 7}px`,
         'position': 'relative',
         'display': 'inline-block',
@@ -33,17 +23,17 @@ jQuery.prototype.initCalendar = function (option) {
     })
     const rand = Math.random().toString(36).substr(2, 11);
     let className = `calendar-${rand}`;
-    $calendar.addClass(className);
+    $parent.addClass(className);
     if (option) {
         try {
-            $calendar.attr({
+            $parent.attr({
                 option: JSON.stringify(option),
             })
         } catch (e) {
             console.error(e)
         }
     }
-    $calendar.append(`
+    $parent.append(`
     <style>
     .calendar.${className} {
         width: 420px;
@@ -224,31 +214,31 @@ jQuery.prototype.initCalendar = function (option) {
     <ul class="week-disabled">
     </ul>
     <input type="hidden" name="date"/>`)
-    $calendar.attr({
+    $parent.attr({
         now: time.getTime(),
     })
 
-    let $prev = $calendar.find('.button.prev');
-    let $next = $calendar.find('.button.next');
+    let $prev = $parent.find('.button.prev');
+    let $next = $parent.find('.button.next');
     $prev.click(function () {
-        let rawTime = $calendar.attr('now') && $calendar.attr('now').length > 0 ? Number($calendar.attr('now')) : undefined;
+        let rawTime = $parent.attr('now') && $parent.attr('now').length > 0 ? Number($parent.attr('now')) : undefined;
         let date = new Date(rawTime);
         date.setMonth(date.getMonth() - 1);
-        setCalendar($calendar, date);
-        $calendar.attr({
+        setCalendar($parent, date);
+        $parent.attr({
             now: date.getTime(),
         })
     })
     $next.click(function () {
-        let rawTime = $calendar.attr('now') && $calendar.attr('now').length > 0 ? Number($calendar.attr('now')) : undefined;
+        let rawTime = $parent.attr('now') && $parent.attr('now').length > 0 ? Number($parent.attr('now')) : undefined;
         let date = new Date(rawTime);
         date.setMonth(date.getMonth() + 1);
-        setCalendar($calendar, date);
-        $calendar.attr({
+        setCalendar($parent, date);
+        $parent.attr({
             now: date.getTime(),
         })
     })
-    setCalendar($calendar, time);
+    setCalendar($parent, time);
 }
 
 /**
@@ -256,16 +246,16 @@ jQuery.prototype.initCalendar = function (option) {
  * (setCalendar 에서 조건에 맞게 새로 그려준다)
  */
 jQuery.prototype.refreshCalendar = function () {
-    const $calendar = this;
-    let rawTime = $calendar.attr('now') && $calendar.attr('now').length > 0 ? Number($calendar.attr('now')) : undefined;
+    const $parent = this;
+    let rawTime = $parent.attr('now') && $parent.attr('now').length > 0 ? Number($parent.attr('now')) : undefined;
     let date = new Date(rawTime);
-    setCalendar($calendar, date);
+    setCalendar($parent, date);
 }
 
 
 jQuery.prototype.getSelectedDate = function () {
-    const $calendar = this;
-    let $input = $calendar.find('input[type=hidden]');
+    const $parent = this;
+    let $input = $parent.find('input[type=hidden]');
     return $input.val();
 }
 
@@ -302,23 +292,23 @@ function setStyleSelectable($view) {
  * cell 선택 시 호출되는 공통 기능
  * @param year
  * @param month
- * @param $calendar
+ * @param $parent
  * @param $cell
  */
-function selectCalendar(year, month, $calendar, $cell) {
-    let previously_selected = $calendar.find('.selected');
+function selectCalendar(year, month, $parent, $cell) {
+    let previously_selected = $parent.find('.selected');
     if (previously_selected != undefined) {
         previously_selected.removeClass('selected')
     }
     $cell.addClass('selected');
 
-    let $input = $calendar.find('input[type=hidden]');
+    let $input = $parent.find('input[type=hidden]');
     if ($input != undefined) {
         $input.remove();
     }
     let day = $cell.find('span')[0].innerHTML;
     let value = pad(year, 4) + '-' + pad(month, 2) + '-' + pad(day, 2);
-    $calendar.append('<input type="hidden" name="date" value="' + value + '"/>')
+    $parent.append('<input type="hidden" name="date" value="' + value + '"/>')
 }
 
 function getRow(first, now) {
@@ -329,13 +319,13 @@ function getRow(first, now) {
 
 /**
  * 주어진 조건에 맞게 캘린더 생성해주는 기능
- * @param $calendar
+ * @param $parent
  * @param date
  */
-function setCalendar($calendar, date) {
-    let cell_width = parseInt($calendar.innerWidth() / 7 * 100) / 100;
+function setCalendar($parent, date) {
+    let cell_width = parseInt($parent.innerWidth() / 7 * 100) / 100;
 
-    let optionString = $calendar.attr('option');
+    let optionString = $parent.attr('option');
     let option;
     if (optionString) {
         try {
@@ -345,14 +335,14 @@ function setCalendar($calendar, date) {
         }
     }
 
-    let $year = $calendar.find('.nav .year');
-    let $month = $calendar.find('.nav .month');
-    let $weeks = $calendar.find('.week li');
+    let $year = $parent.find('.nav .year');
+    let $month = $parent.find('.nav .month');
+    let $weeks = $parent.find('.week li');
     setStyleUnselectable($weeks);
     setStyleUnselectable($year);
     setStyleUnselectable($month);
-    let $cells = $calendar.find('ul.date');
-    let $week_disabled = $calendar.find('ul.week-disabled');
+    let $cells = $parent.find('ul.date');
+    let $week_disabled = $parent.find('ul.week-disabled');
     $cells.empty();
     $week_disabled.empty();
 
@@ -362,8 +352,8 @@ function setCalendar($calendar, date) {
     $year[0].innerHTML = year;
     $month[0].innerHTML = (month + 1) + '월';
 
-    let $prev = $calendar.find('.button.prev');
-    let $next = $calendar.find('.button.next');
+    let $prev = $parent.find('.button.prev');
+    let $next = $parent.find('.button.next');
     if (hasToday) {
         $prev.css({
             'display': 'none',
@@ -427,7 +417,7 @@ function setCalendar($calendar, date) {
             } else {
                 setStyleSelectable($cell);
                 $cell.click(function () {
-                    selectCalendar(year, month, $calendar, $(this));
+                    selectCalendar(year, month, $parent, $(this));
                 })
             }
         }

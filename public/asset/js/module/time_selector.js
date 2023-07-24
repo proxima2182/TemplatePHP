@@ -1,3 +1,8 @@
+/**
+ * @file 시간 선택 모듈 자동생성 스크립트
+ * @todo 시간제약, 스타일 설정 option 추가
+ */
+
 const hours = [
     '09',
     '10',
@@ -14,16 +19,10 @@ const hours = [
 
 const minutes = [
     '00',
-    '10',
-    '20',
     '30',
-    '40',
-    '50',
 ]
 
-jQuery.prototype.initTimeSelector = function (option) {
-    const $time_selector = this;
-
+function setTimeSelectorDropdown($parent) {
     function getSlotHtml(values) {
         let html = `
         <div>
@@ -44,7 +43,7 @@ jQuery.prototype.initTimeSelector = function (option) {
         <ul>`;
 
         for (let i in values) {
-            html += `<li ${(i == 0) ? 'class = "selected"' : ''}>${values[i]}</li>`
+            html += `<li ${(i == 0) ? 'class = "selected"' : ''}>${pad(values[i], 2)}</li>`
         }
         html += `
         </ul>
@@ -68,31 +67,28 @@ jQuery.prototype.initTimeSelector = function (option) {
 
     const rand = Math.random().toString(36).substr(2, 11);
     let className = `time-selector-${rand}`;
-    $time_selector.addClass(className);
+    $parent.addClass(className);
 
     let html = `
     <style>
     .${className} {
         font-size: 0;
-    }
-    
-    .${className} .time {
         margin: 10px 0;
     }
-    .${className} .time .box {
-        width: 100px;
+    
+    .${className} .selector-box {
+        width: 80px;
         text-align: center;
         display: inline-block;
     }
     
-    .${className} .time .box p {
-        font-size: 18px;
-        color: #333;
-        margin-bottom: 10px;
-        font-weight: 400;
+    .${className} .selector-box p {
+        font-size: 16px;
+        color: #222;
+        font-weight: 200;
     }
     
-    .${className} .time ul {
+    .${className} ul {
         width: 30px;
         height: 30px;
         position: relative;
@@ -100,7 +96,7 @@ jQuery.prototype.initTimeSelector = function (option) {
         display: inline-block;
     }
     
-    .${className} .time ul li {
+    .${className} ul li {
         width: 30px;
         height: 30px;
         line-height: 30px;
@@ -111,11 +107,11 @@ jQuery.prototype.initTimeSelector = function (option) {
         position: absolute;
     }
     
-    .${className} .time ul li.selected {
+    .${className} ul li.selected {
         display: block;
     }
     
-    .${className} .time .button {
+    .${className} .button {
         width: 30px;
         height: 30px;
         line-height: 30px;
@@ -124,32 +120,104 @@ jQuery.prototype.initTimeSelector = function (option) {
         display: inline-block;
     }
     
-    .${className} .time .button * {
+    .${className} .button * {
         vertical-align: middle;
     }
     </style>
-    <div class="time">
-        <span class="box hours">
-            <p>시간</p>
-            ${getSlotHtml(hours)}
-        </span>
-        <span class="box minutes">
-            <p>분</p>
-            ${getSlotHtml(minutes)}
-    </div>`
-    $time_selector.append(html)
-    setUnselectable($(`.${className} .time *`));
-    let $hours = $(`.${className} .time .hours`);
-    let $minutes = $(`.${className} .time .minutes`);
-    setActions($hours);
-    setActions($minutes);
-
-    let $time = $('.time');
-    $time.append('<input type="hidden" name="time" value="09:00"/>')
+    <span class="selector-box hours">
+        <p>시간</p>
+        ${getSlotHtml(hours)}
+    </span>
+    <span class="selector-box minutes">
+        <p>분</p>
+        ${getSlotHtml(minutes)}
+    </span>
+    <input type="hidden" name="time" value="09:00"/>`
+    $parent.append(html)
+    setUnselectable($parent.find(`span`));
+    let $hours = $parent.find(`.hours`);
+    let $minutes = $parent.find(`.minutes`);
+    setDropdownAction($parent, $hours);
+    setDropdownAction($parent, $minutes);
 }
 
-function setUnselectable(view) {
-    view.css({
+function setTimeSelectorButtons($parent) {
+    const rand = Math.random().toString(36).substr(2, 11);
+    let className = `time-selector-${rand}`;
+    $parent.addClass(className);
+
+    let html = `
+    <style>
+    .${className} {
+        font-size: 0;
+        margin: 10px 0;
+    }
+    .${className} .time-selector-list{
+        overflow-x: scroll;
+    }
+    .${className} .time-selector-list ul{
+        font-size: 0;
+        margin: 10px 0;
+        text-align: left;
+    }
+    .${className} .time-selector-list ul li{
+        width: 80px;
+        margin: 5px;
+        display: inline-block;
+        font-size: 18px;
+        text-align: center;
+        border-radius: 20px;
+        line-height: 40px;
+        background: #eee;
+    }
+    .${className} .time-selector-list ul li.selected{
+        color: #fff;
+        background: #000;
+    }
+    </style>
+    <div class="time-selector-list">
+        <ul>`
+    for (let i in hours) {
+        for (let j in minutes) {
+            html += `<li>${pad(hours[i], 2)}:${pad(minutes[j], 2)}</li>`
+        }
+    }
+    `</ul>
+    </div>
+    <input type="hidden" name="time" value=""/>`
+    $parent.append(html)
+    let listWidth = hours.length * minutes.length * 90
+    console.log($parent.find(`li`).outerWidth())
+    $parent.find(`.time-selector-list ul`).css({
+        width: `${listWidth}px`
+    })
+    setUnselectable($parent.find(`li`));
+    $parent.find(`li`).click(function () {
+        $parent.find('.selected').removeClass('selected');
+        console.log(this)
+        $(this).addClass('selected');
+
+        let $input = $parent.find('input[type=hidden]');
+        if ($input != undefined) {
+            $input.remove();
+        }
+        $parent.append('<input type="hidden" name="time" value="' + this.innerHTML + '"/>')
+    })
+}
+
+jQuery.prototype.initTimeSelector = function (option) {
+    const $parent = this;
+    setTimeSelectorButtons($parent)
+}
+
+jQuery.prototype.getSelectedTime = function () {
+    const $parent = this;
+    let $input = $parent.find('input[type=hidden]');
+    return $input.val();
+}
+
+function setUnselectable($view) {
+    $view.css({
         '-webkit-touch-callout': 'none',
         '-webkit-user-select': 'none',
         '-khtml-user-select': 'none',
@@ -157,21 +225,21 @@ function setUnselectable(view) {
         '-ms-user-select': 'none',
         'user-select': 'none',
     })
-    view.attr('unselectable', 'on')
-    view.attr('onselectstart', 'return false;')
-    view.attr('onmousedown', 'return false;')
+    $view.attr('unselectable', 'on')
+    $view.attr('onselectstart', 'return false;')
+    $view.attr('onmousedown', 'return false;')
 }
 
-function setActions(wrap) {
-    let $button_top = wrap.find('.button.top');
-    let $button_bottom = wrap.find('.button.bottom');
+function setDropdownAction($parent, $wrap) {
+    let $button_top = $wrap.find('.button.top');
+    let $button_bottom = $wrap.find('.button.bottom');
 
-    let $list = wrap.find('ul li');
+    let $list = $wrap.find('ul li');
     setUnselectable($list)
 
     $button_top.click(function () {
-        $list = wrap.find('ul li');
-        let $selected = wrap.find('.selected');
+        $list = $wrap.find('ul li');
+        let $selected = $wrap.find('.selected');
         $selected.removeClass('selected');
         let index = $list.index($selected);
 
@@ -181,11 +249,11 @@ function setActions(wrap) {
             index = $list.length - 1;
         }
         $list.eq(index).addClass('selected');
-        selectTime($(this).parents('span.box'));
+        selectDropdownTime($parent);
     })
     $button_bottom.click(function () {
-        $list = wrap.find('ul li');
-        let $selected = wrap.find('.selected');
+        $list = $wrap.find('ul li');
+        let $selected = $wrap.find('.selected');
         $selected.removeClass('selected');
         let index = $list.index($selected);
 
@@ -195,30 +263,18 @@ function setActions(wrap) {
             index = 0;
         }
         $list.eq(index).addClass('selected');
-        selectTime($(this).parents('span.box'));
+        selectDropdownTime($parent);
     })
 }
 
-$hours = undefined;
-$minutes = undefined;
+function selectDropdownTime($parent) {
+    let hour = $parent.find('.hours .selected').html();
+    let minute = $parent.find('.minutes .selected').html();
+    let value = pad(hour, 2) + ':' + pad(minute, 2);
 
-function selectTime(changed) {
-    let $time = $('.time');
-    let $hidden = $time.find('input[type=hidden]');
-    if ($hidden != undefined) {
-        $hidden.remove();
+    let $input = $parent.find('input[type=hidden]');
+    if ($input != undefined) {
+        $input.remove();
     }
-    let $minutes, $hours
-    if (changed.hasClass('minutes')) {
-        $minutes = changed;
-    } else if (changed.hasClass('hours')) {
-        $hours = changed;
-    } else {
-        return;
-    }
-    var hour = $hours.find('.selected')[0].innerHTML;
-    var minute = $minutes.find('.selected')[0].innerHTML;
-    console.log(hour + ", " + minute)
-    var value = pad(hour, 2) + ':' + pad(minute, 2);
-    $time.append('<input type="hidden" name="time" value="' + value + '"/>')
+    $parent.append('<input type="hidden" name="time" value="' + value + '"/>')
 }

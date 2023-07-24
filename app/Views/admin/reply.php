@@ -105,7 +105,7 @@
                         </a>
                     </div>
                 </div>`;
-                openPopup(className, getPopupViewStyle(className) + style, html)
+                openPopup(null, className, getPopupViewStyle(className) + style, html)
             },
             error: function (request, status, error) {
             },

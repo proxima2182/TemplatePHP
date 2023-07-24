@@ -145,7 +145,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
                         </a>
                     </div>
                 </div>`;
-                openPopup(className, getPopupViewStyle(className) + style, html)
+                openPopup(null, className, getPopupViewStyle(className) + style, html)
             },
             error: function (request, status, error) {
             },
@@ -159,21 +159,41 @@ $is_admin_page = isset($is_admin) && $is_admin;
         <style>
         .${className} input, .${className} textarea {
             border: none;
-            width: 100%;
             margin: 0;
+            font-weight: 200;
         }
 
-        .${className} .text-wrap .comment {
+        .${className} .comment {
+            width: 100%;
             min-height: 100px;
             padding: 10px 20px;
             font-size: 18px;
             font-weight: 200;
         }
+
+        .${className} .title {
+            line-height: 30px;
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        .${className} .time-selector-wrap {
+            display: inline-block;
+            width: 450px;
+            margin-bottom: 40px;
+        }
+
         </style>`
         let html = `
-        <div class="calendar" id="calendar-reservation"></div>
-        <div class="time-selector"></div>
-        <div class="text-wrap line-before">
+        <div class= "calendar-wrap">
+            <p class="title">Expect Date</p>
+            <div class= "calendar"></div>
+        </div>
+        <div class= "time-selector-wrap">
+            <p class="title">Expect Time</p>
+            <div class= "time-selector"></div>
+        </div>
+        <div class="input-wrap line-before">
             <textarea placeholder="Comment" name="comment" class="comment"></textarea>
         </div>
         <div class="control-wrap absolute line-before">
@@ -188,11 +208,11 @@ $is_admin_page = isset($is_admin) && $is_admin;
                 </a>
             </div>
         </div>`;
-        openPopup(className, getPopupViewStyle(className) + style, html, function () {
-            $('#calendar-reservation').initCalendar({
+        openPopup(null, className, getPopupViewStyle(className) + style, html, function () {
+            $(`.${className} .calendar`).initCalendar({
                 cell_size: 60,
             })
-            $('.time-selector').initTimeSelector()
+            $(`.${className} .time-selector`).initTimeSelector()
         })
     }
 </script>
