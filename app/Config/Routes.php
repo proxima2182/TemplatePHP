@@ -105,6 +105,7 @@ $routes->delete('/api/reservation-board/delete/([0-9]+)', 'API\Reservation::dele
 $routes->get('/api/reservation/get/([0-9]+)', 'API\Reservation::getReservation/$1');
 $routes->post('/api/reservation/request', 'API\Reservation::requestReservation');
 $routes->post('/api/reservation/reject/([0-9]+)', 'API\Reservation::rejectReservation/$1');
+$routes->post('/api/reservation/accept/([0-9]+)', 'API\Reservation::acceptReservation/$1');
 
 /*
  * --------------------------------------------------------------------

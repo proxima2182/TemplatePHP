@@ -99,7 +99,7 @@
                 </div>
                 <div class="control-wrap absolute line-before">
                     <div class="control-box">
-                        <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
+                        <a href="javascript:openInputPopupDelete(this, ${data['id']});" class="button delete">
                             <img src="/asset/images/icon/delete.png"/>
                             <span>Delete</span>
                         </a>

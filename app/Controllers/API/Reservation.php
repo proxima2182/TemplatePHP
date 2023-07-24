@@ -153,4 +153,19 @@ class Reservation extends BaseController
         ];
         return $this->response->setJSON($response);
     }
+
+    /**
+     * [post] /api/reservation/accept/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function acceptReservation($id): ResponseInterface
+    {
+        $response = [
+            'success' => false,
+            'data' => [],
+            'message' => ""
+        ];
+        return $this->response->setJSON($response);
+    }
 }

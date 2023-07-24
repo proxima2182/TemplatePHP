@@ -170,7 +170,7 @@ function addInputPopupControlWrap(data) {
                     <img src="/asset/images/icon/edit.png"/>
                     <span>Edit</span>
                 </a>
-                <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
+                <a href="javascript:openInputPopupDelete(this, ${data['id']});" class="button delete">
                     <img src="/asset/images/icon/delete.png"/>
                     <span>Delete</span>
                 </a>
@@ -188,7 +188,7 @@ function addInputPopupControlWrap(data) {
  * @throws {Response}           fetch 로 파일읽기에 실패했을 경우 결과를 throw
  * @todo throw 에 잡힌 경우 log 로 남길 필요 있음
  */
-async function openInputPopup(id) {
+async function openInputPopup($parent, id) {
     if (!getGetUrl || !getHtml) return;
     try {
         let request = await fetch('/asset/css/common/input.css')
@@ -206,7 +206,7 @@ async function openInputPopup(id) {
                 ${css}
                 ${popupStyle}
                 </style>`
-                openPopup(null, className, style, getHtml(data));
+                openPopup($parent, className, style, getHtml(data));
                 addInputPopupControlWrap(data);
                 let $textarea = $(`.${className} textarea`);
                 for (let i = 0; i < $textarea.length; ++i) {
@@ -259,7 +259,7 @@ function refreshInputPopup(id) {
  * @requires closePopup
  * @returns {Promise<void>}
  */
-async function openInputPopupCreate() {
+async function openInputPopupCreate($parent) {
     if (!getCreateUrl || !getHtml) return;
     try {
         let request = await fetch('/asset/css/common/input.css')
@@ -270,11 +270,22 @@ async function openInputPopupCreate() {
         ${css}
         ${popupStyle}
         </style>`
-        openPopup(null, className, style, getHtml())
+        openPopup($parent, className, style, getHtml())
+        $(`.${className} .popup-box`).css({
+            "padding-bottom": "61px",
+        })
         $(`.${className} .popup-inner`).append(`
-        <div class="button-wrap controls">
-            <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
-            <a href="javascript:confirmCreate()" class="button confirm black">Create</a>
+        <div class="control-wrap absolute line-before">
+            <div class="control-box">
+                <a href="javascript:closePopup('${className}');" class="button cancel">
+                    <img src="/asset/images/icon/cancel.png"/>
+                    <span>Cancel</span>
+                </a>
+                <a href="javascript:confirmCreate();" class="button confirm">
+                    <img src="/asset/images/icon/check.png"/>
+                    <span>Confirm</span>
+                </a>
+            </div>
         </div>`);
     } catch (e) {
         console.log(e)
@@ -289,12 +300,14 @@ function editInputPopup(id) {
     $(`.${className} .form-wrap .editable`).removeAttr('readonly')
     $(`.${className} .form-wrap .editable`).removeAttr('disabled')
     $(`.${className} .form-wrap .button-wrap`).remove();
-    $(`.${className} .popup-wrap .control-wrap`).remove();
+    $(`.${className} .popup-inner .control-wrap`).remove();
     $(`.${className} .form-wrap`).append(`
     <div class="error-message-wrap">
         <div class="error-message-box">
         </div>
-    </div>
+    </div>`)
+
+    $(`.${className} .popup-inner`).append(`
     <div class="control-wrap absolute line-before">
         <div class="control-box">
             <a href="javascript:refreshInputPopup(${id});" class="button cancel">
@@ -316,7 +329,7 @@ function editInputPopup(id) {
  * @requires closePopup
  * @param id
  */
-function openInputPopupDelete(id) {
+function openInputPopupDelete($parent, id) {
     let className = 'popup-delete';
     let style = `
     <style>
@@ -346,7 +359,7 @@ function openInputPopupDelete(id) {
         <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
         <a href="javascript:confirmInputPopupDelete(${id})" class="button confirm black">Delete</a>
     </div>`;
-    openPopup(null, className, style, html)
+    openPopup($parent, className, style, html)
 }
 
 /**

@@ -7,7 +7,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
             Reservation
         </h3>
         <div class="control-wrap">
-            <a href="javascript:openReservationPopupCreate();" class="button create">
+            <a href="javascript:openReservationPopupRequest(this);" class="button create">
                 <img src="/asset/images/icon/plus.png"/>
                 <span>Reserve</span>
             </a>
@@ -139,9 +139,13 @@ $is_admin_page = isset($is_admin) && $is_admin;
                 html += `
                 <div class="control-wrap absolute line-before">
                     <div class="control-box">
-                        <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
-                            <img src="/asset/images/icon/delete.png"/>
-                            <span>Delete</span>
+                        <a href="javascript:openReservationPopupReject(this, ${data['id']});" class="button reject">
+                            <img src="/asset/images/icon/cancel.png"/>
+                            <span>Reject</span>
+                        </a>
+                        <a href="javascript:openReservationPopupRequest(this, ${data['id']});" class="button accept">
+                            <img src="/asset/images/icon/check.png"/>
+                            <span>Accept</span>
                         </a>
                     </div>
                 </div>`;
@@ -153,8 +157,64 @@ $is_admin_page = isset($is_admin) && $is_admin;
         });
     }
 
-    function openReservationPopupCreate() {
-        let className = 'popup-reservation-create';
+    /**
+     * 반려 시 다시한번 묻는 popup 을 여는 기능
+     * @requires openPopup
+     * @requires closePopup
+     * @param id
+     */
+    function openReservationPopupReject($parent, id) {
+        let className = 'popup-reservation-reject';
+        let style = `
+        <style>
+        body .${className} .popup {
+            width: 500px;
+        }
+
+        .${className} .popup-inner .text-wrap {
+            padding: 20px 0;
+        }
+
+        .${className} .popup-inner .button-wrap {
+            margin-top: 20px;
+        }
+
+        .${className} .popup-inner .button-wrap .button {
+            min-width: 100px;
+            padding: 10px 20px;
+            margin: 0 10px;
+        }
+        </style>`
+        let html = `
+        <div class="text-wrap">
+            Are you sure to reject reservation?
+        </div>
+        <div class="button-wrap controls">
+            <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
+            <a href="javascript:confirmReservationPopupReject(${id})" class="button confirm black">Reject</a>
+        </div>`;
+        openPopup($parent, className, style, html)
+    }
+
+    /**
+     * 예약 반려 기능
+     * @param {string}id
+     */
+    function confirmReservationPopupReject(id) {
+        $.ajax({
+            type: 'POST',
+            url: `/api/reservation/reject/${id}`,
+            success: function (data, status, request) {
+                location.reload()
+            },
+            error: function (request, status, error) {
+            },
+            dataType: 'json'
+        });
+    }
+
+    function openReservationPopupRequest($parent) {
+        let className = 'popup-reservation-request';
         let style = `
         <style>
         .${className} input, .${className} textarea {
@@ -208,7 +268,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
                 </a>
             </div>
         </div>`;
-        openPopup(null, className, getPopupViewStyle(className) + style, html, function () {
+        openPopup($parent, className, getPopupViewStyle(className) + style, html, function () {
             $(`.${className} .calendar`).initCalendar({
                 cell_size: 60,
             })
