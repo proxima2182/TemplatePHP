@@ -77,6 +77,8 @@ $routes->post('/api/board/create', 'API\Board::createBoard');
 $routes->post('/api/board/update/([0-9]+)', 'API\Board::updateBoard/$1');
 $routes->delete('/api/board/delete/([0-9]+)', 'API\Board::deleteBoard/$1');
 
+$routes->get('/api/board/topic/get/([a-zA-Z][a-zA-Z0-9]*)', 'API\Board::getBoardTopic/$1');
+
 $routes->get('/api/location/get/([0-9]+)', 'API\Location::getLocation/$1');
 $routes->post('/api/location/create', 'API\Location::createLocation');
 $routes->post('/api/location/update/([0-9]+)', 'API\Location::updateLocation/$1');

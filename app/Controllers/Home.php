@@ -18,6 +18,7 @@ class Home extends BaseController
 
     public function index()
     {
+        // TODO 가능하면 첫 앱 실행때 체크하는 걸로 변경 필요
         $this->userModel->checkAdmin();
 //        return view('header', ["links" => ["test" => "a", "test2" => "a"], "is_login" => false])
 //            .view('main')

@@ -28,3 +28,7 @@ function pad(n, width) {
     n = n + '';
     return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
 }
+
+function hash() {
+    return Math.random().toString(36).substr(2, 11)
+}

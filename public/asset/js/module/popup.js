@@ -101,13 +101,6 @@ function openPopup($parent, className, style, html, callback) {
     display: inline-block;
     vertical-align: middle;
 }
-
-.${className} .popup .slider-wrap {
-    width: 600px;
-    display: inline-block;
-    text-align: center;
-    position: relative;
-}
 </style>
 ${style ?? ''}
     <div class="popup">

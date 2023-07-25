@@ -40,6 +40,7 @@ slider 페이지
 #page-start .slider-box {
     position: relative;
 }
+
 #page-start .slick button.slick-prev {
     left: 10px;
     background: url('/asset/images/icon/button_left_white@2x.png') no-repeat center;
@@ -434,4 +435,71 @@ submit 페이지
     font-size: 16px;
     display: inline-block;
     cursor: pointer;
+}
+
+.page-popup {
+    width: 450px;
+    line-height: normal;
+    font-size: 0;
+    display: inline-block;
+    vertical-align: middle;
+    background: #fff;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    z-index: 15;
+}
+
+.page-popup .interface {
+    height: 40px;
+    line-height: 40px;
+    text-align: right;
+    background: #000;
+    position: relative;
+}
+
+.page-popup .interface .button.close {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.page-popup .interface .button.close * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.page-popup .popup-box {
+    position: relative;
+}
+
+.page-popup .slider-wrap {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    position: relative;
+}
+
+.page-popup .slider-wrap .slick-element {
+    height: 600px;
+    display: inline-block;
+}
+
+.page-popup .popup-inner .button-wrap {
+    height: 60px;
+    line-height: 60px;
+    background: #000;
+    text-align: center;
+}
+
+.page-popup .popup-inner .button-wrap a {
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
 }

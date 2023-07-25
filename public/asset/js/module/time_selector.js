@@ -187,14 +187,12 @@ function setTimeSelectorButtons($parent) {
     <input type="hidden" name="time" value=""/>`
     $parent.append(html)
     let listWidth = hours.length * minutes.length * 90
-    console.log($parent.find(`li`).outerWidth())
     $parent.find(`.time-selector-list ul`).css({
         width: `${listWidth}px`
     })
     setUnselectable($parent.find(`li`));
     $parent.find(`li`).click(function () {
         $parent.find('.selected').removeClass('selected');
-        console.log(this)
         $(this).addClass('selected');
 
         let $input = $parent.find('input[type=hidden]');

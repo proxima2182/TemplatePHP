@@ -129,13 +129,113 @@ $(document).ready(function () {
         scrollwheel: false,
         disableDoubleClick: true,
         disableDoubleClickZoom: true,
-
     };
+
+
+    checkPagePopup();
+
 
     map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
     let event = new Event("customMapLoad");
     dispatchEvent(event);
 });
+
+function openPagePopup($parent, className, style, html, callback) {
+    if (!$parent) return;
+    $parent.append(`
+    <div class="page-popup ${className}">
+    ${style ?? ''}
+        <div class="interface">
+            <a href="javascript:closePagePopup('${className}')" class="button close">
+                <img src="/asset/images/icon/cancel_white.png"/>
+            </a>
+        </div>
+        <div class="popup-box">
+            <div class="popup-inner">
+            ${html ?? ''}
+            </div>
+        </div>
+    </div>`)
+    if (callback && typeof callback == 'function') callback();
+}
+
+/**
+ * popup 끄기 기능
+ * @param className
+ */
+function closePagePopup(className) {
+    let $popupWrap = $(`.${className}`)
+    $popupWrap.remove()
+    resizePagePopupWindow();
+}
+
+function closePagePopupTodayDisabled(className) {
+    let $popupWrap = $(`.${className}`)
+    $popupWrap.remove()
+    resizePagePopupWindow();
+}
+
+function resizePagePopupWindow() {
+    let $popups = $('.page-popup')
+    let left = 20;
+    for (let i = 0; i < $popups.length; i++) {
+        let popup = $popups.get(i);
+        popup.style = `top: 20px; left: ${left}px`;
+        left += 470;
+    }
+}
+
+function checkPagePopup() {
+    $.ajax({
+        type: 'GET',
+        url: `/api/board/topic/get/popup`,
+        success: function (response, status, request) {
+            if (!response.success) return;
+            let array = response.array;
+            let style = `
+                <style>
+                </style>`;
+            for (let i in array) {
+                let data = array[i]
+                let className = `page-popup-${hash()}`;
+                let html = `
+                <div class="slider-wrap">
+                    <div class="slick">`;
+                //TODO add loop
+                for (let index in data.images) {
+                    let image = data.images[index];
+                    html +=
+                        `
+                        <div class="slick-element"
+                             style="background: url('${image}') no-repeat center; background-size: cover; font-size: 0;">
+                            Slider #${index}
+                        </div>`
+                }
+                html += `
+                    </div>
+                </div>
+                <div class="button-wrap">
+                    <a href="javascript:closePagePopupTodayDisabled(${data['id']})" class="button black">
+                        <span>Don't show this popup today</span>
+                    </a>
+                </div>`
+                openPagePopup($('body'), className, style, html, function () {
+                    $(`.page-popup.${className} .slick`).slick({
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        autoplay: true,
+                        arrows: false,
+                        autoplaySpeed: 5000,
+                    });
+                })
+            }
+            resizePagePopupWindow();
+        },
+        error: function (request, status, error) {
+        },
+        dataType: 'json'
+    });
+}
 
 /**
  * window resize
@@ -159,6 +259,7 @@ function resizeWindow() {
     $('#page-last .page-inner').css({
         'line-height': `${window.innerHeight - 265}px`,
     })
+    resizePagePopupWindow();
 }
 
 addEventListener("resize", (event) => {
