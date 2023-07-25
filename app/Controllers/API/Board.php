@@ -107,6 +107,7 @@ class Board extends BaseController
             'success' => true,
             'array' => [
                 [
+                    'id'=> 0,
                     'images' => ['/asset/images/object.png', '/asset/images/object.png'],
                     'title' => 'Lorem ipsum',
                     'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
@@ -117,6 +118,7 @@ class Board extends BaseController
                     'created_at' => '2023-06-29 00:00:00',
                 ],
                 [
+                    'id'=> 1,
                     'images' => ['/asset/images/object.png', '/asset/images/object.png'],
                     'title' => 'Lorem ipsum',
                     'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia

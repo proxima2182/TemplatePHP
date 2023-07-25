@@ -3,6 +3,28 @@
  */
 let timeoutId;
 let map;
+
+/* 스토리지 제어 함수 정의 */
+let handleStorage = {
+    // 스토리지에 데이터 쓰기(이름, 만료일)
+    set: function (name, exp) {
+        // 만료 시간 구하기(exp를 ms단위로 변경)
+        let date = new Date();
+        date = date.setTime(date.getTime() + exp * 24 * 60 * 60 * 1000);
+
+        // 로컬 스토리지에 저장하기
+        // (값을 따로 저장하지 않고 만료 시간을 저장)
+        localStorage.setItem(name, date)
+    },
+    // 스토리지 읽어오기
+    has: function (name) {
+        let now = new Date();
+        now = now.setTime(now.getTime());
+        // 현재 시각과 스토리지에 저장된 시각을 각각 비교하여
+        // 시간이 남아 있으면 true, 아니면 false 리턴
+        return parseInt(localStorage.getItem(name)) > now
+    }
+};
 $(document).ready(function () {
     // activate full page
     $('#fullpage').fullpage({
@@ -169,9 +191,10 @@ function closePagePopup(className) {
     resizePagePopupWindow();
 }
 
-function closePagePopupTodayDisabled(className) {
+function closePagePopupTodayDisabled(className, id) {
     let $popupWrap = $(`.${className}`)
     $popupWrap.remove()
+    handleStorage.set(id, 1)
     resizePagePopupWindow();
 }
 
@@ -192,42 +215,36 @@ function checkPagePopup() {
         success: function (response, status, request) {
             if (!response.success) return;
             let array = response.array;
-            let style = `
-                <style>
-                </style>`;
             for (let i in array) {
                 let data = array[i]
-                let className = `page-popup-${hash()}`;
-                let html = `
-                <div class="slider-wrap">
-                    <div class="slick">`;
-                //TODO add loop
-                for (let index in data.images) {
-                    let image = data.images[index];
-                    html +=
-                        `
-                        <div class="slick-element"
-                             style="background: url('${image}') no-repeat center; background-size: cover; font-size: 0;">
-                            Slider #${index}
-                        </div>`
-                }
-                html += `
+                if (!handleStorage.has(data['id'])) {
+                    let className = `page-popup-${hash()}`;
+                    let html = `
+                    <div class="slider-wrap">
+                        <div class="slick">`;
+                    //TODO add loop
+                    for (let index in data.images) {
+                        let image = data.images[index];
+                        html += `<div class="slick-element" style="background: url('${image}') no-repeat center; background-size: cover; font-size: 0;">Slider #${index}</div>`
+                    }
+                    html += `
+                        </div>
                     </div>
-                </div>
-                <div class="button-wrap">
-                    <a href="javascript:closePagePopupTodayDisabled(${data['id']})" class="button black">
-                        <span>Don't show this popup today</span>
-                    </a>
-                </div>`
-                openPagePopup($('body'), className, style, html, function () {
-                    $(`.page-popup.${className} .slick`).slick({
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                        autoplay: true,
-                        arrows: false,
-                        autoplaySpeed: 5000,
-                    });
-                })
+                    <div class="button-wrap">
+                        <a href="javascript:closePagePopupTodayDisabled('${className}', ${data['id']})" class="button black">
+                            <span>Don't show this popup today</span>
+                        </a>
+                    </div>`
+                    openPagePopup($('body'), className, null, html, function () {
+                        $(`.page-popup.${className} .slick`).slick({
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            arrows: false,
+                            autoplaySpeed: 5000,
+                        });
+                    })
+                }
             }
             resizePagePopupWindow();
         },
@@ -291,11 +308,11 @@ function setMapPoints(points) {
         marker.setMap(map);
 
         // LatLngBounds 객체에 좌표를 추가합니다
-        bounds.extend(mapPoint);
+        bounds.extend(new kakao.maps.LatLng(point.latitude, point.longitude));
     }
 
-    map.setBounds(bounds);
-    map.setLevel(map.getLevel() + 1);
+    map.setBounds(bounds, 0, 0, 0, 340);
+    // map.setLevel(map.getLevel() + 1);
     // map.setMinLevel(12)
     // map.setMaxLevel(13)
 }
