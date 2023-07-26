@@ -109,6 +109,8 @@ $routes->post('/api/reservation/request', 'API\Reservation::requestReservation')
 $routes->post('/api/reservation/reject/([0-9]+)', 'API\Reservation::rejectReservation/$1');
 $routes->post('/api/reservation/accept/([0-9]+)', 'API\Reservation::acceptReservation/$1');
 
+$routes->post('/api/email/send', 'API\Email::send');
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

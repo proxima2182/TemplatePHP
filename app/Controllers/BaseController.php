@@ -2,12 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Helpers\ServerLogger;
 use App\Helpers\Utils;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use Exception;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -128,5 +130,25 @@ abstract class BaseController extends Controller
     function loadAdminFooter(): string
     {
         return $this->loadFooter(true);
+    }
+
+    protected function sendEmail($address, $title, $message): bool
+    {
+        try {
+            if (strlen($address) == 0) {
+                return false;
+            }
+            $email = \Config\Services::email();
+            $email->setFrom('no-reply@localhost');
+            $email->setTo($address);
+            $email->setSubject($title);
+            $email->setMessage($message);
+            if ($email->send()) {
+                return true;
+            }
+        } catch (Exception $e) {
+            ServerLogger::log($e);
+        }
+        return false;
     }
 }
