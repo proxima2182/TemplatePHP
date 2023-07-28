@@ -27,14 +27,14 @@ function confirm() {
 
     $.ajax({
         type: 'POST',
+        dataType: 'json',
         url: getConfirmUrl(),
         success: function (response, status, request) {
             if (!response.success) return;
             let data = response.data;
         },
-        error: function (request, status, error) {
+        error: function (response, status, error) {
         },
-        dataType: 'json'
     });
 
 }

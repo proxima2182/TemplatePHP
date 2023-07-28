@@ -7,23 +7,23 @@ use CodeIgniter\Model;
 
 class BaseModel extends Model
 {
-    protected $db;
-
-    function __construct()
-    {
-        parent::__construct();
-        $this->db = db_connect();
-    }
 
     protected function getBuilder(): BaseBuilder
     {
         return $this->db->table($this->table);
     }
 
-    public function getCount($condition): int
-    {
-        return  $this->getBuilder()->getWhere($condition)->getNumRows();
+    public function getPaginated($builder, $pagination) {
+        $total = $builder->getNumRows();
+        $per_page = $pagination['per_page'];
+        $page = $pagination['page'];
+        $offset = 0;
+        $total_page = (int)($total / $per_page) + 1;
+        if ($page > 0) {
+            $offset = ($page - 1) * $per_page;
+        }
     }
+
     protected function parsePagination($page, $per_page, $total, $total_page)
     {
         if ($total == 0) {

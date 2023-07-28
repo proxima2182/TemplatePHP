@@ -211,6 +211,7 @@ function resizePagePopupWindow() {
 function checkPagePopup() {
     $.ajax({
         type: 'GET',
+        dataType: 'json',
         url: `/api/board/topic/get/popup`,
         success: function (response, status, request) {
             if (!response.success) return;
@@ -248,9 +249,8 @@ function checkPagePopup() {
             }
             resizePagePopupWindow();
         },
-        error: function (request, status, error) {
+        error: function (response, status, error) {
         },
-        dataType: 'json'
     });
 }
 

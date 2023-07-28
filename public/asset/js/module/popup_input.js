@@ -6,6 +6,9 @@ let getGetUrl, getUpdateUrl, getCreateUrl, getDeleteUrl;
 let getHtml, getControlHtml;
 
 const popupStyle = `
+.${className} .popup-inner {
+    padding: 20px;
+}
 .${className} .popup-inner .button-wrap {
     margin-top: 40px;
 }
@@ -36,6 +39,16 @@ const popupStyle = `
 
 .${className} .form-wrap .input-wrap input, .${className} .form-wrap .input-wrap textarea {
     width: 65%;
+}
+
+.${className} .error-message-wrap {
+    text-align: center;
+}
+
+.${className} .error-message-wrap * {
+    color: #dd4814;
+    font-size: 16px;
+    line-height: 25px;
 }
 `;
 
@@ -196,6 +209,7 @@ async function openInputPopup($parent, id) {
         let css = await request.text()
         $.ajax({
             type: 'GET',
+            dataType: 'json',
             url: getGetUrl(id),
             success: function (response, status, request) {
                 if (!response.success)
@@ -206,16 +220,20 @@ async function openInputPopup($parent, id) {
                 ${css}
                 ${popupStyle}
                 </style>`
-                openPopup($parent, className, style, getHtml(data));
+                let html = `
+                <div class="form-wrap">
+                    ${getHtml(data)}
+                    <div class="error-message-wrap"></div>
+                </div>`
+                openPopup($parent, className, style, html);
                 addInputPopupControlWrap(data);
                 let $textarea = $(`.${className} textarea`);
                 for (let i = 0; i < $textarea.length; ++i) {
                     resizeInputPopupTextarea($textarea.get(i));
                 }
             },
-            error: function (request, status, error) {
+            error: function (response, status, error) {
             },
-            dataType: 'json'
         });
     } catch (e) {
         console.log(e)
@@ -227,28 +245,32 @@ async function openInputPopup($parent, id) {
  * 데이터는 화면이 다시 로드될 시 재확인 해 줄 필요가 있기 때문에
  * getGetUrl 을 이용하여 데이터를 다시 읽어온다
  * cancel 버튼 누를 때 호출
- * @requires openPopup
  * @param {string}id            API 에 전달 할 id
  */
 function refreshInputPopup(id) {
     $.ajax({
         type: 'GET',
+        dataType: 'json',
         url: getGetUrl(id),
         success: function (response, status, request) {
             if (!response.success)
                 return;
             let data = response.data;
             $(`.${className} .popup-inner`).children().remove();
-            $(`.${className} .popup-inner`).append(getHtml(data))
+            let html = `
+            <div class="form-wrap">
+                ${getHtml(data)}
+                <div class="error-message-wrap"></div>
+            </div>`
+            $(`.${className} .popup-inner`).append(html)
             addInputPopupControlWrap(data);
             let $textarea = $(`.${className} textarea`);
             for (let i = 0; i < $textarea.length; ++i) {
                 resizeInputPopupTextarea($textarea.get(i));
             }
         },
-        error: function (request, status, error) {
+        error: function (response, status, error) {
         },
-        dataType: 'json'
     });
 }
 
@@ -270,7 +292,12 @@ async function openInputPopupCreate($parent) {
         ${css}
         ${popupStyle}
         </style>`
-        openPopup($parent, className, style, getHtml())
+        let html = `
+        <div class="form-wrap">
+            ${getHtml()}
+            <div class="error-message-wrap"></div>
+        </div>`
+        openPopup($parent, className, style, html)
         $(`.${className} .popup-box`).css({
             "padding-bottom": "61px",
         })
@@ -281,7 +308,7 @@ async function openInputPopupCreate($parent) {
                     <img src="/asset/images/icon/cancel.png"/>
                     <span>Cancel</span>
                 </a>
-                <a href="javascript:confirmCreate();" class="button confirm">
+                <a href="javascript:confirmInputPopupCreate();" class="button confirm">
                     <img src="/asset/images/icon/check.png"/>
                     <span>Confirm</span>
                 </a>
@@ -301,11 +328,6 @@ function editInputPopup(id) {
     $(`.${className} .form-wrap .editable`).removeAttr('disabled')
     $(`.${className} .form-wrap .button-wrap`).remove();
     $(`.${className} .popup-inner .control-wrap`).remove();
-    $(`.${className} .form-wrap`).append(`
-    <div class="error-message-wrap">
-        <div class="error-message-box">
-        </div>
-    </div>`)
 
     $(`.${className} .popup-inner`).append(`
     <div class="control-wrap absolute line-before">
@@ -355,6 +377,7 @@ function openInputPopupDelete($parent, id) {
     <div class="text-wrap">
         Are you sure to delete?
     </div>
+    <div class="error-message-wrap"></div>
     <div class="button-wrap controls">
         <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
         <a href="javascript:confirmInputPopupDelete(${id})" class="button confirm black">Delete</a>
@@ -367,15 +390,70 @@ function openInputPopupDelete($parent, id) {
  * @param {string}id
  */
 function confirmInputPopupEdit(id) {
+    if (!getUpdateUrl) return;
     $.ajax({
         type: 'POST',
+        dataType: 'json',
         url: getUpdateUrl(id),
-        success: function (data, status, request) {
-            location.reload()
+        success: function (response, status, request) {
+            if (response.success) {
+                location.reload()
+            }
         },
-        error: function (request, status, error) {
+        error: function (response, status, error) {
         },
-        dataType: 'json'
+    });
+}
+
+/**
+ * 데이터 생성을 완료 기능
+ * @param {string}id
+ */
+function confirmInputPopupCreate() {
+    if (!getCreateUrl) return;
+    let data = {};
+    let inputs = $(`.${className} .editable`)
+    for (let i = 0; i < inputs.length; ++i) {
+        let input = inputs.eq(i);
+        if (input.length > 0) {
+            data[input[0].name] = input.val();
+        }
+    }
+    $(`.${className} .error-message-wrap`).empty();
+    $.ajax({
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        url: getCreateUrl(),
+        success: function (response, status, request) {
+            if (response.success) {
+                location.reload()
+            } else {
+                console.log(response)
+                if (response.messages) {
+                    for (let key in response.messages) {
+                        let message = response.messages[key];
+                        $(`.${className} .error-message-wrap`).append(`<div>${message}</div>`)
+                    }
+                }
+                if (response.message) {
+                    $(`.${className} .error-message-wrap`).append(`<div>${response.message}</div>`)
+                }
+            }
+        },
+        error: function (response, status, error) {
+            let message = error;
+            try {
+                let errorObject = JSON.parse(response.responseText);
+                if (errorObject.message) {
+                    message = errorObject.message
+                }
+            } catch (e) {
+            }
+            if (message) {
+                $(`.${className} .error-message-wrap`).append(`<div>${message}</div>`)
+            }
+        },
     });
 }
 
@@ -384,15 +462,18 @@ function confirmInputPopupEdit(id) {
  * @param {string}id
  */
 function confirmInputPopupDelete(id) {
+    if (!getDeleteUrl) return;
     $.ajax({
         type: 'DELETE',
+        dataType: 'json',
         url: getDeleteUrl(id),
-        success: function (data, status, request) {
-            location.reload()
+        success: function (response, status, request) {
+            if (response.success) {
+                location.reload()
+            }
         },
-        error: function (request, status, error) {
+        error: function (response, status, error) {
         },
-        dataType: 'json'
     });
 }
 

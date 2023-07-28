@@ -72,14 +72,14 @@
         $.ajax({
             type: 'POST',
             data: data,
+            dataType: 'json',
             url: `/api/topic/update/${id}`,
             success: function (response, status, request) {
                 //TODO refresh
             },
-            error: function (request, status, error) {
+            error: function (response, status, error) {
                 console.log(error)
             },
-            dataType: 'json'
         });
     }
 
@@ -122,7 +122,7 @@
                 // $('.uploadBtn').prop('Enabled');
                 // document.getElementById("upload_image_form").reset();
             },
-            error: function (request, status, error) {
+            error: function (response, status, error) {
             },
         });
     }

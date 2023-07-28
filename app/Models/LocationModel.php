@@ -16,8 +16,10 @@ require APPPATH.'Models/BaseModel.php';
  */
 class LocationModel extends BaseModel
 {
-    function __construct() {
-        parent::__construct();
-        $this->table = 'location';
-    }
+    protected $table      = 'location';
+    protected $allowedFields = [
+        'name',
+        'latitude',
+        'altitude',
+    ];
 }

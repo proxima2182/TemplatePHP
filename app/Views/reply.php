@@ -313,6 +313,7 @@
         function loadReply(id) {
             $.ajax({
                 type: 'GET',
+                dataType: 'json',
                 url: `/api/topic/get/${id}/reply`,
                 success: function (response, status, request) {
                     if (!response.success) return;
@@ -325,15 +326,15 @@
 
                     resizeReplyWrap();
                 },
-                error: function (request, status, error) {
+                error: function (response, status, error) {
                 },
-                dataType: 'json'
             })
         }
 
         function loadNestedReply(reply_id, page = 1) {
             $.ajax({
                 type: 'GET',
+                dataType: 'json',
                 url: `/api/topic/reply/get/${reply_id}/nested?page=${page + 1}`,
                 success: function (response, status, request) {
                     if (!response.success) return;
@@ -358,9 +359,8 @@
 
                     resizeReplyWrap();
                 },
-                error: function (request, status, error) {
+                error: function (response, status, error) {
                 },
-                dataType: 'json'
             })
         }
 

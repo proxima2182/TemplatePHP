@@ -17,8 +17,9 @@ require APPPATH.'Models/BaseModel.php';
  */
 class TopicModel extends BaseModel
 {
-    function __construct() {
-        parent::__construct();
-        $this->table = 'topic';
-    }
+    protected $table      = 'topic';
+    protected $allowedFields = [
+        'title',
+        'content',
+    ];
 }

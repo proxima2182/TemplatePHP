@@ -20,8 +20,11 @@ require APPPATH.'Models/BaseModel.php';
  */
 class ReplyModel extends BaseModel
 {
-    function __construct() {
-        parent::__construct();
-        $this->table = 'reply';
-    }
+    protected $table      = 'reply';
+    protected $allowedFields = [
+        'content',
+        'is_deleted',
+        'is_public',
+        'depth',
+    ];
 }

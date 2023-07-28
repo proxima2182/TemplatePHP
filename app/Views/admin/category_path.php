@@ -1,5 +1,5 @@
 <?php
-use App\Helpers\Utils;
+
 ?>
 <div class="container-inner">
     <div class="inner-box">
@@ -67,7 +67,7 @@ use App\Helpers\Utils;
                 },
             }
             let keys = Object.keys(typeSet);
-            let html = `<div class="form-wrap">`;
+            let html = ``;
 
             for (let i in keys) {
                 let key = keys[i];
@@ -76,7 +76,28 @@ use App\Helpers\Utils;
                     html += extracted;
                 }
             }
-            html += `</div>`;
+
+            return html;
+        },
+        getControlHtml: function (data) {
+            let html = ``
+            if (data['is_default'] != 0) {
+               html+=`
+                <a href="javascript:setDefault(${data['id']})" class="button default">
+                    <img src="/asset/images/icon/check.png"/>
+                    <span>Make as Default</span>
+                </a>`
+            }
+            html += `
+            <a href="javascript:editInputPopup(${data['id']})"
+               class="button edit">
+                <img src="/asset/images/icon/edit.png"/>
+                <span>Edit</span>
+            </a>
+            <a href="javascript:openInputPopupDelete(this, ${data['id']});" class="button delete">
+                <img src="/asset/images/icon/delete.png"/>
+                <span>Delete</span>
+            </a>`;
             return html;
         },
     })

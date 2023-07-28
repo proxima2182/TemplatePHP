@@ -21,10 +21,14 @@ use Leaf\Helpers\Password;
  */
 class UserModel extends BaseModel
 {
-    function __construct() {
-        parent::__construct();
-        $this->table = 'user';
-    }
+    protected $table      = 'user';
+    protected $allowedFields = [
+        'username',
+        'type',
+        'password',
+        'name',
+        'email',
+    ];
 
     public function checkAdmin()
     {

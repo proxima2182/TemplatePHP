@@ -4,16 +4,15 @@ namespace App\Controllers\API;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use Exception;
 
 class Category extends BaseController
 {
-    protected $db;
-    protected $userModel;
+    protected $categoryModel;
 
     public function __construct()
     {
-        $this->db = db_connect();
-        $this->userModel = model('App\Models\UserModel');
+        $this->categoryModel = model('App\Models\CategoryModel');
     }
 
     /**
@@ -51,8 +50,35 @@ class Category extends BaseController
         $response = [
             'success' => false,
             'data' => [],
-            'message' => ""
+            'message' => null,
+            'messages' => null,
         ];
+
+        $body = $this->request->getPost();
+
+        if (!$this->validate([
+            'code' => [
+                'label' => 'Code',
+                'rules' => 'required|min_length[1]|regex_match[^[^0-9][a-zA-Z0-9_]+$]',
+                'errors' => [
+                    'regex_match' => '{field} should not start with number'
+                ],
+            ],
+            'name' => [
+                'label' => 'Name',
+                'rules' => 'required|min_length[1]',
+            ],
+        ])) {
+            $response['messages'] = $this->validator->getErrors();
+        } else {
+            try {
+                $this->categoryModel->insert($body);
+                $response['success'] = true;
+            } catch (Exception $e) {
+                $response['message'] = $e->getMessage();
+            }
+        }
+
         return $this->response->setJSON($response);
     }
 

@@ -18,8 +18,12 @@ require APPPATH.'Models/BaseModel.php';
  */
 class ReservationBoardModel extends BaseModel
 {
-    function __construct() {
-        parent::__construct();
-        $this->table = 'reservation_board';
-    }
+    protected $table      = 'reservation_board';
+    protected $allowedFields = [
+        'code',
+        'alias',
+        'description',
+        'default_confirm_comment',
+        'is_deleted',
+    ];
 }

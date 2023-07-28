@@ -50,6 +50,7 @@
     function openReplyPopup(id) {
         $.ajax({
             type: 'GET',
+            dataType: 'json',
             url: `/api/topic/reply/get/${id}`,
             success: function (response, status, request) {
                 if (!response.success)
@@ -107,9 +108,8 @@
                 </div>`;
                 openPopup(null, className, getPopupViewStyle(className) + style, html)
             },
-            error: function (request, status, error) {
+            error: function (response, status, error) {
             },
-            dataType: 'json'
         });
     }
 

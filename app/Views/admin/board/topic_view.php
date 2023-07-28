@@ -182,14 +182,14 @@ $reply = [
     function confirmDeleteTopic(id) {
         $.ajax({
             type: 'DELETE',
+            dataType: 'json',
             url: `/api/topic/delete/${id}`,
             success: function (response, status, request) {
                 //TODO refresh
             },
-            error: function (request, status, error) {
+            error: function (response, status, error) {
                 console.log(error)
             },
-            dataType: 'json'
         });
     }
 </script>

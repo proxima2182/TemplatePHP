@@ -51,6 +51,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
     function openReservationPopup(id) {
         $.ajax({
             type: 'GET',
+            dataType: 'json',
             url: `/api/reservation/get/${id}`,
             success: function (response, status, request) {
                 if (!response.success)
@@ -151,9 +152,8 @@ $is_admin_page = isset($is_admin) && $is_admin;
                 </div>`;
                 openPopup(null, className, getPopupViewStyle(className) + style, html)
             },
-            error: function (request, status, error) {
+            error: function (response, status, error) {
             },
-            dataType: 'json'
         });
     }
 
@@ -203,13 +203,13 @@ $is_admin_page = isset($is_admin) && $is_admin;
     function confirmReservationPopupReject(id) {
         $.ajax({
             type: 'POST',
+            dataType: 'json',
             url: `/api/reservation/reject/${id}`,
-            success: function (data, status, request) {
+            success: function (response, status, request) {
                 location.reload()
             },
-            error: function (request, status, error) {
+            error: function (response, status, error) {
             },
-            dataType: 'json'
         });
     }
 

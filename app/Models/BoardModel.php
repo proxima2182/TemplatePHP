@@ -2,7 +2,7 @@
 
 namespace Models;
 
-require APPPATH.'Models/BaseModel.php';
+require APPPATH . 'Models/BaseModel.php';
 
 /*
  * column_name      type            comment
@@ -19,17 +19,28 @@ require APPPATH.'Models/BaseModel.php';
  * created_at       DATETIME
  * updated_at       DATETIME
  */
+
 class BoardModel extends BaseModel
 {
-    function __construct() {
-        parent::__construct();
-        $this->table = 'board';
+    protected $table = 'board';
+    protected $allowedFields = [
+        'code',
+        'type',
+        'alias',
+        'description',
+        'is_reply',
+        'is_public',
+        'is_editable',
+        'is_deleted',
+    ];
+
+    function getBoards()
+    {
+        $this->builder()->getWhere(["is_public" => 1])->getResultArray();
     }
 
-    function getBoards() {
-        $this->getBuilder()->getWhere(["is_public" => 1])->getResultArray();
-    }
-    function getBoard($code) {
+    function getBoard($code)
+    {
         $this->getBuilder()->getWhere(["code" => $code])->getResult();
     }
 }

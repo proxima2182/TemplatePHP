@@ -15,17 +15,24 @@ require APPPATH.'Models/BaseModel.php';
  * expect_date          DATE
  * expect_time          TIME
  * expect_timedate      DATETIME
- * question_comment        TEXT
+ * question_comment     TEXT
  * confirm_date         DATE
  * confirm_time         TIME
- * respond_comment        TEXT
+ * respond_comment      TEXT
  * created_at           DATETIME
  * updated_at           DATETIME
  */
 class ReservationModel extends BaseModel
 {
-    function __construct() {
-        parent::__construct();
-        $this->table = 'reservation';
-    }
+    protected $table      = 'reservation';
+    protected $allowedFields = [
+        'status',
+        'expect_date',
+        'expect_time',
+        'expect_timedate',
+        'question_comment',
+        'confirm_date',
+        'confirm_time',
+        'respond_comment',
+    ];
 }

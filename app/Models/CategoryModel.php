@@ -16,8 +16,9 @@ require APPPATH.'Models/BaseModel.php';
  */
 class CategoryModel extends BaseModel
 {
-    function __construct() {
-        parent::__construct();
-        $this->table = 'category';
-    }
+    protected $table      = 'category';
+    protected $allowedFields = [
+        'code',
+        'name',
+    ];
 }

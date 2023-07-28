@@ -16,8 +16,9 @@ require APPPATH.'Models/BaseModel.php';
  */
 class CategoryPathModel extends BaseModel
 {
-    function __construct() {
-        parent::__construct();
-        $this->table = 'category_path';
-    }
+    protected $table      = 'category_path';
+    protected $allowedFields = [
+        'name',
+        'path',
+    ];
 }

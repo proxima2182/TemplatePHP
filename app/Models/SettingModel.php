@@ -17,8 +17,11 @@ require APPPATH.'Models/BaseModel.php';
  */
 class SettingModel extends BaseModel
 {
-    function __construct() {
-        parent::__construct();
-        $this->table = 'setting';
-    }
+    protected $table      = 'setting';
+    protected $allowedFields = [
+        'code',
+        'type',
+        'name',
+        'value',
+    ];
 }

@@ -36,6 +36,7 @@
     function openTopicPopup(id) {
         $.ajax({
             type: 'GET',
+            dataType: 'json',
             url: `/api/topic/get/${id}`,
             success: function (response, status, request) {
                 if (!response.success) return;
@@ -116,9 +117,8 @@
                     });
                 })
             },
-            error: function (request, status, error) {
+            error: function (response, status, error) {
             },
-            dataType: 'json'
         });
     }
 </script>

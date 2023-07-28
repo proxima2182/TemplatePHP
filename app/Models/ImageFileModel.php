@@ -16,8 +16,9 @@ require APPPATH.'Models/BaseModel.php';
  */
 class ImageFileModel extends BaseModel
 {
-    function __construct() {
-        parent::__construct();
-        $this->table = 'image_file';
-    }
+    protected $table      = 'image_file';
+    protected $allowedFields = [
+        'data',
+        'priority',
+    ];
 }

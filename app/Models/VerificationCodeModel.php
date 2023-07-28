@@ -16,8 +16,10 @@ require APPPATH.'Models/BaseModel.php';
  */
 class VerificationCodeModel extends BaseModel
 {
-    function __construct() {
-        parent::__construct();
-        $this->table = 'verification_code';
-    }
+    protected $table      = 'verification_code';
+    protected $allowedFields = [
+        'username',
+        'code',
+        'is_used',
+    ];
 }

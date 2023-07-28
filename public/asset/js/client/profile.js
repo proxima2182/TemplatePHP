@@ -29,6 +29,7 @@ function changePassword() {
 function refreshProfile() {
     $.ajax({
         type: 'GET',
+        dataType: 'json',
         url: `/api/profile`,
         success: function (response, textStatus, request) {
             if (!response.success) return;
@@ -63,9 +64,8 @@ function refreshProfile() {
                 <a href="javascript:editProfile()" class="button edit-profile black">Edit Profile</a>
             </div>`)
         },
-        error: function (request, textStatus, error) {
+        error: function (response, textStatus, error) {
         },
-        dataType: 'json'
     })
 }
 

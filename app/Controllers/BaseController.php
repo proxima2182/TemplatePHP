@@ -132,6 +132,8 @@ abstract class BaseController extends Controller
         return $this->loadFooter(true);
     }
 
+    /**API functions**/
+
     protected function sendEmail($address, $title, $message): bool
     {
         try {
