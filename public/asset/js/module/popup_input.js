@@ -199,7 +199,7 @@ function addInputPopupControlWrap(data) {
  * @param {string}id            API 에 전달 할 id
  * @returns {Promise<void>}
  * @throws {Response}           fetch 로 파일읽기에 실패했을 경우 결과를 throw
- * @todo throw 에 잡힌 경우 log 로 남길 필요 있음
+ * @todo(log) throw 에 잡힌 경우 log 로 남길 필요 있음
  */
 async function openInputPopup($parent, id) {
     if (!getGetUrl || !getHtml) return;

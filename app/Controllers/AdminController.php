@@ -4,6 +4,12 @@ namespace App\Controllers;
 
 class AdminController extends BaseController
 {
+    protected $categoryModel;
+
+    public function __construct()
+    {
+        $this->categoryModel = model('App\Models\CategoryModel');
+    }
 
     function getBoards($page = 1): string
     {
@@ -369,6 +375,13 @@ class AdminController extends BaseController
 
     function getCategories($page = 1): string
     {
+        $result = $this->categoryModel->getPaginated([
+            'per_page' => 30,
+            'page' => 6,
+        ]);
+        $data = [
+            'pagination_link' => '/admin/category',
+        ];
         return parent::loadAdminHeader([
                 'css' => parent::generateAssetStatement("css", [
                     '/common/table',
@@ -378,31 +391,7 @@ class AdminController extends BaseController
                     '/module/popup_input',
                 ]),
             ])
-            . view('/admin/category', [
-                'array' => [
-                    [
-                        'id' => 0,
-                        'code' => 'code1',
-                        'name' => 'Category1',
-                        'category_default_name' => 'point A Address',
-                        'category_default_path' => 'point A Address',
-                    ],
-                    [
-                        'id' => 1,
-                        'code' => 'code2',
-                        'name' => 'Category2',
-                        'category_default_name' => null,
-                        'category_default_path' => null,
-                    ],
-                ],
-                'pagination' => [
-                    'per-page' => 30,
-                    'page' => 6,
-                    'total' => 180,
-                    'total-page' => 6,
-                ],
-                'pagination_link' => '/admin/category'
-            ])
+            . view('/admin/category', array_merge($result, $data))
             . parent::loadAdminFooter();
     }
 

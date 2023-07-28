@@ -7,7 +7,7 @@
  * 모든 페이지에서 login 버튼을 이용해 호출할 수 있도록 함
  * @returns {Promise<void>}
  * @throws {Response}           fetch 로 파일읽기에 실패했을 경우 결과를 throw
- * @todo throw 에 잡힌 경우 log 로 남길 필요 있음
+ * @todo(log) throw 에 잡힌 경우 log 로 남길 필요 있음
  */
 async function openPopupLogin() {
     try {

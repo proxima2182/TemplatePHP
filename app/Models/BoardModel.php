@@ -24,6 +24,7 @@ class BoardModel extends BaseModel
 {
     protected $table = 'board';
     protected $allowedFields = [
+        'id',
         'code',
         'type',
         'alias',
@@ -32,6 +33,8 @@ class BoardModel extends BaseModel
         'is_public',
         'is_editable',
         'is_deleted',
+        'created_at',
+        'updated_at',
     ];
 
     function getBoards()
@@ -41,6 +44,6 @@ class BoardModel extends BaseModel
 
     function getBoard($code)
     {
-        $this->getBuilder()->getWhere(["code" => $code])->getResult();
+        $this->builder()->getWhere(["code" => $code])->getResult();
     }
 }

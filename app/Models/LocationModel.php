@@ -18,8 +18,11 @@ class LocationModel extends BaseModel
 {
     protected $table      = 'location';
     protected $allowedFields = [
+        'id',
         'name',
         'latitude',
         'altitude',
+        'created_at',
+        'updated_at',
     ];
 }

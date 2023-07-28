@@ -18,8 +18,11 @@ class VerificationCodeModel extends BaseModel
 {
     protected $table      = 'verification_code';
     protected $allowedFields = [
+        'id',
         'username',
         'code',
         'is_used',
+        'created_at',
+        'updated_at',
     ];
 }

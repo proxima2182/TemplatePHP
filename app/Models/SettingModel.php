@@ -19,9 +19,12 @@ class SettingModel extends BaseModel
 {
     protected $table      = 'setting';
     protected $allowedFields = [
+        'id',
         'code',
         'type',
         'name',
         'value',
+        'created_at',
+        'updated_at',
     ];
 }

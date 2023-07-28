@@ -23,16 +23,19 @@ class UserModel extends BaseModel
 {
     protected $table      = 'user';
     protected $allowedFields = [
+        'id',
         'username',
         'type',
         'password',
         'name',
         'email',
+        'created_at',
+        'updated_at',
     ];
 
     public function checkAdmin()
     {
-        $result = $this->getBuilder()->getWhere(["username" => "admin"])->getResultArray();
+        $result = $this->builder()->getWhere(["username" => "admin"])->getResultArray();
         if (count($result) == 0) {
             $password = Password::hash("admin", Password::BCRYPT);
             ServerLogger::log($password);
@@ -42,7 +45,11 @@ class UserModel extends BaseModel
                 "password" => $password,
                 "name" => "관리자",
             ];
-            $this->getBuilder()->insert($data);
+            try {
+                $this->insert($data);
+            } catch (\ReflectionException $e) {
+                //todo(log)
+            }
         }
     }
 
@@ -50,6 +57,6 @@ class UserModel extends BaseModel
     {
 //        return $this->db->get_where(self::table, array(self::col_id => $id))->row_array();
 //        return $this->db->query("SELECT * FROM user")->getResult();
-        return $this->getBuilder()->get()->getResult();
+        return $this->builder()->get()->getResult();
     }
 }

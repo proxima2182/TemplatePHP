@@ -18,7 +18,10 @@ class ImageFileModel extends BaseModel
 {
     protected $table      = 'image_file';
     protected $allowedFields = [
+        'id',
         'data',
         'priority',
+        'created_at',
+        'updated_at',
     ];
 }

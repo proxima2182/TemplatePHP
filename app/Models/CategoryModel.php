@@ -18,7 +18,10 @@ class CategoryModel extends BaseModel
 {
     protected $table      = 'category';
     protected $allowedFields = [
+        'id',
         'code',
         'name',
+        'created_at',
+        'updated_at',
     ];
 }

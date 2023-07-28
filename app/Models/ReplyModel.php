@@ -22,9 +22,12 @@ class ReplyModel extends BaseModel
 {
     protected $table      = 'reply';
     protected $allowedFields = [
+        'id',
         'content',
         'is_deleted',
         'is_public',
         'depth',
+        'created_at',
+        'updated_at',
     ];
 }

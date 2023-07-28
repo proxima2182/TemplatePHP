@@ -2,38 +2,42 @@
 
 namespace Models;
 
-use CodeIgniter\Database\BaseBuilder;
 use CodeIgniter\Model;
 
 class BaseModel extends Model
 {
 
-    protected function getBuilder(): BaseBuilder
+    public function getPaginated($pagination, $condition = null): array
     {
-        return $this->db->table($this->table);
-    }
-
-    public function getPaginated($builder, $pagination) {
-        $total = $builder->getNumRows();
+        $total = $this->builder()->getWhere($condition)->getNumRows();
         $per_page = $pagination['per_page'];
         $page = $pagination['page'];
         $offset = 0;
-        $total_page = (int)($total / $per_page) + 1;
+        $total_page = (int)($total / $per_page) + ($total % $per_page == 0 ? 0 : 1);
+        if ($page > $total_page) {
+            $page = $total_page;
+        }
         if ($page > 0) {
             $offset = ($page - 1) * $per_page;
         }
+        $result = $this->builder()->limit($per_page, $offset)->getWhere($condition)->getResult();
+
+        return [
+            'array' => $result,
+            'pagination' => $this->parsePagination($page, $per_page, $total, $total_page),
+        ];
     }
 
-    protected function parsePagination($page, $per_page, $total, $total_page)
+    protected function parsePagination($page, $per_page, $total, $total_page): array
     {
         if ($total == 0) {
             $total_page = 0;
         }
-        return json_encode([
+        return [
             'per-page' => $per_page,
             'page' => $page,
             'total' => $total,
             'total-page' => $total_page,
-        ]);
+        ];
     }
 }

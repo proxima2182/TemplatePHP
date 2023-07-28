@@ -20,10 +20,13 @@ class ReservationBoardModel extends BaseModel
 {
     protected $table      = 'reservation_board';
     protected $allowedFields = [
+        'id',
         'code',
         'alias',
         'description',
         'default_confirm_comment',
         'is_deleted',
+        'created_at',
+        'updated_at',
     ];
 }

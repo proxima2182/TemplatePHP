@@ -26,6 +26,7 @@ class ReservationModel extends BaseModel
 {
     protected $table      = 'reservation';
     protected $allowedFields = [
+        'id',
         'status',
         'expect_date',
         'expect_time',
@@ -34,5 +35,7 @@ class ReservationModel extends BaseModel
         'confirm_date',
         'confirm_time',
         'respond_comment',
+        'created_at',
+        'updated_at',
     ];
 }

@@ -18,7 +18,10 @@ class CategoryPathModel extends BaseModel
 {
     protected $table      = 'category_path';
     protected $allowedFields = [
+        'id',
         'name',
         'path',
+        'created_at',
+        'updated_at',
     ];
 }
