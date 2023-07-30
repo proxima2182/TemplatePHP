@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\API;
+namespace API;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;

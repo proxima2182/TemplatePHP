@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\API;
+namespace API;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -14,6 +14,30 @@ class User extends BaseController
     {
         $this->db = db_connect();
         $this->userModel = model('App\Models\UserModel');
+    }
+
+    /**
+     * [get] /api/user/get/profile
+     * @return ResponseInterface
+     */
+    public function getProfile(): ResponseInterface
+    {
+        $response = [
+            'success' => false,
+            'data' => [],
+            'message' => ""
+        ];
+        $response = [
+            'success' => true,
+            'data' => [
+                'username' => 'admin',
+                'name' => 'admin',
+                'email' => 'admin@gmail.com',
+                'notification' => '1',
+            ],
+            'message' => ""
+        ];
+        return $this->response->setJSON($response);
     }
 
     /**

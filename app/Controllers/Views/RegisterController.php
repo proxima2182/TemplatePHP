@@ -1,28 +1,23 @@
 <?php
 
-namespace App\Controllers;
+namespace Views;
 
-class ProfileController extends BaseController
+use App\Controllers\BaseController;
+
+class RegisterController extends BaseController
 {
     public function index()
     {
-        $data = [
-            'username' => 'admin',
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'notification' => '1'
-        ];
-
         return parent::loadHeader([
                 'css' => parent::generateAssetStatement("css", [
                     '/common/form',
                     '/common/input',
                 ]),
                 'js' => parent::generateAssetStatement("js", [
-                    '/client/profile',
+                    '/module/form',
                 ]),
             ])
-            . view('/client/profile', $data)
+            . view('/client/register')
             .parent::loadFooter();
     }
 }

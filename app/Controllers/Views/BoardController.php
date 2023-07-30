@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace Views;
+
+use App\Controllers\BaseController;
 
 class BoardController extends BaseController
 {

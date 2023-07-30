@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Controllers;
+namespace Views;
 
+use App\Controllers\BaseController;
 use App\Helpers\ServerLogger;
 
-class Home extends BaseController
+class MainController extends BaseController
 {
 
     protected $db;

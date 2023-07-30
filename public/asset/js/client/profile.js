@@ -30,7 +30,7 @@ function refreshProfile() {
     $.ajax({
         type: 'GET',
         dataType: 'json',
-        url: `/api/profile`,
+        url: `/api/user/get/profile`,
         success: function (response, textStatus, request) {
             if (!response.success) return;
             let data = response.data;

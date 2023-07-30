@@ -1,6 +1,5 @@
 <?php
 
-use App\Helpers\ServerLogger;
 use App\Helpers\Utils;
 
 ?>
@@ -28,8 +27,7 @@ use App\Helpers\Utils;
                 <ul>
                     <?php foreach ($array as $index => $item) {
                         $item = json_encode($item);
-                        $item = json_decode($item,true);
-                        ServerLogger::log($item);?>
+                        $item = json_decode($item, true); ?>
                         <li class="row">
                             <a href="javascript:openInputPopup(this, '<?= $item['id'] ?>')" class="button row-button">
                                 <span class="column code"><?= $item['code'] ?></span>
