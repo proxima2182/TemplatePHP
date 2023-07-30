@@ -32,8 +32,6 @@
                 </ul>
             </div>
         </div>
-
-        <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>
 <script type="text/javascript">
@@ -76,13 +74,14 @@
                     html += extracted;
                 }
             }
+            html += `<input hidden type="text" name="category_id" value="<?=$category_id?>"/>`
 
             return html;
         },
         getControlHtml: function (data) {
             let html = ``
             if (data['is_default'] != 0) {
-               html+=`
+                html += `
                 <a href="javascript:setDefault(${data['id']})" class="button default">
                     <img src="/asset/images/icon/check.png"/>
                     <span>Make as Default</span>

@@ -25,9 +25,7 @@ use App\Helpers\Utils;
                     </div>
                 </div>
                 <ul>
-                    <?php foreach ($array as $index => $item) {
-                        $item = json_encode($item);
-                        $item = json_decode($item, true); ?>
+                    <?php foreach ($array as $index => $item) { ?>
                         <li class="row">
                             <a href="javascript:openInputPopup(this, '<?= $item['id'] ?>')" class="button row-button">
                                 <span class="column code"><?= $item['code'] ?></span>
@@ -51,8 +49,6 @@ use App\Helpers\Utils;
                 </ul>
             </div>
         </div>
-
-        <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>
 <script type="text/javascript">

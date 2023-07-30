@@ -41,7 +41,7 @@ $routes->get('/board/table/([0-9]+)', [\Views\BoardController::class, 'getTableB
 $routes->addRedirect('/board/table', '/board/table/1');
 $routes->get('/topic/([0-9]+)', [\Views\BoardController::class, 'getTopic']);
 $routes->get('/topic/([0-9]+)/edit', [\Views\BoardController::class, 'editTopic']);
-$routes->get('/test/image/(:any)', [\API\ImageFile::class, 'getImage']);
+$routes->get('/test/image/(:any)', [\API\ImageFileController::class, 'getImage']);
 //admin pages
 $routes->get('/admin/board/([0-9]+)', [\Views\Admin\BoardController::class, 'index']);
 $routes->addRedirect('/admin/board', '/admin/board/1');
@@ -61,10 +61,8 @@ $routes->addRedirect('/admin/user', '/admin/user/1');
 $routes->get('/admin/setting/([0-9]+)', [\Views\Admin\SettingController::class, 'index']);
 $routes->addRedirect('/admin/setting', '/admin/setting/1');
 
-$routes->get('/admin/category/([0-9]+)', [\Views\Admin\CategoryController::class, 'index']);
-$routes->addRedirect('/admin/category', '/admin/category/1');
-$routes->get('/admin/category/([a-zA-Z][a-zA-Z0-9]*)/([0-9]+)', [\Views\Admin\CategoryController::class, 'getCategory']);
-$routes->addRedirect('/admin/category/([a-zA-Z][a-zA-Z0-9]*)', '/admin/category/$1/1');
+$routes->get('/admin/category', [\Views\Admin\CategoryController::class, 'index']);
+$routes->get('/admin/category/([a-zA-Z][a-zA-Z0-9]*)', [\Views\Admin\CategoryController::class, 'getCategory']);
 
 $routes->get('/admin/reservation-board/([0-9]+)', [\Views\Admin\ReservationController::class, 'index']);
 $routes->addRedirect('/admin/reservation-board', '/admin/reservation-board/1');
@@ -74,54 +72,54 @@ $routes->get('/admin/reservation/([0-9]+)', [\Views\Admin\ReservationController:
 
 
 //api
-$routes->post('/api/image-file/upload', [\API\ImageFile::class, 'upload']);
+$routes->post('/api/image-file/upload', [\API\ImageFileController::class, 'upload']);
 
-$routes->get('/api/user/get/profile', [\API\User::class, 'getProfile']);
-$routes->get('/api/user/get/([0-9]+)', [\API\User::class, 'getUser']);
+$routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);
+$routes->get('/api/user/get/([0-9]+)', [\API\UserController::class, 'getUser']);
 
-$routes->get('/api/board/get/([0-9]+)', [\API\Board::class, 'getBoard']);
-$routes->post('/api/board/create', [\API\Board::class, 'createBoard']);
-$routes->post('/api/board/update/([0-9]+)', [\API\Board::class, 'updateBoard']);
-$routes->delete('/api/board/delete/([0-9]+)', [\API\Board::class, 'deleteBoard']);
-$routes->get('/api/board/topic/get/([a-zA-Z][a-zA-Z0-9]*)', [\API\Board::class, 'getBoardTopic']);
+$routes->get('/api/board/get/([0-9]+)', [\API\BoardController::class, 'getBoard']);
+$routes->post('/api/board/create', [\API\BoardController::class, 'createBoard']);
+$routes->post('/api/board/update/([0-9]+)', [\API\BoardController::class, 'updateBoard']);
+$routes->delete('/api/board/delete/([0-9]+)', [\API\BoardController::class, 'deleteBoard']);
+$routes->get('/api/board/topic/get/([a-zA-Z][a-zA-Z0-9]*)', [\API\BoardController::class, 'getBoardTopic']);
 
-$routes->get('/api/topic/get/([0-9]+)', [\API\Topic::class, 'getTopic']);
-$routes->post('/api/topic/create', [\API\Topic::class, 'createTopic']);
-$routes->post('/api/topic/update/([0-9]+)', [\API\Topic::class, 'updateTopic']);
-$routes->delete('/api/topic/delete/([0-9]+)', [\API\Topic::class, 'deleteTopic']);
-$routes->get('/api/topic/get/([0-9]+)/reply', [\API\Topic::class, 'getTopicReply']);
-$routes->get('/api/topic/reply/get/([0-9]+)/nested', [\API\Topic::class, 'getNestedReply']);
-$routes->get('/api/topic/reply/get/([0-9]+)', [\API\Topic::class, 'getReply']);
-$routes->delete('/api/topic/reply/delete/([0-9]+)', [\API\Topic::class, 'deleteReply']);
+$routes->get('/api/topic/get/([0-9]+)', [\API\TopicController::class, 'getTopic']);
+$routes->post('/api/topic/create', [\API\TopicController::class, 'createTopic']);
+$routes->post('/api/topic/update/([0-9]+)', [\API\TopicController::class, 'updateTopic']);
+$routes->delete('/api/topic/delete/([0-9]+)', [\API\TopicController::class, 'deleteTopic']);
+$routes->get('/api/topic/get/([0-9]+)/reply', [\API\TopicController::class, 'getTopicReply']);
+$routes->get('/api/topic/reply/get/([0-9]+)/nested', [\API\TopicController::class, 'getNestedReply']);
+$routes->get('/api/topic/reply/get/([0-9]+)', [\API\TopicController::class, 'getReply']);
+$routes->delete('/api/topic/reply/delete/([0-9]+)', [\API\TopicController::class, 'deleteReply']);
 
-$routes->get('/api/location/get/([0-9]+)', [\API\Location::class, 'getLocation']);
-$routes->post('/api/location/create', [\API\Location::class, 'createLocation']);
-$routes->post('/api/location/update/([0-9]+)', [\API\Location::class, 'updateLocation']);
-$routes->delete('/api/location/delete/([0-9]+)', [\API\Location::class, 'deleteLocation']);
+$routes->get('/api/location/get/([0-9]+)', [\API\LocationController::class, 'getLocation']);
+$routes->post('/api/location/create', [\API\LocationController::class, 'createLocation']);
+$routes->post('/api/location/update/([0-9]+)', [\API\LocationController::class, 'updateLocation']);
+$routes->delete('/api/location/delete/([0-9]+)', [\API\LocationController::class, 'deleteLocation']);
 
-$routes->get('/api/setting/get/([0-9]+)', [\API\Setting::class, 'getSetting']);
-$routes->post('/api/setting/create', [\API\Setting::class, 'createSetting']);
-$routes->post('/api/setting/update/([0-9]+)', [\API\Setting::class, 'updateSetting']);
-$routes->delete('/api/setting/delete/([0-9]+)', [\API\Setting::class, 'deleteSetting']);
+$routes->get('/api/setting/get/([0-9]+)', [\API\SettingController::class, 'getSetting']);
+$routes->post('/api/setting/create', [\API\SettingController::class, 'createSetting']);
+$routes->post('/api/setting/update/([0-9]+)', [\API\SettingController::class, 'updateSetting']);
+$routes->delete('/api/setting/delete/([0-9]+)', [\API\SettingController::class, 'deleteSetting']);
 
-$routes->get('/api/category/get/([0-9]+)', [\API\Category::class, 'getCategory']);
-$routes->post('/api/category/create', [\API\Category::class, 'createCategory']);
-$routes->post('/api/category/update/([0-9]+)', [\API\Category::class, 'updateCategory']);
-$routes->delete('/api/category/delete/([0-9]+)', [\API\Category::class, 'deleteCategory']);
-$routes->get('/api/category/path/get/([0-9]+)', [\API\Category::class, 'getCategoryPath']);
-$routes->post('/api/category/path/create', [\API\Category::class, 'createCategoryPath']);
-$routes->post('/api/category/path/update/([0-9]+)', [\API\Category::class, 'updateCategoryPath']);
-$routes->delete('/api/category/path/delete/([0-9]+)', [\API\Category::class, 'deleteCategoryPath']);
+$routes->get('/api/category/get/([0-9]+)', [\API\CategoryController::class, 'getCategory']);
+$routes->post('/api/category/create', [\API\CategoryController::class, 'createCategory']);
+$routes->post('/api/category/update/([0-9]+)', [\API\CategoryController::class, 'updateCategory']);
+$routes->delete('/api/category/delete/([0-9]+)', [\API\CategoryController::class, 'deleteCategory']);
+$routes->get('/api/category/path/get/([0-9]+)', [\API\CategoryController::class, 'getCategoryPath']);
+$routes->post('/api/category/path/create', [\API\CategoryController::class, 'createCategoryPath']);
+$routes->post('/api/category/path/update/([0-9]+)', [\API\CategoryController::class, 'updateCategoryPath']);
+$routes->delete('/api/category/path/delete/([0-9]+)', [\API\CategoryController::class, 'deleteCategoryPath']);
 
-$routes->get('/api/reservation-board/get/([0-9]+)', [\API\Reservation::class, 'getBoard']);
-$routes->post('/api/reservation-board/create', [\API\Reservation::class, 'createBoard']);
-$routes->post('/api/reservation-board/update/([0-9]+)', [\API\Reservation::class, 'updateBoard']);
-$routes->delete('/api/reservation-board/delete/([0-9]+)', [\API\Reservation::class, 'deleteBoard']);
+$routes->get('/api/reservation-board/get/([0-9]+)', [\API\ReservationController::class, 'getBoard']);
+$routes->post('/api/reservation-board/create', [\API\ReservationController::class, 'createBoard']);
+$routes->post('/api/reservation-board/update/([0-9]+)', [\API\ReservationController::class, 'updateBoard']);
+$routes->delete('/api/reservation-board/delete/([0-9]+)', [\API\ReservationController::class, 'deleteBoard']);
 
-$routes->get('/api/reservation/get/([0-9]+)', [\API\Reservation::class, 'getReservation']);
-$routes->post('/api/reservation/request', [\API\Reservation::class, 'requestReservation']);
-$routes->post('/api/reservation/reject/([0-9]+)', [\API\Reservation::class, 'rejectReservation']);
-$routes->post('/api/reservation/accept/([0-9]+)', [\API\Reservation::class, 'acceptReservation']);
+$routes->get('/api/reservation/get/([0-9]+)', [\API\ReservationController::class, 'getReservation']);
+$routes->post('/api/reservation/request', [\API\ReservationController::class, 'requestReservation']);
+$routes->post('/api/reservation/reject/([0-9]+)', [\API\ReservationController::class, 'rejectReservation']);
+$routes->post('/api/reservation/accept/([0-9]+)', [\API\ReservationController::class, 'acceptReservation']);
 
 $routes->post('/api/email/send', 'API\Email::send');
 

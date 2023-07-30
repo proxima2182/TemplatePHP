@@ -2,12 +2,12 @@
 
 namespace API;
 
-use App\Controllers\BaseController;
+use App\Controllers\BaseApiController;
 use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 
-class ImageFile extends BaseController
+class ImageFileController extends BaseApiController
 {
     public function upload(): ResponseInterface
     {

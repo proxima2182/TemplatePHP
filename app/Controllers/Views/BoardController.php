@@ -12,7 +12,7 @@ class BoardController extends BaseController
     public function __construct()
     {
         $this->db = db_connect();
-        $this->userModel = model('App\Models\UserModel');
+        $this->userModel = model('Models\UserModel');
     }
 
     public function index()

@@ -10,7 +10,7 @@ class ReservationController extends BaseController
 
     public function __construct()
     {
-        $this->categoryModel = model('App\Models\CategoryModel');
+        $this->categoryModel = model('Models\CategoryModel');
     }
 
     function index($page = 1): string

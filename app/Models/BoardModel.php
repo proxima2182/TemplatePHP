@@ -2,8 +2,6 @@
 
 namespace Models;
 
-require APPPATH . 'Models/BaseModel.php';
-
 /*
  * column_name      type            comment
  * -----------------------------------------
@@ -44,6 +42,6 @@ class BoardModel extends BaseModel
 
     function getBoard($code)
     {
-        $this->builder()->getWhere(["code" => $code])->getResult();
+        $this->builder()->getWhere(["code" => $code])->getResultArray();
     }
 }

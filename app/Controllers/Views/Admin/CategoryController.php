@@ -3,31 +3,24 @@
 namespace Views\Admin;
 
 use App\Controllers\BaseController;
+use App\Helpers\ServerLogger;
 
 class CategoryController extends BaseController
 {
     protected $categoryModel;
+    protected $categoryPathModel;
 
     public function __construct()
     {
-        $this->categoryModel = model('App\Models\CategoryModel');
+        $this->categoryModel = model('Models\CategoryModel');
+        $this->categoryPathModel = model('Models\categoryPathModel');
     }
 
-    function index($page = 1): string
+    function index(): string
     {
-        if(gettype($page) == 'string') {
-            if( strlen($page) != 0) {
-                $page = intval($page);
-            } else {
-                $page = 1;
-            }
-        }
-        $result = $this->categoryModel->getPaginated([
-            'per_page' => 10,
-            'page' => $page,
-        ]);
+        $result = $this->categoryModel->get();
         $data = [
-            'pagination_link' => '/admin/category',
+            'array' => $result,
         ];
         return parent::loadAdminHeader([
                 'css' => parent::generateAssetStatement("css", [
@@ -38,12 +31,26 @@ class CategoryController extends BaseController
                     '/module/popup_input',
                 ]),
             ])
-            . view('/admin/category', array_merge($result, $data))
+            . view('/admin/category', $data)
             . parent::loadAdminFooter();
     }
 
     function getCategory($code, $id = 1): string
     {
+        $category = $this->categoryModel->findByCode($code);
+        ServerLogger::log($category);
+        $category_id;
+        if ($category) {
+            $category_id = $category['id'];
+        } else {
+            return '';
+//            return view('/errors/html/error_404');
+        }
+        $result = $this->categoryPathModel->get();
+        $data = [
+            'array' => $result,
+            'category_id' => $category_id
+        ];
         return parent::loadAdminHeader([
                 'css' => parent::generateAssetStatement("css", [
                     '/common/table',
@@ -53,23 +60,7 @@ class CategoryController extends BaseController
                     '/module/popup_input',
                 ]),
             ])
-            . view('/admin/category_path', [
-                'array' => [
-                    [
-                        'id' => 0,
-                        'name' => 'point A Address',
-                        'path' => 'point A Address',
-                        'priority' => 1,
-                    ],
-                ],
-                'pagination' => [
-                    'per-page' => 30,
-                    'page' => 6,
-                    'total' => 180,
-                    'total-page' => 6,
-                ],
-                'pagination_link' => '/admin/category/' . $code
-            ])
+            . view('/admin/category_path', $data)
             . parent::loadAdminFooter();
     }
 }

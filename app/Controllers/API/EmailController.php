@@ -2,12 +2,12 @@
 
 namespace API;
 
-use App\Controllers\BaseController;
+use App\Controllers\BaseApiController;
 use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 
-class Email extends BaseController
+class EmailController extends BaseApiController
 {
     protected $db;
     protected $userModel;
@@ -15,7 +15,7 @@ class Email extends BaseController
     public function __construct()
     {
         $this->db = db_connect();
-        $this->userModel = model('App\Models\UserModel');
+        $this->userModel = model('Models\UserModel');
     }
 
     private function getSimpleTextStyle(string $title, string $content) : string {

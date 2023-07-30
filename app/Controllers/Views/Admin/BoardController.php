@@ -6,15 +6,29 @@ use App\Controllers\BaseController;
 
 class BoardController extends BaseController
 {
-    protected $categoryModel;
+    protected $boardModel;
 
     public function __construct()
     {
-        $this->categoryModel = model('App\Models\CategoryModel');
+        $this->boardModel = model('Models\BoardModel');
     }
 
     function index($page = 1): string
     {
+        if (gettype($page) == 'string') {
+            if (strlen($page) != 0) {
+                $page = intval($page);
+            } else {
+                $page = 1;
+            }
+        }
+        $result = $this->boardModel->getPaginated([
+            'per_page' => 10,
+            'page' => $page,
+        ]);
+        $data = array_merge($result, [
+            'pagination_link' => '/admin/board',
+        ]);
         return parent::loadAdminHeader([
                 'css' => parent::generateAssetStatement("css", [
                     '/common/table',

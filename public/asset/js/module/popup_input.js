@@ -5,52 +5,54 @@ const className = 'popup-input';
 let getGetUrl, getUpdateUrl, getCreateUrl, getDeleteUrl;
 let getHtml, getControlHtml;
 
-const popupStyle = `
-.${className} .popup-inner {
-    padding: 20px;
-}
-.${className} .popup-inner .button-wrap {
-    margin-top: 40px;
-}
-
-.${className} .popup-inner .button-wrap .button {
-    min-width: 100px;
-    padding: 10px 20px;
-    margin: 0 10px;
-}
-
-.${className} .popup-inner .control-wrap.absolute {
-    line-height: 20px;
-    text-align: right;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #fff;
-}
-
-.${className} .popup-inner .control-box {
-    padding: 5px 20px 15px 20px;
-}
-
-.${className} .form-wrap .input-wrap .input-title {
-    width: calc(35% - 15px);
-}
-
-.${className} .form-wrap .input-wrap input, .${className} .form-wrap .input-wrap textarea {
-    width: 65%;
-}
-
-.${className} .error-message-wrap {
-    text-align: center;
-}
-
-.${className} .error-message-wrap * {
-    color: #dd4814;
-    font-size: 16px;
-    line-height: 25px;
-}
+function getPopupStyle(className) {
+    return `
+    .${className} .popup-inner {
+        padding: 20px;
+    }
+    .${className} .popup-inner .button-wrap {
+        margin-top: 40px;
+    }
+    
+    .${className} .popup-inner .button-wrap .button {
+        min-width: 100px;
+        padding: 10px 20px;
+        margin: 0 10px;
+    }
+    
+    .${className} .popup-inner .control-wrap.absolute {
+        line-height: 20px;
+        text-align: right;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #fff;
+    }
+    
+    .${className} .popup-inner .control-box {
+        padding: 5px 20px 15px 20px;
+    }
+    
+    .${className} .form-wrap .input-wrap .input-title {
+        width: calc(35% - 15px);
+    }
+    
+    .${className} .form-wrap .input-wrap input, .${className} .form-wrap .input-wrap textarea {
+        width: 65%;
+    }
+    
+    .${className} .error-message-wrap {
+        text-align: center;
+    }
+    
+    .${className} .error-message-wrap * {
+        color: #dd4814;
+        font-size: 16px;
+        line-height: 25px;
+    }
 `;
+}
 
 /**
  * 데이터 입력에 따른 input 용 html form 출력 기능
@@ -218,7 +220,7 @@ async function openInputPopup($parent, id) {
                 let style = `
                 <style>
                 ${css}
-                ${popupStyle}
+                ${getPopupStyle(className)}
                 </style>`
                 let html = `
                 <div class="form-wrap">
@@ -282,6 +284,7 @@ function refreshInputPopup(id) {
  * @returns {Promise<void>}
  */
 async function openInputPopupCreate($parent) {
+    let className = 'popup-create';
     if (!getCreateUrl || !getHtml) return;
     try {
         let request = await fetch('/asset/css/common/input.css')
@@ -290,7 +293,7 @@ async function openInputPopupCreate($parent) {
         let style = `
         <style>
         ${css}
-        ${popupStyle}
+        ${getPopupStyle(className)}
         </style>`
         let html = `
         <div class="form-wrap">
@@ -308,7 +311,7 @@ async function openInputPopupCreate($parent) {
                     <img src="/asset/images/icon/cancel.png"/>
                     <span>Cancel</span>
                 </a>
-                <a href="javascript:confirmInputPopupCreate();" class="button confirm">
+                <a href="javascript:confirmInputPopupCreate('${className}');" class="button confirm">
                     <img src="/asset/images/icon/check.png"/>
                     <span>Confirm</span>
                 </a>
@@ -336,7 +339,7 @@ function editInputPopup(id) {
                 <img src="/asset/images/icon/cancel.png"/>
                 <span>Cancel</span>
             </a>
-            <a href="javascript:confirmInputPopupEdit(${id});" class="button confirm">
+            <a href="javascript:confirmInputPopupEdit('${className}', ${id});" class="button confirm">
                 <img src="/asset/images/icon/check.png"/>
                 <span>Confirm</span>
             </a>
@@ -380,28 +383,66 @@ function openInputPopupDelete($parent, id) {
     <div class="error-message-wrap"></div>
     <div class="button-wrap controls">
         <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
-        <a href="javascript:confirmInputPopupDelete(${id})" class="button confirm black">Delete</a>
+        <a href="javascript:confirmInputPopupDelete('${className}', ${id})" class="button confirm black">Delete</a>
     </div>`;
     openPopup($parent, className, style, html)
+}
+
+function getSuccessCallback(className) {
+    return function (response, status, request) {
+        if (response.success) {
+            location.reload()
+        }
+        if (response.messages) {
+            for (let key in response.messages) {
+                let message = response.messages[key];
+                $(`.${className} .error-message-wrap`).append(`<div>${message}</div>`)
+            }
+        }
+        if (response.message) {
+            $(`.${className} .error-message-wrap`).append(`<div>${response.message}</div>`)
+        }
+    }
+}
+
+function getErrorCallback(className) {
+    return function (response, status, error) {
+        let message = error;
+        try {
+            let errorObject = JSON.parse(response.responseText);
+            if (errorObject.message) {
+                message = errorObject.message
+            }
+        } catch (e) {
+        }
+        if (message) {
+            $(`.${className} .error-message-wrap`).append(`<div>${message}</div>`)
+        }
+    }
 }
 
 /**
  * 데이터 수정을 완료 기능
  * @param {string}id
  */
-function confirmInputPopupEdit(id) {
+function confirmInputPopupEdit(className, id) {
     if (!getUpdateUrl) return;
+    let data = {};
+    let inputs = $(`.${className} .editable`)
+    for (let i = 0; i < inputs.length; ++i) {
+        let input = inputs.eq(i);
+        if (input.length > 0) {
+            data[input[0].name] = input.val();
+        }
+    }
+    $(`.${className} .error-message-wrap`).empty();
     $.ajax({
         type: 'POST',
+        data: data,
         dataType: 'json',
         url: getUpdateUrl(id),
-        success: function (response, status, request) {
-            if (response.success) {
-                location.reload()
-            }
-        },
-        error: function (response, status, error) {
-        },
+        success: getSuccessCallback(className),
+        error: getErrorCallback(className),
     });
 }
 
@@ -409,7 +450,7 @@ function confirmInputPopupEdit(id) {
  * 데이터 생성을 완료 기능
  * @param {string}id
  */
-function confirmInputPopupCreate() {
+function confirmInputPopupCreate(className) {
     if (!getCreateUrl) return;
     let data = {};
     let inputs = $(`.${className} .editable`)
@@ -425,35 +466,8 @@ function confirmInputPopupCreate() {
         data: data,
         dataType: 'json',
         url: getCreateUrl(),
-        success: function (response, status, request) {
-            if (response.success) {
-                location.reload()
-            } else {
-                console.log(response)
-                if (response.messages) {
-                    for (let key in response.messages) {
-                        let message = response.messages[key];
-                        $(`.${className} .error-message-wrap`).append(`<div>${message}</div>`)
-                    }
-                }
-                if (response.message) {
-                    $(`.${className} .error-message-wrap`).append(`<div>${response.message}</div>`)
-                }
-            }
-        },
-        error: function (response, status, error) {
-            let message = error;
-            try {
-                let errorObject = JSON.parse(response.responseText);
-                if (errorObject.message) {
-                    message = errorObject.message
-                }
-            } catch (e) {
-            }
-            if (message) {
-                $(`.${className} .error-message-wrap`).append(`<div>${message}</div>`)
-            }
-        },
+        success: getSuccessCallback(className),
+        error: getErrorCallback(className),
     });
 }
 
@@ -461,7 +475,7 @@ function confirmInputPopupCreate() {
  * 데이터 삭제 기능
  * @param {string}id
  */
-function confirmInputPopupDelete(id) {
+function confirmInputPopupDelete(className, id) {
     if (!getDeleteUrl) return;
     $.ajax({
         type: 'DELETE',

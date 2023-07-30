@@ -2,10 +2,10 @@
 
 namespace API;
 
-use App\Controllers\BaseController;
+use App\Controllers\BaseApiController;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class Reservation extends BaseController
+class ReservationController extends BaseApiController
 {
     protected $db;
     protected $userModel;
@@ -13,7 +13,7 @@ class Reservation extends BaseController
     public function __construct()
     {
         $this->db = db_connect();
-        $this->userModel = model('App\Models\UserModel');
+        $this->userModel = model('Models\UserModel');
     }
 
     /**

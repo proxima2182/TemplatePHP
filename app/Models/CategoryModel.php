@@ -2,8 +2,6 @@
 
 namespace Models;
 
-require APPPATH.'Models/BaseModel.php';
-
 /*
  * column_name          type            comment
  * ---------------------------------------------
@@ -14,9 +12,10 @@ require APPPATH.'Models/BaseModel.php';
  * created_at           DATETIME
  * updated_at           DATETIME
  */
+
 class CategoryModel extends BaseModel
 {
-    protected $table      = 'category';
+    protected $table = 'category';
     protected $allowedFields = [
         'id',
         'code',

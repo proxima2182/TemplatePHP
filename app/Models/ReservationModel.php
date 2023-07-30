@@ -2,8 +2,6 @@
 
 namespace Models;
 
-require APPPATH.'Models/BaseModel.php';
-
 /*
  * column_name          type            comment
  * ---------------------------------------------
@@ -22,9 +20,10 @@ require APPPATH.'Models/BaseModel.php';
  * created_at           DATETIME
  * updated_at           DATETIME
  */
+
 class ReservationModel extends BaseModel
 {
-    protected $table      = 'reservation';
+    protected $table = 'reservation';
     protected $allowedFields = [
         'id',
         'status',

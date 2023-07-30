@@ -45,6 +45,7 @@ class Autoload extends AutoloadConfig
         'API'      => APPPATH . 'Controllers/API',
         'Views'      => APPPATH . 'Controllers/Views',
         'Views/Admin'      => APPPATH . 'Controllers/Admin',
+        'Models'      => APPPATH . 'Models',
     ];
 
     /**

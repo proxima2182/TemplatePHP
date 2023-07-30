@@ -2,8 +2,6 @@
 
 namespace Models;
 
-require APPPATH.'Models/BaseModel.php';
-
 use App\Helpers\ServerLogger;
 use Leaf\Helpers\Password;
 
@@ -19,9 +17,10 @@ use Leaf\Helpers\Password;
  * created_at       DATETIME
  * updated_at       DATETIME
  */
+
 class UserModel extends BaseModel
 {
-    protected $table      = 'user';
+    protected $table = 'user';
     protected $allowedFields = [
         'id',
         'username',
@@ -57,6 +56,6 @@ class UserModel extends BaseModel
     {
 //        return $this->db->get_where(self::table, array(self::col_id => $id))->row_array();
 //        return $this->db->query("SELECT * FROM user")->getResult();
-        return $this->builder()->get()->getResult();
+        return $this->builder()->get()->getResultArray();
     }
 }

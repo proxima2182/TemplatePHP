@@ -2,11 +2,11 @@
 
 namespace API;
 
-use App\Controllers\BaseController;
+use App\Controllers\BaseApiController;
 use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class Topic extends BaseController
+class TopicController extends BaseApiController
 {
     protected $db;
     protected $userModel;
@@ -14,7 +14,7 @@ class Topic extends BaseController
     public function __construct()
     {
         $this->db = db_connect();
-        $this->userModel = model('App\Models\UserModel');
+        $this->userModel = model('Models\UserModel');
     }
 
     /**
