@@ -29,6 +29,7 @@ h3.title {
 
 .list-wrap .row {
     position: relative;
+    cursor: move;
 }
 
 .list-wrap .button.detail {
@@ -37,4 +38,8 @@ h3.title {
     right: 10px;
     top: 5px;
     padding: 0;
+}
+
+.over {
+    border: 3px dotted #666;
 }

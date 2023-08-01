@@ -209,3 +209,13 @@ input[type=checkbox] {
     right: 0;
     background: url('/asset/images/icon/button_right@2x.png') no-repeat center;
 }
+
+.error-message-wrap {
+    text-align: center;
+}
+
+.error-message-wrap * {
+    color: #dd4814;
+    font-size: 16px;
+    line-height: 25px;
+}

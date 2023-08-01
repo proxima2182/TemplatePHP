@@ -4,6 +4,7 @@
 const className = 'popup-input';
 let getGetUrl, getUpdateUrl, getCreateUrl, getDeleteUrl;
 let getHtml, getControlHtml;
+let deleteMessage;
 
 function getPopupStyle(className) {
     return `
@@ -40,16 +41,6 @@ function getPopupStyle(className) {
     
     .${className} .form-wrap .input-wrap input, .${className} .form-wrap .input-wrap textarea {
         width: 65%;
-    }
-    
-    .${className} .error-message-wrap {
-        text-align: center;
-    }
-    
-    .${className} .error-message-wrap * {
-        color: #dd4814;
-        font-size: 16px;
-        line-height: 25px;
     }
 `;
 }
@@ -158,6 +149,7 @@ function initializeInputPopup(input) {
     getDeleteUrl = input.getDeleteUrl;
     getHtml = input.getHtml;
     getControlHtml = input.getControlHtml;
+    deleteMessage = input.deleteMessage;
 }
 
 function addInputPopupControlWrap(data) {
@@ -378,7 +370,7 @@ function openInputPopupDelete($parent, id) {
     </style>`
     let html = `
     <div class="text-wrap">
-        Are you sure to delete?
+        ${deleteMessage ?? 'Are you sure to delete?'}
     </div>
     <div class="error-message-wrap"></div>
     <div class="button-wrap controls">
@@ -481,13 +473,8 @@ function confirmInputPopupDelete(className, id) {
         type: 'DELETE',
         dataType: 'json',
         url: getDeleteUrl(id),
-        success: function (response, status, request) {
-            if (response.success) {
-                location.reload()
-            }
-        },
-        error: function (response, status, error) {
-        },
+        success: getSuccessCallback(className),
+        error: getErrorCallback(className),
     });
 }
 

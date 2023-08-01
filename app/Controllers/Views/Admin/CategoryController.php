@@ -3,12 +3,14 @@
 namespace Views\Admin;
 
 use App\Controllers\BaseController;
-use App\Helpers\ServerLogger;
+use Exception;
+use Models\CategoryModel;
+use Models\CategoryPathModel;
 
 class CategoryController extends BaseController
 {
-    protected $categoryModel;
-    protected $categoryPathModel;
+    protected CategoryModel $categoryModel;
+    protected CategoryPathModel $categoryPathModel;
 
     public function __construct()
     {
@@ -29,6 +31,7 @@ class CategoryController extends BaseController
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/module/popup_input',
+                    '/module/draggable',
                 ]),
             ])
             . view('/admin/category', $data)
@@ -37,16 +40,19 @@ class CategoryController extends BaseController
 
     function getCategory($code, $id = 1): string
     {
-        $category = $this->categoryModel->findByCode($code);
-        ServerLogger::log($category);
-        $category_id;
-        if ($category) {
-            $category_id = $category['id'];
-        } else {
-            return '';
-//            return view('/errors/html/error_404');
+        try {
+            $category = $this->categoryModel->findByCode($code);
+            $category_id;
+            if ($category) {
+                $category_id = $category['id'];
+            } else {
+                return view('/errors/html/error_404');
+            }
+            $result = $this->categoryPathModel->get(['category_id' => $category_id]);
+        } catch (Exception $e) {
+            //todo(log)
+            return view('/errors/html/error_404');
         }
-        $result = $this->categoryPathModel->get();
         $data = [
             'array' => $result,
             'category_id' => $category_id
@@ -58,6 +64,7 @@ class CategoryController extends BaseController
                 ]),
                 'js' => parent::generateAssetStatement("js", [
                     '/module/popup_input',
+                    '/module/draggable',
                 ]),
             ])
             . view('/admin/category_path', $data)

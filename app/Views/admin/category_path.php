@@ -22,7 +22,8 @@
                 </div>
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
-                        <li class="row">
+                        <li class="row draggable" draggable="true">
+                            <input hidden="true" type="text" value="<?= $item['id'] ?>"/>
                             <a href="javascript:openInputPopup(this, '<?= $item['id'] ?>')" class="button row-button">
                                 <span class="column name"><?= $item['name'] ?></span>
                                 <span class="column path"><?= $item['path'] ?></span>
@@ -49,7 +50,7 @@
             return `/api/category/path/update/${id}`
         },
         getDeleteUrl: function (id) {
-            return `/api/category/delete/${id}`
+            return `/api/category/path/delete/${id}`
         },
         getHtml: function (data) {
             const typeSet = {
@@ -58,10 +59,6 @@
                 },
                 path: {
                     type: 'text',
-                },
-                priority: {
-                    type: 'number',
-                    integer: true,
                 },
             }
             let keys = Object.keys(typeSet);
@@ -74,7 +71,7 @@
                     html += extracted;
                 }
             }
-            html += `<input hidden type="text" name="category_id" value="<?=$category_id?>"/>`
+            html += `<input hidden type="text" name="category_id" class="editable" value="<?=$category_id?>"/>`
 
             return html;
         },
@@ -99,5 +96,27 @@
             </a>`;
             return html;
         },
+    })
+
+    initializeDraggable({
+        onDragFinished: async function (from, to) {
+            if (from.getElementsByTagName("input").length == 0 || to.getElementsByTagName("input") == 0) return;
+            let fromValue = from.getElementsByTagName("input")[0].value;
+            let toValue = to.getElementsByTagName("input")[0].value;
+            let isSuccess = false;
+            await $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: `/api/category/path/exchange-priority/${fromValue}/${toValue}`,
+                success: function (response, status, request) {
+                    console.log(response)
+                    if (!response.success) return;
+                    isSuccess = true;
+                },
+                error: function (response, status, error) {
+                },
+            });
+            return isSuccess;
+        }
     })
 </script>

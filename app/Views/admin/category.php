@@ -26,7 +26,8 @@ use App\Helpers\Utils;
                 </div>
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
-                        <li class="row">
+                        <li class="row draggable" draggable="true">
+                            <input hidden="true" type="text" value="<?= $item['id'] ?>"/>
                             <a href="javascript:openInputPopup(this, '<?= $item['id'] ?>')" class="button row-button">
                                 <span class="column code"><?= $item['code'] ?></span>
                                 <span class="column name"><?= $item['name'] ?></span>
@@ -90,5 +91,29 @@ use App\Helpers\Utils;
             html += `</div>`;
             return html;
         },
+        deleteMessage: "If you delete this row, you will be lost related data.<br/>Are you sure to delete?",
     })
+
+    initializeDraggable({
+        onDragFinished: async function (from, to) {
+            if (from.getElementsByTagName("input").length == 0 || to.getElementsByTagName("input") == 0) return;
+            let fromValue = from.getElementsByTagName("input")[0].value;
+            let toValue = to.getElementsByTagName("input")[0].value;
+            let isSuccess = false;
+            await $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: `/api/category/exchange-priority/${fromValue}/${toValue}`,
+                success: function (response, status, request) {
+                    console.log(response)
+                    if (!response.success) return;
+                    isSuccess = true;
+                },
+                error: function (response, status, error) {
+                },
+            });
+            return isSuccess;
+        }
+    })
+
 </script>

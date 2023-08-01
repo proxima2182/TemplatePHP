@@ -106,10 +106,12 @@ $routes->get('/api/category/get/([0-9]+)', [\API\CategoryController::class, 'get
 $routes->post('/api/category/create', [\API\CategoryController::class, 'createCategory']);
 $routes->post('/api/category/update/([0-9]+)', [\API\CategoryController::class, 'updateCategory']);
 $routes->delete('/api/category/delete/([0-9]+)', [\API\CategoryController::class, 'deleteCategory']);
+$routes->get('/api/category/exchange-priority/([0-9]+)/([0-9]+)', [\API\CategoryController::class, 'exchangeCategoryPriority']);
 $routes->get('/api/category/path/get/([0-9]+)', [\API\CategoryController::class, 'getCategoryPath']);
 $routes->post('/api/category/path/create', [\API\CategoryController::class, 'createCategoryPath']);
 $routes->post('/api/category/path/update/([0-9]+)', [\API\CategoryController::class, 'updateCategoryPath']);
 $routes->delete('/api/category/path/delete/([0-9]+)', [\API\CategoryController::class, 'deleteCategoryPath']);
+$routes->get('/api/category/path/exchange-priority/([0-9]+)/([0-9]+)', [\API\CategoryController::class, 'exchangeCategoryPathPriority']);
 
 $routes->get('/api/reservation-board/get/([0-9]+)', [\API\ReservationController::class, 'getBoard']);
 $routes->post('/api/reservation-board/create', [\API\ReservationController::class, 'createBoard']);

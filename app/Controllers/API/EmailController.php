@@ -102,8 +102,9 @@ class EmailController extends BaseApiController
                 'success' => true,
                 'message' => ""
             ];
-        } catch (Exception $exception) {
-            ServerLogger::log($exception);
+        } catch (Exception $e) {
+            //todo(log)
+            ServerLogger::log($e);
         }
         return $this->response->setJSON($response);
     }

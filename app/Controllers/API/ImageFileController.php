@@ -40,9 +40,9 @@ class ImageFileController extends BaseApiController
             } else {
                 ServerLogger::log($this->validator->getErrors());
             }
-        } catch (Exception $exception) {
-            ServerLogger::log($exception->getMessage());
-            $response['message'] = $exception->getMessage();
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
             return $this->response->setJSON($response);
         }
         return $this->response->setJSON($response);

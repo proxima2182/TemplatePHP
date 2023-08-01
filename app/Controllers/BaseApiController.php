@@ -19,6 +19,7 @@ class BaseApiController extends BaseController
             $response['success'] = true;
             $response['data'] = $result;
         } catch (Exception $e) {
+            //todo(log)
             $response['message'] = $e->getMessage();
         }
         return $this->response->setJSON($response);
@@ -35,11 +36,15 @@ class BaseApiController extends BaseController
         } else {
             try {
                 if ($additionalCheck != null && is_callable($additionalCheck)) {
-                    $additionalCheck();
+                    $additionalCheck($data);
                 }
-                $model->insert($data);
-                $response['success'] = true;
+                if (!$model->insert($data)) {
+                    $response['messages'] = $model->errors();
+                } else {
+                    $response['success'] = true;
+                }
             } catch (Exception $e) {
+                //todo(log)
                 $response['message'] = $e->getMessage();
             }
         }
@@ -60,6 +65,7 @@ class BaseApiController extends BaseController
                 $model->update($id, $data);
                 $response['success'] = true;
             } catch (Exception $e) {
+                //todo(log)
                 $response['message'] = $e->getMessage();
             }
         }
@@ -79,6 +85,7 @@ class BaseApiController extends BaseController
                 $model->delete($id);
                 $response['success'] = true;
             } catch (Exception $e) {
+                //todo(log)
                 $response['message'] = $e->getMessage();
             }
         }
