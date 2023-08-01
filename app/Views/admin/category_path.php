@@ -71,6 +71,7 @@
                     html += extracted;
                 }
             }
+            // category_id 도 자동으로 추가되기 위해 input 으로 넣어둠
             html += `<input hidden type="text" name="category_id" class="editable" value="<?=$category_id?>"/>`
 
             return html;

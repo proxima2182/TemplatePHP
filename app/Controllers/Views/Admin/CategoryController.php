@@ -46,11 +46,13 @@ class CategoryController extends BaseController
             if ($category) {
                 $category_id = $category['id'];
             } else {
+                //TODO check 404 page
                 return view('/errors/html/error_404');
             }
             $result = $this->categoryPathModel->get(['category_id' => $category_id]);
         } catch (Exception $e) {
             //todo(log)
+            //TODO check 404 page
             return view('/errors/html/error_404');
         }
         $data = [

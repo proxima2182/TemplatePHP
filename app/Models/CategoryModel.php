@@ -29,6 +29,14 @@ class CategoryModel extends BasePriorityModel
         'updated_at',
     ];
 
+    /**
+     * insert 기능
+     * - priority 추가를 위해 override
+     * @param $data
+     * @param bool $returnID
+     * @return \CodeIgniter\Database\BaseResult|false|int|object|string
+     * @throws \ReflectionException
+     */
     public function insert($data = null, bool $returnID = true)
     {
         $rowCount = $this->getCount() + 1;
@@ -37,6 +45,12 @@ class CategoryModel extends BasePriorityModel
     }
 
     /**
+     * delete 기능
+     * 제거 시 해당 priority 보다 큰 priority 들은 1씩 차감되어야
+     * 'row 개수 = priority' 최대값 조건이 유지된다
+     * @param $id
+     * @param bool $purge
+     * @return bool|\CodeIgniter\Database\BaseResult|null
      * @throws Exception
      */
     public function delete($id = null, bool $purge = false)

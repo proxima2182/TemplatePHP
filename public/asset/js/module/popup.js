@@ -151,7 +151,9 @@ function closePopup(className) {
 }
 
 /**
- * 화면 크기에 맞게 popup 크기 조정
+ * resize 시 호출 되는 기능
+ * popup 의 세로 가운데 정렬을 위해 popup 의 root 영역에
+ * line-height 를 화면에 비례해 조정해 준다
  * @param event
  */
 function resizeWindow(event) {
@@ -164,6 +166,12 @@ function resizeWindow(event) {
     })
 }
 
+/**
+ * 공통 style string 생성 함수
+ * - popup-input 을 사용하지 않는 보기 전용인 경우 호출
+ * @param className
+ * @returns {string}
+ */
 function getPopupViewStyle(className) {
     return `
     <style>

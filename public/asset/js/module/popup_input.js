@@ -1,11 +1,21 @@
 /**
- * @file 입력 / 정보출력용 input popup 을 공통처리하기 위한 스크립트
+ * @file 데이터 보기/입력을 위한 popup-input 을 공통처리하기 위한 스크립트
  */
 const className = 'popup-input';
 let getGetUrl, getUpdateUrl, getCreateUrl, getDeleteUrl;
 let getHtml, getControlHtml;
 let deleteMessage;
 
+/**
+ * 공통 style string 생성 함수
+ * - popup-input 인 경우 호출
+ * 페이지 당 한 번 추가되면 좋겠지만, 다른 class 에 영향 줄 수 있고
+ * 팝업이 생성과 제거를 반복할 것이기 때문에
+ * 아예 팝업 당 고유 className을 주고 해당 class를 가진 element 내부에 추가해
+ * 생성과 소멸을 같이 할 수 있도록 함
+ * @param className
+ * @returns {string}
+ */
 function getPopupStyle(className) {
     return `
     .${className} .popup-inner {
@@ -131,15 +141,16 @@ function fromDataToHtml(key, data, typeSet) {
 }
 
 /**
- * input popup 사용을 위해 필요한 initialize 기능
+ * popup-input 사용을 위한 initialize 기능
  * 각 string 을 유동적으로 받기 위해 함수로 전달받음
  * @param {{
- *     getGetUrl: (id) => string,           get API route
- *     getCreateUrl: () => string,          create API route
- *     getUpdateUrl: (id) => string,        update API route
- *     getDeleteUrl: (id) => string,        delete API route
- *     getHtml: (data) => string,           본체 html
- *     getControlHtml: (data) => string,    특정 케이스에서 하단 버튼을 나타낼지 말지 정할 수 있도록 control 부분을 html 과 따로 받음
+ *     getGetUrl: (id) => string,           //get API route
+ *     getCreateUrl: () => string,          //create API route
+ *     getUpdateUrl: (id) => string,        //update API route
+ *     getDeleteUrl: (id) => string,        //delete API route
+ *     getHtml: (data) => string,           //본체 html
+ *     getControlHtml: (data) => string,    //특정 케이스에서 하단 버튼을 나타낼지 말지 정할 수 있도록 control 부분을 html 과 따로 받음
+ *     deleteMessage: string,               //delete popup 메세지가 선택적으로 나올 수 있어 추가
  * }} input
  */
 function initializeInputPopup(input) {
@@ -152,6 +163,11 @@ function initializeInputPopup(input) {
     deleteMessage = input.deleteMessage;
 }
 
+/**
+ * popup 컨트롤 버튼 추가 기능
+ * - 공통된 코드가 반복되어 함수 추가
+ * @param data
+ */
 function addInputPopupControlWrap(data) {
     let controlHtml = getControlHtml ? getControlHtml(data) : undefined;
     if (typeof controlHtml == 'string' && controlHtml.length == 0) {
@@ -380,6 +396,12 @@ function openInputPopupDelete($parent, id) {
     openPopup($parent, className, style, html)
 }
 
+/**
+ * API 호출 시 성공 처리 기능
+ * 성공이어도 메세지가 있는 경우 출력
+ * @param className
+ * @returns {(function(*, *, *): void)|*}
+ */
 function getSuccessCallback(className) {
     return function (response, status, request) {
         if (response.success) {
@@ -397,6 +419,12 @@ function getSuccessCallback(className) {
     }
 }
 
+/**
+ * API 호출 시 실패 처리 기능
+ * 에러 메세지 출력
+ * @param className
+ * @returns {(function(*, *, *): void)|*}
+ */
 function getErrorCallback(className) {
     return function (response, status, error) {
         let message = error;
@@ -414,6 +442,7 @@ function getErrorCallback(className) {
 }
 
 /**
+ * API 호출
  * 데이터 수정을 완료 기능
  * @param {string}id
  */
@@ -439,6 +468,7 @@ function confirmInputPopupEdit(className, id) {
 }
 
 /**
+ * API 호출
  * 데이터 생성을 완료 기능
  * @param {string}id
  */
@@ -464,6 +494,7 @@ function confirmInputPopupCreate(className) {
 }
 
 /**
+ * API 호출
  * 데이터 삭제 기능
  * @param {string}id
  */
@@ -478,6 +509,10 @@ function confirmInputPopupDelete(className, id) {
     });
 }
 
+/**
+ * textarea 자동 높이 조절 기능
+ * @param obj
+ */
 function resizeInputPopupTextarea(obj) {
     let maxHeight = 200;
     obj.style.height = "1px";
