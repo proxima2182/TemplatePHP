@@ -48,8 +48,8 @@ $routes->get('/topic/([0-9]+)/edit', [\Views\BoardController::class, 'editTopic'
 //admin pages
 $routes->get('/admin/board/([0-9]+)', [\Views\Admin\BoardController::class, 'index']);
 $routes->addRedirect('/admin/board', '/admin/board/1');
-$routes->get('/admin/board/([a-zA-Z][a-zA-Z0-9\-]*)/([0-9]+)', [\Views\Admin\BoardController::class, 'getBoard']);
-$routes->addRedirect('/admin/board/([a-zA-Z][a-zA-Z0-9\-]*)', '/admin/board/$1/1');
+$routes->get('/admin/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/([0-9]+)', [\Views\Admin\BoardController::class, 'getBoard']);
+$routes->addRedirect('/admin/board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/admin/board/$1/1');
 $routes->get('/admin/topic/([0-9]+)', [\Views\Admin\BoardController::class, 'getTopic']);
 $routes->get('/admin/topic/([0-9]+)/edit', [\Views\Admin\BoardController::class, 'editTopic']);
 $routes->get('/admin/topic/reply/([0-9]+)', [\Views\Admin\BoardController::class, 'getReply']);
@@ -65,12 +65,12 @@ $routes->get('/admin/setting/([0-9]+)', [\Views\Admin\SettingController::class, 
 $routes->addRedirect('/admin/setting', '/admin/setting/1');
 
 $routes->get('/admin/category', [\Views\Admin\CategoryController::class, 'index']);
-$routes->get('/admin/category/([a-zA-Z][a-zA-Z0-9\-]*)', [\Views\Admin\CategoryController::class, 'getCategory']);
+$routes->get('/admin/category/([a-zA-Z][a-zA-Z0-9\-\_]*)', [\Views\Admin\CategoryController::class, 'getCategory']);
 
 $routes->get('/admin/reservation-board/([0-9]+)', [\Views\Admin\ReservationController::class, 'index']);
 $routes->addRedirect('/admin/reservation-board', '/admin/reservation-board/1');
-$routes->get('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9\-]*)/([0-9]+)', [\Views\Admin\ReservationController::class, 'getBoard']);
-$routes->addRedirect('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9\-]*)', '/admin/reservation-board/$1/1');
+$routes->get('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)/([0-9]+)', [\Views\Admin\ReservationController::class, 'getBoard']);
+$routes->addRedirect('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/admin/reservation-board/$1/1');
 $routes->get('/admin/reservation/([0-9]+)', [\Views\Admin\ReservationController::class, 'getReservation']);
 
 
@@ -87,7 +87,7 @@ $routes->get('/api/board/get/([0-9]+)', [\API\BoardController::class, 'getBoard'
 $routes->post('/api/board/create', [\API\BoardController::class, 'createBoard']);
 $routes->post('/api/board/update/([0-9]+)', [\API\BoardController::class, 'updateBoard']);
 $routes->delete('/api/board/delete/([0-9]+)', [\API\BoardController::class, 'deleteBoard']);
-$routes->get('/api/board/topic/get/([a-zA-Z][a-zA-Z0-9\-]*)', [\API\BoardController::class, 'getBoardTopic']);
+$routes->get('/api/board/topic/get/([a-zA-Z][a-zA-Z0-9\-\_]*)', [\API\BoardController::class, 'getBoardTopic']);
 
 $routes->get('/api/topic/get/([0-9]+)', [\API\TopicController::class, 'getTopic']);
 $routes->post('/api/topic/create', [\API\TopicController::class, 'createTopic']);
