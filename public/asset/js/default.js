@@ -32,3 +32,22 @@ function pad(n, width) {
 function hash() {
     return Math.random().toString(36).substr(2, 11)
 }
+
+
+function parseInputToData($inputs) {
+    let data = {};
+    for (let i = 0; i < $inputs.length; ++i) {
+        let $input = $inputs.eq(i);
+        if ($input.length > 0) {
+            let domElement = $input[0]
+            if(domElement.tagName == 'textarea') {
+                data[domElement.name] = domElement.value.toRawString();
+            }if(domElement.type == 'checkbox') {
+                data[domElement.name] = domElement.checked ? 1 : 0;
+            } else {
+                data[domElement.name] = $input.val();
+            }
+        }
+    }
+    return data;
+}

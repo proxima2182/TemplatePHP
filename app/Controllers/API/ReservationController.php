@@ -2,7 +2,6 @@
 
 namespace API;
 
-use App\Controllers\BaseApiController;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class ReservationController extends BaseApiController

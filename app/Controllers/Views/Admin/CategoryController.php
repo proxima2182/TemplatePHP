@@ -1,21 +1,20 @@
 <?php
 
 namespace Views\Admin;
-
-use App\Controllers\BaseController;
+use App\Helpers\ServerLogger;
 use Exception;
 use Models\CategoryModel;
-use Models\CategoryPathModel;
+use Models\CategoryLocalModel;
 
-class CategoryController extends BaseController
+class CategoryController extends BaseAdminController
 {
     protected CategoryModel $categoryModel;
-    protected CategoryPathModel $categoryPathModel;
+    protected CategoryLocalModel $categoryLocalModel;
 
     public function __construct()
     {
         $this->categoryModel = model('Models\CategoryModel');
-        $this->categoryPathModel = model('Models\categoryPathModel');
+        $this->categoryLocalModel = model('Models\CategoryLocalModel');
     }
 
     function index(): string
@@ -24,18 +23,18 @@ class CategoryController extends BaseController
         $data = [
             'array' => $result,
         ];
-        return parent::loadAdminHeader([
-                'css' => parent::generateAssetStatement("css", [
+        return parent::loadHeader([
+                'css' => [
                     '/common/table',
                     '/admin/category',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/module/popup_input',
                     '/module/draggable',
-                ]),
+                ],
             ])
             . view('/admin/category', $data)
-            . parent::loadAdminFooter();
+            . parent::loadFooter();
     }
 
     function getCategory($code, $id = 1): string
@@ -49,7 +48,7 @@ class CategoryController extends BaseController
                 //TODO check 404 page
                 return view('/errors/html/error_404');
             }
-            $result = $this->categoryPathModel->get(['category_id' => $category_id]);
+            $result = $this->categoryLocalModel->get(['category_id' => $category_id]);
         } catch (Exception $e) {
             //todo(log)
             //TODO check 404 page
@@ -59,17 +58,17 @@ class CategoryController extends BaseController
             'array' => $result,
             'category_id' => $category_id
         ];
-        return parent::loadAdminHeader([
-                'css' => parent::generateAssetStatement("css", [
+        return parent::loadHeader([
+                'css' => [
                     '/common/table',
-                    '/admin/category_path',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                    '/admin/category_local',
+                ],
+                'js' => [
                     '/module/popup_input',
                     '/module/draggable',
-                ]),
+                ],
             ])
-            . view('/admin/category_path', $data)
-            . parent::loadAdminFooter();
+            . view('/admin/category_local', $data)
+            . parent::loadFooter();
     }
 }

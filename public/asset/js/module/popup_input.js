@@ -106,11 +106,11 @@ function fromDataToHtml(key, data, typeSet) {
             let html = `
             <div class="input-wrap">
                 <p class="input-title">${name}</p>
-                <select name="${key}" value="${value ?? ''} ${option}">`
-            if (set && set['values']) {
+                <select name="${key}" value="${value ?? ''}" ${option}>`
+            if (set && set['options']) {
                 try {
-                    for (let i in set['values']) {
-                        html += `<option value="${set['values']['value']}">${set['values']['name']}</option>`
+                    for (let i in set['options']) {
+                        html += `<option value="${set['options'][i]['value']}">${set['options'][i]['name']}</option>`
                     }
                 } catch (e) {
                     console.error(e)
@@ -119,7 +119,7 @@ function fromDataToHtml(key, data, typeSet) {
             html += `
                 </select>
             </div>`
-            return
+            return html;
         }
         case 'textarea': {
             let option = `${editable ? `class="editable under-line"` : `class="under-line"`} ${value ? `readonly` : ``}`
@@ -448,14 +448,7 @@ function getErrorCallback(className) {
  */
 function confirmInputPopupEdit(className, id) {
     if (!getUpdateUrl) return;
-    let data = {};
-    let inputs = $(`.${className} .editable`)
-    for (let i = 0; i < inputs.length; ++i) {
-        let input = inputs.eq(i);
-        if (input.length > 0) {
-            data[input[0].name] = input.val();
-        }
-    }
+    let data = parseInputToData($(`.${className} .editable`))
     $(`.${className} .error-message-wrap`).empty();
     $.ajax({
         type: 'POST',
@@ -474,14 +467,7 @@ function confirmInputPopupEdit(className, id) {
  */
 function confirmInputPopupCreate(className) {
     if (!getCreateUrl) return;
-    let data = {};
-    let inputs = $(`.${className} .editable`)
-    for (let i = 0; i < inputs.length; ++i) {
-        let input = inputs.eq(i);
-        if (input.length > 0) {
-            data[input[0].name] = input.val();
-        }
-    }
+    let data = parseInputToData($(`.${className} .editable`))
     $(`.${className} .error-message-wrap`).empty();
     $.ajax({
         type: 'POST',

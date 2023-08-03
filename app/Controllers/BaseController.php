@@ -47,11 +47,6 @@ abstract class BaseController extends Controller
     protected $session;
 
     /**
-     * links for pages
-     * @var string[]
-     */
-    private $links = ["test" => "a", "test2" => "a"];
-    /**
      * local variable for checking login
      * @var bool
      */
@@ -74,62 +69,55 @@ abstract class BaseController extends Controller
 
     /**view functions**/
 
-    protected function generateAssetStatement(string $type, array $files): string
+    protected function generateAssetStatement(string $type, array|string $files): string
     {
-        $result = null;
+        $result = "";
+        $getter = null;
         switch ($type) {
             case 'css' :
-                foreach ($files as $key => $file) {
+                $getter = function ($file) {
                     $file .= Utils::endsWith($file, '.css') ? '' : '.css';
                     $filename = "/asset/css" . (Utils::startsWith($file, '/') ? '' : '/') . $file;
-                    $result .= "<link href=\"" . $filename . "\" type=\"text/css\" rel=\"stylesheet\"/>\n";
-                }
+                    return "<link href=\"" . $filename . "\" type=\"text/css\" rel=\"stylesheet\"/>";
+                };
                 break;
             case 'js':
             case 'javascript':
-                foreach ($files as $key => $file) {
+                $getter = function ($file) {
                     $file .= Utils::endsWith($file, '.js') ? '' : '.js';
                     $filename = "/asset/js" . (Utils::startsWith($file, '/') ? '' : '/') . $file;
-                    $result .= "<script src=\"" . $filename . "\" type=\"text/javascript\"></script>\n";
-                }
+                    return "<script src=\"" . $filename . "\" type=\"text/javascript\"></script>";
+                };
                 break;
+        }
+        if (!$getter) "";
+        if (is_array($files)) {
+            foreach ($files as $key => $file) {
+                $result .= $getter($file) . "\n";
+            }
+        } else {
+            $result .= $getter($files) . "\n";
         }
         return $result;
     }
 
-    function loadHeader($input_data, $is_admin = false): string
+    protected function loadDataForHeader($input, $initData = []): array
     {
         if ($this->is_login) {
             $this->session->set_userdata([
                 'referrer' => '',
             ]);
         }
-        $data = [
-            'links' => $this->links,
-            'is_login' => $this->is_login,
-        ];
-        if (isset($input_data['css'])) {
-            $data['css'] = $input_data['css'];
+        $data = array_merge([
+            'is_login' => $this->is_login
+        ], $initData);
+        if (isset($input['css'])) {
+            $data['css'] = $this->generateAssetStatement("css", $input['css']);
         }
-        if (isset($input_data['js'])) {
-            $data['js'] = $input_data['js'];
+        if (isset($input['js'])) {
+            $data['js'] = $this->generateAssetStatement("js", $input['js']);
         }
-        return view($is_admin ? 'admin/header' : 'client/header', $data);
-    }
-
-    function loadAdminHeader($input_data): string
-    {
-        return $this->loadHeader($input_data, true);
-    }
-
-    function loadFooter($is_admin = false): string
-    {
-        return view($is_admin ? 'admin/footer' : 'client/footer');
-    }
-
-    function loadAdminFooter(): string
-    {
-        return $this->loadFooter(true);
+        return $data;
     }
 
     /**API functions**/

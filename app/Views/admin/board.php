@@ -70,7 +70,7 @@
                 },
                 type: {
                     type: 'select',
-                    values: [
+                    options: [
                         {
                             value: 'grid',
                             name: 'Grid',

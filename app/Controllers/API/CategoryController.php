@@ -2,25 +2,43 @@
 
 namespace API;
 
-use App\Controllers\BaseApiController;
+use App\Helpers\ServerLogger;
 use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\BaseModel;
 use Models\CategoryModel;
-use Models\CategoryPathModel;
+use Models\CategoryLocalModel;
 
 class CategoryController extends BaseApiController
 {
     protected BaseConnection $db;
     protected CategoryModel $categoryModel;
-    protected CategoryPathModel $categoryPathModel;
+    protected CategoryLocalModel $categoryLocalModel;
 
     public function __construct()
     {
         $this->db = db_connect();
         $this->categoryModel = model('Models\CategoryModel');
-        $this->categoryPathModel = model('Models\CategoryPathModel');
+        $this->categoryLocalModel = model('Models\CategoryLocalModel');
+    }
+
+    /**
+     * [get] /api/category/get/all
+     * @return ResponseInterface
+     */
+    public function getCategoryAll(): ResponseInterface
+    {
+        $categories = $this->categoryModel->get();
+        foreach ($categories as $i => $category) {
+            if ($category['has_local'] == 1) {
+                $paths = $this->categoryLocalModel->get([
+                    'category_id' => $category['id'],
+                ]);
+                $categories[$i]['locals'] = $paths;
+            }
+        }
+        return $this->typicallyGet($this->categoryModel, $id);
     }
 
     /**
@@ -53,7 +71,7 @@ class CategoryController extends BaseApiController
                 'rules' => 'required|min_length[1]',
             ],
         ];
-        return $this->typicallyCreate($this->categoryModel, $body, $validationRules, function ($data) {
+        return $this->typicallyCreate($this->categoryModel, $body, $validationRules, function ($model, $data) {
             //[rule] maximum rows
             if ($this->categoryModel->getCount() > 10) {
                 throw new Exception('Maximum available rows are 10.');
@@ -69,6 +87,7 @@ class CategoryController extends BaseApiController
     public function updateCategory($id): ResponseInterface
     {
         $body = $this->request->getPost();
+        ServerLogger::log($body);
         return $this->typicallyUpdate($this->categoryModel, $id, $body);
     }
 
@@ -88,7 +107,7 @@ class CategoryController extends BaseApiController
         } else {
             try {
                 BaseModel::transaction($this->db, [
-                    "DELETE FROM category_path WHERE category_id = " . $id,
+                    "DELETE FROM category_local WHERE category_id = " . $id,
                     "DELETE FROM category WHERE id = " . $id,
                 ]);
                 $response['success'] = true;
@@ -129,7 +148,7 @@ class CategoryController extends BaseApiController
      */
     public function getCategoryPath($id): ResponseInterface
     {
-        return $this->typicallyGet($this->categoryPathModel, $id);
+        return $this->typicallyGet($this->categoryLocalModel, $id);
     }
 
     /**
@@ -149,12 +168,12 @@ class CategoryController extends BaseApiController
                 'rules' => 'required|min_length[1]',
             ],
         ];
-        return $this->typicallyCreate($this->categoryPathModel, $body, $validationRules, function ($data) {
+        return $this->typicallyCreate($this->categoryLocalModel, $body, $validationRules, function ($model, $data) {
             //[rule] maximum rows
             $category_id = $data['category_id'];
             if (strlen($category_id) == 0) {
             } else {
-                if ($this->categoryPathModel->getCount(['category_id' => $data['category_id']]) > 10) {
+                if ($model->getCount(['category_id' => $data['category_id']]) > 10) {
                     throw new Exception('Maximum available rows are 10.');
                 }
             }
@@ -169,7 +188,7 @@ class CategoryController extends BaseApiController
     public function updateCategoryPath($id): ResponseInterface
     {
         $body = $this->request->getPost();
-        return $this->typicallyUpdate($this->categoryPathModel, $id, $body);
+        return $this->typicallyUpdate($this->categoryLocalModel, $id, $body);
     }
 
     /**
@@ -179,7 +198,7 @@ class CategoryController extends BaseApiController
      */
     public function deleteCategoryPath($id): ResponseInterface
     {
-        return $this->typicallyDelete($this->categoryPathModel, $id);
+        return $this->typicallyDelete($this->categoryLocalModel, $id);
     }
 
     /**
@@ -195,7 +214,7 @@ class CategoryController extends BaseApiController
         ];
 
         try {
-            $this->categoryPathModel->exchangePriority($from, $to);
+            $this->categoryLocalModel->exchangePriority($from, $to);
             $response['success'] = true;
         } catch (Exception $e) {
             //todo(log)
@@ -203,5 +222,4 @@ class CategoryController extends BaseApiController
         }
         return $this->response->setJSON($response);
     }
-
 }

@@ -6,19 +6,21 @@ namespace Models;
  * column_name      type            comment
  * -----------------------------------------
  * id               INT
- * category_id      INT             FK(category_path)
+ * category_id      INT             FK(category_local)
  * name             VARCHAR(50)
- * path             VARCHAR(100)
+ * path             VARCHAR(255)
  * priority         INT
  * created_at       DATETIME
  * updated_at       DATETIME
  */
 
+use CodeIgniter\Database\BaseResult;
 use Exception;
+use ReflectionException;
 
-class CategoryPathModel extends BasePriorityModel
+class CategoryLocalModel extends BasePriorityModel
 {
-    protected $table = 'category_path';
+    protected $table = 'category_local';
     protected $allowedFields = [
         'id',
         'category_id',
@@ -35,8 +37,8 @@ class CategoryPathModel extends BasePriorityModel
      * - 이 때 priority 는 같은 category_id 를 가진 row 의 개수
      * @param $data
      * @param bool $returnID
-     * @return \CodeIgniter\Database\BaseResult|false|int|object|string
-     * @throws \ReflectionException
+     * @return BaseResult|false|int|object|string
+     * @throws ReflectionException
      */
     public function insert($data = null, bool $returnID = true)
     {
@@ -51,7 +53,7 @@ class CategoryPathModel extends BasePriorityModel
      * 'row 개수 = priority' 최대값 조건이 유지된다
      * @param $id
      * @param bool $purge
-     * @return bool|\CodeIgniter\Database\BaseResult|null
+     * @return bool|BaseResult|null
      * @throws Exception
      */
     public function delete($id = null, bool $purge = false)

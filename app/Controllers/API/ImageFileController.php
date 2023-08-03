@@ -2,7 +2,6 @@
 
 namespace API;
 
-use App\Controllers\BaseApiController;
 use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;

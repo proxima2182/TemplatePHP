@@ -2,6 +2,7 @@
 
 namespace Models;
 
+use App\Helpers\ServerLogger;
 use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\Model;
 use Exception;
@@ -121,8 +122,8 @@ class BaseModel extends Model
 //                $keyQuery .= $prefix . $key;
 //                $values[] = $value;
 //                $valueQuery .= $prefix . '?';
+//                $prefix = ",";
 //            }
-//            $prefix = ",";
 //        }
 //        return [
 //            'query' => "INSERT INTO ".$this->table." (".$keyQuery.") VALUES (".$valueQuery.")" ,
@@ -130,21 +131,44 @@ class BaseModel extends Model
 //        ];
 //    }
 
+    protected function getConditionSet($data): array
+    {
+        $prefix = "";
+        $query = "";
+        $values = [];
+
+        foreach ($data as $key => $value) {
+            $query .= $prefix . $key . " =  ?";
+            $values[] = $value;
+            $prefix = " AND ";
+        }
+        return [
+            'query' => strlen($query) > 0 ? "WHERE " . $query : "",
+            'values' => $values,
+        ];
+    }
+
     /**
      * 여러가지 query 실행을 위한 transaction 처리 기능
      * 예외가 발생 하더라도 외부로 다시 throw 해 호출한 부분에서 메세지 및 로그 처리 하도록 한다.
      * @param BaseConnection $db
      * @param $statements
-     * @return void
+     * @return array|null
      * @throws Exception
      */
-    public static function transaction(BaseConnection $db, $statements): void
+    public static function transaction(BaseConnection $db, $statements): array
     {
-        if (!$statements || !is_array($statements) || sizeof($statements) == 0) return;
+        if (!$statements || !is_array($statements) || sizeof($statements) == 0) return [];
         try {
             $db->transBegin();
+            $result = null;
             foreach ($statements as $index => $statement) {
-                $db->query($statement);
+                $queryResult = null;
+                if (is_array($statement)) {
+                    $queryResult = $db->query($statement['query'], $statement['values']);
+                } else {
+                    $queryResult = $db->query($statement);
+                }
                 if ($db->transStatus() === false) {
                     $error = $db->error();
                     if ($error['code'] == 0) {
@@ -153,9 +177,12 @@ class BaseModel extends Model
                         throw new Exception($error['message'], $error['code']);
                     }
                 }
+                if($queryResult) {
+                    $result = $queryResult->getResultArray();
+                }
             }
             $db->transCommit();
-            return;
+            return $result;
         } catch (Exception $e) {
             $db->transRollback();
             throw $e;

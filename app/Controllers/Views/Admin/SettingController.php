@@ -2,20 +2,18 @@
 
 namespace Views\Admin;
 
-use App\Controllers\BaseController;
-
-class SettingController extends BaseController
+class SettingController extends BaseAdminController
 {
     function index($page = 1): string
     {
-        return parent::loadAdminHeader([
-                'css' => parent::generateAssetStatement("css", [
+        return parent::loadHeader([
+                'css' => [
                     '/common/table',
                     '/admin/setting',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/module/popup_input',
-                ]),
+                ],
             ])
             . view('/admin/setting', [
                 'array' => [
@@ -36,6 +34,6 @@ class SettingController extends BaseController
                 ],
                 'pagination_link' => '/admin/setting'
             ])
-            . parent::loadAdminFooter();
+            . parent::loadFooter();
     }
 }

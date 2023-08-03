@@ -2,17 +2,12 @@
 
 namespace Views;
 
-use App\Controllers\BaseController;
-
-class BoardController extends BaseController
+class BoardController extends BaseClientController
 {
-    protected $db;
-    protected $userModel;
 
     public function __construct()
     {
-        $this->db = db_connect();
-        $this->userModel = model('Models\UserModel');
+        parent::__construct();
     }
 
     public function index()
@@ -23,12 +18,12 @@ class BoardController extends BaseController
     public function getGridBoard($page = 1): string
     {
         return parent::loadHeader([
-                'css' => parent::generateAssetStatement("css", [
+                'css' => [
                     '/client/board/grid',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/slick/slick.min.js',
-                ]),
+                ],
             ])
             . view('/client/board/grid', [
                 'pagination' => [
@@ -45,10 +40,10 @@ class BoardController extends BaseController
     public function getTableBoard($page = 1): string
     {
         return parent::loadHeader([
-                'css' => parent::generateAssetStatement("css", [
+                'css' => [
                     '/common/table',
                     '/client/board/table',
-                ]),
+                ],
             ])
             . view('/client/board/table', [
                 'pagination' => [
@@ -76,17 +71,18 @@ class BoardController extends BaseController
             'created_at' => '2023-06-29 00:00:00',
         ];
         return parent::loadHeader([
-                'css' => parent::generateAssetStatement("css", [
+                'css' => [
                     '/client/board/topic',
                     '/client/board/topic_view',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/slick/slick.min.js',
-                ]),
+                ],
             ])
             . view('/client/board/topic_view', $data)
             . parent::loadFooter();
     }
+
     public function editTopic($id = 1): string
     {
         $data = [
@@ -101,13 +97,13 @@ class BoardController extends BaseController
             'created_at' => '2023-06-29 00:00:00',
         ];
         return parent::loadHeader([
-                'css' => parent::generateAssetStatement("css", [
+                'css' => [
                     '/client/board/topic',
                     '/client/board/topic_input',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/slick/slick.min.js',
-                ]),
+                ],
             ])
             . view('/client/board/topic_input', $data)
             . parent::loadFooter();

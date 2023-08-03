@@ -2,20 +2,23 @@
 
 namespace Views;
 
-use App\Controllers\BaseController;
-
-class RegisterController extends BaseController
+class RegisterController extends BaseClientController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index()
     {
         return parent::loadHeader([
-                'css' => parent::generateAssetStatement("css", [
+                'css' => [
                     '/common/form',
                     '/common/input',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/module/form',
-                ]),
+                ],
             ])
             . view('/client/register')
             .parent::loadFooter();

@@ -20,8 +20,9 @@ use App\Helpers\Utils;
                     <div class="row">
                         <span class="column code">Code</span>
                         <span class="column name">Name</span>
-                        <span class="column category-default-name">Default Name</span>
-                        <span class="column category-default-path">Default Path</span>
+                        <span class="column path">Path</span>
+                        <span class="column local">Local</span>
+                        <span class="column local-count">Local Count</span>
                     </div>
                 </div>
                 <ul>
@@ -31,16 +32,17 @@ use App\Helpers\Utils;
                             <a href="javascript:openInputPopup(this, '<?= $item['id'] ?>')" class="button row-button">
                                 <span class="column code"><?= $item['code'] ?></span>
                                 <span class="column name"><?= $item['name'] ?></span>
-                                <span class="column category-default-name">
-                                <?= Utils::isNotEmpty('category_default_name', $item) ?
-                                    $item['category_default_name'] :
+                                <span class="column path">
+                                <?= Utils::isNotEmpty('path', $item) ?
+                                    $item['path'] :
                                     '<img src="/asset/images/icon/none.png"/>' ?>
                                 </span>
-                                <span class="column category-default-path">
-                                <?= Utils::isNotEmpty('category_default_path', $item) ?
-                                    $item['category_default_path'] :
+                                <span class="column local">
+                                <?= $item['has_local'] == 1?
+                                    '<img src="/asset/images/icon/check.png"/>' :
                                     '<img src="/asset/images/icon/none.png"/>' ?>
                                 </span>
+                                <span class="column local-count"><?=$item['cnt']?></span>
                             </a>
                             <a href="/admin/category/<?= $item['code'] ?>" class="button detail">
                                 <img src="/asset/images/icon/detail@2x.png"/>
@@ -76,6 +78,13 @@ use App\Helpers\Utils;
                 },
                 name: {
                     type: 'text',
+                },
+                path: {
+                    type: 'text',
+                },
+                has_local: {
+                    type: 'checkbox',
+                    name: 'Show Local'
                 },
             }
             let keys = Object.keys(typeSet);

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace API;
 
+use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\BaseModel;
@@ -50,7 +51,7 @@ class BaseApiController extends BaseController
         } else {
             try {
                 if ($additionalCheck != null && is_callable($additionalCheck)) {
-                    $additionalCheck($data);
+                    $additionalCheck($model, $data);
                 }
                 if (!$model->insert($data)) {
                     $response['messages'] = $model->errors();

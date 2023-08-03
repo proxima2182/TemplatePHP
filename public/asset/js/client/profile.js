@@ -86,14 +86,7 @@ function editProfile() {
 
 function confirmChangePassword() {
     $('.error-message-box').empty();
-    let data = {};
-    let inputs = $('.form-box input');
-    for (let i = 0; i < inputs.length; ++i) {
-        let input = inputs.eq(i);
-        if (input.length > 0) {
-            data[input[0].name] = input.val();
-        }
-    }
+    let data = parseInputToData($(`.form-box .editable`))
 
     if (data['current_password'].length == 0 || data['new_password'].length == 0 || data['confirm_new_password'].length == 0) {
         $('.error-message-box').append(`<p>fields are empty.</p>`)

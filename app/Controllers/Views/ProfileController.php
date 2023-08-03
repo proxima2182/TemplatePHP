@@ -2,10 +2,13 @@
 
 namespace Views;
 
-use App\Controllers\BaseController;
-
-class ProfileController extends BaseController
+class ProfileController extends BaseClientController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index()
     {
         $data = [
@@ -16,15 +19,15 @@ class ProfileController extends BaseController
         ];
 
         return parent::loadHeader([
-                'css' => parent::generateAssetStatement("css", [
+                'css' => [
                     '/common/form',
                     '/common/input',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/client/profile',
-                ]),
+                ],
             ])
             . view('/client/profile', $data)
-            .parent::loadFooter();
+            . parent::loadFooter();
     }
 }

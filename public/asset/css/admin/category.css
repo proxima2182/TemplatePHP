@@ -19,12 +19,16 @@ h3.title {
     width: 20%;
 }
 
-.list-wrap .column.category-default-name {
-    width: 20%;
+.list-wrap .column.path {
+    width: 35%;
 }
 
-.list-wrap .column.category_default_path {
-    width: 60%;
+.list-wrap .column.local {
+    width: 10%;
+}
+
+.list-wrap .column.local-count {
+    width: 15%;
 }
 
 .list-wrap .row {

@@ -2,8 +2,6 @@
 
 namespace API;
 
-use App\Controllers\BaseApiController;
-use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class TopicController extends BaseApiController
@@ -69,7 +67,6 @@ class TopicController extends BaseApiController
             'message' => ""
         ];
         $body = $this->request->getBody();
-        ServerLogger::log($body);
         return $this->response->setJSON($response);
     }
 

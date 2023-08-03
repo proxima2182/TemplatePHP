@@ -2,9 +2,7 @@
 
 namespace Views\Admin;
 
-use App\Controllers\BaseController;
-
-class LocationController extends BaseController
+class LocationController extends BaseAdminController
 {
     protected $categoryModel;
 
@@ -15,14 +13,14 @@ class LocationController extends BaseController
 
     function index($page = 1): string
     {
-        return parent::loadAdminHeader([
-                'css' => parent::generateAssetStatement("css", [
+        return parent::loadHeader([
+                'css' => [
                     '/common/table',
                     '/admin/location',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/module/popup_input',
-                ]),
+                ],
             ])
             . view('/admin/location', [
                 'array' => [
@@ -105,6 +103,6 @@ class LocationController extends BaseController
                 ],
                 'pagination_link' => '/admin/location'
             ])
-            . parent::loadAdminFooter();
+            . parent::loadFooter();
     }
 }

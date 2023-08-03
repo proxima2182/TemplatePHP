@@ -2,9 +2,7 @@
 
 namespace Views\Admin;
 
-use App\Controllers\BaseController;
-
-class BoardController extends BaseController
+class BoardController extends BaseAdminController
 {
     protected $boardModel;
 
@@ -29,14 +27,14 @@ class BoardController extends BaseController
         $data = array_merge($result, [
             'pagination_link' => '/admin/board',
         ]);
-        return parent::loadAdminHeader([
-                'css' => parent::generateAssetStatement("css", [
+        return parent::loadHeader([
+                'css' => [
                     '/common/table',
                     '/admin/board',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/module/popup_input',
-                ]),
+                ],
             ])
             . view('/admin/board', [
                 'array' => [
@@ -73,16 +71,16 @@ class BoardController extends BaseController
                 ],
                 'pagination_link' => '/admin/board'
             ])
-            . parent::loadAdminFooter();
+            . parent::loadFooter();
     }
 
     function getBoard($code, $id = 1): string
     {
-        return parent::loadAdminHeader([
-                'css' => parent::generateAssetStatement("css", [
+        return parent::loadHeader([
+                'css' => [
                     '/common/table',
                     '/admin/board/table',
-                ]),
+                ],
             ])
             . view('/admin/board/table', [
                 'is_admin' => true,
@@ -94,7 +92,7 @@ class BoardController extends BaseController
                 ],
                 'pagination_link' => '/admin/board/' . $code
             ])
-            . parent::loadAdminFooter();
+            . parent::loadFooter();
     }
 
     public function getTopic($id = 1): string
@@ -111,17 +109,17 @@ class BoardController extends BaseController
                     volutpat quis mauris eu vestibulum.',
             'created_at' => '2023-06-29 00:00:00',
         ];
-        return parent::loadAdminHeader([
-                'css' => parent::generateAssetStatement("css", [
+        return parent::loadHeader([
+                'css' => [
                     '/admin/board/topic',
                     '/admin/board/topic_view',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/slick/slick.min.js',
-                ]),
+                ],
             ])
             . view('/admin/board/topic_view', $data)
-            . parent::loadAdminFooter();
+            . parent::loadFooter();
     }
 
     public function editTopic($id = 1): string
@@ -138,29 +136,29 @@ class BoardController extends BaseController
                     volutpat quis mauris eu vestibulum.',
             'created_at' => '2023-06-29 00:00:00',
         ];
-        return parent::loadAdminHeader([
-                'css' => parent::generateAssetStatement("css", [
+        return parent::loadHeader([
+                'css' => [
                     '/admin/board/topic',
                     '/admin/board/topic_input',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/slick/slick.min.js',
-                ]),
+                ],
             ])
             . view('/admin/board/topic_input', $data)
-            . parent::loadAdminFooter();
+            . parent::loadFooter();
     }
 
     function getReply($page = 1): string
     {
-        return parent::loadAdminHeader([
-                'css' => parent::generateAssetStatement("css", [
+        return parent::loadHeader([
+                'css' => [
                     '/common/table',
                     '/admin/reply',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/module/popup_input',
-                ]),
+                ],
             ])
             . view('/admin/reply', [
                 'array' => [
@@ -209,6 +207,6 @@ class BoardController extends BaseController
                 ],
                 'pagination_link' => '/admin/topic/reply'
             ])
-            . parent::loadAdminFooter();
+            . parent::loadFooter();
     }
 }

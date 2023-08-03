@@ -7,11 +7,14 @@
             Notice
         </h3>
         <div class="topic-wrap">
-            <div class="row row-title line-after black">
-                <input type="text" placeholder="Title" name="title" class="column title" value="<?= $title ?>"/>
-            </div>
-            <div class="text-wrap line-after">
-                <textarea placeholder="Content" name="content" class="content"><?= $content ?></textarea>
+            <div class="form-box">
+                <div class="row row-title line-after black">
+                    <input type="text" placeholder="Title" name="title" class="column title editable"
+                           value="<?= $title ?>"/>
+                </div>
+                <div class="text-wrap line-after">
+                    <textarea placeholder="Content" name="content" class="content editable"><?= $content ?></textarea>
+                </div>
             </div>
             <div class="slider-wrap">
                 <div class="slider-box">
@@ -20,7 +23,7 @@
                              style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                             <label for="file" class="button"></label>
                             <input type="file" name="file" multiple id="file" onchange="onFileUpload(this);"
-                                    accept="image/*"/>
+                                   accept="image/*"/>
                             <!--                            <a href="#" class="button"></a>-->
                         </div>
                         <?php foreach ($images as $index => $image) { ?>
@@ -58,16 +61,7 @@
     })
 
     function confirmEditTopic(id) {
-        let data = {};
-
-        function appendData(element) {
-            if (element.length == 0) return;
-            let domElement = element.get(0)
-            data[domElement.name] = domElement.value.toRawString();
-        }
-
-        appendData($('input[name=title]'))
-        appendData($('textarea[name=content]'))
+        let data = parseInputToData($(`.form-box .editable`))
 
         $.ajax({
             type: 'POST',
@@ -88,9 +82,9 @@
     }
 
     function onFileUpload(input, id) {
-        if(input.files.length == 0) return;
+        if (input.files.length == 0) return;
         let form = new FormData();
-        for(let i in input.files) {
+        for (let i in input.files) {
             let file = input.files[i];
             form.append("file", file);
         }

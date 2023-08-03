@@ -24,10 +24,10 @@ class BasePriorityModel extends BaseModel
      * 두 데이터의 priority 를 교환하는 기능
      * @param $from //id
      * @param $to //id
-     * @return array|string|null
+     * @return void
      * @throws Exception
      */
-    public function exchangePriority($from, $to): array|string|null
+    public function exchangePriority($from, $to): void
     {
         $result = $this->get(['id' => $from]);
         if (sizeof($result) == 0) {
@@ -42,7 +42,7 @@ class BasePriorityModel extends BaseModel
         }
         $toData = $result[0];
 
-        return BaseModel::transaction($this->db, [
+        BaseModel::transaction($this->db, [
             "UPDATE " . $this->table . " SET priority = " . $fromData['priority'] . " WHERE id = " . $toData['id'],
             "UPDATE " . $this->table . " SET priority = " . $toData['priority'] . " WHERE id = " . $fromData['id'],
         ]);

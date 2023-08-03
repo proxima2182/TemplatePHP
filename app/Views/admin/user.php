@@ -43,12 +43,13 @@
         },
         getHtml: function (data) {
             const typeSet = {
-                type: {
-                    type: 'text',
-                },
                 username: {
+                    type: 'text',
+                    editable: false,
+                },
+                type: {
                     type: 'select',
-                    values: [
+                    options: [
                         {
                             value: 'member',
                             name: 'Member',

@@ -30,6 +30,9 @@ $routes->setAutoRoute(false);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+/**
+ * View Routes
+ */
 $routes->get('/', [\Views\MainController::class, 'index']);
 $routes->get('/get-session', [\Views\MainController::class, 'getSession']);
 $routes->get('/set-session', [\Views\MainController::class, 'setSession']);
@@ -71,7 +74,9 @@ $routes->addRedirect('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9]*)', '/admin/
 $routes->get('/admin/reservation/([0-9]+)', [\Views\Admin\ReservationController::class, 'getReservation']);
 
 
-//api
+/**
+ * API Routes
+ */
 $routes->post('/api/image-file/upload', [\API\ImageFileController::class, 'upload']);
 
 $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);
@@ -102,6 +107,7 @@ $routes->post('/api/setting/create', [\API\SettingController::class, 'createSett
 $routes->post('/api/setting/update/([0-9]+)', [\API\SettingController::class, 'updateSetting']);
 $routes->delete('/api/setting/delete/([0-9]+)', [\API\SettingController::class, 'deleteSetting']);
 
+$routes->get('/api/category/get/all', [\API\CategoryController::class, 'getCategoryAll']);
 $routes->get('/api/category/get/([0-9]+)', [\API\CategoryController::class, 'getCategory']);
 $routes->post('/api/category/create', [\API\CategoryController::class, 'createCategory']);
 $routes->post('/api/category/update/([0-9]+)', [\API\CategoryController::class, 'updateCategory']);

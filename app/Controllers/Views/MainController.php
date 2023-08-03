@@ -2,30 +2,26 @@
 
 namespace Views;
 
-use App\Controllers\BaseController;
 use App\Helpers\ServerLogger;
+use Models\UserModel;
 
-class MainController extends BaseController
+class MainController extends BaseClientController
 {
 
-    protected $db;
-    protected $userModel;
+    protected UserModel $userModel;
 
     public function __construct()
     {
-        $this->db = db_connect();
+        parent::__construct();
         $this->userModel = model('Models\UserModel');
     }
+
 
     public function index()
     {
         // TODO 가능하면 첫 앱 실행때 체크하는 걸로 변경 필요
         $this->userModel->checkAdmin();
-//        return view('header', ["links" => ["test" => "a", "test2" => "a"], "is_login" => false])
-//            .view('main')
-//            .view('footer');
-        return view('/client/main', ["links" => ["test" => "a", "test2" => "a"], "is_login" => false]);
-//        return view('welcome_message');
+        return view('/client/main', ["links" => $this->links, "is_login" => false]);
     }
 
     public function setSession()

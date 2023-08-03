@@ -2,9 +2,7 @@
 
 namespace Views\Admin;
 
-use App\Controllers\BaseController;
-
-class ReservationController extends BaseController
+class ReservationController extends BaseAdminController
 {
     protected $categoryModel;
 
@@ -15,14 +13,14 @@ class ReservationController extends BaseController
 
     function index($page = 1): string
     {
-        return parent::loadAdminHeader([
-                'css' => parent::generateAssetStatement("css", [
+        return parent::loadHeader([
+                'css' => [
                     '/common/table',
                     '/admin/reservation_board',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/module/popup_input',
-                ]),
+                ],
             ])
             . view('/admin/reservation_board', [
                 'array' => [
@@ -53,20 +51,20 @@ class ReservationController extends BaseController
                 ],
                 'pagination_link' => '/admin/reservation-board'
             ])
-            . parent::loadAdminFooter();
+            . parent::loadFooter();
     }
 
     function getBoard($code, $id = 1): string
     {
-        return parent::loadAdminHeader([
-                'css' => parent::generateAssetStatement("css", [
+        return parent::loadHeader([
+                'css' => [
                     '/common/table',
                     '/admin/reservation_table',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/module/calendar',
                     '/module/time_selector',
-                ]),
+                ],
             ])
             . view('/admin/reservation_table', [
                 'is_admin' => true,
@@ -96,16 +94,16 @@ class ReservationController extends BaseController
                 ],
                 'pagination_link' => '/admin/reservation-board/' . $code
             ])
-            . parent::loadAdminFooter();
+            . parent::loadFooter();
     }
 
     function getReservation($id): string
     {
-        return parent::loadAdminHeader([
-                'css' => parent::generateAssetStatement("css", [
+        return parent::loadHeader([
+                'css' => [
                     '/common/table',
                     '/admin/reservation',
-                ]),
+                ],
             ])
             . view('/admin/reservation', [
                 'id' => '1',
@@ -123,6 +121,6 @@ class ReservationController extends BaseController
                 'created_at' => '2023-06-29 00:00:00',
                 'updated_at' => '2023-06-29 00:00:00',
             ])
-            . parent::loadAdminFooter();
+            . parent::loadFooter();
     }
 }

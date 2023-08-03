@@ -2,9 +2,7 @@
 
 namespace Views\Admin;
 
-use App\Controllers\BaseController;
-
-class UserController extends BaseController
+class UserController extends BaseAdminController
 {
     protected $categoryModel;
 
@@ -15,14 +13,14 @@ class UserController extends BaseController
 
     function index($page = 1): string
     {
-        return parent::loadAdminHeader([
-                'css' => parent::generateAssetStatement("css", [
+        return parent::loadHeader([
+                'css' => [
                     '/common/table',
                     '/admin/user',
-                ]),
-                'js' => parent::generateAssetStatement("js", [
+                ],
+                'js' => [
                     '/module/popup_input',
-                ]),
+                ],
             ])
             . view('/admin/user', [
                 'array' => [
@@ -59,6 +57,6 @@ class UserController extends BaseController
                 ],
                 'pagination_link' => '/admin/user'
             ])
-            . parent::loadAdminFooter();
+            . parent::loadFooter();
     }
 }
