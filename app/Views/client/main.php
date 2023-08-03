@@ -1,4 +1,7 @@
 <?php
+
+use App\Helpers\Utils;
+
 if (!isset($links) && !isset($is_login)) return;
 
 //dummy data
@@ -142,11 +145,13 @@ $sliderImages = [
                 <ul class="gnb cf">
                     <?php foreach ($links as $i => $link) { ?>
                         <li>
-                            <a href="<?= $link['path'] ?>"><?= $link['name'] ?></a>
+                            <a href="<?= Utils::parseUrl($link['path']) ?>"><?= $link['name'] ?></a>
                             <ul class="lnb">
                                 <?php if ($link['has_local'] == 1) {
                                     foreach ($link['locals'] as $j => $localLink) { ?>
-                                        <li><a href="<?= $localLink['path'] ?>"><?= $localLink['name'] ?></a></li>
+                                        <li>
+                                            <a href="<?= Utils::parseUrl($localLink['path']) ?>"><?= $localLink['name'] ?></a>
+                                        </li>
                                     <?php }
                                 } ?>
                             </ul>

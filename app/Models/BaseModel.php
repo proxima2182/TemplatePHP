@@ -2,7 +2,6 @@
 
 namespace Models;
 
-use App\Helpers\ServerLogger;
 use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\Model;
 use Exception;
@@ -156,7 +155,7 @@ class BaseModel extends Model
      * @return array|null
      * @throws Exception
      */
-    public static function transaction(BaseConnection $db, $statements): array
+    public static function transaction(BaseConnection $db, $statements): array|null
     {
         if (!$statements || !is_array($statements) || sizeof($statements) == 0) return [];
         try {
@@ -177,7 +176,7 @@ class BaseModel extends Model
                         throw new Exception($error['message'], $error['code']);
                     }
                 }
-                if($queryResult) {
+                if ($queryResult && is_object($queryResult)) {
                     $result = $queryResult->getResultArray();
                 }
             }

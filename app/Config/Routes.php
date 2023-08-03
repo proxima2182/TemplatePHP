@@ -34,6 +34,7 @@ $routes->setAutoRoute(false);
  * View Routes
  */
 $routes->get('/', [\Views\MainController::class, 'index']);
+$routes->get('/frame-view', [\Views\MainController::class, 'getFrameView']);
 $routes->get('/get-session', [\Views\MainController::class, 'getSession']);
 $routes->get('/set-session', [\Views\MainController::class, 'setSession']);
 $routes->get('/profile', [\Views\ProfileController::class, 'index']);
@@ -44,12 +45,11 @@ $routes->get('/board/table/([0-9]+)', [\Views\BoardController::class, 'getTableB
 $routes->addRedirect('/board/table', '/board/table/1');
 $routes->get('/topic/([0-9]+)', [\Views\BoardController::class, 'getTopic']);
 $routes->get('/topic/([0-9]+)/edit', [\Views\BoardController::class, 'editTopic']);
-$routes->get('/test/image/(:any)', [\API\ImageFileController::class, 'getImage']);
 //admin pages
 $routes->get('/admin/board/([0-9]+)', [\Views\Admin\BoardController::class, 'index']);
 $routes->addRedirect('/admin/board', '/admin/board/1');
-$routes->get('/admin/board/([a-zA-Z][a-zA-Z0-9]*)/([0-9]+)', [\Views\Admin\BoardController::class, 'getBoard']);
-$routes->addRedirect('/admin/board/([a-zA-Z][a-zA-Z0-9]*)', '/admin/board/$1/1');
+$routes->get('/admin/board/([a-zA-Z][a-zA-Z0-9\-]*)/([0-9]+)', [\Views\Admin\BoardController::class, 'getBoard']);
+$routes->addRedirect('/admin/board/([a-zA-Z][a-zA-Z0-9\-]*)', '/admin/board/$1/1');
 $routes->get('/admin/topic/([0-9]+)', [\Views\Admin\BoardController::class, 'getTopic']);
 $routes->get('/admin/topic/([0-9]+)/edit', [\Views\Admin\BoardController::class, 'editTopic']);
 $routes->get('/admin/topic/reply/([0-9]+)', [\Views\Admin\BoardController::class, 'getReply']);
@@ -65,12 +65,12 @@ $routes->get('/admin/setting/([0-9]+)', [\Views\Admin\SettingController::class, 
 $routes->addRedirect('/admin/setting', '/admin/setting/1');
 
 $routes->get('/admin/category', [\Views\Admin\CategoryController::class, 'index']);
-$routes->get('/admin/category/([a-zA-Z][a-zA-Z0-9]*)', [\Views\Admin\CategoryController::class, 'getCategory']);
+$routes->get('/admin/category/([a-zA-Z][a-zA-Z0-9\-]*)', [\Views\Admin\CategoryController::class, 'getCategory']);
 
 $routes->get('/admin/reservation-board/([0-9]+)', [\Views\Admin\ReservationController::class, 'index']);
 $routes->addRedirect('/admin/reservation-board', '/admin/reservation-board/1');
-$routes->get('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9]*)/([0-9]+)', [\Views\Admin\ReservationController::class, 'getBoard']);
-$routes->addRedirect('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9]*)', '/admin/reservation-board/$1/1');
+$routes->get('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9\-]*)/([0-9]+)', [\Views\Admin\ReservationController::class, 'getBoard']);
+$routes->addRedirect('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9\-]*)', '/admin/reservation-board/$1/1');
 $routes->get('/admin/reservation/([0-9]+)', [\Views\Admin\ReservationController::class, 'getReservation']);
 
 
@@ -78,6 +78,7 @@ $routes->get('/admin/reservation/([0-9]+)', [\Views\Admin\ReservationController:
  * API Routes
  */
 $routes->post('/api/image-file/upload', [\API\ImageFileController::class, 'upload']);
+$routes->get('/image-file/(:any)', [\API\ImageFileController::class, 'getImage']);
 
 $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);
 $routes->get('/api/user/get/([0-9]+)', [\API\UserController::class, 'getUser']);
@@ -86,7 +87,7 @@ $routes->get('/api/board/get/([0-9]+)', [\API\BoardController::class, 'getBoard'
 $routes->post('/api/board/create', [\API\BoardController::class, 'createBoard']);
 $routes->post('/api/board/update/([0-9]+)', [\API\BoardController::class, 'updateBoard']);
 $routes->delete('/api/board/delete/([0-9]+)', [\API\BoardController::class, 'deleteBoard']);
-$routes->get('/api/board/topic/get/([a-zA-Z][a-zA-Z0-9]*)', [\API\BoardController::class, 'getBoardTopic']);
+$routes->get('/api/board/topic/get/([a-zA-Z][a-zA-Z0-9\-]*)', [\API\BoardController::class, 'getBoardTopic']);
 
 $routes->get('/api/topic/get/([0-9]+)', [\API\TopicController::class, 'getTopic']);
 $routes->post('/api/topic/create', [\API\TopicController::class, 'createTopic']);

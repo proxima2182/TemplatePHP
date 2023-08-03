@@ -69,34 +69,34 @@ abstract class BaseController extends Controller
 
     /**view functions**/
 
-    protected function generateAssetStatement(string $type, array|string $files): string
+    protected function generateAssetStatement(string $type, array|string $urls): string
     {
         $result = "";
         $getter = null;
         switch ($type) {
             case 'css' :
-                $getter = function ($file) {
-                    $file .= Utils::endsWith($file, '.css') ? '' : '.css';
-                    $filename = "/asset/css" . (Utils::startsWith($file, '/') ? '' : '/') . $file;
-                    return "<link href=\"" . $filename . "\" type=\"text/css\" rel=\"stylesheet\"/>";
+                $getter = function ($url) {
+                    $url .= Utils::endsWith($url, '.css') ? '' : '.css';
+                    $path = "/asset/css" . (Utils::startsWith($url, '/') ? '' : '/') . $url;
+                    return "<link href=\"" . $path . "\" type=\"text/css\" rel=\"stylesheet\"/>";
                 };
                 break;
             case 'js':
             case 'javascript':
-                $getter = function ($file) {
-                    $file .= Utils::endsWith($file, '.js') ? '' : '.js';
-                    $filename = "/asset/js" . (Utils::startsWith($file, '/') ? '' : '/') . $file;
-                    return "<script src=\"" . $filename . "\" type=\"text/javascript\"></script>";
+                $getter = function ($url) {
+                    $url .= Utils::endsWith($url, '.js') ? '' : '.js';
+                    $path = "/asset/js" . (Utils::startsWith($url, '/') ? '' : '/') . $url;
+                    return "<script src=\"" . $path . "\" type=\"text/javascript\"></script>";
                 };
                 break;
         }
         if (!$getter) "";
-        if (is_array($files)) {
-            foreach ($files as $key => $file) {
-                $result .= $getter($file) . "\n";
+        if (is_array($urls)) {
+            foreach ($urls as $url) {
+                $result .= $getter($url) . "\n";
             }
         } else {
-            $result .= $getter($files) . "\n";
+            $result .= $getter($urls) . "\n";
         }
         return $result;
     }

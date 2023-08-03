@@ -10,6 +10,7 @@ namespace Models;
  * name                 VARCHAR(50)
  * path                 VARCHAR(255)
  * priority             INT
+ * is_main_only         TINYINT(1)
  * has_local            TINYINT(1)
  * created_at           DATETIME
  * updated_at           DATETIME
@@ -29,6 +30,7 @@ class CategoryModel extends BasePriorityModel
         'name',
         'path',
         'priority',
+        'is_main_only',
         'has_local',
         'created_at',
         'updated_at',
@@ -40,13 +42,16 @@ class CategoryModel extends BasePriorityModel
      */
     public function get($condition = null): array
     {
-        $query = "SELECT *, (SELECT COUNT(id) FROM category_local WHERE category_id = category.id) AS cnt FROM category";
+        $query = "SELECT *, (SELECT COUNT(id) FROM category_local WHERE category_id = category.id) AS cnt FROM category ";
         $values = [];
         if ($condition) {
             $set = $this->getConditionSet($condition);
             $values = array_merge($values, $set['values']);
             $query .= $set['query'];
         }
+        $query .= " ORDER BY priority ASC";
+        ServerLogger::log($query);
+        ServerLogger::log($values);
         return BaseModel::transaction($this->db, [
             [
                 "query" => $query,

@@ -20,4 +20,14 @@ class Utils
     {
         return isset($object[$key]) && $object[$key] != null;
     }
+
+    static function parseUrl($url)
+    {
+        if (Utils::startsWith($url, "http")) {
+            return "javascript:openWindow('" . $url . "')";
+        } else if(Utils::startsWith($url, "/image-file")) {
+            return "/frame-view?url=" . $url;
+        }
+        return $url;
+    }
 }

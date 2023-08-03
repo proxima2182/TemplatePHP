@@ -1,0 +1,12 @@
+.container-inner .inner-box {
+    width: 1200px;
+    padding: 40px 0 120px 0;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+
+.container-inner .inner-box {
+    width: 100%;
+    min-height: 600px;
+}

@@ -26,9 +26,14 @@ let handleStorage = {
     }
 };
 $(document).ready(function () {
+    let $sections = $('.section');
+    let anchors = [];
+    for (let i = 0; i < $sections.length; i++) {
+        anchors.push(`${i + 1}`);
+    }
     // activate full page
     $('#fullpage').fullpage({
-        anchors: ['0', '1', '2', '3', '4', '5'],
+        anchors: anchors,
         menu: '#menu',
         onLeave: function (index, nextIndex, direction) {
             if (index === 1) {

@@ -1,7 +1,6 @@
 <?php
 $is_admin_page = isset($is_admin) && $is_admin;
-?>
-<?php
+
 $reply = [
     'page' => 1,
     'per-page' => 5,

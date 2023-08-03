@@ -51,3 +51,7 @@ function parseInputToData($inputs) {
     }
     return data;
 }
+
+function openWindow(url) {
+    window.open(url)
+}

@@ -110,7 +110,6 @@
                 dataType: 'json',
                 url: `/api/category/path/exchange-priority/${fromValue}/${toValue}`,
                 success: function (response, status, request) {
-                    console.log(response)
                     if (!response.success) return;
                     isSuccess = true;
                 },

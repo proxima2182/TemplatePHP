@@ -24,6 +24,21 @@ class MainController extends BaseClientController
         return view('/client/main', ["links" => $this->links, "is_login" => false]);
     }
 
+    public function getFrameView(): string
+    {
+        $queryParams = $this->request->getGet();
+        $url = $queryParams['url'];
+        return parent::loadHeader([
+                'css' => [
+                    '/client/frame',
+                ],
+            ])
+            . view('/client/frame', [
+                'url' => $url,
+            ])
+            . parent::loadFooter();
+    }
+
     public function setSession()
     {
         $newdata = [

@@ -1,4 +1,7 @@
 <?php
+
+use App\Helpers\Utils;
+
 if (!isset($links) && !isset($is_login)) return;
 ?>
 <!doctype html>
@@ -46,18 +49,22 @@ if (!isset($links) && !isset($is_login)) return;
             <h1 class="logo"><a href="/"><img src="/asset/images/include/logo.png" alt="header logo"></a></h1>
             <ul class="gnb cf">
                 <?php
-                foreach ($links as $i => $link) { ?>
-                    <li>
-                        <a href="<?= $link['path'] ?>"><?= $link['name'] ?></a>
-                        <ul class="lnb">
-                            <?php if ($link['has_local'] == 1) {
-                                foreach ($link['locals'] as $j => $localLink) { ?>
-                                    <li><a href="<?= $localLink['path'] ?>"><?= $localLink['name'] ?></a></li>
-                                <?php }
-                            } ?>
-                        </ul>
-                    </li>
-                <?php } ?>
+                foreach ($links as $i => $link) {
+                    if ($link['is_main_only'] == 0) { ?>
+                        <li>
+                            <a href="<?= Utils::parseUrl($link['path']) ?>"><?= $link['name'] ?></a>
+                            <ul class="lnb">
+                                <?php if ($link['has_local'] == 1) {
+                                    foreach ($link['locals'] as $j => $localLink) { ?>
+                                        <li>
+                                            <a href="<?= Utils::parseUrl($localLink['path']) ?>"><?= $localLink['name'] ?></a>
+                                        </li>
+                                    <?php }
+                                } ?>
+                            </ul>
+                        </li>
+                    <?php }
+                } ?>
             </ul>
         </div>
     </header>

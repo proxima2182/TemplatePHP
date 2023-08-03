@@ -21,6 +21,7 @@ use App\Helpers\Utils;
                         <span class="column code">Code</span>
                         <span class="column name">Name</span>
                         <span class="column path">Path</span>
+                        <span class="column main-only">Main Only</span>
                         <span class="column local">Local</span>
                         <span class="column local-count">Local Count</span>
                     </div>
@@ -37,12 +38,17 @@ use App\Helpers\Utils;
                                     $item['path'] :
                                     '<img src="/asset/images/icon/none.png"/>' ?>
                                 </span>
-                                <span class="column local">
-                                <?= $item['has_local'] == 1?
+                                <span class="column main-only">
+                                <?= $item['is_main_only'] == 1 ?
                                     '<img src="/asset/images/icon/check.png"/>' :
                                     '<img src="/asset/images/icon/none.png"/>' ?>
                                 </span>
-                                <span class="column local-count"><?=$item['cnt']?></span>
+                                <span class="column local">
+                                <?= $item['has_local'] == 1 ?
+                                    '<img src="/asset/images/icon/check.png"/>' :
+                                    '<img src="/asset/images/icon/none.png"/>' ?>
+                                </span>
+                                <span class="column local-count"><?= $item['cnt'] ?></span>
                             </a>
                             <a href="/admin/category/<?= $item['code'] ?>" class="button detail">
                                 <img src="/asset/images/icon/detail@2x.png"/>
@@ -81,6 +87,10 @@ use App\Helpers\Utils;
                 },
                 path: {
                     type: 'text',
+                },
+                is_main_only: {
+                    type: 'checkbox',
+                    name: 'Main Only'
                 },
                 has_local: {
                     type: 'checkbox',
