@@ -6,7 +6,6 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class UserController extends BaseApiController
 {
-    protected $db;
     protected $userModel;
 
     public function __construct()

@@ -4,7 +4,7 @@
             Board
         </h3>
         <div class="control-wrap">
-            <a href="javascript:openInputPopupCreate(this);" class="button create">
+            <a href="javascript:openInputPopupCreate();" class="button create">
                 <img src="/asset/images/icon/plus.png"/>
                 <span>Create</span>
             </a>
@@ -22,7 +22,7 @@
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
                         <li class="row">
-                            <a href="javascript:openInputPopup(this, '<?= $item['id'] ?>')" class="button row-button">
+                            <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
                                 <span class="column code"><?= $item['code'] ?></span>
                                 <span class="column type"><?= $item['type'] ?></span>
                                 <span class="column alias"><?= $item['alias'] ?></span>
@@ -72,6 +72,10 @@
                     type: 'select',
                     options: [
                         {
+                            value: 'static',
+                            name: 'Static',
+                        },
+                        {
                             value: 'grid',
                             name: 'Grid',
                         },
@@ -116,7 +120,7 @@
             }
             if (data['is_deletable'] == 1) {
                 html += `
-                <a href="javascript:openInputPopupDelete(this, ${data['id']});" class="button delete">
+                <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
                     <img src="/asset/images/icon/delete.png"/>
                     <span>Delete</span>
                 </a>`;

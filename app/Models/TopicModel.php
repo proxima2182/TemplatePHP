@@ -19,6 +19,8 @@ class TopicModel extends BaseModel
     protected $table = 'topic';
     protected $allowedFields = [
         'id',
+        'user_id',
+        'board_id',
         'title',
         'content',
         'created_at',

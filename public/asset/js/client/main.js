@@ -167,9 +167,8 @@ $(document).ready(function () {
     // dispatchEvent(event);
 });
 
-function openPagePopup($parent, className, style, html, callback) {
-    if (!$parent) return;
-    $parent.append(`
+function openPagePopup(className, style, html, callback) {
+    $('body').append(`
     <div class="page-popup ${className}">
     ${style ?? ''}
         <div class="interface">
@@ -231,7 +230,7 @@ function checkPagePopup() {
                     //TODO add loop
                     for (let index in data.images) {
                         let image = data.images[index];
-                        html += `<div class="slick-element" style="background: url('${image}') no-repeat center; background-size: cover; font-size: 0;">Slider #${index}</div>`
+                        html += `<div class="slick-element" style="background: url('/image-file/${image['id']}') no-repeat center; background-size: cover; font-size: 0;">Slider #${index}</div>`
                     }
                     html += `
                         </div>
@@ -241,7 +240,7 @@ function checkPagePopup() {
                             <span>Don't show this popup today</span>
                         </a>
                     </div>`
-                    openPagePopup($('body'), className, null, html, function () {
+                    openPagePopup(className, null, html, function () {
                         $(`.page-popup.${className} .slick`).slick({
                             slidesToShow: 1,
                             slidesToScroll: 1,

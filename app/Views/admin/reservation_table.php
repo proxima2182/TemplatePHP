@@ -150,7 +150,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
                         </a>
                     </div>
                 </div>`;
-                openPopup(null, className, getPopupViewStyle(className) + style, html)
+                openPopup(className, getPopupViewStyle(className) + style, html)
             },
             error: function (response, status, error) {
             },
@@ -193,7 +193,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
             <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
             <a href="javascript:confirmReservationPopupReject(${id})" class="button confirm black">Reject</a>
         </div>`;
-        openPopup($parent, className, style, html)
+        openPopup(className, style, html)
     }
 
     /**
@@ -213,7 +213,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
         });
     }
 
-    function openReservationPopupRequest($parent) {
+    function openReservationPopupRequest() {
         let className = 'popup-reservation-request';
         let style = `
         <style>
@@ -268,7 +268,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
                 </a>
             </div>
         </div>`;
-        openPopup($parent, className, getPopupViewStyle(className) + style, html, function () {
+        openPopup(className, getPopupViewStyle(className) + style, html, function () {
             $(`.${className} .calendar`).initCalendar({
                 cell_size: 60,
             })

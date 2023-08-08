@@ -93,7 +93,7 @@ function fromDataToHtml(key, data, typeSet) {
     }
     switch (type) {
         case 'checkbox': {
-            let option = `${editable ? `class="editable"` : ``} ${value ? `readonly` : ``} 
+            let option = `${editable ? `class="editable"` : ``} ${data != undefined ? `readonly` : ``} 
             ${value ? `readonly` : ``} ${value && value == 1 ? 'checked' : ''}`
             return `
                 <div class="input-wrap">
@@ -102,7 +102,7 @@ function fromDataToHtml(key, data, typeSet) {
                 </div>`
         }
         case 'select': {
-            let option = `${editable ? `class="editable"` : ``} ${value ? `disabled` : ``}`
+            let option = `${editable ? `class="editable"` : ``} ${data != undefined ? `disabled` : ``}`
             let html = `
             <div class="input-wrap">
                 <p class="input-title">${name}</p>
@@ -122,7 +122,7 @@ function fromDataToHtml(key, data, typeSet) {
             return html;
         }
         case 'textarea': {
-            let option = `${editable ? `class="editable under-line"` : `class="under-line"`} ${value ? `readonly` : ``}`
+            let option = `${editable ? `class="editable under-line"` : `class="under-line"`} ${data != undefined ? `readonly` : ``}`
             return `
                 <div class="input-wrap">
                     <p class="input-title">${name}</p>
@@ -130,7 +130,7 @@ function fromDataToHtml(key, data, typeSet) {
                 </div>`
         }
         default: {
-            let option = ` ${editable ? `class="editable under-line"` : `class="under-line"`} ${value ? `readonly` : ``} ${integer ? `oninput="this.value=this.value.replace(/[^0-9]/g,'');"` : ``}`
+            let option = ` ${editable ? `class="editable under-line"` : `class="under-line"`} ${data != undefined ? `readonly` : ``} ${integer ? `oninput="this.value=this.value.replace(/[^0-9]/g,'');"` : ``}`
             return `
                 <div class="input-wrap">
                     <p class="input-title">${name}</p>
@@ -193,7 +193,7 @@ function addInputPopupControlWrap(data) {
                     <img src="/asset/images/icon/edit.png"/>
                     <span>Edit</span>
                 </a>
-                <a href="javascript:openInputPopupDelete(this, ${data['id']});" class="button delete">
+                <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
                     <img src="/asset/images/icon/delete.png"/>
                     <span>Delete</span>
                 </a>
@@ -211,7 +211,7 @@ function addInputPopupControlWrap(data) {
  * @throws {Response}           fetch 로 파일읽기에 실패했을 경우 결과를 throw
  * @todo(log) throw 에 잡힌 경우 log 로 남길 필요 있음
  */
-async function openInputPopup($parent, id) {
+async function openInputPopup(id) {
     if (!getGetUrl || !getHtml) return;
     try {
         let request = await fetch('/asset/css/common/input.css')
@@ -235,7 +235,7 @@ async function openInputPopup($parent, id) {
                     ${getHtml(data)}
                     <div class="error-message-wrap"></div>
                 </div>`
-                openPopup($parent, className, style, html);
+                openPopup(className, style, html);
                 addInputPopupControlWrap(data);
                 let $textarea = $(`.${className} textarea`);
                 for (let i = 0; i < $textarea.length; ++i) {
@@ -291,7 +291,7 @@ function refreshInputPopup(id) {
  * @requires closePopup
  * @returns {Promise<void>}
  */
-async function openInputPopupCreate($parent) {
+async function openInputPopupCreate() {
     let className = 'popup-create';
     if (!getCreateUrl || !getHtml) return;
     try {
@@ -308,7 +308,7 @@ async function openInputPopupCreate($parent) {
             ${getHtml()}
             <div class="error-message-wrap"></div>
         </div>`
-        openPopup($parent, className, style, html)
+        openPopup(className, style, html)
         $(`.${className} .popup-box`).css({
             "padding-bottom": "61px",
         })
@@ -362,7 +362,7 @@ function editInputPopup(id) {
  * @requires closePopup
  * @param id
  */
-function openInputPopupDelete($parent, id) {
+function openInputPopupDelete(id) {
     let className = 'popup-delete';
     let style = `
     <style>
@@ -393,7 +393,7 @@ function openInputPopupDelete($parent, id) {
         <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
         <a href="javascript:confirmInputPopupDelete('${className}', ${id})" class="button confirm black">Delete</a>
     </div>`;
-    openPopup($parent, className, style, html)
+    openPopup(className, style, html)
 }
 
 /**

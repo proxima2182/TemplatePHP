@@ -176,7 +176,7 @@ $reply = [
                 <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
                 <a href="javascript:confirmDeleteTopic(${id})" class="button confirm black">Delete</a>
             </div>`;
-        openPopup(null, className, style, html)
+        openPopup(className, style, html)
     }
 
     function confirmDeleteTopic(id) {

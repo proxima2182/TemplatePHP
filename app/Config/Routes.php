@@ -43,6 +43,7 @@ $routes->get('/board/grid/([0-9]+)', [\Views\BoardController::class, 'getGridBoa
 $routes->addRedirect('/board/grid', '/board/grid/1');
 $routes->get('/board/table/([0-9]+)', [\Views\BoardController::class, 'getTableBoard']);
 $routes->addRedirect('/board/table', '/board/table/1');
+$routes->get('/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/topic/create', [\Views\BoardController::class, 'createTopic']);
 $routes->get('/topic/([0-9]+)', [\Views\BoardController::class, 'getTopic']);
 $routes->get('/topic/([0-9]+)/edit', [\Views\BoardController::class, 'editTopic']);
 //admin pages
@@ -50,6 +51,7 @@ $routes->get('/admin/board/([0-9]+)', [\Views\Admin\BoardController::class, 'ind
 $routes->addRedirect('/admin/board', '/admin/board/1');
 $routes->get('/admin/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/([0-9]+)', [\Views\Admin\BoardController::class, 'getBoard']);
 $routes->addRedirect('/admin/board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/admin/board/$1/1');
+$routes->get('/admin/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/topic/create', [\Views\Admin\BoardController::class, 'createTopic']);
 $routes->get('/admin/topic/([0-9]+)', [\Views\Admin\BoardController::class, 'getTopic']);
 $routes->get('/admin/topic/([0-9]+)/edit', [\Views\Admin\BoardController::class, 'editTopic']);
 $routes->get('/admin/topic/reply/([0-9]+)', [\Views\Admin\BoardController::class, 'getReply']);
@@ -78,6 +80,9 @@ $routes->get('/admin/reservation/([0-9]+)', [\Views\Admin\ReservationController:
  * API Routes
  */
 $routes->post('/api/image-file/upload', [\API\ImageFileController::class, 'upload']);
+$routes->post('/api/image-file/upload/([a-zA-Z0-9\-\_]*)', [\API\ImageFileController::class, 'upload']);
+$routes->post('/api/image-file/refresh/([a-zA-Z0-9\-\_]*)', [\API\ImageFileController::class, 'refresh']);
+$routes->delete('/api/image-file/delete/([0-9]+)', [\API\ImageFileController::class, 'delete']);
 $routes->get('/image-file/(:any)', [\API\ImageFileController::class, 'getImage']);
 
 $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);
@@ -87,7 +92,7 @@ $routes->get('/api/board/get/([0-9]+)', [\API\BoardController::class, 'getBoard'
 $routes->post('/api/board/create', [\API\BoardController::class, 'createBoard']);
 $routes->post('/api/board/update/([0-9]+)', [\API\BoardController::class, 'updateBoard']);
 $routes->delete('/api/board/delete/([0-9]+)', [\API\BoardController::class, 'deleteBoard']);
-$routes->get('/api/board/topic/get/([a-zA-Z][a-zA-Z0-9\-\_]*)', [\API\BoardController::class, 'getBoardTopic']);
+$routes->get('/api/board/topic/get/([a-zA-Z][a-zA-Z0-9\-\_]*)', [\API\BoardController::class, 'getStaticBoardTopics']);
 
 $routes->get('/api/topic/get/([0-9]+)', [\API\TopicController::class, 'getTopic']);
 $routes->post('/api/topic/create', [\API\TopicController::class, 'createTopic']);

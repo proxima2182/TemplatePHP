@@ -4,8 +4,14 @@ $is_admin_page = isset($is_admin) && $is_admin;
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="title">
-            Notice
+            <?= $title ?>
         </h3>
+        <div class="control-wrap">
+            <a href="<?= $is_admin_page ? '/admin/board/'.$code.'/topic/create' : '/board/'.$code.'/topic/create' ?>" class="button create">
+                <img src="/asset/images/icon/plus.png"/>
+                <span>Create</span>
+            </a>
+        </div>
         <div class="list-wrap">
             <div class="list-box">
                 <div class="row-title">
@@ -15,12 +21,12 @@ $is_admin_page = isset($is_admin) && $is_admin;
                     </div>
                 </div>
                 <ul>
-                    <?php for ($i = 0; $i < 6; $i++) { ?>
+                    <?php foreach ($array as $index => $item) { ?>
                         <li class=" row">
-                            <a href="<?= $is_admin_page ? '/admin/topic/' . $i : '/topic/' . $i ?>"
+                            <a href="<?= $is_admin_page ? '/admin/topic/' . $item['id'] : '/topic/' . $item['id'] ?>"
                                class="button row-button">
-                                <span class="column title">Lorem ipsum</span>
-                                <span class="column  created-at">2023-06-29 00:00:00</span>
+                                <span class="column title"><?= $item['title'] ?></span>
+                                <span class="column created-at"><?= $item['created_at'] ?></span>
                             </a>
                         </li>
                     <?php } ?>

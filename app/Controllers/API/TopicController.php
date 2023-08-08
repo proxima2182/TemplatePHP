@@ -3,16 +3,19 @@
 namespace API;
 
 use CodeIgniter\HTTP\ResponseInterface;
+use Exception;
+use Models\BaseModel;
 
 class TopicController extends BaseApiController
 {
-    protected $db;
-    protected $userModel;
+    protected $topicModel;
+    protected $imageFileModel;
 
     public function __construct()
     {
         $this->db = db_connect();
-        $this->userModel = model('Models\UserModel');
+        $this->topicModel = model('Models\TopicModel');
+        $this->imageFileModel = model('Models\ImageFileModel');
     }
 
     /**
@@ -22,35 +25,65 @@ class TopicController extends BaseApiController
      */
     public function getTopic($id): ResponseInterface
     {
+
         $response = [
             'success' => false,
-            'data' => [],
-            'message' => ""
         ];
-        $response = [
-            'success' => true,
-            'data' => [
-                'images' => ['/asset/images/object.png'],
-                'title' => 'Lorem ipsum',
-                'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
-                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
-                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
-                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
-                    volutpat quis mauris eu vestibulum.',
-                'created_at' => '2023-06-29 00:00:00',
-            ],
-            'message' => ""
-        ];
+
+        try {
+            $result = $tihs->topicModel->find($id);
+            $images = $tihs->imageFileModel->find(['topic_id' => $id]);
+            $result['images'] = $images;
+            $response['success'] = true;
+            $response['data'] = $result;
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
         return $this->response->setJSON($response);
     }
 
     public function createTopic()
     {
+        $body = $this->request->getPost();
+        $validationRules = [
+            'title' => [
+                'label' => 'Title',
+                'rules' => 'required|min_length[1]',
+            ],
+        ];
+
         $response = [
             'success' => false,
-            'data' => [],
-            'message' => ""
         ];
+
+        if ($validationRules != null && !$this->validate($validationRules)) {
+            $response['messages'] = $this->validator->getErrors();
+        } else {
+            try {
+                $inserted_row_id = $this->topicModel->insert($body);
+                if (!$inserted_row_id) {
+                    $response['messages'] = $this->topicModel->errors();
+                } else {
+                    // image priority
+                    $queries = [];
+                    if(isset($body['images'])) {
+                        foreach ($body['images'] as $index => $image_id) {
+                            $queries[] = "UPDATE image_file SET identifier = NULL, topic_id = '" . $inserted_row_id . "', priority = " . $index + 1
+                                . " WHERE id = '" . $image_id . "' AND identifier = '" . $body['identifier'] . "'";
+                        }
+                    }
+                    BaseModel::transaction($this->db, array_merge($queries, [
+                        "DELETE FROM image_file WHERE topic_id IS NULL AND identifier = '" . $body['identifier'] . "'",
+                    ]));
+                    $response['success'] = true;
+                }
+            } catch (Exception $e) {
+                //todo(log)
+                $response['message'] = $e->getMessage();
+            }
+        }
+
         return $this->response->setJSON($response);
     }
 

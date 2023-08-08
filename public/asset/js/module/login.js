@@ -80,7 +80,7 @@ async function openPopupLogin() {
             <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
             <a href="javascript:login()" class="button confirm black">Login</a>
         </div>`;
-        openPopup(null, className, style, html)
+        openPopup(className, style, html)
     } catch (e) {
         console.log(e)
     }

@@ -16,7 +16,6 @@ namespace Models;
  * updated_at           DATETIME
  */
 
-use App\Helpers\ServerLogger;
 use CodeIgniter\Database\BaseResult;
 use Exception;
 use ReflectionException;
@@ -50,8 +49,6 @@ class CategoryModel extends BasePriorityModel
             $query .= $set['query'];
         }
         $query .= " ORDER BY priority ASC";
-        ServerLogger::log($query);
-        ServerLogger::log($values);
         return BaseModel::transaction($this->db, [
             [
                 "query" => $query,

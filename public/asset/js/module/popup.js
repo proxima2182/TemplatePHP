@@ -16,7 +16,7 @@ let popupTimeoutId;
  * @param html
  * @param callback      팝업 세팅 완료 후 수행되어져야 할 기능 callback
  */
-function openPopup($parent, className, style, html, callback) {
+function openPopup(className, style, html, callback) {
     $('#container').append(`
 <div class="popup-wrap ${className}">
 <style>
@@ -164,6 +164,66 @@ function resizeWindow(event) {
     $('.popup-wrap .popup-inner').css({
         'max-height': `${popup_height}px`,
     })
+}
+
+function openPopupErrors(className, response, status, requestOrError) {
+    let style = `
+        <style>
+        body .${className} .popup {
+            width: 500px;
+        }
+
+        .${className} .popup-inner .error-message-wrap {
+            padding: 20px 0;
+        }
+
+        .${className} .popup-inner .button-wrap {
+            margin-top: 20px;
+        }
+
+        .${className} .popup-inner .button-wrap .button {
+            min-width: 100px;
+            padding: 10px 20px;
+            margin: 0 10px;
+        }
+        </style>`
+    let hasMessage = false;
+    let html = `
+        <div class="error-message-wrap">`
+    if (status == 'success' || status >= 200 && status < 300) {
+        if (response.messages) {
+            for (let key in response.messages) {
+                let message = response.messages[key];
+                html += `<div>${message}</div>`
+                hasMessage = true;
+            }
+        }
+        if (response.message) {
+            html += `<div>${response.message}</div>`
+            hasMessage = true;
+        }
+    } else {
+        let message = requestOrError;
+        try {
+            let errorObject = JSON.parse(response.responseText);
+            if (errorObject.message) {
+                message = errorObject.message
+            }
+        } catch (e) {
+        }
+        if (message) {
+            html += `<div>${message}</div>`
+            hasMessage = true;
+        }
+    }
+    html += `
+        </div>
+        <div class="button-wrap controls">
+            <a href="javascript:closePopup('${className}')" class="button ok white">OK</a>
+        </div>`;
+    if (hasMessage) {
+        openPopup(className, style, html);
+    }
 }
 
 /**

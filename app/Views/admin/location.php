@@ -4,7 +4,7 @@
             Location
         </h3>
         <div class="control-wrap">
-            <a href="javascript:openInputPopupCreate(this);" class="button create">
+            <a href="javascript:openInputPopupCreate();" class="button create">
                 <img src="/asset/images/icon/plus.png"/>
                 <span>Create</span>
             </a>
@@ -22,7 +22,7 @@
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
                         <li class="row">
-                            <a href="javascript:openInputPopup(this, '<?= $item['id'] ?>')" class="button row-button">
+                            <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
                                 <span class="column name"><?= $item['name'] ?></span>
                                 <span class="column address"><?= $item['address'] ?></span>
                                 <span class="column latitude"><?= $item['latitude'] ?></span>

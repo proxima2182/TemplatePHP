@@ -108,7 +108,7 @@
                 <h4 class="title">${data.title}</h4>
                 <p class="content">${data.content}</p>
             </div>`
-                openPopup(null, className, style, html, function () {
+                openPopup(className, style, html, function () {
                     $('.popup-wrap .popup .slider-wrap .slick').slick({
                         slidesToShow: 3,
                         slidesToScroll: 1,

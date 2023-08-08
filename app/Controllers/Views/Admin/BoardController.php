@@ -2,13 +2,19 @@
 
 namespace Views\Admin;
 
+use Exception;
+use Models\BoardModel;
+use Models\TopicModel;
+
 class BoardController extends BaseAdminController
 {
-    protected $boardModel;
+    protected BoardModel $boardModel;
+    protected TopicModel $topicModel;
 
     public function __construct()
     {
         $this->boardModel = model('Models\BoardModel');
+        $this->topicModel = model('Models\TopicModel');
     }
 
     function index($page = 1): string
@@ -21,8 +27,10 @@ class BoardController extends BaseAdminController
             }
         }
         $result = $this->boardModel->getPaginated([
-            'per_page' => 10,
+            'per_page' => $this->per_page,
             'page' => $page,
+        ], [
+            'is_deleted' => 0,
         ]);
         $data = array_merge($result, [
             'pagination_link' => '/admin/board',
@@ -36,62 +44,39 @@ class BoardController extends BaseAdminController
                     '/module/popup_input',
                 ],
             ])
-            . view('/admin/board', [
-                'array' => [
-                    [
-                        'id' => '1',
-                        'code' => 'popup',
-                        'type' => 'grid',
-                        'alias' => '팝업',
-                        'description' => '팝업 저장용',
-                        'is_reply' => '0',
-                        'is_public' => '0',
-                        'is_editable' => '0',
-                        'created_at' => '2023-06-29 00:00:00',
-                        'updated_at' => '2023-06-29 00:00:00',
-                    ],
-                    [
-                        'id' => '2',
-                        'code' => 'notice',
-                        'type' => 'table',
-                        'alias' => '공지사항',
-                        'description' => '',
-                        'is_reply' => '0',
-                        'is_public' => '1',
-                        'is_editable' => '0',
-                        'created_at' => '2023-06-29 00:00:00',
-                        'updated_at' => '2023-06-29 00:00:00',
-                    ],
-                ],
-                'pagination' => [
-                    'per-page' => 30,
-                    'page' => 6,
-                    'total' => 180,
-                    'total-page' => 6,
-                ],
-                'pagination_link' => '/admin/board'
-            ])
+            . view('/admin/board', $data)
             . parent::loadFooter();
     }
 
-    function getBoard($code, $id = 1): string
+    function getBoard($code, $page = 1): string
     {
+        $data = null;
+        try {
+            $board = $this->boardModel->findByCode($code);
+
+            $result = $this->topicModel->getPaginated([
+                'per_page' => $this->per_page,
+                'page' => $page,
+            ], [
+                'board_id' => $board['id'],
+            ]);
+            $data = array_merge($result, [
+                'board_id' => $board['id'],
+                'title' => $board['alias'],
+                'is_admin' => true,
+                'pagination_link' => '/admin/board/' . $code,
+            ]);
+        } catch (Exception $e) {
+            //todo(log)
+            //TODO show 404 page
+        }
         return parent::loadHeader([
                 'css' => [
                     '/common/table',
                     '/admin/board/table',
                 ],
             ])
-            . view('/admin/board/table', [
-                'is_admin' => true,
-                'pagination' => [
-                    'per-page' => 30,
-                    'page' => 6,
-                    'total' => 180,
-                    'total-page' => 6,
-                ],
-                'pagination_link' => '/admin/board/' . $code
-            ])
+            . view('/admin/board/table', $data)
             . parent::loadFooter();
     }
 
@@ -145,7 +130,35 @@ class BoardController extends BaseAdminController
                     '/slick/slick.min.js',
                 ],
             ])
-            . view('/admin/board/topic_input', $data)
+            . view('/admin/board/topic_input', array_merge($data, [
+                'type' => 'edit'
+            ]))
+            . parent::loadFooter();
+    }
+
+    public function createTopic($code): string
+    {
+        $board = null;
+        try {
+            $board = $this->boardModel->findByCode($code);
+        } catch (Exception $e) {
+            //todo(log)
+            //TODO show 404 page
+        }
+        return parent::loadHeader([
+                'css' => [
+                    '/admin/board/topic',
+                    '/admin/board/topic_input',
+                ],
+                'js' => [
+                    '/slick/slick.min.js',
+                ],
+            ])
+            . view('/admin/board/topic_input', [
+                'alias' => $board['alias'],
+                'board_id' => $board['id'],
+                'type' => 'create'
+            ])
             . parent::loadFooter();
     }
 

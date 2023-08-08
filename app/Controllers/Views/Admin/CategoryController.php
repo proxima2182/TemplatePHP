@@ -1,10 +1,10 @@
 <?php
 
 namespace Views\Admin;
-use App\Helpers\ServerLogger;
+
 use Exception;
-use Models\CategoryModel;
 use Models\CategoryLocalModel;
+use Models\CategoryModel;
 
 class CategoryController extends BaseAdminController
 {
@@ -37,26 +37,21 @@ class CategoryController extends BaseAdminController
             . parent::loadFooter();
     }
 
-    function getCategory($code, $id = 1): string
+    function getCategory($code): string
     {
+        $result = null;
+        $category = null;
         try {
             $category = $this->categoryModel->findByCode($code);
-            $category_id;
-            if ($category) {
-                $category_id = $category['id'];
-            } else {
-                //TODO check 404 page
-                return view('/errors/html/error_404');
-            }
-            $result = $this->categoryLocalModel->get(['category_id' => $category_id]);
+            $result = $this->categoryLocalModel->get(['category_id' => $category['id']]);
         } catch (Exception $e) {
             //todo(log)
-            //TODO check 404 page
-            return view('/errors/html/error_404');
+            //TODO show 404 page
+            return "";
         }
         $data = [
             'array' => $result,
-            'category_id' => $category_id
+            'category_id' => $category['id']
         ];
         return parent::loadHeader([
                 'css' => [

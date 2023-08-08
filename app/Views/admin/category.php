@@ -9,7 +9,7 @@ use App\Helpers\Utils;
             Category
         </h3>
         <div class="control-wrap">
-            <a href="javascript:openInputPopupCreate(this);" class="button create">
+            <a href="javascript:openInputPopupCreate();" class="button create">
                 <img src="/asset/images/icon/plus.png"/>
                 <span>Create</span>
             </a>
@@ -29,8 +29,8 @@ use App\Helpers\Utils;
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
                         <li class="row draggable" draggable="true">
-                            <input hidden="true" type="text" value="<?= $item['id'] ?>"/>
-                            <a href="javascript:openInputPopup(this, '<?= $item['id'] ?>')" class="button row-button">
+                            <input hidden type="text" value="<?= $item['id'] ?>"/>
+                            <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
                                 <span class="column code"><?= $item['code'] ?></span>
                                 <span class="column name"><?= $item['name'] ?></span>
                                 <span class="column path">

@@ -7,7 +7,7 @@
             Category Path
         </h3>
         <div class="control-wrap">
-            <a href="javascript:openInputPopupCreate(this);" class="button create">
+            <a href="javascript:openInputPopupCreate();" class="button create">
                 <img src="/asset/images/icon/plus.png"/>
                 <span>Create</span>
             </a>
@@ -23,8 +23,8 @@
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
                         <li class="row draggable" draggable="true">
-                            <input hidden="true" type="text" value="<?= $item['id'] ?>"/>
-                            <a href="javascript:openInputPopup(this, '<?= $item['id'] ?>')" class="button row-button">
+                            <input hidden type="text" value="<?= $item['id'] ?>"/>
+                            <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
                                 <span class="column name"><?= $item['name'] ?></span>
                                 <span class="column path"><?= $item['path'] ?></span>
                             </a>
@@ -91,7 +91,7 @@
                 <img src="/asset/images/icon/edit.png"/>
                 <span>Edit</span>
             </a>
-            <a href="javascript:openInputPopupDelete(this, ${data['id']});" class="button delete">
+            <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
                 <img src="/asset/images/icon/delete.png"/>
                 <span>Delete</span>
             </a>`;

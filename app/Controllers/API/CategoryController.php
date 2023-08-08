@@ -2,17 +2,14 @@
 
 namespace API;
 
-use App\Helpers\ServerLogger;
-use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\BaseModel;
-use Models\CategoryModel;
 use Models\CategoryLocalModel;
+use Models\CategoryModel;
 
 class CategoryController extends BaseApiController
 {
-    protected BaseConnection $db;
     protected CategoryModel $categoryModel;
     protected CategoryLocalModel $categoryLocalModel;
 
@@ -87,7 +84,6 @@ class CategoryController extends BaseApiController
     public function updateCategory($id): ResponseInterface
     {
         $body = $this->request->getPost();
-        ServerLogger::log($body);
         return $this->typicallyUpdate($this->categoryModel, $id, $body);
     }
 

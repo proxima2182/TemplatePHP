@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Helpers\ServerLogger;
 use App\Helpers\Utils;
 use CodeIgniter\Controller;
+use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
@@ -46,11 +47,15 @@ abstract class BaseController extends Controller
      */
     protected $session;
 
+    protected BaseConnection $db;
+
     /**
      * local variable for checking login
      * @var bool
      */
-    protected $is_login = false;
+    protected bool $is_login = false;
+
+    protected int $per_page = 30;
 
     /**
      * Constructor.

@@ -74,7 +74,7 @@ class BaseApiController extends BaseController
      * @param array $data
      * @return ResponseInterface
      */
-    protected function typicallyUpdate(BaseModel $model, string $id, array $data): ResponseInterface
+    protected function typicallyUpdate(BaseModel $model, string $id, array $data, array $validationRules = null): ResponseInterface
     {
         $response = [
             'success' => false,
@@ -83,12 +83,16 @@ class BaseApiController extends BaseController
         if (strlen($id) == 0) {
             $response['message'] = "field 'id' should not be empty.";
         } else {
-            try {
-                $model->update($id, $data);
-                $response['success'] = true;
-            } catch (Exception $e) {
-                //todo(log)
-                $response['message'] = $e->getMessage();
+            if ($validationRules != null && !$this->validate($validationRules)) {
+                $response['messages'] = $this->validator->getErrors();
+            } else {
+                try {
+                    $model->update($id, $data);
+                    $response['success'] = true;
+                } catch (Exception $e) {
+                    //todo(log)
+                    $response['message'] = $e->getMessage();
+                }
             }
         }
         return $this->response->setJSON($response);

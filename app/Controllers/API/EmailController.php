@@ -8,7 +8,6 @@ use Exception;
 
 class EmailController extends BaseApiController
 {
-    protected $db;
     protected $userModel;
 
     public function __construct()

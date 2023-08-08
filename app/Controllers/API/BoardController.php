@@ -3,16 +3,22 @@
 namespace API;
 
 use CodeIgniter\HTTP\ResponseInterface;
+use Exception;
+use Models\BoardModel;
+use Models\ImageFileModel;
+use Models\TopicModel;
 
 class BoardController extends BaseApiController
 {
-    protected $db;
-    protected $userModel;
+    protected BoardModel $boardModel;
+    protected TopicModel $topicModel;
+    protected ImageFileModel $imageFileModel;
 
     public function __construct()
     {
-        $this->db = db_connect();
-        $this->userModel = model('Models\UserModel');
+        $this->boardModel = model('Models\BoardModel');
+        $this->topicModel = model('Models\TopicModel');
+        $this->imageFileModel = model('Models\ImageFileModel');
     }
 
     /**
@@ -22,28 +28,7 @@ class BoardController extends BaseApiController
      */
     public function getBoard($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
-        $response = [
-            'success' => true,
-            'data' => [
-                'id' => '1',
-                'code' => 'popup',
-                'type' => 'grid',
-                'alias' => '팝업',
-                'description' => '팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용팝업 저장용\n팝업 저장용팝업 저장용팝업 저장용팝업 저장용',
-                'is_reply' => '0',
-                'is_public' => '0',
-                'is_editable' => '1',
-                'created_at' => '2023-06-29 00:00:00',
-                'updated_at' => '2023-06-29 00:00:00',
-            ],
-            'message' => ""
-        ];
-        return $this->response->setJSON($response);
+        return $this->typicallyGet($this->boardModel, $id);
     }
 
     /**
@@ -52,12 +37,28 @@ class BoardController extends BaseApiController
      */
     public function createBoard(): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
+        $body = $this->request->getPost();
+        $validationRules = [
+            'code' => [
+                'label' => 'Code',
+                'rules' => 'required|min_length[1]|regex_match[^[^0-9][a-zA-Z0-9_]+$]',
+                'errors' => [
+                    'regex_match' => '{field} have to start with alphabet'
+                ],
+            ],
+            'alias' => [
+                'label' => 'Alias',
+                'rules' => 'required|min_length[1]',
+            ],
+            'type' => [
+                'label' => 'Type',
+                'rules' => 'regex_match[grid|table]',
+                'errors' => [
+                    'regex_match' => '{field} have to be \'grid\' or \'table\''
+                ],
+            ],
         ];
-        return $this->response->setJSON($response);
+        return $this->typicallyCreate($this->boardModel, $body, $validationRules);
     }
 
     /**
@@ -67,12 +68,8 @@ class BoardController extends BaseApiController
      */
     public function updateBoard($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
-        return $this->response->setJSON($response);
+        $body = $this->request->getPost();
+        return $this->typicallyUpdate($this->boardModel, $id, $body);
     }
 
     /**
@@ -82,54 +79,43 @@ class BoardController extends BaseApiController
      */
     public function deleteBoard($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
+        $body = [
+            'is_deleted' => 1,
         ];
-        return $this->response->setJSON($response);
+        return $this->typicallyUpdate($this->boardModel, $id, $body);
     }
 
     /**
      * [get] /api/board/topic/get/{code}
-     * @param $id
+     * @param $code
      * @return ResponseInterface
      */
-    public function getBoardTopic($code): ResponseInterface
+    public function getStaticBoardTopics($code): ResponseInterface
     {
         $response = [
             'success' => false,
-            'data' => [],
-            'message' => ""
         ];
-        $response = [
-            'success' => true,
-            'array' => [
-                [
-                    'id'=> 0,
-                    'images' => ['/asset/images/object.png', '/asset/images/object.png'],
-                    'title' => 'Lorem ipsum',
-                    'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
-                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
-                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
-                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
-                    volutpat quis mauris eu vestibulum.',
-                    'created_at' => '2023-06-29 00:00:00',
-                ],
-                [
-                    'id'=> 1,
-                    'images' => ['/asset/images/object.png', '/asset/images/object.png'],
-                    'title' => 'Lorem ipsum',
-                    'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
-                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
-                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
-                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
-                    volutpat quis mauris eu vestibulum.',
-                    'created_at' => '2023-06-29 00:00:00',
-                ],
-            ],
-            'message' => ""
-        ];
+        try {
+            $board = $this->boardModel->findByCode($code);
+            if ($board) {
+                if ($board['type'] == 'static') {
+                    $result = $this->topicModel->get(['board_id' => $board['id']]);
+                    foreach ($result as $index => $item) {
+                        $result[$index]['images'] = $this->imageFileModel->get(['topic_id' => $item['id']]);
+                    }
+                    $response['success'] = true;
+                    $response['array'] = $result;
+                } else {
+                    $response['message'] = 'unavailable data access';
+                }
+            } else {
+                // nodata
+                $response['message'] = 'nodata';
+            }
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
         return $this->response->setJSON($response);
     }
 }
