@@ -44,7 +44,6 @@
     background: #ddd;
 }
 
-
 .selector {
     cursor: pointer;
     user-drag: none;
@@ -70,7 +69,7 @@ input:focus, textarea:focus {
     border: 1px solid #000;
 }
 
-input.under-line[readonly] {
+input.under-line[readonly], input.under-line:focus[readonly] {
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0);
 }

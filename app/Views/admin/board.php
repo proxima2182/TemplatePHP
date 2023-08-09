@@ -98,6 +98,14 @@
             let keys = Object.keys(typeSet);
             let html = `<div class="form-wrap">`;
 
+            html += `
+            <div class="input-wrap" onclick="copyToClipboard(this)" style="position: relative;">
+                <p class="input-title">Link</p>
+                <input type="text" name="link" class="under-line" readonly value="/board/${data['code']}">
+                <span class="button float" onclick="window.navigator.clipboard.writeText('/board/${data['code']}')">
+                    <img src="/asset/images/icon/copy@2x.png"/>
+                </span>
+            </div>`
             for (let i in keys) {
                 let key = keys[i];
                 let extracted = fromDataToHtml(key, data, typeSet);

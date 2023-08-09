@@ -52,6 +52,19 @@ function getPopupStyle(className) {
     .${className} .form-wrap .input-wrap input, .${className} .form-wrap .input-wrap textarea {
         width: 65%;
     }
+    
+    .${className} .button.float {
+        text-align: center;
+        position: absolute;
+        right: 5px;
+        top: 0;
+        font-size: 0;
+    }
+    .${className} .button.float * {
+        height: 30px;
+        width: 30px;
+        vertical-align: middle;
+    }
 `;
 }
 

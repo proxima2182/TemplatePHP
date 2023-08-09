@@ -40,9 +40,10 @@ function parseInputToData($inputs) {
         let $input = $inputs.eq(i);
         if ($input.length > 0) {
             let domElement = $input[0]
-            if(domElement.tagName == 'textarea') {
+            if (domElement.tagName == 'textarea') {
                 data[domElement.name] = domElement.value.toRawString();
-            }if(domElement.type == 'checkbox') {
+            }
+            if (domElement.type == 'checkbox') {
                 data[domElement.name] = domElement.checked ? 1 : 0;
             } else {
                 data[domElement.name] = $input.val();
