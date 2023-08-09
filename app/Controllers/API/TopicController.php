@@ -5,11 +5,12 @@ namespace API;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\BaseModel;
+use Models\TopicModel;
 
 class TopicController extends BaseApiController
 {
-    protected $topicModel;
-    protected $imageFileModel;
+    protected TopicModel $topicModel;
+    protected TopicModel $imageFileModel;
 
     public function __construct()
     {
@@ -25,7 +26,6 @@ class TopicController extends BaseApiController
      */
     public function getTopic($id): ResponseInterface
     {
-
         $response = [
             'success' => false,
         ];
