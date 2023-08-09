@@ -85,7 +85,7 @@ function handleDragOver(event) {
 }
 
 $(document).ready(function () {
-    let elements = document.querySelectorAll('.draggable');
+    let elements = document.querySelectorAll('.draggable-element');
     for (let element of elements) {
         element.addEventListener('dragstart', handleDragStart)
         element.addEventListener('dragend', handleDragEnd)

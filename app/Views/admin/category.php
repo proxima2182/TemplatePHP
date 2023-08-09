@@ -28,7 +28,7 @@ use App\Helpers\Utils;
                 </div>
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
-                        <li class="row draggable" draggable="true">
+                        <li class="row draggable-element" draggable="true">
                             <input hidden type="text" value="<?= $item['id'] ?>"/>
                             <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
                                 <span class="column code"><?= $item['code'] ?></span>

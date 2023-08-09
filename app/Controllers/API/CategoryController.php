@@ -54,7 +54,7 @@ class CategoryController extends BaseApiController
      */
     public function createCategory(): ResponseInterface
     {
-        $body = $this->request->getPost();
+        $data = $this->request->getPost();
         $validationRules = [
             'code' => [
                 'label' => 'Code',
@@ -68,7 +68,7 @@ class CategoryController extends BaseApiController
                 'rules' => 'required|min_length[1]',
             ],
         ];
-        return $this->typicallyCreate($this->categoryModel, $body, $validationRules, function ($model, $data) {
+        return $this->typicallyCreate($this->categoryModel, $data, $validationRules, function ($model, $data) {
             //[rule] maximum rows
             if ($this->categoryModel->getCount() > 10) {
                 throw new Exception('Maximum available rows are 10.');
@@ -83,8 +83,8 @@ class CategoryController extends BaseApiController
      */
     public function updateCategory($id): ResponseInterface
     {
-        $body = $this->request->getPost();
-        return $this->typicallyUpdate($this->categoryModel, $id, $body);
+        $data = $this->request->getPost();
+        return $this->typicallyUpdate($this->categoryModel, $id, $data);
     }
 
     /**
@@ -153,7 +153,7 @@ class CategoryController extends BaseApiController
      */
     public function createCategoryPath(): ResponseInterface
     {
-        $body = $this->request->getPost();
+        $data = $this->request->getPost();
         $validationRules = [
             'name' => [
                 'label' => 'Name',
@@ -164,7 +164,7 @@ class CategoryController extends BaseApiController
                 'rules' => 'required|min_length[1]',
             ],
         ];
-        return $this->typicallyCreate($this->categoryLocalModel, $body, $validationRules, function ($model, $data) {
+        return $this->typicallyCreate($this->categoryLocalModel, $data, $validationRules, function ($model, $data) {
             //[rule] maximum rows
             $category_id = $data['category_id'];
             if (strlen($category_id) == 0) {
@@ -183,8 +183,8 @@ class CategoryController extends BaseApiController
      */
     public function updateCategoryPath($id): ResponseInterface
     {
-        $body = $this->request->getPost();
-        return $this->typicallyUpdate($this->categoryLocalModel, $id, $body);
+        $data = $this->request->getPost();
+        return $this->typicallyUpdate($this->categoryLocalModel, $id, $data);
     }
 
     /**

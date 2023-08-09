@@ -4,17 +4,20 @@ namespace Views\Admin;
 
 use Exception;
 use Models\BoardModel;
+use Models\ImageFileModel;
 use Models\TopicModel;
 
 class BoardController extends BaseAdminController
 {
     protected BoardModel $boardModel;
     protected TopicModel $topicModel;
+    protected ImageFileModel $imageFileModel;
 
     public function __construct()
     {
         $this->boardModel = model('Models\BoardModel');
         $this->topicModel = model('Models\TopicModel');
+        $this->imageFileModel = model('Models\ImageFileModel');
     }
 
     function index($page = 1): string
@@ -62,7 +65,8 @@ class BoardController extends BaseAdminController
             ]);
             $data = array_merge($result, [
                 'board_id' => $board['id'],
-                'title' => $board['alias'],
+                'board_code' => $board['code'],
+                'alias' => $board['alias'],
                 'is_admin' => true,
                 'pagination_link' => '/admin/board/' . $code,
             ]);
@@ -80,20 +84,29 @@ class BoardController extends BaseAdminController
             . parent::loadFooter();
     }
 
+    private function getTopicData($id): array
+    {
+        $result = $this->topicModel->find($id);
+        $board = $this->boardModel->find($result['board_id']);
+        $images = $this->imageFileModel->get(['topic_id' => $id]);
+        $result['images'] = $images;
+        return array_merge($result, [
+            'board_id' => $board['id'],
+            'board_code' => $board['code'],
+            'alias' => $board['alias'],
+            'is_admin' => true,
+        ]);
+    }
+
     public function getTopic($id = 1): string
     {
-        $data = [
-            'is_admin' => true,
-            'id' => 0,
-            'images' => ['/asset/images/object.png'],
-            'title' => 'Lorem ipsum',
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
-                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
-                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
-                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
-                    volutpat quis mauris eu vestibulum.',
-            'created_at' => '2023-06-29 00:00:00',
-        ];
+        $data = null;
+        try {
+            $data = $this->getTopicData($id);
+        } catch (Exception $e) {
+            //todo(log)
+            //TODO show 404 page
+        }
         return parent::loadHeader([
                 'css' => [
                     '/admin/board/topic',
@@ -109,18 +122,13 @@ class BoardController extends BaseAdminController
 
     public function editTopic($id = 1): string
     {
-        $data = [
-            'is_admin' => true,
-            'id' => 0,
-            'images' => ['/asset/images/object.png'],
-            'title' => 'Lorem ipsum',
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
-                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
-                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
-                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
-                    volutpat quis mauris eu vestibulum.',
-            'created_at' => '2023-06-29 00:00:00',
-        ];
+        $data = null;
+        try {
+            $data = $this->getTopicData($id);
+        } catch (Exception $e) {
+            //todo(log)
+            //TODO show 404 page
+        }
         return parent::loadHeader([
                 'css' => [
                     '/admin/board/topic',
@@ -128,6 +136,7 @@ class BoardController extends BaseAdminController
                 ],
                 'js' => [
                     '/slick/slick.min.js',
+                    '/module/draggable.js',
                 ],
             ])
             . view('/admin/board/topic_input', array_merge($data, [

@@ -98,7 +98,7 @@ $reply = [
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="title">
-            Notice
+            <?=$alias?>
         </h3>
         <div class="topic-wrap">
             <div class="row row-title line-after black">
@@ -113,8 +113,8 @@ $reply = [
                     <div class="slick">
                         <?php foreach ($images as $index => $image) { ?>
                             <div class="slick-element"
-                                 style="background: url('<?= $image ?>') no-repeat center; background-size: cover; font-size: 0;">
-                                Slider #<?= $index ?>
+                                 style="background: url('/image-file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+                                Slider #<?= $image['id'] ?>
                             </div>
                         <?php } ?>
                     </div>

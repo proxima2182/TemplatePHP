@@ -9,7 +9,14 @@ if ($type == 'create') {
 $shortid = ShortId::create();
 $identifier = $shortid->generate();
 ?>
-
+<script type="text/javascript">
+    let image_file_ids = [];
+    <?php if (isset($images)) {
+    foreach ($images as $index => $image) { ?>
+    image_file_ids.push('<?=$image['id']?>')
+    <?php }
+    }?>
+</script>
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="title">
@@ -40,14 +47,12 @@ $identifier = $shortid->generate();
                         </div>
                         <?php if (isset($images)) {
                             foreach ($images as $index => $image) { ?>
-                                <script>
-                                    image_file_ids.push('<?=$image['id']?>');
-                                </script>
-                                <div class="slick-element"
-                                     style="background: url('<?= $image ?>') no-repeat center; background-size: cover; font-size: 0;">
-                                    Slider #<?= $index ?>
+                                <div class="slick-element draggable-element" draggable="true"
+                                     style="background: url('/image-file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+                                    Slider #<?= $image['id'] ?>
+                                    <input hidden type="text" name="id" value="<?= $image['id'] ?>">
                                     <div class="slick-element-hover">
-                                        <a href="javascript:deleteImage(<?= $index + 1 ?>)"
+                                        <a href="javascript:deleteImage('<?= $image['id'] ?>')"
                                            class="button delete-image black">
                                             <img src="/asset/images/icon/cancel_white.png"/>
                                         </a>
@@ -66,17 +71,18 @@ $identifier = $shortid->generate();
     </div>
 </div>
 <script type="text/javascript">
-    let image_file_ids = [];
-
     $('.slider-wrap .slick').slick({
         slidesToShow: 4,
-        slidesToScroll: 1,
+        slidesToScroll: 4,
         autoplay: false,
         infinite: false,
+        draggable: false,
     })
 
     function confirmEditTopic(id) {
         let data = parseInputToData($(`.form-box .editable`))
+
+        data['images'] = image_file_ids;
 
         $.ajax({
             type: 'POST',
@@ -88,9 +94,10 @@ $identifier = $shortid->generate();
                     openPopupErrors('popup-error', response, status, request);
                     return;
                 }
+                History.back();
             },
             error: function (response, status, error) {
-                console.log(error)
+                openPopupErrors('popup-error', response, status, error);
             },
         });
     }
@@ -120,22 +127,20 @@ $identifier = $shortid->generate();
 
     function deleteImage(id) {
         let index = image_file_ids.indexOf(id);
-        if (index >= 0) {
-            $('.slider-wrap .slick').slick('slickRemove', index + 1);
-            image_file_ids.splice(index, 1);
-            $.ajax({
-                type: 'DELETE',
-                url: `/api/image-file/delete/${id}`,
-                dataType: 'json',
-                success: function (response, status, request) {
-                    openPopupErrors('popup-error', response, status, request);
-                },
-                error: function (response, status, error) {
-                    openPopupErrors('popup-error', response, status, error);
-                },
-            });
-
-        }
+        if (index < 0) return;
+        $('.slider-wrap .slick').slick('slickRemove', index + 1);
+        image_file_ids.splice(index, 1);
+        // $.ajax({
+        //     type: 'DELETE',
+        //     url: `/api/image-file/delete/${id}`,
+        //     dataType: 'json',
+        //     success: function (response, status, request) {
+        //         openPopupErrors('popup-error', response, status, request);
+        //     },
+        //     error: function (response, status, error) {
+        //         openPopupErrors('popup-error', response, status, error);
+        //     },
+        // });
     }
 
     function onFileUpload(input, identifier) {
@@ -160,14 +165,15 @@ $identifier = $shortid->generate();
                     return;
                 }
                 let data = response.data;
-                image_file_ids.push(data.id);
+                image_file_ids.push(data.id.toString());
 
                 $('.slider-wrap .slick').slick('slickAdd', `
-                <div class="slick-element"
+                <div class="slick-element draggable-element" draggable="true"
                      style="background: url('/image-file/${data.id}') no-repeat center; background-size: cover; font-size: 0;">
                     Slider #${data.id}
+                    <input hidden type="text" name="id" value="${data.id}">
                     <div class="slick-element-hover">
-                        <a href="javascript:deleteImage(${data.id})"
+                        <a href="javascript:deleteImage('${data.id}')"
                            class="button delete-image black">
                             <img src="/asset/images/icon/cancel_white.png"/>
                         </a>
@@ -185,6 +191,37 @@ $identifier = $shortid->generate();
             },
         });
     }
+
+    initializeDraggable({
+        onDragFinished: async function (from, to) {
+            function getInputValue(parent) {
+                let elements = parent.getElementsByTagName('input');
+                if (elements.length == 0) return null;
+                return elements[0].value;
+            }
+
+            let fromId = getInputValue(from);
+            let toId = getInputValue(to);
+            if (!fromId || !toId) {
+                throw Error("can't find id value");
+                return false;
+            }
+
+            let fromIndex = image_file_ids.indexOf(fromId);
+            let toIndex = image_file_ids.indexOf(toId);
+            if (fromIndex < 0 || toIndex < 0) {
+                throw Error("can't find id value in temporary stored array");
+                return false;
+            }
+            image_file_ids[fromIndex] = toId;
+            image_file_ids[toIndex] = fromId;
+
+            let temp = from.style.background;
+            from.style.background = to.style.background;
+            to.style.background = temp;
+            return true;
+        }
+    })
 
     window.onbeforeunload = function () {
         $.ajax({

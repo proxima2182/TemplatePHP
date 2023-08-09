@@ -37,10 +37,10 @@ class BaseApiController extends BaseController
      * @param BaseModel $model
      * @param array $data
      * @param array|null $validationRules
-     * @param $additionalCheck              // Validation Rules 외에 체크가 필요한 부분을 위해 추가
+     * @param $doAdditionalCheck            // Validation Rules 외에 체크가 필요한 부분을 위해 추가
      * @return ResponseInterface
      */
-    protected function typicallyCreate(BaseModel $model, array $data, array $validationRules = null, $additionalCheck = null): ResponseInterface
+    protected function typicallyCreate(BaseModel $model, array $data, array $validationRules = null, $doAdditionalCheck = null): ResponseInterface
     {
         $response = [
             'success' => false,
@@ -50,8 +50,8 @@ class BaseApiController extends BaseController
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
-                if ($additionalCheck != null && is_callable($additionalCheck)) {
-                    $additionalCheck($model, $data);
+                if ($doAdditionalCheck != null && is_callable($doAdditionalCheck)) {
+                    $doAdditionalCheck($model, $data);
                 }
                 if (!$model->insert($data)) {
                     $response['messages'] = $model->errors();
@@ -74,7 +74,7 @@ class BaseApiController extends BaseController
      * @param array $data
      * @return ResponseInterface
      */
-    protected function typicallyUpdate(BaseModel $model, string $id, array $data, array $validationRules = null): ResponseInterface
+    protected function typicallyUpdate(BaseModel $model, string $id, array $data, array $validationRules = null, $doAfterUpdate = null): ResponseInterface
     {
         $response = [
             'success' => false,
@@ -88,6 +88,9 @@ class BaseApiController extends BaseController
             } else {
                 try {
                     $model->update($id, $data);
+                    if ($doAfterUpdate != null && is_callable($doAfterUpdate)) {
+                        $doAfterUpdate($model, $data);
+                    }
                     $response['success'] = true;
                 } catch (Exception $e) {
                     //todo(log)

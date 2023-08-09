@@ -37,7 +37,7 @@ class BoardController extends BaseApiController
      */
     public function createBoard(): ResponseInterface
     {
-        $body = $this->request->getPost();
+        $data = $this->request->getPost();
         $validationRules = [
             'code' => [
                 'label' => 'Code',
@@ -58,7 +58,7 @@ class BoardController extends BaseApiController
                 ],
             ],
         ];
-        return $this->typicallyCreate($this->boardModel, $body, $validationRules);
+        return $this->typicallyCreate($this->boardModel, $data, $validationRules);
     }
 
     /**
@@ -68,8 +68,8 @@ class BoardController extends BaseApiController
      */
     public function updateBoard($id): ResponseInterface
     {
-        $body = $this->request->getPost();
-        return $this->typicallyUpdate($this->boardModel, $id, $body);
+        $data = $this->request->getPost();
+        return $this->typicallyUpdate($this->boardModel, $id, $data);
     }
 
     /**

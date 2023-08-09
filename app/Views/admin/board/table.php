@@ -4,10 +4,10 @@ $is_admin_page = isset($is_admin) && $is_admin;
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="title">
-            <?=$title?>
+            <?=$alias?>
         </h3>
         <div class="control-wrap">
-            <a href="<?= $is_admin_page ? '/admin/board/'.$code.'/topic/create' : '/board/'.$code.'/topic/create' ?>" class="button create">
+            <a href="<?= $is_admin_page ? '/admin/board/'.$board_code.'/topic/create' : '/board/'.$board_code.'/topic/create' ?>" class="button create">
                 <img src="/asset/images/icon/plus.png"/>
                 <span>Create</span>
             </a>
