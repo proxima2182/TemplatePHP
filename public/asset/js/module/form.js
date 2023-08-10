@@ -11,7 +11,7 @@ function initializeForm(input) {
 function confirm() {
     if (!getConfirmUrl) return;
     $('.error-message-box').empty();
-    let data = parseInputToData($(`.form-box .editable`))
+    let data = parseInputToData($(`.form-wrap .editable`))
 
     //TODO validation
     if (validate && typeof validate == 'function') {

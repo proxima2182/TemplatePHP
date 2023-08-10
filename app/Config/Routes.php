@@ -38,7 +38,7 @@ $routes->get('/frame-view', [\Views\MainController::class, 'getFrameView']);
 $routes->get('/get-session', [\Views\MainController::class, 'getSession']);
 $routes->get('/set-session', [\Views\MainController::class, 'setSession']);
 $routes->get('/profile', [\Views\ProfileController::class, 'index']);
-$routes->get('/register', [\Views\RegisterController::class, 'index']);
+$routes->get('/register', [\Views\RegistrationController::class, 'index']);
 $routes->get('/board/grid/([0-9]+)', [\Views\BoardController::class, 'getGridBoard']);
 $routes->addRedirect('/board/grid', '/board/grid/1');
 $routes->get('/board/table/([0-9]+)', [\Views\BoardController::class, 'getTableBoard']);
@@ -89,6 +89,7 @@ $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']
 $routes->get('/api/user/get/([0-9]+)', [\API\UserController::class, 'getUser']);
 $routes->post('/api/user/registration-verify', [\API\UserController::class, 'verify']);
 $routes->post('/api/user/registration-register', [\API\UserController::class, 'register']);
+$routes->post('/api/user/login', [\API\UserController::class, 'login']);
 
 $routes->get('/api/board/get/([0-9]+)', [\API\BoardController::class, 'getBoard']);
 $routes->post('/api/board/create', [\API\BoardController::class, 'createBoard']);

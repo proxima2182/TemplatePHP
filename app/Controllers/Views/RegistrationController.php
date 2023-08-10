@@ -2,7 +2,7 @@
 
 namespace Views;
 
-class RegisterController extends BaseClientController
+class RegistrationController extends BaseClientController
 {
     public function __construct()
     {
@@ -15,13 +15,14 @@ class RegisterController extends BaseClientController
                 'css' => [
                     '/common/form',
                     '/common/input',
-                    '/client/register',
+                    '/client/registration',
                 ],
                 'js' => [
                     '/module/form',
+                    '/client/registration',
                 ],
             ])
-            . view('/client/register')
+            . view('/client/registration')
             .parent::loadFooter();
     }
 }

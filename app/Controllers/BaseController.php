@@ -49,12 +49,6 @@ abstract class BaseController extends Controller
 
     protected BaseConnection $db;
 
-    /**
-     * local variable for checking login
-     * @var bool
-     */
-    protected bool $is_login = false;
-
     protected int $per_page = 30;
 
     /**
@@ -108,13 +102,8 @@ abstract class BaseController extends Controller
 
     protected function loadDataForHeader($input, $initData = []): array
     {
-        if ($this->is_login) {
-            $this->session->set_userdata([
-                'referrer' => '',
-            ]);
-        }
         $data = array_merge([
-            'is_login' => $this->is_login
+            'is_login' => $this->session->is_login,
         ], $initData);
         if (isset($input['css'])) {
             $data['css'] = $this->generateAssetStatement("css", $input['css']);
@@ -123,27 +112,5 @@ abstract class BaseController extends Controller
             $data['js'] = $this->generateAssetStatement("js", $input['js']);
         }
         return $data;
-    }
-
-    /**API functions**/
-
-    protected function sendEmail($address, $title, $message): bool
-    {
-        try {
-            if (strlen($address) == 0) {
-                return false;
-            }
-            $email = \Config\Services::email();
-            $email->setFrom('no-reply@localhost');
-            $email->setTo($address);
-            $email->setSubject($title);
-            $email->setMessage($message);
-            if ($email->send()) {
-                return true;
-            }
-        } catch (Exception $e) {
-            ServerLogger::log($e);
-        }
-        return false;
     }
 }

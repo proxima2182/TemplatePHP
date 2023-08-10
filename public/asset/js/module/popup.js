@@ -17,7 +17,7 @@ let popupTimeoutId;
  * @param callback      팝업 세팅 완료 후 수행되어져야 할 기능 callback
  */
 function openPopup(className, style, html, callback) {
-    $('#container').append(`
+    $('body').append(`
 <div class="popup-wrap ${className}">
 <style>
 @keyframes popupFadeIn {
@@ -116,7 +116,7 @@ ${style ?? ''}
         </div>
     </div>
 </div>`)
-    resizeWindow();
+    resizeWindowPopup();
     if (callback && typeof callback == 'function') callback();
     let element = $(`.${className}`).get(0);
     if (element) {
@@ -126,7 +126,7 @@ ${style ?? ''}
             }
         })
     }
-    addEventListener("resize", resizeWindow);
+    addEventListener("resize", resizeWindowPopup);
 }
 
 /**
@@ -139,7 +139,7 @@ function closePopup(className) {
         'animation-duration': '0.2s',
         'animation-name': 'popupFadeOut',
     })
-    removeEventListener('resize', resizeWindow);
+    removeEventListener('resize', resizeWindowPopup);
     popupTimeoutId = setTimeout(function () {
         let element = $popupWrap.get(0);
         if (element) {
@@ -156,7 +156,7 @@ function closePopup(className) {
  * line-height 를 화면에 비례해 조정해 준다
  * @param event
  */
-function resizeWindow(event) {
+function resizeWindowPopup(event) {
     $('.popup-wrap').css({
         'line-height': `${window.innerHeight}px`,
     })

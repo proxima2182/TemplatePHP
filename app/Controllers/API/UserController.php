@@ -70,6 +70,11 @@ class UserController extends BaseApiController
         return $this->response->setJSON($response);
     }
 
+    /**
+     * [post] /api/user/registration-verify
+     * registration step#01
+     * @return ResponseInterface
+     */
     public function verify()
     {
         //TODO need to check user is already exist
@@ -122,7 +127,12 @@ class UserController extends BaseApiController
         return $this->response->setJSON($response);
     }
 
-    public function register()
+    /**
+     * [post] /api/user/registration-register
+     * registration step#02
+     * @return ResponseInterface
+     */
+    public function register(): ResponseInterface
     {
         $data = $this->request->getPost();
         $validationRules = [
@@ -154,11 +164,63 @@ class UserController extends BaseApiController
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
+                $users = $this->userModel->get(['email' => $data['email']]);
+                if (sizeof($users) > 0) {
+                    throw new Exception('this email is already in used.');
+                }
                 if ($data['password'] != $data['confirm_password']) {
                     throw new Exception('please check two fields for password is same.');
                 }
                 $data['password'] = Password::hash($data['password'], Password::BCRYPT);
                 $this->userModel->insert($data);
+                $response['success'] = true;
+            } catch (Exception $e) {
+                $response['message'] = $e->getMessage();
+                return $this->response->setJSON($response);
+            }
+        }
+        return $this->response->setJSON($response);
+    }
+
+    /**
+     * [post] /api/user/login
+     * @return ResponseInterface
+     */
+    public function login(): ResponseInterface
+    {
+        $data = $this->request->getPost();
+        $validationRules = [
+            'username' => [
+                'label' => 'Username',
+                'rules' => 'required|min_length[5]|max_length[50]',
+            ],
+            'password' => [
+                'label' => 'Password',
+                'rules' => 'required|min_length[8]',
+            ],
+        ];
+
+        $response = [
+            'success' => false,
+        ];
+        if ($validationRules != null && !$this->validate($validationRules)) {
+            $response['messages'] = $this->validator->getErrors();
+        } else {
+            try {
+                $users = $this->userModel->get(['username' => $data['username']]);
+                if (sizeof($users) == 0) {
+                    throw new Exception('username is registered.');
+                }
+                $user = $users[0];
+                if (!Password::verify($data['password'], $user['password'])) {
+                    throw new Exception('password is not correct.');
+                }
+                $this->session->set([
+                    'username' => $user['username'],
+                    'name' => strlen($user['name']) == 0 ? $user['username'] : $user['name'],
+                    'is_login' => true,
+                    'user_id' => $user['id'],
+                ]);
                 $response['success'] = true;
             } catch (Exception $e) {
                 $response['message'] = $e->getMessage();

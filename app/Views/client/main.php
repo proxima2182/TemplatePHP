@@ -98,6 +98,8 @@ $sliderImages = [
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=221aa6cfc43d262a0a90ca26facc9708"></script>
 
+    <script type="text/javascript" src="/asset/js/module/popup.js"></script>
+    <script type="text/javascript" src="/asset/js/module/login.js"></script>
     <script type="text/javascript" src="/asset/js/client/main.js"></script>
     <script type="text/javascript">
         addEventListener('customMapLoad', function () {
@@ -126,19 +128,13 @@ $sliderImages = [
             <div class="header-inner">
                 <div class="utill">
                     <ul class="cf">
-                        <?php
-                        if ($is_login) {
-                            ?>
+                        <?php if ($is_login) { ?>
                             <li><a href="/profile">Profile</a></li>
                             <li class="last"><a href="/logout">Logout</a></li>
-                            <?php
-                        } else {
-                            ?>
+                        <?php } else { ?>
                             <li><a href="/register">Register</a></li>
-                            <li class="last"><a href="/login">Login</a></li>
-                            <?php
-                        }
-                        ?>
+                            <li class="last"><a href="javascript:openPopupLogin();">Login</a></li>
+                        <?php } ?>
                     </ul>
                 </div>
                 <h1 class="logo"><a href="/"><img src="/asset/images/include/logo.png" alt="header logo"></a></h1>

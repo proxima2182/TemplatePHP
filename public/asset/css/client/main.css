@@ -425,28 +425,28 @@ submit 페이지
     margin-right: 15px;
 }
 
-#page-last .form-box input, #page-last .form-box textarea {
+#page-last .form-wrap input, #page-last .form-box textarea {
     width: 400px;
     margin: -1px;
     resize: none;
     border: 1px solid #bbb;
 }
 
-#page-last .form-box .input-wrap.agreement .input-title {
+#page-last .form-wrap .input-wrap.agreement .input-title {
     width: auto;
 }
 
-#page-last .form-box input[type=checkbox] {
+#page-last .form-wrap input[type=checkbox] {
     margin: 4px;
     width: 16px;
     height: 16px;
 }
 
-#page-last .form-box input:focus, #page-last .form-box textarea:focus {
+#page-last .form-wrap input:focus, #page-last .form-box textarea:focus {
     border: 1px solid #000;
 }
 
-#page-last .form-box .text-wrap {
+#page-last .form-wrap .text-wrap {
     width: 600px;
     padding: 15px;
     margin-top: 15px;

@@ -83,8 +83,8 @@ function editProfile() {
 }
 
 function confirmChangePassword() {
-    let data = parseInputToData($(`.form-box .editable`))
-    let $wrapErrorMessage = $('.form-wrap .form-box .error-message-wrap');
+    let data = parseInputToData($(`.form-wrap .editable`))
+    let $wrapErrorMessage = $('.form-wrap .error-message-wrap');
     $wrapErrorMessage.empty();
 
     let validations = [

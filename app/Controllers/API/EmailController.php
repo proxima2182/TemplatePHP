@@ -6,15 +6,18 @@ use App\Helpers\ServerLogger;
 use App\Helpers\Utils;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
+use Models\UserModel;
 use Models\VerificationCodeModel;
 
 class EmailController extends BaseApiController
 {
     protected VerificationCodeModel $verificationCodeModel;
+    protected UserModel $userModel;
 
     public function __construct()
     {
         $this->verificationCodeModel = model('Models\VerificationCodeModel');
+        $this->userModel = model('Models\UserModel');
     }
 
     private function getSimpleTextStyle(string $title, string $content): string
@@ -92,13 +95,22 @@ class EmailController extends BaseApiController
             'success' => false,
         ];
         try {
-            $this->sendEmail($address, $title, $content);
-            $response = [
-                'success' => true,
-                'message' => ""
-            ];
+            if (strlen($address) == 0) {
+                throw new Exception('address should not be empty.');
+            }
+            $email = \Config\Services::email();
+            $email->setFrom('no-reply@localhost');
+            $email->setTo($address);
+            $email->setSubject($title);
+            $email->setMessage($content);
+            if ($email->send()) {
+                $response['success'] = true;
+            } else {
+                $response['message'] = 'fail to send email.';
+            }
         } catch (Exception $e) {
             //todo(log)
+            $response['message'] = $e->getMessage();
             ServerLogger::log($e);
         }
         return $this->response->setJSON($response);
@@ -124,6 +136,10 @@ class EmailController extends BaseApiController
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
+                $users = $this->userModel->get(['email' => $data['email']]);
+                if (sizeof($users) > 0) {
+                    throw new Exception('this email is already in used.');
+                }
                 $email_address = $data['email'];
                 $host_alias = 'localhost';
                 $title = 'Verification Code';

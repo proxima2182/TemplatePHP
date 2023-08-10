@@ -61,7 +61,7 @@
     })
 
     function confirmEditTopic(id) {
-        let data = parseInputToData($(`.form-box .editable`))
+        let data = parseInputToData($(`.form-wrap .editable`))
 
         $.ajax({
             type: 'POST',

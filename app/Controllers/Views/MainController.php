@@ -21,7 +21,11 @@ class MainController extends BaseClientController
     {
         // TODO 가능하면 첫 앱 실행때 체크하는 걸로 변경 필요
         $this->userModel->checkAdmin();
-        return view('/client/main', ["links" => $this->links, "is_login" => false]);
+        $data = array_merge([
+            "links" => $this->links,
+            'is_login' => $this->session->is_login,
+        ]);
+        return view('/client/main', $data);
     }
 
     public function getFrameView(): string

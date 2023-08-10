@@ -32,6 +32,10 @@ async function openPopupLogin() {
             overflow: hidden;
         }
 
+        .${className} .form-wrap {
+            margin: 10px 50px;
+        }
+
         .${className} .input-wrap .input-title {
             width: calc(30% - 15px);
         }
@@ -41,9 +45,9 @@ async function openPopupLogin() {
         }
 
         .${className} .control-wrap {
-            margin-top: 10px;
             line-height: 20px;
             font-weight: 600;
+            margin: 0 50px;
         }
 
         .${className} .popup-inner .button-wrap {
@@ -61,11 +65,11 @@ async function openPopupLogin() {
             Login
         </h3>
         <div class="form-wrap">
-            <div class="input-wrap">
+            <div class="input-wrap lines">
                 <p class="input-title">Username</p>
                 <input type="text" name="username" class="under-line"/>
             </div>
-            <div class="input-wrap">
+            <div class="input-wrap lines">
                 <p class="input-title">Password</p>
                 <input type="password" name="password" class="under-line"/>
             </div>
@@ -76,9 +80,11 @@ async function openPopupLogin() {
                 <span>Register</span>
             </a>
         </div>
+        <div class="error-message-wrap">
+        </div>
         <div class="button-wrap controls">
             <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
-            <a href="javascript:login()" class="button confirm black">Login</a>
+            <a href="javascript:login('${className}')" class="button confirm black">Login</a>
         </div>`;
         openPopup(className, style, html)
     } catch (e) {
@@ -86,6 +92,55 @@ async function openPopupLogin() {
     }
 }
 
-function login() {
+function clearErrors(className) {
+    let $wrapErrorMessage = $(`.${className} .error-message-wrap`);
+    $wrapErrorMessage.empty();
+}
+function showErrors(className, response, status, requestOrError) {
+    let $wrapErrorMessage = $(`.${className} .error-message-wrap`);
+    $wrapErrorMessage.empty();
+    if (status == 'success' || status >= 200 && status < 300) {
+        if (response.messages) {
+            for (let key in response.messages) {
+                let message = response.messages[key];
+                $wrapErrorMessage.append(`<div>${message}</div>`);
+            }
+        }
+        if (response.message) {
+            $wrapErrorMessage.append(`<div>${response.message}</div>`);
+        }
+    } else {
+        let message = requestOrError;
+        try {
+            let errorObject = JSON.parse(response.responseText);
+            if (errorObject.message) {
+                message = errorObject.message
+            }
+        } catch (e) {
+        }
+        if (message) {
+            $wrapErrorMessage.append(`<div>${message}</div>`);
+        }
+    }
+}
+function login(className) {
+    clearErrors();
 
+    let data = parseInputToData($(`.${className} .form-wrap input`))
+
+    $.ajax({
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        url: `/api/user/login`,
+        success: function (response, status, request) {
+            if (!response.success) {
+                showErrors(className, response, status, request);
+                return;
+            }
+        },
+        error: function (response, status, error) {
+            showErrors(className, response, status, error);
+        },
+    });
 }
