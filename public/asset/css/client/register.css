@@ -1,4 +1,7 @@
 
+.form-wrap .form-box {
+    padding: 20px 100px 40px 100px;
+}
 .form-wrap .input-wrap.password {
     margin-top: 40px;
 }

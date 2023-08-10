@@ -24,12 +24,12 @@ if (!isset($username) || !isset($name) || !isset($email)) return;
                     <p class="input-title">Notification</p>
                     <input type="checkbox" name="notification" class="editable" readonly <?= $notification == 1 ? 'checked' : '' ?>/>
                 </div>
-            </div>
-            <div class="button-wrap">
-                <a href="javascript:changePassword()" class="button change-password white">Change Password</a>
-            </div>
-            <div class="button-wrap">
-                <a href="javascript:editProfile()" class="button edit-profile black">Edit Profile</a>
+                <div class="button-wrap">
+                    <a href="javascript:changePassword()" class="button change-password white">Change Password</a>
+                </div>
+                <div class="button-wrap">
+                    <a href="javascript:editProfile()" class="button edit-profile black">Edit Profile</a>
+                </div>
             </div>
         </div>
     </div>

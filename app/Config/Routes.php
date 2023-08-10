@@ -87,6 +87,8 @@ $routes->get('/image-file/(:any)', [\API\ImageFileController::class, 'getImage']
 
 $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);
 $routes->get('/api/user/get/([0-9]+)', [\API\UserController::class, 'getUser']);
+$routes->post('/api/user/registration-verify', [\API\UserController::class, 'verify']);
+$routes->post('/api/user/registration-register', [\API\UserController::class, 'register']);
 
 $routes->get('/api/board/get/([0-9]+)', [\API\BoardController::class, 'getBoard']);
 $routes->post('/api/board/create', [\API\BoardController::class, 'createBoard']);
@@ -135,7 +137,8 @@ $routes->post('/api/reservation/request', [\API\ReservationController::class, 'r
 $routes->post('/api/reservation/reject/([0-9]+)', [\API\ReservationController::class, 'rejectReservation']);
 $routes->post('/api/reservation/accept/([0-9]+)', [\API\ReservationController::class, 'acceptReservation']);
 
-$routes->post('/api/email/send', 'API\Email::send');
+//$routes->post('/api/email/send', [\API\EmailController::class, 'send']);
+$routes->post('/api/email/send/verification-code', [\API\EmailController::class, 'sendVerificationCode']);
 
 /*
  * --------------------------------------------------------------------

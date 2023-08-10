@@ -98,8 +98,9 @@
             let keys = Object.keys(typeSet);
             let html = `<div class="form-wrap">`;
 
+            // copy text button
             html += `
-            <div class="input-wrap" onclick="copyToClipboard(this)" style="position: relative;">
+            <div class="input-wrap" style="position: relative;">
                 <p class="input-title">Link</p>
                 <input type="text" name="link" class="under-line" readonly value="/board/${data['code']}">
                 <span class="button float" onclick="window.navigator.clipboard.writeText('/board/${data['code']}')">

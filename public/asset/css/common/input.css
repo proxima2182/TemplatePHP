@@ -43,12 +43,24 @@ body .form-wrap .input-wrap input[type=checkbox] {
     height: 20px;
 }
 
-.form-wrap .button-wrap {
-    margin-top: 20px;
+
+.form-wrap .input-wrap.lines * {
+    display: block;
+}
+.form-wrap .input-wrap.lines .input-title {
+    width: 100%;
+    line-height: 22px;
+    text-align: left;
+    font-size: 16px;
+}
+.form-wrap .input-wrap.lines input,
+.form-wrap .input-wrap.lines textarea {
+    width: 100%;
 }
 
-.form-wrap .button-wrap .button {
-    min-width: 100px;
-    padding: 10px 20px;
-    margin: 0 10px;
+.form-wrap .info-wrap {
+    font-size: 16px;
+    line-height: 30px;
+    color: #ff6600;
+    text-align: left;
 }

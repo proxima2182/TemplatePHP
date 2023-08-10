@@ -13,7 +13,7 @@ use Leaf\Helpers\Password;
  * type             VARCHAR(20)     admin | member | user
  * password         VARCHAR(100)    *hashed
  * name             VARCHAR(50)
- * email            VARCHAR(20)
+ * email            VARCHAR(50)
  * created_at       DATETIME
  * updated_at       DATETIME
  */

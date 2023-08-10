@@ -76,6 +76,18 @@ class BaseModel extends Model
         return $this->builder()->orderBy("created_at", "DESC")->getWhere($condition)->getResultArray();
     }
 
+    /**
+     * 조건에 따른 마지막 row 검색
+     * @param $condition
+     * @return array|null
+     */
+    public function getLatest($condition = null): null|array
+    {
+        $result = $this->builder()->orderBy("created_at", "DESC")->getWhere($condition)->getResultArray();
+        if (sizeof($result) == 0) return null;
+        else return $result[0];
+    }
+
     public function getCount($condition = null): int
     {
         if ($condition == null) {

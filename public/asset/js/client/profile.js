@@ -15,15 +15,14 @@ function changePassword() {
             <p class="input-title">Confirm New Password</p>
             <input type="password" name="confirm_new_password" class="under-line"/>
         </div>
-    </div>
-    <div class="error-message-wrap">
-        <div class="error-message-box">
+        <div class="error-message-wrap">
         </div>
     </div>
     <div class="button-wrap controls">
         <a href="javascript:refreshProfile()" class="button cancel white">Cancel</a>
         <a href="javascript:confirmChangePassword()" class="button confirm black">Confirm</a>
     </div>`);
+    $('.inner-box').append(``)
 }
 
 function refreshProfile() {
@@ -56,12 +55,12 @@ function refreshProfile() {
                     <p class="input-title">Notification</p>
                     <input type="checkbox" name="notification" class="editable" readonly ${data.notification == 1 ? 'checked' : ''}/>
                 </div>
-            </div>
-            <div class="button-wrap">
-                <a href="javascript:changePassword()" class="button change-password white">Change Password</a>
-            </div>
-            <div class="button-wrap">
-                <a href="javascript:editProfile()" class="button edit-profile black">Edit Profile</a>
+                <div class="button-wrap">
+                    <a href="javascript:changePassword()" class="button change-password white">Change Password</a>
+                </div>
+                <div class="button-wrap">
+                    <a href="javascript:editProfile()" class="button edit-profile black">Edit Profile</a>
+                </div>
             </div>`)
         },
         error: function (response, textStatus, error) {
@@ -73,11 +72,10 @@ function editProfile() {
     $('h3.title').html('Edit Profile')
     $('.form-wrap .editable').removeAttr('readonly')
     $('.form-wrap .button-wrap').remove();
-    $('.form-wrap').append(`
+    $('.form-wrap .form-box').append(`
     <div class="error-message-wrap">
-        <div class="error-message-box">
-        </div>
-    </div>
+    </div>`);
+    $('.form-wrap').append(`
     <div class="button-wrap controls">
         <a href="javascript:refreshProfile()" class="button cancel white">Cancel</a>
         <a href="javascript:confirmEditProfile()" class="button confirm black">Confirm</a>
@@ -85,17 +83,37 @@ function editProfile() {
 }
 
 function confirmChangePassword() {
-    $('.error-message-box').empty();
     let data = parseInputToData($(`.form-box .editable`))
+    let $wrapErrorMessage = $('.form-wrap .form-box .error-message-wrap');
+    $wrapErrorMessage.empty();
 
-    if (data['current_password'].length == 0 || data['new_password'].length == 0 || data['confirm_new_password'].length == 0) {
-        $('.error-message-box').append(`<p>fields are empty.</p>`)
+    let validations = [
+        {
+            key: 'current_password',
+            name: 'Current Password'
+        },
+        {
+            key: 'new_password',
+            name: 'New Password'
+        },
+        {
+            key: 'confirm_new_password',
+            name: 'Confirm New Password'
+        },
+    ];
+
+    for (let i in validations) {
+        let validation = validations[i];
+        if (isEmpty(data[validation.key])) {
+            $wrapErrorMessage.append(`<p>${validation.name} field is empty.</p>`)
+        }
     }
+
     if (data['current_password'] == data['new_password']) {
-        $('.error-message-box').append(`<p>please enter different password with original.</p>`)
+        $wrapErrorMessage.append(`<p>please enter different password with original.</p>`)
     }
     if (data['new_password'] != data['confirm_new_password']) {
-        $('.error-message-box').append(`<p>please confirm new password is same.</p>`)
+        $wrapErrorMessage.append(`<p>please check two fields for password is same.</p>`)
     }
 }
 

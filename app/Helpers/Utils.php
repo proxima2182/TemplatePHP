@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Exception;
+
 class Utils
 {
     static function startsWith($haystack, $needle): bool
@@ -25,9 +27,23 @@ class Utils
     {
         if (Utils::startsWith($url, "http")) {
             return "javascript:openWindow('" . $url . "')";
-        } else if(Utils::startsWith($url, "/image-file")) {
+        } else if (Utils::startsWith($url, "/image-file")) {
             return "/frame-view?url=" . $url;
         }
         return $url;
+    }
+
+    /**
+     * @throws Exception
+     */
+    static function generateRandomString($length = 10, $characters = '0123456789'): string
+    {
+//        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }

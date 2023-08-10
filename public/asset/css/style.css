@@ -34,6 +34,16 @@
     background: #444;
 }
 
+.button.black.disabled {
+    background: #666;
+    border: 1px solid #666;
+    cursor: default;
+}
+
+.button.black.disabled.hover {
+    background: #666;
+}
+
 .button.white {
     background: #ffff;
     color: #000;
@@ -44,6 +54,15 @@
     background: #ddd;
 }
 
+.button.white.disabled {
+    background: #bbb;
+    border: 1px solid #666;
+    cursor: default;
+}
+
+.button.white.disabled.hover {
+    background: #bbb;
+}
 .selector {
     cursor: pointer;
     user-drag: none;
@@ -106,14 +125,14 @@ input[type=checkbox] {
 .line-before:before,
 .line-after:after,
 .lines-horizontal:after,
-.lines-horizontal:before
-{
+.lines-horizontal:before {
     content: "";
     display: block;
     width: 100%;
     height: 1px;
     background: #ddd;
 }
+
 .line-before.black:before,
 .line-after.black:after,
 .lines-horizontal.black:after,
@@ -216,5 +235,6 @@ input[type=checkbox] {
 .error-message-wrap * {
     color: #dd4814;
     font-size: 16px;
-    line-height: 25px;
+    line-height: 20px;
+    margin-top: 10px;
 }

@@ -33,6 +33,9 @@ function hash() {
     return Math.random().toString(36).substr(2, 11)
 }
 
+function isEmpty(value) {
+    return !value || value.length == 0
+}
 
 function parseInputToData($inputs) {
     let data = {};

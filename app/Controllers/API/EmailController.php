@@ -3,20 +3,22 @@
 namespace API;
 
 use App\Helpers\ServerLogger;
+use App\Helpers\Utils;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
+use Models\VerificationCodeModel;
 
 class EmailController extends BaseApiController
 {
-    protected $userModel;
+    protected VerificationCodeModel $verificationCodeModel;
 
     public function __construct()
     {
-        $this->db = db_connect();
-        $this->userModel = model('Models\UserModel');
+        $this->verificationCodeModel = model('Models\VerificationCodeModel');
     }
 
-    private function getSimpleTextStyle(string $title, string $content) : string {
+    private function getSimpleTextStyle(string $title, string $content): string
+    {
         return '
         <div style="text-align: center; background: #eee;">
             <div style="text-align: center; width: 800px; margin: 40px auto; display: inline-block; background: #fff; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
@@ -25,7 +27,7 @@ class EmailController extends BaseApiController
                     font-weight: 600;
                     color: #000;
                     margin: 20px">
-                    '.$title.'
+                    ' . $title . '
                 </h2>
                 <div class="divider" style="background: #000; height: 1px;"></div>
                 <div class="text-wrap" style="
@@ -36,22 +38,23 @@ class EmailController extends BaseApiController
                     font-size: 18px;
                     font-weight: 200;
                     text-align: left;">
-                    '.$content.'
+                    ' . $content . '
                 </div>
             </div>
         </div>';
     }
 
-    private function getVerificationStyle(string $title, string $code) : string {
+    private function getVerificationStyle(string $title, string $code): string
+    {
         return '
         <div style="text-align: center; background: #eee;">
-            <div style="text-align: center; width: 600px; margin: 40px auto; display: inline-block; background: #fff; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
+            <div style="text-align: center; width: 700px; margin: 40px auto; display: inline-block; background: #fff; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
                 <h2 class="title" style="
                     font-size: 20px;
                     font-weight: 600;
                     color: #000;
                     margin: 20px">
-                    '.$title.'
+                    ' . $title . '
                 </h2>
                 <div class="divider" style="background: #000; height: 1px;"></div>
                 <div class="text-wrap" style="
@@ -69,7 +72,7 @@ class EmailController extends BaseApiController
                             font-weight: 600;
                             margin-left: 0.4em;
                             letter-spacing: 0.4em;">
-                            '.$code.'
+                            ' . $code . '
                         </span>
                     </span>
                 </div>
@@ -78,24 +81,18 @@ class EmailController extends BaseApiController
     }
 
     /**
-     * [post] /api/email/send
-     * @param $id
+     * @param $address
+     * @param $title
+     * @param $content
      * @return ResponseInterface
      */
-    public function send(): ResponseInterface
+    private function send($address, $title, $content): ResponseInterface
     {
         $response = [
             'success' => false,
-            'data' => [],
-            'message' => ""
         ];
         try {
-            $host_alias = '테스트';
-            $title = 'Verification Code';
-            $content = 'aaaaaa';
-            $email_title = '['.$host_alias.'] Verification Code';
-            $email_content = $this->getVerificationStyle($title, $content);
-            $this->sendEmail('arcrise@naver.com', $email_title, $email_content);
+            $this->sendEmail($address, $title, $content);
             $response = [
                 'success' => true,
                 'message' => ""
@@ -107,4 +104,49 @@ class EmailController extends BaseApiController
         return $this->response->setJSON($response);
     }
 
+    public function sendVerificationCode(): ResponseInterface
+    {
+        $data = $this->request->getPost();
+        $validationRules = [
+            'email' => [
+                'label' => 'Email',
+                'rules' => 'required|min_length[1]|regex_match[[a-z0-9]+@[a-z]+\.[a-z]{2,3}]',
+                'errors' => [
+                    'regex_match' => '{field} format is not valid'
+                ],
+            ],
+        ];
+
+        $response = [
+            'success' => false,
+        ];
+        if ($validationRules != null && !$this->validate($validationRules)) {
+            $response['messages'] = $this->validator->getErrors();
+        } else {
+            try {
+                $email_address = $data['email'];
+                $host_alias = 'localhost';
+                $title = 'Verification Code';
+                $code = '00000000';
+                try {
+                    $code = Utils::generateRandomString(8);
+                } catch (Exception $e) {
+                    //todo(log)
+                }
+
+                $data['code'] = $code;
+                if (!$this->verificationCodeModel->insert($data)) {
+                    $response['messages'] = $model->errors();
+                } else {
+                    $email_title = '[' . $host_alias . '] ' . $title;
+                    $email_content = $this->getVerificationStyle($title, $code);
+                    return $this->send($email_address, $email_title, $email_content);
+                }
+            } catch (Exception $e) {
+                $response['message'] = $e->getMessage();
+                return $this->response->setJSON($response);
+            }
+        }
+        return $this->response->setJSON($response);
+    }
 }
