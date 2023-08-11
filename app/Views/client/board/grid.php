@@ -108,13 +108,18 @@
                 <h4 class="title">${data.title}</h4>
                 <p class="content">${data.content}</p>
             </div>`
-                openPopup(className, style, html, function () {
-                    $('.popup-wrap .popup .slider-wrap .slick').slick({
-                        slidesToShow: 3,
-                        slidesToScroll: 1,
-                        autoplay: false,
-                        infinite: false,
-                    });
+                openPopup({
+                    className: className,
+                    style: style,
+                    html: html,
+                    callback: function () {
+                        $('.popup-wrap .popup .slider-wrap .slick').slick({
+                            slidesToShow: 3,
+                            slidesToScroll: 1,
+                            autoplay: false,
+                            infinite: false,
+                        });
+                    },
                 })
             },
             error: function (response, status, error) {

@@ -32,7 +32,7 @@ $(document).ready(function () {
         anchors.push(`${i + 1}`);
     }
     // activate full page
-    $('#fullpage').fullpage({
+    $('#container').fullpage({
         anchors: anchors,
         menu: '#menu',
         onLeave: function (index, nextIndex, direction) {
@@ -141,6 +141,7 @@ $(document).ready(function () {
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 2000,
+        accessibility: false,
     });
     $('#page-preview .slick').slick({
         slidesToShow: 3,

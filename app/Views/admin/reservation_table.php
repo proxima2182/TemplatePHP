@@ -150,7 +150,11 @@ $is_admin_page = isset($is_admin) && $is_admin;
                         </a>
                     </div>
                 </div>`;
-                openPopup(className, getPopupViewStyle(className) + style, html)
+                openPopup({
+                    className: className,
+                    style: getPopupViewStyle(className) + style,
+                    html: html,
+                })
             },
             error: function (response, status, error) {
             },
@@ -193,7 +197,11 @@ $is_admin_page = isset($is_admin) && $is_admin;
             <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
             <a href="javascript:confirmReservationPopupReject(${id})" class="button confirm black">Reject</a>
         </div>`;
-        openPopup(className, style, html)
+        openPopup({
+            className: className,
+            style: style,
+            html: html,
+        })
     }
 
     /**
@@ -268,11 +276,16 @@ $is_admin_page = isset($is_admin) && $is_admin;
                 </a>
             </div>
         </div>`;
-        openPopup(className, getPopupViewStyle(className) + style, html, function () {
-            $(`.${className} .calendar`).initCalendar({
-                cell_size: 60,
-            })
-            $(`.${className} .time-selector`).initTimeSelector()
+        openPopup({
+            className: className,
+            style: getPopupViewStyle(className) + style,
+            html: html,
+            callback: function () {
+                $(`.${className} .calendar`).initCalendar({
+                    cell_size: 60,
+                })
+                $(`.${className} .time-selector`).initTimeSelector()
+            },
         })
     }
 </script>

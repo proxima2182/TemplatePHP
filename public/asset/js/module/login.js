@@ -86,7 +86,17 @@ async function openPopupLogin() {
             <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
             <a href="javascript:login('${className}')" class="button confirm black">Login</a>
         </div>`;
-        openPopup(className, style, html)
+        openPopup({
+            className: className,
+            style: style,
+            html: html,
+            onEnterKeydown: function() {
+                let button = $(`.${className} .button.confirm`).get(0);
+                if(button) {
+                    button.click();
+                }
+            },
+        })
     } catch (e) {
         console.log(e)
     }
@@ -96,6 +106,7 @@ function clearErrors(className) {
     let $wrapErrorMessage = $(`.${className} .error-message-wrap`);
     $wrapErrorMessage.empty();
 }
+
 function showErrors(className, response, status, requestOrError) {
     let $wrapErrorMessage = $(`.${className} .error-message-wrap`);
     $wrapErrorMessage.empty();
@@ -123,6 +134,7 @@ function showErrors(className, response, status, requestOrError) {
         }
     }
 }
+
 function login(className) {
     clearErrors();
 

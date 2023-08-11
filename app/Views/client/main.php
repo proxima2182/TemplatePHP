@@ -122,7 +122,7 @@ $sliderImages = [
 </head>
 
 <body>
-<div id="fullpage">
+<div id="container">
     <div class="section " id="page-start">
         <header id="header">
             <div class="header-inner">

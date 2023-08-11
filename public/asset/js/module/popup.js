@@ -11,12 +11,17 @@ let popupTimeoutId;
  * 2. 생성될 때 추가 selector 를 설정
  * 2안에서 스타일 독립성도 유지할 수 있고 recursive 를 사용하지 않아도 때문에 2안으로 결정
  * 현재는 popup 종류가 동일한게 동시에 뜰 필요가 없지만, 필요한 경우 selector 를 class 가 아닌 id 로 바꾸어주어야한다
- * @param className     각 팝업을 각각 제어하기 위해 주는 selector name
- * @param style
- * @param html
- * @param callback      팝업 세팅 완료 후 수행되어져야 할 기능 callback
+ * @param input
  */
-function openPopup(className, style, html, callback) {
+function openPopup(input) {
+    // 각 팝업을 각각 제어하기 위해 주는 selector name
+    let className = input.className;
+    let style = input.style;
+    let html = input.html;
+    // 팝업 세팅 완료 후 수행되어져야 할 기능 callback
+    let callback = input.callback;
+    let onEnterKeydown = input.onEnterKeydown;
+
     $('body').append(`
 <div class="popup-wrap ${className}">
 <style>
@@ -118,6 +123,35 @@ ${style ?? ''}
 </div>`)
     resizeWindowPopup();
     if (callback && typeof callback == 'function') callback();
+
+    // popup 내부의 tab 처리
+    let $tabbable = $(`.${className}`).find("input:not([type='hidden']), select, textarea, [href]");
+    let $tabbableFirst = $tabbable && $tabbable.first();
+
+    let nowScrollPos = $(window).scrollTop();
+    $("body").css("top", -nowScrollPos).addClass("scroll-off").on("scroll touchmove mousewheel", function (event) {
+        event.preventDefault(); // iOS 레이어 열린 상태에서 body 스크롤되는 문제 방지
+    });
+
+    for (let i = 0; i < $tabbable.length; ++i) {
+        $tabbable.eq(i).attr('index', i);
+    }
+    $tabbable.on("keydown", function (event) {
+        // 레이어 열리자마자 초점 받을 수 있는 첫번째 요소로 초점 이동
+        let tabIndex = this.getAttribute('index');
+        if ((event.keyCode || event.which) === 9) {
+            event.preventDefault();
+            tabIndex++;
+            if (tabIndex >= $tabbable.length) {
+                tabIndex = 0;
+            }
+            $tabbable.get(tabIndex).focus();
+        }
+    })
+
+    $('#container').find("button, input:not([type='hidden']), select, iframe, textarea, [href], [tabindex]:not([tabindex='-1']), .slick-element").attr("tabindex", "-1"); // 레이어 바깥 영역을 스크린리더가 읽지 않게
+    if ($tabbableFirst) $tabbableFirst.focus();
+
     let element = $(`.${className}`).get(0);
     if (element) {
         element.addEventListener('click', function (event) {
@@ -125,7 +159,19 @@ ${style ?? ''}
                 closePopup(className)
             }
         })
+
+        element.addEventListener('keydown', function (event) {
+            switch (event.key) {
+                case 'Escape':
+                    closePopup(className);
+                    break;
+                case 'Enter':
+                    if (onEnterKeydown && typeof onEnterKeydown == 'function') onEnterKeydown();
+                    break;
+            }
+        })
     }
+
     addEventListener("resize", resizeWindowPopup);
 }
 
@@ -140,6 +186,13 @@ function closePopup(className) {
         'animation-name': 'popupFadeOut',
     })
     removeEventListener('resize', resizeWindowPopup);
+
+    // popup 내부의 tab 처리를 위해 설정했던 것 되돌림
+    let nowScrollPos = $(window).scrollTop();
+    $("body").removeClass("scroll-off").css("top", "").off("scroll touchmove mousewheel");
+    $(window).scrollTop(nowScrollPos); // 레이어 닫은 후 화면 최상단으로 이동 방지
+    $('#container').find("button, input:not([type='hidden']), select, iframe, textarea, [href], [tabindex]:not([tabindex='-1']), .slick-element").attr("tabindex", ""); // 레이어 바깥 영역을 스크린리더가 읽지 않게
+
     popupTimeoutId = setTimeout(function () {
         let element = $popupWrap.get(0);
         if (element) {
@@ -166,6 +219,13 @@ function resizeWindowPopup(event) {
     })
 }
 
+/**
+ * error popup 열기 기능
+ * @param className
+ * @param response
+ * @param status
+ * @param requestOrError
+ */
 function openPopupErrors(className, response, status, requestOrError) {
     let style = `
         <style>
@@ -222,7 +282,11 @@ function openPopupErrors(className, response, status, requestOrError) {
             <a href="javascript:closePopup('${className}')" class="button ok white">OK</a>
         </div>`;
     if (hasMessage) {
-        openPopup(className, style, html);
+        openPopup({
+            className: className,
+            style: style,
+            html: html,
+        });
     }
 }
 

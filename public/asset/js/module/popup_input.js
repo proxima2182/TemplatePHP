@@ -248,7 +248,11 @@ async function openInputPopup(id) {
                     ${getHtml(data)}
                     <div class="error-message-wrap"></div>
                 </div>`
-                openPopup(className, style, html);
+                openPopup({
+                    className: className,
+                    style: style,
+                    html: html,
+                });
                 addInputPopupControlWrap(data);
                 let $textarea = $(`.${className} textarea`);
                 for (let i = 0; i < $textarea.length; ++i) {
@@ -321,7 +325,11 @@ async function openInputPopupCreate() {
             ${getHtml()}
             <div class="error-message-wrap"></div>
         </div>`
-        openPopup(className, style, html)
+        openPopup({
+            className: className,
+            style: style,
+            html: html,
+        })
         $(`.${className} .popup-box`).css({
             "padding-bottom": "61px",
         })
@@ -406,7 +414,11 @@ function openInputPopupDelete(id) {
         <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
         <a href="javascript:confirmInputPopupDelete('${className}', ${id})" class="button confirm black">Delete</a>
     </div>`;
-    openPopup(className, style, html)
+    openPopup({
+        className: className,
+        style: style,
+        html: html,
+    })
 }
 
 /**
