@@ -18,7 +18,7 @@
     font-weight: 400;
 }
 
-.form-wrap .input-wrap input,
+.form-wrap .input-wrap input:not([type=checkbox]),
 .form-wrap .input-wrap textarea {
     width: 65%;
     font-weight: 200;
@@ -37,13 +37,6 @@
     height: 80px;
 }
 
-body .form-wrap .input-wrap input[type=checkbox] {
-    margin: 5px;
-    width: 20px;
-    height: 20px;
-}
-
-
 .form-wrap .input-wrap.lines * {
     display: block;
 }
@@ -53,7 +46,7 @@ body .form-wrap .input-wrap input[type=checkbox] {
     text-align: left;
     font-size: 16px;
 }
-.form-wrap .input-wrap.lines input,
+.form-wrap .input-wrap.lines input:not([type=checkbox]),
 .form-wrap .input-wrap.lines textarea {
     width: 100%;
 }

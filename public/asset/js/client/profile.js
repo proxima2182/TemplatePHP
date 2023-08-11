@@ -1,17 +1,18 @@
 function changePassword() {
     $('h3.title').html('Change Password')
-    $('.form-wrap').empty();
-    $('.form-wrap').prepend(`
+    const wrap = $('.form-wrap');
+    wrap.empty();
+    wrap.append(`
     <div class="form-box password">
-        <div class="input-wrap">
+        <div class="input-wrap lines">
             <p class="input-title">Current Password</p>
             <input type="password" name="current_password" class="under-line"/>
         </div>
-        <div class="input-wrap" style="margin-top: 40px">
+        <div class="input-wrap lines" style="margin-top: 40px">
             <p class="input-title">New Password</p>
             <input type="password" name="new_password" class="under-line"/>
         </div>
-        <div class="input-wrap">
+        <div class="input-wrap lines">
             <p class="input-title">Confirm New Password</p>
             <input type="password" name="confirm_new_password" class="under-line"/>
         </div>
@@ -22,7 +23,6 @@ function changePassword() {
         <a href="javascript:refreshProfile()" class="button cancel white">Cancel</a>
         <a href="javascript:confirmChangePassword()" class="button confirm black">Confirm</a>
     </div>`);
-    $('.inner-box').append(``)
 }
 
 function refreshProfile() {
@@ -36,24 +36,25 @@ function refreshProfile() {
             $('h3.title').html('Profile')
             const wrap = $('.form-wrap');
             wrap.empty();
-
             wrap.prepend(`
             <div class="form-box profile">
-                <div class="input-wrap">
+                <div class="input-wrap lines">
                     <p class="input-title">Username</p>
                     <input type="text" name="name" class="under-line" readonly value="${data.username}"/>
                 </div>
-                <div class="input-wrap">
+                <div class="input-wrap lines">
                     <p class="input-title">Name</p>
                     <input type="text" name="name" class="under-line editable" readonly value="${data.name}"/>
                 </div>
-                <div class="input-wrap">
+                <div class="input-wrap lines">
                     <p class="input-title">Email</p>
                     <input type="text" name="name" class="under-line editable" readonly value="${data.email}"/>
                 </div>
-                <div class="input-wrap">
+                <div class="input-wrap lines">
                     <p class="input-title">Notification</p>
                     <input type="checkbox" name="notification" class="editable" readonly ${data.notification == 1 ? 'checked' : ''}/>
+                </div>
+                <div class="error-message-wrap">
                 </div>
                 <div class="button-wrap">
                     <a href="javascript:changePassword()" class="button change-password white">Change Password</a>
@@ -71,10 +72,7 @@ function refreshProfile() {
 function editProfile() {
     $('h3.title').html('Edit Profile')
     $('.form-wrap .editable').removeAttr('readonly')
-    $('.form-wrap .button-wrap').remove();
-    $('.form-wrap .form-box').append(`
-    <div class="error-message-wrap">
-    </div>`);
+    $('.form-box .button-wrap').remove();
     $('.form-wrap').append(`
     <div class="button-wrap controls">
         <a href="javascript:refreshProfile()" class="button cancel white">Cancel</a>

@@ -75,7 +75,7 @@ async function openPopupLogin() {
             </div>
         </div>
         <div class="control-wrap">
-            <a href="/register" class="button register">
+            <a href="/registration" class="button register">
                 <img src="/asset/images/icon/plus_circle.png"/>
                 <span>Register</span>
             </a>

@@ -38,7 +38,7 @@ if (!isset($links) && !isset($is_login)) return;
                         <li><a href="/profile">Profile</a></li>
                         <li class="last"><a href="/logout">Logout</a></li>
                     <?php } else { ?>
-                        <li><a href="/register">Register</a></li>
+                        <li><a href="/registration">Register</a></li>
                         <li class="last"><a href="javascript:openPopupLogin();">Login</a></li>
                     <?php } ?>
                 </ul>

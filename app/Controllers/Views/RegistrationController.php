@@ -15,7 +15,6 @@ class RegistrationController extends BaseClientController
                 'css' => [
                     '/common/form',
                     '/common/input',
-                    '/client/registration',
                 ],
                 'js' => [
                     '/module/form',

@@ -38,7 +38,7 @@ $routes->get('/frame-view', [\Views\MainController::class, 'getFrameView']);
 $routes->get('/get-session', [\Views\MainController::class, 'getSession']);
 $routes->get('/set-session', [\Views\MainController::class, 'setSession']);
 $routes->get('/profile', [\Views\ProfileController::class, 'index']);
-$routes->get('/register', [\Views\RegistrationController::class, 'index']);
+$routes->get('/registration', [\Views\RegistrationController::class, 'index']);
 $routes->get('/board/grid/([0-9]+)', [\Views\BoardController::class, 'getGridBoard']);
 $routes->addRedirect('/board/grid', '/board/grid/1');
 $routes->get('/board/table/([0-9]+)', [\Views\BoardController::class, 'getTableBoard']);

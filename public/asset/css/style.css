@@ -63,6 +63,7 @@
 .button.white.disabled.hover {
     background: #bbb;
 }
+
 .selector {
     cursor: pointer;
     user-drag: none;
@@ -93,9 +94,14 @@ input.under-line[readonly], input.under-line:focus[readonly] {
     border-bottom: 1px solid rgba(0, 0, 0, 0);
 }
 
+.lines input.under-line[readonly], .lines input.under-line:focus[readonly] {
+    border: none;
+    border-bottom: 1px solid #efefef;
+}
+
 textarea.under-line[readonly] {
     border: none;
-    border: 1px solid #eee;
+    border: 1px solid #efefef;
 }
 
 input.under-line {
@@ -120,6 +126,9 @@ textarea[readonly] {
 
 input[type=checkbox] {
     accent-color: #222;
+    margin: 5px;
+    width: 20px;
+    height: 20px;
 }
 
 .line-before:before,
