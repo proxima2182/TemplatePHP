@@ -214,7 +214,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
             dataType: 'json',
             url: `/api/reservation/reject/${id}`,
             success: function (response, status, request) {
-                location.reload()
+                location.reload();
             },
             error: function (response, status, error) {
             },

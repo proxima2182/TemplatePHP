@@ -136,7 +136,7 @@ function showErrors(className, response, status, requestOrError) {
 }
 
 function login(className) {
-    clearErrors();
+    clearErrors(className);
 
     let data = parseInputToData($(`.${className} .form-wrap input`))
 
@@ -150,9 +150,25 @@ function login(className) {
                 showErrors(className, response, status, request);
                 return;
             }
+            location.reload();
         },
         error: function (response, status, error) {
             showErrors(className, response, status, error);
+        },
+    });
+}
+
+
+function logout() {
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: `/api/user/logout`,
+        success: function (response, status, request) {
+            if (!response.success) return;
+            location.reload();
+        },
+        error: function (response, status, error) {
         },
     });
 }

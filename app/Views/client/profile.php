@@ -13,17 +13,18 @@ if (!isset($username) || !isset($name) || !isset($email)) return;
                     <input type="text" name="username" class="under-line" readonly value="<?= $username ?>"/>
                 </div>
                 <div class="input-wrap lines">
+                    <p class="input-title">Email</p>
+                    <input type="text" name="email" class="under-line" readonly value="<?= $email ?>"/>
+                </div>
+                <div class="input-wrap lines">
                     <p class="input-title">Name</p>
                     <input type="text" name="name" class="under-line editable" readonly value="<?= $name ?>"/>
                 </div>
-                <div class="input-wrap lines">
-                    <p class="input-title">Email</p>
-                    <input type="text" name="email" class="under-line editable" readonly value="<?= $email ?>"/>
-                </div>
-                <div class="input-wrap lines">
-                    <p class="input-title">Notification</p>
-                    <input type="checkbox" name="notification" class="editable" readonly <?= $notification == 1 ? 'checked' : '' ?>/>
-                </div>
+<!--                //todo notification setting, sync with profile.js-->
+<!--                <div class="input-wrap lines">-->
+<!--                    <p class="input-title">Notification</p>-->
+<!--                    <input type="checkbox" name="is_notification" class="editable" readonly --><?php //= $is_notification == 1 ? 'checked' : '' ?><!--/>-->
+<!--                </div>-->
                 <div class="error-message-wrap">
                 </div>
                 <div class="button-wrap">

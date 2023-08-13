@@ -430,7 +430,7 @@ function openInputPopupDelete(id) {
 function getSuccessCallback(className) {
     return function (response, status, request) {
         if (response.success) {
-            location.reload()
+            location.reload();
         }
         if (response.messages) {
             for (let key in response.messages) {

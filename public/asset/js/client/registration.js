@@ -229,10 +229,8 @@ function confirmVerificationCode() {
 function confirmRegistration() {
     clearErrors();
 
-    let data = parseInputToData($(`#container .form-wrap input`))
-
     let $wrapErrorMessage = $('#container .form-wrap .error-message-wrap');
-    $wrapErrorMessage.empty();
+    let data = parseInputToData($(`#container .form-wrap input`))
 
     let validations = [
         {

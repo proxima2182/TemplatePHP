@@ -109,8 +109,7 @@ class BoardController extends BaseApiController
                     $response['message'] = 'unavailable data access';
                 }
             } else {
-                // nodata
-                $response['message'] = 'nodata';
+                $response['message'] = 'not exist';
             }
         } catch (Exception $e) {
             //todo(log)

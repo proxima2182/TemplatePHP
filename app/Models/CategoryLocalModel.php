@@ -61,7 +61,7 @@ class CategoryLocalModel extends BasePriorityModel
         $result = $this->get(['id' => $id]);
         if (sizeof($result) == 0) {
             //todo setting language lang('Database.invalidEvent', [$method])
-            throw new Exception("nodata");
+            throw new Exception("not exist");
         }
         $data = $result[0];
         return BaseModel::transaction($this->db, [

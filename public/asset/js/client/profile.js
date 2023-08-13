@@ -6,15 +6,15 @@ function changePassword() {
     <div class="form-box password">
         <div class="input-wrap lines">
             <p class="input-title">Current Password</p>
-            <input type="password" name="current_password" class="under-line"/>
+            <input type="password" name="current_password" class="under-line editable"/>
         </div>
         <div class="input-wrap lines" style="margin-top: 40px">
             <p class="input-title">New Password</p>
-            <input type="password" name="new_password" class="under-line"/>
+            <input type="password" name="new_password" class="under-line editable"/>
         </div>
         <div class="input-wrap lines">
             <p class="input-title">Confirm New Password</p>
-            <input type="password" name="confirm_new_password" class="under-line"/>
+            <input type="password" name="confirm_new_password" class="under-line editable"/>
         </div>
         <div class="error-message-wrap">
         </div>
@@ -43,16 +43,12 @@ function refreshProfile() {
                     <input type="text" name="name" class="under-line" readonly value="${data.username}"/>
                 </div>
                 <div class="input-wrap lines">
+                    <p class="input-title">Email</p>
+                    <input type="text" name="name" class="under-line" readonly value="${data.email}"/>
+                </div>
+                <div class="input-wrap lines">
                     <p class="input-title">Name</p>
                     <input type="text" name="name" class="under-line editable" readonly value="${data.name}"/>
-                </div>
-                <div class="input-wrap lines">
-                    <p class="input-title">Email</p>
-                    <input type="text" name="name" class="under-line editable" readonly value="${data.email}"/>
-                </div>
-                <div class="input-wrap lines">
-                    <p class="input-title">Notification</p>
-                    <input type="checkbox" name="notification" class="editable" readonly ${data.notification == 1 ? 'checked' : ''}/>
                 </div>
                 <div class="error-message-wrap">
                 </div>
@@ -81,9 +77,10 @@ function editProfile() {
 }
 
 function confirmChangePassword() {
-    let data = parseInputToData($(`.form-wrap .editable`))
-    let $wrapErrorMessage = $('.form-wrap .error-message-wrap');
-    $wrapErrorMessage.empty();
+    clearErrors();
+
+    let $wrapErrorMessage = $('#container .form-wrap .error-message-wrap');
+    let data = parseInputToData($(`#container .form-wrap .editable`))
 
     let validations = [
         {
@@ -113,8 +110,76 @@ function confirmChangePassword() {
     if (data['new_password'] != data['confirm_new_password']) {
         $wrapErrorMessage.append(`<p>please check two fields for password is same.</p>`)
     }
+
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        data: data,
+        url: `/api/user/password-change`,
+        success: function (response, textStatus, request) {
+            if (!response.success) {
+                showErrors(response, textStatus, request);
+                return;
+            }
+            refreshProfile();
+        },
+        error: function (response, textStatus, error) {
+            showErrors(response, textStatus, error);
+        },
+    })
 }
 
 function confirmEditProfile() {
+    clearErrors();
+    let data = parseInputToData($(`#container .form-wrap .editable`))
 
+    $.ajax({
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        url: `/api/user/update/profile`,
+        success: function (response, status, request) {
+            if (!response.success) {
+                showErrors(response, status, request);
+                return;
+            }
+            refreshProfile();
+        },
+        error: function (response, status, error) {
+            showErrors(response, status, error);
+        },
+    });
+}
+
+function clearErrors() {
+    let $wrapErrorMessage = $('#container .form-wrap .error-message-wrap');
+    $wrapErrorMessage.empty();
+}
+
+function showErrors(response, status, requestOrError) {
+    let $wrapErrorMessage = $('#container .form-wrap .error-message-wrap');
+    $wrapErrorMessage.empty();
+    if (status == 'success' || status >= 200 && status < 300) {
+        if (response.messages) {
+            for (let key in response.messages) {
+                let message = response.messages[key];
+                $wrapErrorMessage.append(`<div>${message}</div>`);
+            }
+        }
+        if (response.message) {
+            $wrapErrorMessage.append(`<div>${response.message}</div>`);
+        }
+    } else {
+        let message = requestOrError;
+        try {
+            let errorObject = JSON.parse(response.responseText);
+            if (errorObject.message) {
+                message = errorObject.message
+            }
+        } catch (e) {
+        }
+        if (message) {
+            $wrapErrorMessage.append(`<div>${message}</div>`);
+        }
+    }
 }

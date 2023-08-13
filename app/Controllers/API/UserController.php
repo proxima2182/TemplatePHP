@@ -27,20 +27,31 @@ class UserController extends BaseApiController
     {
         $response = [
             'success' => false,
-            'data' => [],
-            'message' => ""
         ];
+        if (!$this->session->is_login) {
+            $response['message'] = 'session is expired';
+            return $this->response->setJSON($response);
+        } else {
+            return $this->typicallyGet($this->userModel, $this->session->user_id);
+        }
+    }
+
+    /**
+     * [post] /api/user/update/profile
+     * @return ResponseInterface
+     */
+    public function updateProfile(): ResponseInterface
+    {
         $response = [
-            'success' => true,
-            'data' => [
-                'username' => 'admin',
-                'name' => 'admin',
-                'email' => 'admin@gmail.com',
-                'notification' => '1',
-            ],
-            'message' => ""
+            'success' => false,
         ];
-        return $this->response->setJSON($response);
+        if (!$this->session->is_login) {
+            $response['message'] = 'session is expired';
+            return $this->response->setJSON($response);
+        } else {
+            $data = $this->request->getPost();
+            return $this->typicallyUpdate($this->userModel, $this->session->user_id, $data);
+        }
     }
 
     /**
@@ -50,24 +61,19 @@ class UserController extends BaseApiController
      */
     public function getUser($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
-        $response = [
-            'success' => true,
-            'data' => [
-                'id' => 1,
-                'username' => 'admin',
-                'type' => 'admin',
-                'name' => 'admin',
-                'email' => 'admin@gmail.com',
-                'created_at' => '2023-06-29 00:00:00',
-            ],
-            'message' => ""
-        ];
-        return $this->response->setJSON($response);
+        return $this->typicallyGet($this->userModel, $id);
+    }
+
+    /**
+     * [post] /api/user/update/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function updateUser($id): ResponseInterface
+    {
+        //todo add limitation
+        $data = $this->request->getPost();
+        return $this->typicallyUpdate($this->userModel, $id, $data);
     }
 
     /**
@@ -164,19 +170,18 @@ class UserController extends BaseApiController
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
+                if ($data['password'] != $data['confirm_password']) {
+                    throw new Exception('please check two fields for \'password\' is same.');
+                }
                 $users = $this->userModel->get(['email' => $data['email']]);
                 if (sizeof($users) > 0) {
                     throw new Exception('this email is already in used.');
-                }
-                if ($data['password'] != $data['confirm_password']) {
-                    throw new Exception('please check two fields for password is same.');
                 }
                 $data['password'] = Password::hash($data['password'], Password::BCRYPT);
                 $this->userModel->insert($data);
                 $response['success'] = true;
             } catch (Exception $e) {
                 $response['message'] = $e->getMessage();
-                return $this->response->setJSON($response);
             }
         }
         return $this->response->setJSON($response);
@@ -218,13 +223,82 @@ class UserController extends BaseApiController
                 $this->session->set([
                     'username' => $user['username'],
                     'name' => strlen($user['name']) == 0 ? $user['username'] : $user['name'],
-                    'is_login' => true,
                     'user_id' => $user['id'],
+                    'is_login' => true,
                 ]);
                 $response['success'] = true;
             } catch (Exception $e) {
                 $response['message'] = $e->getMessage();
                 return $this->response->setJSON($response);
+            }
+        }
+        return $this->response->setJSON($response);
+    }
+
+    /**
+     * [post] /api/user/logout
+     * @return ResponseInterface
+     */
+    public function logout(): ResponseInterface
+    {
+        $response = [
+            'success' => true,
+        ];
+        $this->session->set([
+            'username' => '',
+            'name' => '',
+            'user_id' => -1,
+            'is_login' => false,
+        ]);
+        return $this->response->setJSON($response);
+    }
+
+    public function changePassword(): ResponseInterface
+    {
+        $data = $this->request->getPost();
+        $validationRules = [
+            'current_password' => [
+                'label' => 'Current Password',
+                'rules' => 'required|min_length[8]',
+            ],
+            'new_password' => [
+                'label' => 'New Password',
+                'rules' => 'required|min_length[8]',
+            ],
+            'confirm_new_password' => [
+                'label' => 'Confirm New Password',
+                'rules' => 'required',
+            ],
+        ];
+
+        $response = [
+            'success' => false,
+        ];
+
+        if (!$this->session->is_login) {
+            $response['message'] = 'session is expired';
+        } else {
+            if ($validationRules != null && !$this->validate($validationRules)) {
+                $response['messages'] = $this->validator->getErrors();
+            } else {
+                try {
+                    if ($data['new_password'] != $data['confirm_new_password']) {
+                        throw new Exception('please check two fields for \'new password\' is same.');
+                    }
+                    $user = $this->userModel->find($this->session->user_id);
+                    if (!$user) {
+                        throw new Exception('not exist');
+                    }
+                    if (!Password::verify($data['current_password'], $user['password'])) {
+                        throw new Exception('password is not correct.');
+                    }
+                    $this->userModel->update($this->session->user_id, [
+                        'password' => Password::hash($data['new_password'], Password::BCRYPT),
+                    ]);
+                    $response['success'] = true;
+                } catch (Exception $e) {
+                    $response['message'] = $e->getMessage();
+                }
             }
         }
         return $this->response->setJSON($response);

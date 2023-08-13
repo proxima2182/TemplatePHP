@@ -36,7 +36,7 @@ if (!isset($links) && !isset($is_login)) return;
                 <ul class="cf">
                     <?php if ($is_login) { ?>
                         <li><a href="/profile">Profile</a></li>
-                        <li class="last"><a href="/logout">Logout</a></li>
+                        <li class="last"><a href="javascript:logout();">Logout</a></li>
                     <?php } else { ?>
                         <li><a href="/registration">Register</a></li>
                         <li class="last"><a href="javascript:openPopupLogin();">Login</a></li>

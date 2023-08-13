@@ -32,13 +32,13 @@ class BasePriorityModel extends BaseModel
         $result = $this->get(['id' => $from]);
         if (sizeof($result) == 0) {
             //todo setting language lang('Database.invalidEvent', [$method])
-            throw new Exception("nodata");
+            throw new Exception("not exist");
         }
         $fromData = $result[0];
         $result = $this->get(['id' => $to]);
         if (sizeof($result) == 0) {
             //todo setting language lang('Database.invalidEvent', [$method])
-            throw new Exception("nodata");
+            throw new Exception("not exist");
         }
         $toData = $result[0];
 
