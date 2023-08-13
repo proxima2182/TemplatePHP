@@ -2,6 +2,7 @@
 
 namespace Views\Admin;
 
+use App\Helpers\Utils;
 use Exception;
 use Models\BoardModel;
 use Models\ImageFileModel;
@@ -22,19 +23,19 @@ class BoardController extends BaseAdminController
 
     function index($page = 1): string
     {
-        if (gettype($page) == 'string') {
-            if (strlen($page) != 0) {
-                $page = intval($page);
-            } else {
-                $page = 1;
-            }
+        $page = Utils::toInt($page);
+        $result = null;
+        try {
+            $result = $this->boardModel->getPaginated([
+                'per_page' => $this->per_page,
+                'page' => $page,
+            ], [
+                'is_deleted' => 0,
+            ]);
+        } catch (Exception $e) {
+            //todo(log)
+            //TODO show error page
         }
-        $result = $this->boardModel->getPaginated([
-            'per_page' => $this->per_page,
-            'page' => $page,
-        ], [
-            'is_deleted' => 0,
-        ]);
         $data = array_merge($result, [
             'pagination_link' => '/admin/board',
         ]);

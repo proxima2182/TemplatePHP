@@ -11,23 +11,23 @@ class BaseAdminController extends BaseController
      * @var string[]
      */
     protected array $links = [
+        "Category" => "/admin/category",
         "Board" => "/admin/board",
         "Reply" => "/admin/topic/reply",
-        "Category" => "/admin/category",
         "Reservation" => "/admin/reservation-board",
         "User" => "/admin/user",
         "Location" => "/admin/location",
         "Setting" => "/admin/setting",
     ];
 
-    function loadHeader($data): string
+    protected function loadHeader($data): string
     {
         return view('admin/header', parent::loadDataForHeader($data, [
             'links' => $this->links,
         ]));
     }
 
-    function loadFooter(): string
+    protected function loadFooter(): string
     {
         return view('admin/footer');
     }

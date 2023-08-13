@@ -7,8 +7,9 @@ namespace Models;
  * -----------------------------------------
  * id               INT
  * name             VARCHAR(50)
+ * address          TEXT
  * latitude         DOUBLE
- * altitude         DOUBLE
+ * longitude        DOUBLE
  * created_at       DATETIME
  * updated_at       DATETIME
  */
@@ -19,8 +20,9 @@ class LocationModel extends BaseModel
     protected $allowedFields = [
         'id',
         'name',
+        'address',
         'latitude',
-        'altitude',
+        'longitude',
         'created_at',
         'updated_at',
     ];

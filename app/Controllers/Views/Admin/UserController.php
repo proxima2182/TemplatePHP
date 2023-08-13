@@ -2,17 +2,37 @@
 
 namespace Views\Admin;
 
+use App\Helpers\ServerLogger;
+use App\Helpers\Utils;
+use Exception;
+use Models\UserModel;
+
 class UserController extends BaseAdminController
 {
-    protected $categoryModel;
+    protected UserModel $userModel;
 
     public function __construct()
     {
-        $this->categoryModel = model('Models\CategoryModel');
+        $this->userModel = model('Models\UserModel');
     }
 
     function index($page = 1): string
     {
+        $page = Utils::toInt($page);
+        $result = null;
+        try {
+            $result = $this->userModel->getPaginated([
+                'per_page' => $this->per_page,
+                'page' => $page,
+            ]);
+        } catch (Exception $e) {
+            ServerLogger::log($e);
+            //todo(log)
+            //TODO show error page
+        }
+        $data = array_merge($result, [
+            'pagination_link' => '/admin/user',
+        ]);
         return parent::loadHeader([
                 'css' => [
                     '/common/table',
@@ -22,41 +42,7 @@ class UserController extends BaseAdminController
                     '/module/popup_input',
                 ],
             ])
-            . view('/admin/user', [
-                'array' => [
-                    [
-                        'id' => 1,
-                        'username' => 'admin',
-                        'type' => 'admin',
-                        'name' => 'admin',
-                        'email' => 'admin@gmail.com',
-                        'created_at' => '2023-06-29 00:00:00',
-                    ],
-                    [
-                        'id' => 2,
-                        'username' => 'admin',
-                        'type' => 'admin',
-                        'name' => 'admin',
-                        'email' => 'admin@gmail.com',
-                        'created_at' => '2023-06-29 00:00:00',
-                    ],
-                    [
-                        'id' => 3,
-                        'username' => 'admin',
-                        'type' => 'admin',
-                        'name' => 'admin',
-                        'email' => 'admin@gmail.com',
-                        'created_at' => '2023-06-29 00:00:00',
-                    ],
-                ],
-                'pagination' => [
-                    'per-page' => 30,
-                    'page' => 6,
-                    'total' => 180,
-                    'total-page' => 6,
-                ],
-                'pagination_link' => '/admin/user'
-            ])
+            . view('/admin/user', $data)
             . parent::loadFooter();
     }
 }

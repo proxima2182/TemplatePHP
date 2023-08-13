@@ -12,7 +12,7 @@
 }
 
 .form-wrap .input-wrap .input-title {
-    width: calc(35% - 15px);
+    width: calc(30% - 15px);
     text-align: right;
     margin-right: 15px;
     font-weight: 400;
@@ -20,7 +20,7 @@
 
 .form-wrap .input-wrap input:not([type=checkbox]),
 .form-wrap .input-wrap textarea {
-    width: 65%;
+    width: 70%;
     font-weight: 200;
 }
 

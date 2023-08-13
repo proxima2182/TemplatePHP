@@ -7,7 +7,7 @@
             <div class="form-box">
                 <div class="input-wrap lines">
                     <p class="input-title">Email</p>
-                    <input type="email" name="email" class="under-line" value="arcrise@naver.com"/>
+                    <input type="email" name="email" class="under-line" value=""/>
                 </div>
                 <div class="error-message-wrap disappear-at-next-step">
                 </div>

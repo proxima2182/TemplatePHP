@@ -46,11 +46,11 @@ function getPopupStyle(className) {
     }
     
     .${className} .form-wrap .input-wrap .input-title {
-        width: calc(35% - 15px);
+        width: calc(30% - 15px);
     }
     
-    .${className} .form-wrap .input-wrap input, .${className} .form-wrap .input-wrap textarea {
-        width: 65%;
+    .${className} .form-wrap .input-wrap input:not([type=checkbox]), .${className} .form-wrap .input-wrap textarea {
+        width: 70%;
     }
     
     .${className} .button.float {
@@ -79,6 +79,7 @@ function fromDataToHtml(key, data, typeSet) {
     let set = typeSet[key];
     let type = undefined;
     let editable = false;
+    let readonly = false;
     let integer = false;
     let name = key;
     if (set) {
@@ -87,6 +88,11 @@ function fromDataToHtml(key, data, typeSet) {
             editable = set['editable'] == true || set['editable'] == 1;
         } else {
             editable = true;
+        }
+        if (set['readonly'] != undefined) {
+            readonly = set['readonly'] == true || set['readonly'] == 1;
+        } else {
+            readonly = false;
         }
         if (set['name']) {
             name = set['name'];
@@ -101,12 +107,35 @@ function fromDataToHtml(key, data, typeSet) {
         }
     }
     let value = undefined;
+    let isReadOnly = true;
     if (data) {
         value = data[key];
+    } else {
+        isReadOnly = readonly;
     }
+
+    function checkClasses(classes = []) {
+        if (editable) {
+            classes.push('editable');
+        }
+        if (readonly) {
+            classes.push('readonly')
+        }
+        console.log(classes)
+        if (classes.length == 0) return '';
+        let prefix = '';
+        let result = `class="`
+        for (let i in classes) {
+            result += prefix + classes[i];
+            prefix = ' ';
+        }
+        result += `"`;
+        return result;
+    }
+
     switch (type) {
         case 'checkbox': {
-            let option = `${editable ? `class="editable"` : ``} ${data != undefined ? `readonly` : ``} 
+            let option = `${checkClasses()} ${isReadOnly ? `readonly` : ``} 
             ${value ? `readonly` : ``} ${value && value == 1 ? 'checked' : ''}`
             return `
                 <div class="input-wrap">
@@ -115,7 +144,7 @@ function fromDataToHtml(key, data, typeSet) {
                 </div>`
         }
         case 'select': {
-            let option = `${editable ? `class="editable"` : ``} ${data != undefined ? `disabled` : ``}`
+            let option = `${checkClasses()} ${isReadOnly ? `disabled` : ``}`
             let html = `
             <div class="input-wrap">
                 <p class="input-title">${name}</p>
@@ -123,7 +152,8 @@ function fromDataToHtml(key, data, typeSet) {
             if (set && set['options']) {
                 try {
                     for (let i in set['options']) {
-                        html += `<option value="${set['options'][i]['value']}">${set['options'][i]['name']}</option>`
+                        let optionValue = set['options'][i]['value'];
+                        html += `<option value="${optionValue}" ${value == optionValue ? 'selected' : ''}>${set['options'][i]['name']}</option>`
                     }
                 } catch (e) {
                     console.error(e)
@@ -135,7 +165,7 @@ function fromDataToHtml(key, data, typeSet) {
             return html;
         }
         case 'textarea': {
-            let option = `${editable ? `class="editable under-line"` : `class="under-line"`} ${data != undefined ? `readonly` : ``}`
+            let option = `${checkClasses(['under-line'])} ${isReadOnly ? `readonly` : ``}`
             return `
                 <div class="input-wrap">
                     <p class="input-title">${name}</p>
@@ -143,7 +173,7 @@ function fromDataToHtml(key, data, typeSet) {
                 </div>`
         }
         default: {
-            let option = ` ${editable ? `class="editable under-line"` : `class="under-line"`} ${data != undefined ? `readonly` : ``} ${integer ? `oninput="this.value=this.value.replace(/[^0-9]/g,'');"` : ``}`
+            let option = `${checkClasses(['under-line'])} ${isReadOnly ? `readonly` : ``} ${integer ? `oninput="this.value=this.value.replace(/[^0-9]/g,'');"` : ``}`
             return `
                 <div class="input-wrap">
                     <p class="input-title">${name}</p>
@@ -181,7 +211,7 @@ function initializeInputPopup(input) {
  * - 공통된 코드가 반복되어 함수 추가
  * @param data
  */
-function addInputPopupControlWrap(data) {
+function addInputPopupControlWrap(className, data) {
     let controlHtml = getControlHtml ? getControlHtml(data) : undefined;
     if (typeof controlHtml == 'string' && controlHtml.length == 0) {
         return;
@@ -201,7 +231,7 @@ function addInputPopupControlWrap(data) {
         $(`.${className} .popup-inner`).append(`
         <div class="control-wrap absolute line-before">
             <div class="control-box">
-                <a href="javascript:editInputPopup(${data['id']})"
+                <a href="javascript:editInputPopup('${className}',${data['id']})"
                    class="button edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span>Edit</span>
@@ -253,7 +283,7 @@ async function openInputPopup(id) {
                     style: style,
                     html: html,
                 });
-                addInputPopupControlWrap(data);
+                addInputPopupControlWrap(className, data);
                 let $textarea = $(`.${className} textarea`);
                 for (let i = 0; i < $textarea.length; ++i) {
                     resizeInputPopupTextarea($textarea.get(i));
@@ -290,7 +320,7 @@ function refreshInputPopup(id) {
                 <div class="error-message-wrap"></div>
             </div>`
             $(`.${className} .popup-inner`).append(html)
-            addInputPopupControlWrap(data);
+            addInputPopupControlWrap(className, data);
             let $textarea = $(`.${className} textarea`);
             for (let i = 0; i < $textarea.length; ++i) {
                 resizeInputPopupTextarea($textarea.get(i));
@@ -355,9 +385,9 @@ async function openInputPopupCreate() {
  * input 에 입력불가 옵션을 해제 하고 control 부분의 버튼을 변경하는 기능
  * @param {string}id
  */
-function editInputPopup(id) {
-    $(`.${className} .form-wrap .editable`).removeAttr('readonly')
-    $(`.${className} .form-wrap .editable`).removeAttr('disabled')
+function editInputPopup(className, id) {
+    $(`.${className} .form-wrap .editable`).not(`.readonly`).removeAttr('readonly')
+    $(`.${className} .form-wrap .editable`).not(`.readonly`).removeAttr('disabled')
     $(`.${className} .form-wrap .button-wrap`).remove();
     $(`.${className} .popup-inner .control-wrap`).remove();
 

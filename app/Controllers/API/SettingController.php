@@ -3,15 +3,15 @@
 namespace API;
 
 use CodeIgniter\HTTP\ResponseInterface;
+use Models\SettingModel;
 
 class SettingController extends BaseApiController
 {
-    protected $userModel;
+    protected SettingModel $settingModel;
 
     public function __construct()
     {
-        $this->db = db_connect();
-        $this->userModel = model('Models\UserModel');
+        $this->settingModel = model('Models\SettingModel');
     }
 
     /**
@@ -21,24 +21,7 @@ class SettingController extends BaseApiController
      */
     public function getSetting($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
-        $response = [
-            'success' => true,
-            'data' => [
-                'id' => 1,
-                'code' => 'test',
-                'name' => 'test',
-                'value' => 'admin',
-                'updated_at' => '2023-06-29 00:00:00',
-                'created_at' => '2023-06-29 00:00:00',
-            ],
-            'message' => ""
-        ];
-        return $this->response->setJSON($response);
+        return $this->typicallyGet($this->settingModel, $id);
     }
 
     /**
@@ -47,12 +30,21 @@ class SettingController extends BaseApiController
      */
     public function createSetting(): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
+        $data = $this->request->getPost();
+        $validationRules = [
+            'code' => [
+                'label' => 'Code',
+                'rules' => 'required|min_length[1]|regex_match[^[^0-9][a-zA-Z0-9_\-]+$]',
+                'errors' => [
+                    'regex_match' => '{field} have to start with character'
+                ],
+            ],
+            'name' => [
+                'label' => 'Name',
+                'rules' => 'required|min_length[1]',
+            ],
         ];
-        return $this->response->setJSON($response);
+        return $this->typicallyCreate($this->settingModel, $data, $validationRules);
     }
 
     /**
@@ -62,12 +54,8 @@ class SettingController extends BaseApiController
      */
     public function updateSetting($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
-        return $this->response->setJSON($response);
+        $data = $this->request->getPost();
+        return $this->typicallyUpdate($this->settingModel, $id, $data);
     }
 
     /**
@@ -77,11 +65,6 @@ class SettingController extends BaseApiController
      */
     public function deleteSetting($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
-        return $this->response->setJSON($response);
+        return $this->typicallyDelete($this->settingModel, $id);
     }
 }

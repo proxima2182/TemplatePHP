@@ -96,7 +96,7 @@
                 },
             }
             let keys = Object.keys(typeSet);
-            let html = `<div class="form-wrap">`;
+            let html = ``;
 
             // copy text button
             html += `
@@ -114,7 +114,6 @@
                     html += extracted;
                 }
             }
-            html += `</div>`;
             return html;
         },
         getControlHtml: function (data) {

@@ -41,24 +41,47 @@
         getGetUrl: function (id) {
             return `/api/user/get/${id}`
         },
+        getUpdateUrl: function (id) {
+            return `/api/user/update/${id}`
+        },
         getHtml: function (data) {
-            const typeSet = {
+            console.log(data)
+            let typeSet;
+            if (data['type'] == 'admin') {
+                typeSet = {
+                    type: {
+                        type: 'select',
+                        options: [
+                            {
+                                value: 'admin',
+                                name: 'Admin',
+                            },
+                        ],
+                        editable: false,
+                    },
+                };
+            } else {
+                typeSet = {
+                    type: {
+                        type: 'select',
+                        options: [
+                            {
+                                value: 'member',
+                                name: 'Member',
+                            },
+                            {
+                                value: 'user',
+                                name: 'User',
+                            },
+                        ]
+                    },
+                }
+            }
+            typeSet = {
+                ...typeSet,
                 username: {
                     type: 'text',
                     editable: false,
-                },
-                type: {
-                    type: 'select',
-                    options: [
-                        {
-                            value: 'member',
-                            name: 'Member',
-                        },
-                        {
-                            value: 'user',
-                            name: 'User',
-                        },
-                    ]
                 },
                 name: {
                     type: 'text',
@@ -69,10 +92,11 @@
                 created_at: {
                     type: 'text',
                     name: 'Created At',
+                    editable: false,
                 },
             }
             let keys = Object.keys(typeSet);
-            let html = `<div class="form-wrap">`;
+            let html = ``;
 
             for (let i in keys) {
                 let key = keys[i];

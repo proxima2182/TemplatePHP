@@ -35,7 +35,7 @@ class BaseModel extends Model
         if ($page > 0) {
             $offset = ($page - 1) * $per_page;
         }
-        $result = $this->builder()->limit($per_page, $offset)->getWhere($condition)->getResultArray();
+        $result = $this->builder()->limit($per_page, $offset)->orderBy("created_at", "DESC")->getWhere($condition)->getResultArray();
 
         return [
             'array' => $result,

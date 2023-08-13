@@ -23,7 +23,7 @@
                     <?php foreach ($array as $index => $item) { ?>
                         <li class="row">
                             <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
-                                <span class="column name"><?= $item['name'] ?></span>
+                                <span class="column name"><?= $item['name'] ?? '' ?></span>
                                 <span class="column address"><?= $item['address'] ?></span>
                                 <span class="column latitude"><?= $item['latitude'] ?></span>
                                 <span class="column longitude"><?= $item['longitude'] ?></span>
@@ -64,13 +64,15 @@
                 },
                 latitude: {
                     type: 'number',
+                    readonly: true,
                 },
                 longitude: {
                     type: 'number',
+                    readonly: true,
                 },
             }
             let keys = Object.keys(typeSet);
-            let html = `<div class="form-wrap">`;
+            let html = ``;
 
             for (let i in keys) {
                 let key = keys[i];
@@ -79,8 +81,6 @@
                     html += extracted;
                 }
             }
-            html += `</div>`;
-
             return html;
         },
     })

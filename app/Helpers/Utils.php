@@ -23,6 +23,18 @@ class Utils
         return isset($object[$key]) && $object[$key] != null;
     }
 
+    static function toInt($value): int
+    {
+        if (gettype($value) == 'string') {
+            if (strlen($value) != 0) {
+                $value = intval($value);
+            } else {
+                $value = 1;
+            }
+        }
+        return $value;
+    }
+
     static function parseUrl($url)
     {
         if (Utils::startsWith($url, "http")) {

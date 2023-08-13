@@ -58,9 +58,9 @@ class CategoryController extends BaseApiController
         $validationRules = [
             'code' => [
                 'label' => 'Code',
-                'rules' => 'required|min_length[1]|regex_match[^[^0-9][a-zA-Z0-9_]+$]',
+                'rules' => 'required|min_length[1]|regex_match[^[^0-9][a-zA-Z0-9_\-]+$]',
                 'errors' => [
-                    'regex_match' => '{field} have to start with alphabet'
+                    'regex_match' => '{field} have to start with character'
                 ],
             ],
             'name' => [

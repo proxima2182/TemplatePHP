@@ -70,7 +70,7 @@
                 },
             }
             let keys = Object.keys(typeSet);
-            let html = `<div class="form-wrap">`;
+            let html = ``;
 
             for (let i in keys) {
                 let key = keys[i];
@@ -79,7 +79,6 @@
                     html += extracted;
                 }
             }
-            html += `</div>`;
             return html;
         },
     })

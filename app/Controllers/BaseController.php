@@ -75,6 +75,9 @@ abstract class BaseController extends Controller
         switch ($type) {
             case 'css' :
                 $getter = function ($url) {
+                    if (Utils::startsWith($url, '//') || Utils::startsWith($url, 'http')) {
+                        return "<link href=\"" . $url . "\" type=\"text/css\" rel=\"stylesheet\"/>";
+                    }
                     $url .= Utils::endsWith($url, '.css') ? '' : '.css';
                     $path = "/asset/css" . (Utils::startsWith($url, '/') ? '' : '/') . $url;
                     return "<link href=\"" . $path . "\" type=\"text/css\" rel=\"stylesheet\"/>";
@@ -83,6 +86,9 @@ abstract class BaseController extends Controller
             case 'js':
             case 'javascript':
                 $getter = function ($url) {
+                    if (Utils::startsWith($url, '//') || Utils::startsWith($url, 'http')) {
+                        return "<script src=\"" . $url . "\" type=\"text/javascript\"></script>";
+                    }
                     $url .= Utils::endsWith($url, '.js') ? '' : '.js';
                     $path = "/asset/js" . (Utils::startsWith($url, '/') ? '' : '/') . $url;
                     return "<script src=\"" . $path . "\" type=\"text/javascript\"></script>";

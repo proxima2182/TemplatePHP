@@ -2,17 +2,37 @@
 
 namespace Views\Admin;
 
+use App\Helpers\ServerLogger;
+use App\Helpers\Utils;
+use Exception;
+use Models\LocationModel;
+
 class LocationController extends BaseAdminController
 {
-    protected $categoryModel;
+    protected LocationModel $locationModel;
 
     public function __construct()
     {
-        $this->categoryModel = model('Models\CategoryModel');
+        $this->locationModel = model('Models\LocationModel');
     }
 
     function index($page = 1): string
     {
+        $page = Utils::toInt($page);
+        $result = null;
+        try {
+            $result = $this->locationModel->getPaginated([
+                'per_page' => $this->per_page,
+                'page' => $page,
+            ]);
+        } catch (Exception $e) {
+            ServerLogger::log($e);
+            //todo(log)
+            //TODO show error page
+        }
+        $data = array_merge($result, [
+            'pagination_link' => '/admin/location',
+        ]);
         return parent::loadHeader([
                 'css' => [
                     '/common/table',
@@ -20,89 +40,11 @@ class LocationController extends BaseAdminController
                 ],
                 'js' => [
                     '/module/popup_input',
+                    '//dapi.kakao.com/v2/maps/sdk.js?appkey=221aa6cfc43d262a0a90ca26facc9708&libraries=services',
+                    '/admin/location',
                 ],
             ])
-            . view('/admin/location', [
-                'array' => [
-                    [
-                        'id' => 0,
-                        'name' => 'point A',
-                        'address' => 'point A Address',
-                        'latitude' => 33.452278,
-                        'longitude' => 126.567803,
-                    ],
-                    [
-                        'id' => 1,
-                        'name' => 'point B',
-                        'address' => 'point B Address',
-                        'latitude' => 33.452671,
-                        'longitude' => 126.574792,
-                    ],
-                    [
-                        'id' => 2,
-                        'name' => 'point C',
-                        'address' => 'point C Address',
-                        'latitude' => 33.451744,
-                        'longitude' => 126.572441,
-                    ],
-                    [
-                        'id' => 3,
-                        'name' => 'point D',
-                        'address' => 'point D Address',
-                        'latitude' => 33.452744,
-                        'longitude' => 126.572441,
-                    ],
-                    [
-                        'id' => 4,
-                        'name' => 'point E',
-                        'address' => 'point E Address',
-                        'latitude' => 33.453744,
-                        'longitude' => 126.572441,
-                    ],
-                    [
-                        'id' => 5,
-                        'name' => 'point F',
-                        'address' => 'point F Address',
-                        'latitude' => 33.454744,
-                        'longitude' => 126.572441,
-                    ],
-                    [
-                        'id' => 6,
-                        'name' => 'point G',
-                        'address' => 'point G Address',
-                        'latitude' => 33.455744,
-                        'longitude' => 126.572441,
-                    ],
-                    [
-                        'id' => 7,
-                        'name' => 'point AA',
-                        'address' => 'point AA Address',
-                        'latitude' => 33.756744,
-                        'longitude' => 126.572441,
-                    ],
-                    [
-                        'id' => 8,
-                        'name' => 'point AB',
-                        'address' => 'point AB Address',
-                        'latitude' => 33.866744,
-                        'longitude' => 126.572441,
-                    ],
-                    [
-                        'id' => 9,
-                        'name' => 'point AC',
-                        'address' => 'point AC Address',
-                        'latitude' => 34.476744,
-                        'longitude' => 126.572441,
-                    ],
-                ],
-                'pagination' => [
-                    'per-page' => 30,
-                    'page' => 6,
-                    'total' => 180,
-                    'total-page' => 6,
-                ],
-                'pagination_link' => '/admin/location'
-            ])
+            . view('/admin/location', $data)
             . parent::loadFooter();
     }
 }

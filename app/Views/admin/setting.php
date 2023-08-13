@@ -3,12 +3,6 @@
         <h3 class="title">
             Setting
         </h3>
-        <div class="control-wrap">
-            <a href="javascript:openInputPopupCreate();" class="button create">
-                <img src="/asset/images/icon/plus.png"/>
-                <span>Create</span>
-            </a>
-        </div>
         <div class="list-wrap">
             <div class="list-box">
                 <div class="row-title">
@@ -60,13 +54,14 @@
                 },
                 name: {
                     type: 'text',
+                    editable: false,
                 },
                 value: {
                     type: 'text',
                 },
             }
             let keys = Object.keys(typeSet);
-            let html = `<div class="form-wrap">`;
+            let html = ``;
 
             for (let i in keys) {
                 let key = keys[i];
@@ -75,8 +70,6 @@
                     html += extracted;
                 }
             }
-
-            html += `</div>`;
             return html;
         },
         getControlHtml: function (data) {

@@ -34,14 +34,14 @@ class BaseClientController extends BaseController
         $this->links = $categories;
     }
 
-    function loadHeader($data): string
+    protected function loadHeader($data): string
     {
         return view('client/header', parent::loadDataForHeader($data, [
             'links' => $this->links
         ]));
     }
 
-    function loadFooter(): string
+    protected function loadFooter(): string
     {
         return view('client/footer');
     }

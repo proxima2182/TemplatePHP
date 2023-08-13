@@ -3,15 +3,15 @@
 namespace API;
 
 use CodeIgniter\HTTP\ResponseInterface;
+use Models\LocationModel;
 
 class LocationController extends BaseApiController
 {
-    protected $userModel;
+    protected LocationModel $locationModel;
 
     public function __construct()
     {
-        $this->db = db_connect();
-        $this->userModel = model('Models\UserModel');
+        $this->locationModel = model('Models\LocationModel');
     }
 
     /**
@@ -21,23 +21,7 @@ class LocationController extends BaseApiController
      */
     public function getLocation($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
-        $response = [
-            'success' => true,
-            'data' => [
-                'id' => 0,
-                'name' => 'point A',
-                'address' => 'point A Address',
-                'latitude' => 33.452278,
-                'longitude' => 126.567803,
-            ],
-            'message' => ""
-        ];
-        return $this->response->setJSON($response);
+        return $this->typicallyGet($this->locationModel, $id);
     }
 
     /**
@@ -46,12 +30,22 @@ class LocationController extends BaseApiController
      */
     public function createLocation(): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
+        $data = $this->request->getPost();
+        $validationRules = [
+            'address' => [
+                'label' => 'Address',
+                'rules' => 'required|min_length[1]',
+            ],
+            'latitude' => [
+                'label' => 'Latitude',
+                'rules' => 'required|min_length[1]',
+            ],
+            'longitude' => [
+                'label' => 'Longitude',
+                'rules' => 'required|min_length[1]',
+            ],
         ];
-        return $this->response->setJSON($response);
+        return $this->typicallyCreate($this->locationModel, $data, $validationRules);
     }
 
     /**
@@ -61,12 +55,8 @@ class LocationController extends BaseApiController
      */
     public function updateLocation($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
-        return $this->response->setJSON($response);
+        $data = $this->request->getPost();
+        return $this->typicallyUpdate($this->locationModel, $id, $data);
     }
 
     /**
@@ -76,11 +66,6 @@ class LocationController extends BaseApiController
      */
     public function deleteLocation($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
-        return $this->response->setJSON($response);
+        return $this->typicallyDelete($this->locationModel, $id);
     }
 }

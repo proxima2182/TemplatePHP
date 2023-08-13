@@ -98,7 +98,7 @@ use App\Helpers\Utils;
                 },
             }
             let keys = Object.keys(typeSet);
-            let html = `<div class="form-wrap">`;
+            let html = ``;
 
             for (let i in keys) {
                 let key = keys[i];
@@ -107,7 +107,6 @@ use App\Helpers\Utils;
                     html += extracted;
                 }
             }
-            html += `</div>`;
             return html;
         },
         deleteMessage: "If you delete this row, you will be lost related data.<br/>Are you sure to delete?",
