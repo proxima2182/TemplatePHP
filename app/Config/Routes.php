@@ -49,6 +49,7 @@ $routes->get('/topic/([0-9]+)/edit', [\Views\BoardController::class, 'editTopic'
 //admin pages
 $routes->get('/admin/board/([0-9]+)', [\Views\Admin\BoardController::class, 'index']);
 $routes->addRedirect('/admin/board', '/admin/board/1');
+$routes->addRedirect('/admin', '/admin/board/1');
 $routes->get('/admin/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/([0-9]+)', [\Views\Admin\BoardController::class, 'getBoard']);
 $routes->addRedirect('/admin/board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/admin/board/$1/1');
 $routes->get('/admin/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/topic/create', [\Views\Admin\BoardController::class, 'createTopic']);
@@ -110,6 +111,7 @@ $routes->get('/api/topic/reply/get/([0-9]+)/nested', [\API\TopicController::clas
 $routes->get('/api/topic/reply/get/([0-9]+)', [\API\TopicController::class, 'getReply']);
 $routes->delete('/api/topic/reply/delete/([0-9]+)', [\API\TopicController::class, 'deleteReply']);
 
+$routes->get('/api/location/get/all', [\API\LocationController::class, 'getLocationAll']);
 $routes->get('/api/location/get/([0-9]+)', [\API\LocationController::class, 'getLocation']);
 $routes->post('/api/location/create', [\API\LocationController::class, 'createLocation']);
 $routes->post('/api/location/update/([0-9]+)', [\API\LocationController::class, 'updateLocation']);

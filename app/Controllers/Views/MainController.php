@@ -3,31 +3,66 @@
 namespace Views;
 
 use App\Helpers\ServerLogger;
+use Exception;
+use Models\LocationModel;
 use Models\UserModel;
 
 class MainController extends BaseClientController
 {
 
     protected UserModel $userModel;
+    protected LocationModel $locationModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->userModel = model('Models\UserModel');
+        $this->locationModel = model('Models\LocationModel');
     }
 
 
+    /**
+     * main 페이지
+     * @return string
+     */
     public function index()
     {
+        $data = [];
+        try {
+            // for pagination
+            $result = $this->locationModel->getPaginated([
+                'per_page' => 100,
+                'page' => 1,
+            ]);
+            $data['locations'] = $result;
+//            // for loading total at first
+//            $result = $this->locationModel->get();
+//            $data['locations'] = [
+//                'array' => $result,
+//                'pagination' => [
+//                    'page' => 0,
+//                    'per-page' => 0,
+//                    'total' => 0,
+//                    'total-page' => 0,
+//                ]
+//            ];
+        } catch (Exception $e) {
+            //todo(log)
+            //TODO show error page
+        }
         // TODO 가능하면 첫 앱 실행때 체크하는 걸로 변경 필요
         $this->userModel->checkAdmin();
-        $data = array_merge([
+        $data = array_merge($data, [
             "links" => $this->links,
             'is_login' => $this->session->is_login,
         ]);
         return view('/client/main', $data);
     }
 
+    /**
+     * 이미지를 해당 페이지에 render 해 주는 페이지
+     * @return string
+     */
     public function getFrameView(): string
     {
         $queryParams = $this->request->getGet();

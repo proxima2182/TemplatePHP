@@ -2,7 +2,9 @@
 
 namespace API;
 
+use App\Helpers\Utils;
 use CodeIgniter\HTTP\ResponseInterface;
+use Exception;
 use Models\LocationModel;
 
 class LocationController extends BaseApiController
@@ -12,6 +14,32 @@ class LocationController extends BaseApiController
     public function __construct()
     {
         $this->locationModel = model('Models\LocationModel');
+    }
+
+    /**
+     * [get] /api/location/get/all
+     * @return ResponseInterface
+     */
+    public function getLocationAll(): ResponseInterface
+    {
+        $queryParams = $this->request->getGet();
+        $response = [
+            'success' => false,
+        ];
+        $page = Utils::toInt($queryParams['page'] ?? 1);
+        $per_page = Utils::toInt($queryParams['per-page'] ?? $this->per_page);
+        try {
+            $result = $this->locationModel->getPaginated([
+                'per_page' => $per_page,
+                'page' => $page,
+            ]);
+            $response['success'] = true;
+            $response['data'] = $result;
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
+        return $this->response->setJSON($response);
     }
 
     /**

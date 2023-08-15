@@ -104,9 +104,7 @@ $sliderImages = [
     <script type="text/javascript">
         addEventListener('customMapLoad', function () {
             let points = [];
-            <?php
-            foreach ($points as $index => $point) {
-            ?>
+            <?php foreach ($locations['array'] as $index => $point) { ?>
             points.push({
                 name: '<?=$point['name']?>',
                 latitude: '<?=$point['latitude']?>',
@@ -265,9 +263,13 @@ $sliderImages = [
         <div class="page-inner">
             <div class="list-box">
                 <h3 class="title">Map Locations</h3>
-                <div class="list-wrap">
+                <?php $locationPagination = $locations['pagination']; ?>
+                <div class="list-wrap" page="<?= $locationPagination['page'] ?>"
+                     per-page="<?= $locationPagination['per-page'] ?>"
+                     total="<?= $locationPagination['total'] ?>"
+                     total-page="<?= $locationPagination['total-page'] ?>">
                     <ul>
-                        <?php foreach ($points as $index => $point) { ?>
+                        <?php foreach ($locations['array'] as $index => $point) { ?>
                             <li class="button">
                                 <div class="text-wrap">
                                     <div class="title"><?= $point['name'] ?></div>

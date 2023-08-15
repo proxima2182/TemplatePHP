@@ -2,7 +2,6 @@
 
 namespace Models;
 
-use App\Helpers\ServerLogger;
 use Leaf\Helpers\Password;
 
 /*
@@ -37,7 +36,6 @@ class UserModel extends BaseModel
         $result = $this->builder()->getWhere(["username" => "admin"])->getResultArray();
         if (count($result) == 0) {
             $password = Password::hash("admin", Password::BCRYPT);
-            ServerLogger::log($password);
             $data = [
                 "username" => "admin",
                 "type" => "admin",
