@@ -52,15 +52,32 @@
             background: #eee;
         }
 
-        .reply-wrap .button.more {
-            padding: 5px 10px;
+        .reply-wrap .reply .button {
+            padding: 5px 8px;
             box-sizing: border-box;
-            line-height: 20px;
-            font-size: 14px;
+            position: relative;
         }
 
-        .reply-wrap .button.more * {
-            vertical-align: middle;
+        .reply-wrap .reply .button:hover:after {
+            content: "";
+            display: inline-block;
+            height: 1px;
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            right: 6px;
+            background: #444;
+        }
+
+        .reply-wrap .reply .button img {
+            margin-left: 4px;
+            vertical-align: bottom;
+        }
+
+        .reply-wrap .reply .button span {
+            line-height: 20px;
+            font-size: 14px;
+            vertical-align: bottom;
         }
 
         .reply-wrap .pages {
@@ -108,47 +125,87 @@
             font-weight: 400;
             border-bottom: 1px solid #333;
         }
+
+        .reply-wrap .input-wrap.reply {
+            width: 100%;
+            position: relative;
+        }
+
+        .reply-wrap .input-wrap.reply textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: 200;
+            border: none;
+        }
+
+        .reply-wrap .input-wrap.reply .button.float {
+            text-align: center;
+            position: absolute;
+            right: 5px;
+            bottom: 5px;
+            font-size: 0;
+        }
+
+        .reply-wrap .list.reply textarea {
+            height: 50px;
+            padding: 10px 20px;
+            background: #eee;
+        }
+
+        .reply-wrap .list.reply .button.float {
+            right: 10px;
+        }
     </style>
 
     <div class="reply-wrap">
-        <ul class="reply">
+        <ul class="list reply">
             <?php
             $is_line_horizontal = true;
             foreach ($array as $index => $reply) { ?>
                 <li id="reply-<?= $reply['id'] ?>">
-                    <div class="row <?= $is_line_horizontal ? 'lines-horizontal' : 'line-after' ?>">
+                    <div class="row selector <?= $is_line_horizontal ? 'lines-horizontal' : 'line-after' ?>"
+                         onclick="showNestedCommentInput(this, <?= $reply['id'] ?>)" id="<?= $reply['id'] ?>">
                         <span class="column user"><?= $reply['user_name'] ?></span>
                         <span class="column content"><?= $reply['content'] ?></span>
                         <span class="column created-at"><?= $reply['created_at'] ?></span>
                     </div>
                     <?php
-                    $is_line_horizontal = false;
-                    if (isset($reply['nested_reply']['total']) && $reply['nested_reply']['total'] > 0) {
-                        $is_line_horizontal = true;
-                        ?>
-                        <ul class="nested-reply">
-                            <?php foreach ($reply['nested_reply']['array'] as $nested_index => $nested_reply) { ?>
-                                <li>
-                                    <div class="row">
-                                        <span class="column user"><?= $nested_reply['user_name'] ?></span>
-                                        <span class="column content"><?= $nested_reply['content'] ?></span>
-                                        <span class="column created-at"><?= $nested_reply['created_at'] ?></span>
-                                    </div>
-                                </li>
-                            <?php } ?>
-                        </ul>
-                        <?php if ($reply['nested_reply']['page'] < $reply['nested_reply']['total-page']) { ?>
-                            <div class="button-wrap more">
-                                <a href="javascript:loadNestedReply(<?= $reply['id'] ?>,1);" class="button more">
-                                    <span>See More</span>
-                                    <img src="/asset/images/icon/plus.png"/>
-                                </a>
-                            </div>
-                        <?php }
-                    } ?>
+//                    $is_line_horizontal = false;
+//                    if (isset($reply['nested_reply']['total']) && $reply['nested_reply']['total'] > 0) {
+//                        $is_line_horizontal = true; ?>
+<!--                        <ul class="nested-reply">-->
+<!--                            --><?php //foreach ($reply['nested_reply']['array'] as $nested_index => $nested_reply) { ?>
+<!--                                <li>-->
+<!--                                    <div class="row">-->
+<!--                                        <span class="column user">--><?php //= $nested_reply['user_name'] ?><!--</span>-->
+<!--                                        <span class="column content"> --><?php //= $nested_reply['content'] ?><!--</span>-->
+<!--                                        <span class="column created-at">-->
+<!--                    --><?php //= $nested_reply['created_at'] ?><!--</span>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                            --><?php //} ?>
+<!--                        </ul>-->
+<!--                        --><?php //if ($reply['nested_reply']['page'] < $reply['nested_reply']['total-page']) { ?>
+<!--                            <div class="button-wrap more">-->
+<!--                                <a href="javascript:loadNestedReply(--><?php //= $reply['id'] ?><!--,1);" class="button more">-->
+<!--                                    <span>See More</span>-->
+<!--                                    <img src="/asset/images/icon/plus.png"/>-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        --><?php //}
+//                    } ?>
                 </li>
             <?php } ?>
         </ul>
+        <div class="input-wrap reply line-after">
+            <textarea placeholder="Comment" name="comment"></textarea>
+            <a href="javascript:addReply(<?= $topic_id ?>)" class="button float">
+                <span>Send</span>
+                <img src="/asset/images/icon/send.png"/>
+            </a>
+        </div>
         <div class="pages">
             <?php
             $number = $pagination['total'] - ($pagination['page'] - 1) * $pagination['per-page'];
@@ -208,51 +265,51 @@
                 is_line_horizontal = false;
 
 
-                if (item['nested_reply']['total'] && item['nested_reply']['total'] > 0) {
-                    is_line_horizontal = true;
+                //     if (item['nested_reply']['total'] && item['nested_reply']['total'] > 0) {
+                //         is_line_horizontal = true;
+                //         html += `<ul class="nested-reply">`
+                //         let nested_array = item['nested_reply']['array'];
+                //         for (let j in nested_array) {
+                //             let item = nested_array[j]
+                //             html += `
+                //                     <li>
+                //                         <div class="row">
+                //                             <span class="column user">${item['user_name']}</span>
+                //                             <span class="column content">${item['content']}</span>
+                //                             <span class="column  created-at">${item['created_at']}</span>
+                //                         </div>
+                //                     </li>`;
+                //         }
+                //         html += `</ul>`;
+                //         if (item['nested_reply']['page'] < item['nested_reply']['total-page']) {
+                //             html += `
+                //                 <div class="button-wrap more">
+                //                     <a href="javascript:loadNestedReply(${item['id']},1);" class="button more">
+                //                         <span>See More</span>
+                //                         <img src="/asset/images/icon/plus.png"/>
+                //                     </a>
+                //                 </div>`;
+                //         }
+                //         html += `</li>`;
+                //     }
+                //     html += `</ul>`;
+                // }
+
+                parent.append(html);
+            }
+
+            function addReplyNestedItems(parent, array) {
+                if (typeof parent === 'string') {
+                    parent = $(parent);
                 }
-                html += `<ul class="nested-reply">`
-                let nested_array = item['nested_reply']['array'];
-                for (let j in nested_array) {
-                    let item = nested_array[j]
+                if (!parent || !parent.get(0)) {
+                    return
+                }
+                let html = ``;
+
+                for (let i in array) {
+                    let item = array[i];
                     html += `
-                                <li>
-                                    <div class="row">
-                                        <span class="column user">${item['user_name']}</span>
-                                        <span class="column content">${item['content']}</span>
-                                        <span class="column  created-at">${item['created_at']}</span>
-                                    </div>
-                                </li>`;
-                }
-                html += `</ul>`;
-                if (item['nested_reply']['page'] < item['nested_reply']['total-page']) {
-                    html += `
-                            <div class="button-wrap more">
-                                <a href="javascript:loadNestedReply(${item['id']},1);" class="button more">
-                                    <span>See More</span>
-                                    <img src="/asset/images/icon/plus.png"/>
-                                </a>
-                            </div>`;
-                }
-                html += `</li>`;
-            }
-            html += `</ul>`;
-
-            parent.append(html);
-        }
-
-        function addReplyNestedItems(parent, array) {
-            if (typeof parent === 'string') {
-                parent = $(parent);
-            }
-            if (!parent || !parent.get(0)) {
-                return
-            }
-            let html = ``;
-
-            for (let i in array) {
-                let item = array[i];
-                html += `
                     <li>
                         <div class="row">
                             <span class="column user">${item['user_name']}</span>
@@ -260,110 +317,145 @@
                             <span class="column  created-at">${item['created_at']}</span>
                         </div>
                     </li>`;
+                }
+
+                parent.append(html);
             }
 
-            parent.append(html);
-        }
+            function addReplyPagination(parent, pagination) {
+                if (typeof parent === 'string') {
+                    parent = $(parent);
+                }
+                if (!parent ||
+                    !parent.get(0) ||
+                    !pagination ||
+                    !pagination['total'] ||
+                    !pagination['page'] ||
+                    !pagination['total-page'] ||
+                    !pagination['per-page']) {
+                    return;
+                }
 
-        function addReplyPagination(parent, pagination) {
-            if (typeof parent === 'string') {
-                parent = $(parent);
+                let page = pagination['page'];
+                let total_page = pagination['total-page'];
+
+                let start = Math.floor((page - 1) / 5) * 5 + 1;
+                let end = (Math.floor((page - 1) / 5) + 1) * 5;
+                end = Math.min(end, total_page);
+
+                let html = "";
+
+                html += `<div class="pages">`
+
+                if (start == 1) {
+                    html += `<span class="button disabled"><a href="#" onclick="return false"></a></span>`;
+                } else {
+                    html += `<span class="button left"><a href="javascript:loadReply(${start - 5})"></a></span>`;
+                }
+
+                for (let i = start; i <= end; ++i) {
+                    html += `<span class="number ${i == page ? 'now' : ''}"><a href="javascript:loadReply(${i})">${i}</a></span>`;
+                }
+                if (total_page == end) {
+                    html += `<span className="button disabled"><a href="#" onClick="return false"></a></span>`;
+                } else {
+                    html += `<span class="button left"><a href="javascript:loadReply(${start - 5})"></a></span>`;
+                }
+
+                html += `</div>`;
+
+                parent.append(html);
             }
-            if (!parent ||
-                !parent.get(0) ||
-                !pagination ||
-                !pagination['total'] ||
-                !pagination['page'] ||
-                !pagination['total-page'] ||
-                !pagination['per-page']) {
-                return;
+
+            function loadReply(id) {
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    url: `/api/topic/get/${id}/reply`,
+                    success: function (response, status, request) {
+                        if (!response.success) return;
+                        let data = response.data;
+                        const wrap = $('.reply-wrap');
+                        wrap.empty()
+
+                        addReplyItems(wrap, data.array)
+                        addReplyPagination(wrap, data)
+
+                        resizeReplyWrap();
+                    },
+                    error: function (response, status, error) {
+                    },
+                })
             }
 
-            let page = pagination['page'];
-            let total_page = pagination['total-page'];
+            function loadNestedReply(reply_id, page = 1) {
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    url: `/api/topic/reply/get/${reply_id}/nested?page=${page + 1}`,
+                    success: function (response, status, request) {
+                        if (!response.success) return;
+                        let data = response.data;
+                        addReplyNestedItems(`#reply-${reply_id} .nested-reply`, data.array)
 
-            let start = Math.floor((page - 1) / 5) * 5 + 1;
-            let end = (Math.floor((page - 1) / 5) + 1) * 5;
-            end = Math.min(end, total_page);
+                        let moreButtonWrap = $(`#reply-${reply_id} .button-wrap`)
 
-            let html = "";
-
-            html += `<div class="pages">`
-
-            if (start == 1) {
-                html += `<span class="button disabled"><a href="#" onclick="return false"></a></span>`;
-            } else {
-                html += `<span class="button left"><a href="javascript:loadReply(${start - 5})"></a></span>`;
-            }
-
-            for (let i = start; i <= end; ++i) {
-                html += `<span class="number ${i == page ? 'now' : ''}"><a href="javascript:loadReply(${i})">${i}</a></span>`;
-            }
-            if (total_page == end) {
-                html += `<span className="button disabled"><a href="#" onClick="return false"></a></span>`;
-            } else {
-                html += `<span class="button left"><a href="javascript:loadReply(${start - 5})"></a></span>`;
-            }
-
-            html += `</div>`;
-
-            parent.append(html);
-        }
-
-        function loadReply(id) {
-            $.ajax({
-                type: 'GET',
-                dataType: 'json',
-                url: `/api/topic/get/${id}/reply`,
-                success: function (response, status, request) {
-                    if (!response.success) return;
-                    let data = response.data;
-                    const wrap = $('.reply-wrap');
-                    wrap.empty()
-
-                    addReplyItems(wrap, data.array)
-                    addReplyPagination(wrap, data)
-
-                    resizeReplyWrap();
-                },
-                error: function (response, status, error) {
-                },
-            })
-        }
-
-        function loadNestedReply(reply_id, page = 1) {
-            $.ajax({
-                type: 'GET',
-                dataType: 'json',
-                url: `/api/topic/reply/get/${reply_id}/nested?page=${page + 1}`,
-                success: function (response, status, request) {
-                    if (!response.success) return;
-                    let data = response.data;
-                    addReplyNestedItems(`#reply-${reply_id} .nested-reply`, data.array)
-
-                    let moreButtonWrap = $(`#reply-${reply_id} .button-wrap`)
-
-                    if (data['page'] >= data['total-page']) {
-                        moreButtonWrap.remove()
-                    } else {
-                        moreButtonWrap.empty()
-                        moreButtonWrap.append(
-                            `<div class="button-wrap more">
+                        if (data['page'] >= data['total-page']) {
+                            moreButtonWrap.remove()
+                        } else {
+                            moreButtonWrap.empty()
+                            moreButtonWrap.append(
+                                `<div class="button-wrap more">
                                 <a href="javascript:loadNestedReply(${reply_id},${page + 1});" class="button more">
                                     <span>See More</span>
                                     <img src="/asset/images/icon/plus.png"/>
                                 </a>
                             </div>`
-                        )
-                    }
+                            )
+                        }
 
-                    resizeReplyWrap();
-                },
-                error: function (response, status, error) {
-                },
-            })
-        }
+                        resizeReplyWrap();
+                    },
+                    error: function (response, status, error) {
+                    },
+                })
+            }
 
-        resizeReplyWrap();
+            function clearNestedCommentInput(reply_id) {
+                let elementCommentInput = $(`.reply-wrap .list.reply .input-wrap.reply`).get(0);
+                console.log(reply_id && elementCommentInput && elementCommentInput.getAttribute('id') == reply_id)
+                if (reply_id && elementCommentInput && elementCommentInput.getAttribute('id') == reply_id) {
+                    return false;
+                } else {
+                    $(`.reply-wrap .list.reply .input-wrap.reply`).remove();
+                }
+                return true;
+            }
+
+            function showNestedCommentInput(element, reply_id) {
+                if (!clearNestedCommentInput(reply_id)) {
+                    $(`#reply-${reply_id} textarea`).focus();
+                    return;
+                }
+
+                let classes;
+                let elementNestedReply = $(`#reply-${reply_id} > ul.nested-reply`).get(0);
+                if (elementNestedReply && elementNestedReply.children.length > 0) {
+                    classes = 'line-before'
+                } else {
+                    classes = 'line-after'
+                }
+                $(`#reply-${reply_id}`).append(`
+            <div class="input-wrap reply ${classes}" id=${reply_id}>
+                <textarea placeholder="Comment" name="comment"></textarea>
+                <a href="javascript:addNestedReply(${reply_id})" class="button float">
+                    <span>Send</span>
+                    <img src="/asset/images/icon/send.png"/>
+                </a>
+            </div>`)
+                $(`#reply-${reply_id} textarea`).focus();
+            }
+
+            resizeReplyWrap();
     </script>
 <?php } ?>

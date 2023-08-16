@@ -19,9 +19,10 @@ final class HtmlHelper
         return View("pagination", $data);
     }
 
-    public static function getReply($input): string
+    public static function getReply($topic_id, $input): string
     {
         $data = [];
+        $data['topic_id'] = $topic_id;
         if (isset($input)) {
             if (isset($input['page']) && isset($input['per-page']) && isset($input['total']) && isset($input['total-page'])) {
                 $data['pagination'] = [

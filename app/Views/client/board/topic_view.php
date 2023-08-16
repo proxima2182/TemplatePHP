@@ -135,7 +135,7 @@ $reply = [
         </div>
     </div>
 </div>
-<?= \App\Helpers\HtmlHelper::getReply($reply); ?>
+<?= \App\Helpers\HtmlHelper::getReply($id, $reply); ?>
 <script type="text/javascript">
     $('.slider-wrap .slick').slick({
         slidesToShow: 4,

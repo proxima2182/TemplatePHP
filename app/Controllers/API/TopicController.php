@@ -2,22 +2,26 @@
 
 namespace API;
 
+use App\Helpers\Utils;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\BaseModel;
 use Models\ImageFileModel;
+use Models\ReplyModel;
 use Models\TopicModel;
 
 class TopicController extends BaseApiController
 {
     protected TopicModel $topicModel;
     protected ImageFileModel $imageFileModel;
+    protected ReplyModel $replyModel;
 
     public function __construct()
     {
         $this->db = db_connect();
         $this->topicModel = model('Models\TopicModel');
         $this->imageFileModel = model('Models\ImageFileModel');
+        $this->replyModel = model('Models\ReplyModel');
     }
 
     /**
@@ -136,101 +140,116 @@ class TopicController extends BaseApiController
      */
     public function deleteTopic($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
-        return $this->response->setJSON($response);
+        return $this->typicallyUpdate($this->topicModel, $id, [
+            'is_deleted' => 1
+        ]);
     }
 
     /**
-     * [get] /api/topic/get/{id}/reply
-     * @param $id
+     * [get] /api/topic/get/{topic_id}/reply
+     * @param $topic_id
      * @return ResponseInterface
      */
-    public function getTopicReply($id): ResponseInterface
+    public function getTopicReply($topic_id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
         $queryParams = $this->request->getGet();
-        $page = $queryParams['page'] ?? 1;
+        $page = Utils::toInt($queryParams['page']);
 
-        $response = [
-            'success' => true,
-            'data' => [
-                'page' => 3,
-                'per-page' => 10,
-                'total' => 13,
-                'total-page' => 3,
-                'array' => [
-                    [
-                        'id' => 6,
-                        'user_name' => 'Lorem Ipsum',
-                        'depth' => 0,
-                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                        'created_at' => '2023-07-03 22:35:00',
-                        'nested_reply' => [
-                            'page' => 1,
-                            'per-page' => 10,
-                            'total' => 2,
-                            'total-page' => 3,
-                            'array' => [
-                                [
-                                    'user_name' => 'Lorem Ipsum',
-                                    'depth' => 1,
-                                    'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                                    'created_at' => '2023-07-03 22:35:00',
-                                ],
-                                [
-                                    'user_name' => 'Lorem Ipsum',
-                                    'depth' => 1,
-                                    'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                                    'created_at' => '2023-07-03 22:35:00',
-                                ],
-                            ],
-                        ],
-                    ],
-                    [
-                        'id' => 7,
-                        'user_name' => 'Lorem Ipsum',
-                        'depth' => 0,
-                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                        'created_at' => '2023-07-03 22:35:00',
-                        'nested_reply' => [
-                            'page' => 1,
-                            'per-page' => 10,
-                            'total' => 0,
-                            'total-page' => 0,
-                            'array' => [],
-                        ],
-                    ],
-                    [
-                        'id' => 8,
-                        'user_name' => 'Lorem Ipsum',
-                        'depth' => 0,
-                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                        'created_at' => '2023-07-03 22:35:00',
-                        'nested_reply' => [
-                            'page' => 1,
-                            'per-page' => 10,
-                            'total' => 0,
-                            'total-page' => 0,
-                            'array' => [],
-                        ],
-                    ],
-                ],
-            ],
-            'message' => ""
-        ];
+        try {
+            $result = $this->replyModel->getPaginated([
+                'per_page' => 10,
+                'page' => $page,
+            ], [
+                'topic_id' => $topic_id,
+                'depth' => 0]);
+            $response['success'] = true;
+            $response['data'] = $result;
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
         return $this->response->setJSON($response);
+//        $response = [
+//            'success' => false,
+//            'data' => [],
+//            'message' => ""
+//        ];
+//        $queryParams = $this->request->getGet();
+//        $page = $queryParams['page'] ?? 1;
+//
+//        $response = [
+//            'success' => true,
+//            'data' => [
+//                'page' => 3,
+//                'per-page' => 10,
+//                'total' => 13,
+//                'total-page' => 3,
+//                'array' => [
+//                    [
+//                        'id' => 6,
+//                        'user_name' => 'Lorem Ipsum',
+//                        'depth' => 0,
+//                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+//                        'created_at' => '2023-07-03 22:35:00',
+//                        'nested_reply' => [
+//                            'page' => 1,
+//                            'per-page' => 10,
+//                            'total' => 2,
+//                            'total-page' => 3,
+//                            'array' => [
+//                                [
+//                                    'user_name' => 'Lorem Ipsum',
+//                                    'depth' => 1,
+//                                    'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+//                                    'created_at' => '2023-07-03 22:35:00',
+//                                ],
+//                                [
+//                                    'user_name' => 'Lorem Ipsum',
+//                                    'depth' => 1,
+//                                    'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+//                                    'created_at' => '2023-07-03 22:35:00',
+//                                ],
+//                            ],
+//                        ],
+//                    ],
+//                    [
+//                        'id' => 7,
+//                        'user_name' => 'Lorem Ipsum',
+//                        'depth' => 0,
+//                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+//                        'created_at' => '2023-07-03 22:35:00',
+//                        'nested_reply' => [
+//                            'page' => 1,
+//                            'per-page' => 10,
+//                            'total' => 0,
+//                            'total-page' => 0,
+//                            'array' => [],
+//                        ],
+//                    ],
+//                    [
+//                        'id' => 8,
+//                        'user_name' => 'Lorem Ipsum',
+//                        'depth' => 0,
+//                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+//                        'created_at' => '2023-07-03 22:35:00',
+//                        'nested_reply' => [
+//                            'page' => 1,
+//                            'per-page' => 10,
+//                            'total' => 0,
+//                            'total-page' => 0,
+//                            'array' => [],
+//                        ],
+//                    ],
+//                ],
+//            ],
+//            'message' => ""
+//        ];
+//        return $this->response->setJSON($response);
     }
 
     /**
-     * [get] /api/topic/reply/get/{id}
+     * [get] /api/topic/reply/get/{reply_id}
+     * admin-reply
      * @param $reply_id
      * @return ResponseInterface
      */
@@ -271,36 +290,20 @@ class TopicController extends BaseApiController
      */
     public function getNestedReply($reply_id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
         $queryParams = $this->request->getGet();
-        $page = $queryParams['page'] ?? 1;
+        $page = Utils::toInt($queryParams['page']);
 
-        $response = [
-            'page' => 3,
-            'per-page' => 10,
-            'total' => 2,
-            'total-page' => 3,
-            'array' => [
-                [
-                    'id' => 9,
-                    'user_name' => 'Lorem Ipsum',
-                    'depth' => 1,
-                    'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                    'created_at' => '2023-07-03 22:35:00',
-                ],
-                [
-                    'id' => 10,
-                    'user_name' => 'Lorem Ipsum',
-                    'depth' => 1,
-                    'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                    'created_at' => '2023-07-03 22:35:00',
-                ],
-            ],
-        ];
+        try {
+            $result = $this->replyModel->getPaginated([
+                'per_page' => 10,
+                'page' => $page,
+            ], ['reply_id' => $reply_id]);
+            $response['success'] = true;
+            $response['data'] = $result;
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
         return $this->response->setJSON($response);
     }
 
@@ -311,11 +314,8 @@ class TopicController extends BaseApiController
      */
     public function deleteReply($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
-        return $this->response->setJSON($response);
+        return $this->typicallyUpdate($this->replyModel, $id, [
+            'is_deleted' => 1
+        ]);
     }
 }
