@@ -10,11 +10,11 @@
 
 .topic-wrap .text-wrap .content {
     margin: 10px 20px;
-    min-height: 150px;
+    min-height: 250px;
     font-size: 18px;
 }
 
-.topic-wrap .control-wrap {
+.topic-wrap .control-button-wrap {
     line-height: 20px;
     position: absolute;
     bottom: 20px;

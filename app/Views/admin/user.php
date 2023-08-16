@@ -1,6 +1,6 @@
 <div class="container-inner">
     <div class="inner-box">
-        <h3 class="title">
+        <h3 class="page-title">
             User
         </h3>
         <div class="list-wrap">

@@ -31,7 +31,7 @@ function getPopupStyle(className) {
         margin: 0 10px;
     }
     
-    .${className} .popup-inner .control-wrap.absolute {
+    .${className} .popup-inner .control-button-wrap.absolute {
         line-height: 20px;
         text-align: right;
         position: absolute;
@@ -45,11 +45,11 @@ function getPopupStyle(className) {
         padding: 5px 20px 15px 20px;
     }
     
-    .${className} .form-wrap .input-wrap .input-title {
+    .${className} .form-wrap .input-wrap.inline .input-title {
         width: calc(30% - 15px);
     }
     
-    .${className} .form-wrap .input-wrap input:not([type=checkbox]), .${className} .form-wrap .input-wrap textarea {
+    .${className} .form-wrap .input-wrap.inline input:not([type=checkbox]), .${className} .form-wrap .input-wrap textarea {
         width: 70%;
     }
     
@@ -137,7 +137,7 @@ function fromDataToHtml(key, data, typeSet) {
             let option = `${checkClasses()} ${isReadOnly ? `readonly` : ``} 
             ${value ? `readonly` : ``} ${value && value == 1 ? 'checked' : ''}`
             return `
-                <div class="input-wrap">
+                <div class="input-wrap inline">
                     <p class="input-title">${name}</p>
                     <input type="checkbox" name="${key}" ${option}/>
                 </div>`
@@ -145,7 +145,7 @@ function fromDataToHtml(key, data, typeSet) {
         case 'select': {
             let option = `${checkClasses()} ${isReadOnly ? `disabled` : ``}`
             let html = `
-            <div class="input-wrap">
+            <div class="input-wrap inline">
                 <p class="input-title">${name}</p>
                 <select name="${key}" value="${value ?? ''}" ${option}>`
             if (set && set['options']) {
@@ -166,7 +166,7 @@ function fromDataToHtml(key, data, typeSet) {
         case 'textarea': {
             let option = `${checkClasses(['under-line'])} ${isReadOnly ? `readonly` : ``}`
             return `
-                <div class="input-wrap">
+                <div class="input-wrap inline">
                     <p class="input-title">${name}</p>
                     <textarea name="${key}" onkeydown="resizeInputPopupTextarea(this)" onkeyup="resizeInputPopupTextarea(this)" ${option}>${value ? value.toTextareaString() : ''}</textarea>
                 </div>`
@@ -174,7 +174,7 @@ function fromDataToHtml(key, data, typeSet) {
         default: {
             let option = `${checkClasses(['under-line'])} ${isReadOnly ? `readonly` : ``} ${integer ? `oninput="this.value=this.value.replace(/[^0-9]/g,'');"` : ``}`
             return `
-                <div class="input-wrap">
+                <div class="input-wrap inline">
                     <p class="input-title">${name}</p>
                     <input type="${type}" name="${key}" ${option} value="${value ?? ''}"/>
                 </div>`
@@ -220,7 +220,7 @@ function addInputPopupControlWrap(className, data) {
     })
     if (controlHtml != undefined) {
         $(`.${className} .popup-inner`).append(
-            `<div class="control-wrap absolute line-before">
+            `<div class="control-button-wrap absolute line-before">
             <div class="control-box">
                 ${controlHtml}
             </div>
@@ -228,7 +228,7 @@ function addInputPopupControlWrap(className, data) {
         );
     } else {
         $(`.${className} .popup-inner`).append(`
-        <div class="control-wrap absolute line-before">
+        <div class="control-button-wrap absolute line-before">
             <div class="control-box">
                 <a href="javascript:editInputPopup('${className}',${data['id']})"
                    class="button edit">
@@ -363,7 +363,7 @@ async function openInputPopupCreate() {
             "padding-bottom": "61px",
         })
         $(`.${className} .popup-inner`).append(`
-        <div class="control-wrap absolute line-before">
+        <div class="control-button-wrap absolute line-before">
             <div class="control-box">
                 <a href="javascript:closePopup('${className}');" class="button cancel">
                     <img src="/asset/images/icon/cancel.png"/>
@@ -388,10 +388,10 @@ function editInputPopup(className, id) {
     $(`.${className} .form-wrap .editable`).not(`.readonly`).removeAttr('readonly')
     $(`.${className} .form-wrap .editable`).not(`.readonly`).removeAttr('disabled')
     $(`.${className} .form-wrap .button-wrap`).remove();
-    $(`.${className} .popup-inner .control-wrap`).remove();
+    $(`.${className} .popup-inner .control-button-wrap`).remove();
 
     $(`.${className} .popup-inner`).append(`
-    <div class="control-wrap absolute line-before">
+    <div class="control-button-wrap absolute line-before">
         <div class="control-box">
             <a href="javascript:refreshInputPopup(${id});" class="button cancel">
                 <img src="/asset/images/icon/cancel.png"/>

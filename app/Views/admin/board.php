@@ -1,9 +1,9 @@
 <div class="container-inner">
     <div class="inner-box">
-        <h3 class="title">
+        <h3 class="page-title">
             Board
         </h3>
-        <div class="control-wrap">
+        <div class="control-button-wrap">
             <a href="javascript:openInputPopupCreate();" class="button create">
                 <img src="/asset/images/icon/plus.png"/>
                 <span>Create</span>
@@ -100,7 +100,7 @@
 
             // copy text button
             html += `
-            <div class="input-wrap" style="position: relative;">
+            <div class="input-wrap inline" style="position: relative;">
                 <p class="input-title">Link</p>
                 <input type="text" name="link" class="under-line" readonly value="/board/${data['code']}">
                 <span class="button float" onclick="window.navigator.clipboard.writeText('/board/${data['code']}')">

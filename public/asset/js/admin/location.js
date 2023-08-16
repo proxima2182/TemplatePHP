@@ -1,9 +1,9 @@
 function generateBlockConfirm(className) {
     return function () {
-        $(`.${className} .control-wrap .button.search`).css({
+        $(`.${className} .control-button-wrap .button.search`).css({
             'display': 'inline-block',
         })
-        $(`.${className} .control-wrap .button.confirm`).css({
+        $(`.${className} .control-button-wrap .button.confirm`).css({
             'display': 'none',
         })
     }
@@ -11,10 +11,10 @@ function generateBlockConfirm(className) {
 
 function generateUnblockConfirm(className) {
     return function () {
-        $(`.${className} .control-wrap .button.search`).css({
+        $(`.${className} .control-button-wrap .button.search`).css({
             'display': 'none',
         })
-        $(`.${className} .control-wrap .button.confirm`).css({
+        $(`.${className} .control-button-wrap .button.confirm`).css({
             'display': 'inline-block',
         })
     }
@@ -50,7 +50,7 @@ async function openInputPopupCreate() {
             "padding-bottom": "61px",
         })
         $(`.${className} .popup-inner`).append(`
-        <div class="control-wrap absolute line-before">
+        <div class="control-button-wrap absolute line-before">
             <div class="control-box">
                 <a href="javascript:search('${className}');" class="button search">
                     <img src="/asset/images/icon/search.png"/>
@@ -82,10 +82,10 @@ function editInputPopup(className, id) {
     $(`.${className} .form-wrap .editable`).not(`.readonly`).removeAttr('readonly')
     $(`.${className} .form-wrap .editable`).not(`.readonly`).removeAttr('disabled')
     $(`.${className} .form-wrap .button-wrap`).remove();
-    $(`.${className} .popup-inner .control-wrap`).remove();
+    $(`.${className} .popup-inner .control-button-wrap`).remove();
 
     $(`.${className} .popup-inner`).append(`
-    <div class="control-wrap absolute line-before">
+    <div class="control-button-wrap absolute line-before">
         <div class="control-box">
             <a href="javascript:search('${className}');" class="button search" style="display: none;">
                 <img src="/asset/images/icon/search.png"/>

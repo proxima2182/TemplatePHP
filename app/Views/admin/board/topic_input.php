@@ -19,7 +19,7 @@ $identifier = $shortid->generate();
 </script>
 <div class="container-inner">
     <div class="inner-box">
-        <h3 class="title">
+        <h3 class="page-title">
             <?= $data['board_alias'] ?>
         </h3>
         <div class="topic-wrap">

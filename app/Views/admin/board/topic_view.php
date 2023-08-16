@@ -94,7 +94,7 @@ $reply = [
 
 <div class="container-inner">
     <div class="inner-box">
-        <h3 class="title">
+        <h3 class="page-title">
             <?= $data['board_alias'] ?>
         </h3>
         <div class="topic-wrap">
@@ -118,7 +118,7 @@ $reply = [
                 </div>
             </div>
             <?php if ($is_login && ($is_admin || $user_id == $data['user_id'])) { ?>
-                <div class="control-wrap">
+                <div class="control-button-wrap">
                     <?php if ($user_id == $data['user_id']) { ?>
                         <a href="<?= $is_admin_page ? '/admin/topic/' . $data['id'] . '/edit' : '/topic/' . $data['id'] . '/edit' ?>"
                            class="button edit">

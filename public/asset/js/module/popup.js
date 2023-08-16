@@ -319,7 +319,7 @@ function getPopupViewStyle(className) {
         vertical-align: bottom;
     }
     
-    .${className} .popup-inner .control-wrap.absolute {
+    .${className} .popup-inner .control-button-wrap.absolute {
         line-height: 20px;
         text-align: right;
         position: absolute;

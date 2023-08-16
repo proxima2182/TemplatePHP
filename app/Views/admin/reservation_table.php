@@ -3,10 +3,10 @@ $is_admin_page = isset($is_admin) && $is_admin;
 ?>
 <div class="container-inner">
     <div class="inner-box">
-        <h3 class="title">
+        <h3 class="page-title">
             Reservation
         </h3>
-        <div class="control-wrap">
+        <div class="control-button-wrap">
             <a href="javascript:openReservationPopupRequest(this);" class="button create">
                 <img src="/asset/images/icon/plus.png"/>
                 <span>Reserve</span>
@@ -138,7 +138,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
                 }
 
                 html += `
-                <div class="control-wrap absolute line-before">
+                <div class="control-button-wrap absolute line-before">
                     <div class="control-box">
                         <a href="javascript:openReservationPopupReject(this, ${data['id']});" class="button reject">
                             <img src="/asset/images/icon/cancel.png"/>
@@ -261,10 +261,10 @@ $is_admin_page = isset($is_admin) && $is_admin;
             <p class="title">Expect Time</p>
             <div class= "time-selector"></div>
         </div>
-        <div class="input-wrap line-before">
+        <div class="input-wrap inline line-before">
             <textarea placeholder="Comment" name="comment" class="comment"></textarea>
         </div>
-        <div class="control-wrap absolute line-before">
+        <div class="control-button-wrap absolute line-before">
             <div class="control-box">
                 <a href="javascript:closePopup('${className}');" class="button cancel">
                     <img src="/asset/images/icon/cancel.png"/>

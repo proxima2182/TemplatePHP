@@ -5,12 +5,6 @@
     line-height: normal;
 }
 
-.container-inner h3.title {
-    margin: 40px 20px;
-    font-size: 26px;
-    font-weight: 600;
-}
-
 .container-inner .form-box {
     text-align: center;
     display: inline-block;
@@ -25,28 +19,24 @@
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-.container-inner .form-box .input-wrap .input-title {
+.container-inner .input-wrap.inline .input-title {
     width: calc(30% - 15px);
     display: inline-block;
     vertical-align: bottom;
 }
 
-.container-inner .form-box .input-wrap input:not([type=checkbox]),
-.container-inner .form-box .input-wrap textarea,
-.container-inner .form-box .input-wrap select {
+.container-inner .input-wrap.inline input:not([type=checkbox]),
+.container-inner .input-wrap.inline textarea,
+.container-inner .input-wrap.inline select {
     width: 70%;
     display: inline-block;
     vertical-align: bottom;
 }
 
-.container-inner .error-message-wrap {
-    line-height: 60px;
-}
-
-.container-inner .error-message-wrap * {
-    color: #dd4814;
-    font-size: 16px;
-    line-height: 20px;
+.container-inner .input-wrap input:not([type=checkbox]),
+.container-inner .input-wrap textarea,
+.container-inner .input-wrap select {
+    line-height: 40px;
 }
 
 .container-inner .button-wrap {
@@ -64,12 +54,6 @@
 }
 
 /*for lines class*/
-.container-inner .form-box .input-wrap.lines input[type=checkbox] {
+.container-inner .input-wrap input[type=checkbox] {
     margin: 10px;
-}
-
-.container-inner .form-box .input-wrap.lines input:not([type=checkbox]),
-.container-inner .form-box .input-wrap.lines textarea,
-.container-inner .form-box .input-wrap.lines select {
-    line-height: 40px;
 }

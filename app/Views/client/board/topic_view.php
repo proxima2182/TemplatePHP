@@ -96,7 +96,7 @@ $reply = [
 
 <div class="container-inner">
     <div class="inner-box">
-        <h3 class="title">
+        <h3 class="page-title">
             Notice
         </h3>
         <div class="topic-wrap">
@@ -119,7 +119,7 @@ $reply = [
                     </div>
                 </div>
             </div>
-            <div class="control-wrap">
+            <div class="control-button-wrap">
                 <a href="<?= $is_admin_page ? '/admin/topic/' . $id . '/edit' : '/topic/' . $id . '/edit' ?>"
                    class="button edit">
                     <img src="/asset/images/icon/edit.png"/>

@@ -3,7 +3,7 @@
 
 <div class="container-inner">
     <div class="inner-box">
-        <h3 class="title">
+        <h3 class="page-title">
             Notice
         </h3>
         <div class="topic-wrap">

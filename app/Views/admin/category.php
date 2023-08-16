@@ -5,10 +5,10 @@ use App\Helpers\Utils;
 ?>
 <div class="container-inner">
     <div class="inner-box">
-        <h3 class="title">
+        <h3 class="page-title">
             Category
         </h3>
-        <div class="control-wrap">
+        <div class="control-button-wrap">
             <a href="javascript:openInputPopupCreate();" class="button create">
                 <img src="/asset/images/icon/plus.png"/>
                 <span>Create</span>

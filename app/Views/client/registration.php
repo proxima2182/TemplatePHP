@@ -1,11 +1,11 @@
 <div class="container-inner">
     <div class="inner-box">
-        <h3 class="title">
+        <h3 class="page-title">
             Registration
         </h3>
         <div class="form-box">
             <div class="form-wrap">
-                <div class="input-wrap lines">
+                <div class="input-wrap">
                     <p class="input-title">Email</p>
                     <input type="email" name="email" class="under-line" value=""/>
                 </div>

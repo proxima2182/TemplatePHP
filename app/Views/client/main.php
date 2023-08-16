@@ -291,19 +291,19 @@ $sliderImages = [
             <div class="form-box">
                 <div class="form-wrap">
                     <h3 class="title">Enquiries about membership</h3>
-                    <div class="input-wrap">
+                    <div class="input-wrap inline">
                         <p class="input-title">Name</p>
                         <input type="text" name="name"/>
                     </div>
-                    <div class="input-wrap">
+                    <div class="input-wrap inline">
                         <p class="input-title">Phone Number</p>
                         <input type="phone" name="phone"/>
                     </div>
-                    <div class="input-wrap">
+                    <div class="input-wrap inline">
                         <p class="input-title">Region</p>
                         <input type="text" name="region"/>
                     </div>
-                    <div class="input-wrap">
+                    <div class="input-wrap inline">
                         <p class="input-title">Inquiry</p>
                         <textarea class="content" rows="4" name="content"></textarea>
                     </div>
@@ -319,7 +319,7 @@ $sliderImages = [
                             - 개인정보의 보유 및 이용기간 : 상담 완료 후 파기
                         </div>
                     </div>
-                    <div class="input-wrap agreement">
+                    <div class="input-wrap inline agreement">
                         <span class="input-title">개인 정보 취급 방침에 동의</span>
                         <input type="checkbox" name="agreement"/>
                     </div>

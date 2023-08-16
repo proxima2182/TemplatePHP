@@ -123,6 +123,7 @@ video background 패이지
 #page-intro .text-box {
     width: 350px;
     position: absolute;
+    text-align: left;
     top: 0;
     left: 0;
     bottom: 0;
@@ -423,6 +424,7 @@ submit 페이지
     width: 150px;
     text-align: right;
     margin-right: 15px;
+    font-weight: 400;
 }
 
 #page-last .form-wrap input, #page-last .form-box textarea {
@@ -444,6 +446,7 @@ submit 페이지
 
 #page-last .form-wrap input:focus, #page-last .form-box textarea:focus {
     border: 1px solid #000;
+    font-weight: 200;
 }
 
 #page-last .form-wrap .text-wrap {

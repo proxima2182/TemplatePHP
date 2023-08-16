@@ -1,6 +1,6 @@
 <div class="container-inner">
     <div class="inner-box">
-        <h3 class="title">
+        <h3 class="page-title">
             Reply
         </h3>
         <div class="list-wrap">
@@ -76,16 +76,16 @@
                     text-align: left;
                 }
 
-                .${className} .control-wrap.top {
+                .${className} .control-button-wrap.top {
                     text-align: left;
                 }
 
-                .${className} .control-wrap.top a{
+                .${className} .control-button-wrap.top a{
                     font-weight: 400;
                 }
                 </style>`
                 let html = `
-                <div class="control-wrap top">
+                <div class="control-button-wrap top">
                     <a href="/admin/topic/${data['topic_id']}" class="button detail">
                         <img src="/asset/images/icon/topic.png"/>
                         <span>${data['board_alias']} / ${data['topic_title']}</span>
@@ -98,7 +98,7 @@
                 <div class="text-wrap">
                     <div class="content">${data['content']}</div>
                 </div>
-                <div class="control-wrap absolute line-before">
+                <div class="control-button-wrap absolute line-before">
                     <div class="control-box">
                         <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
                             <img src="/asset/images/icon/delete.png"/>

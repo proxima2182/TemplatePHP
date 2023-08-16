@@ -1,10 +1,10 @@
 <div class="container-inner">
     <div class="inner-box">
-        <h3 class="title">
+        <h3 class="page-title">
             <?= $board_alias ?>
         </h3>
         <?php if ($is_login) { ?>
-            <div class="control-wrap">
+            <div class="control-button-wrap">
                 <a href="<?= $is_admin_page ? '/admin/board/' . $board_code . '/topic/create' : '/board/' . $board_code . '/topic/create' ?>"
                    class="button create">
                     <img src="/asset/images/icon/plus.png"/>

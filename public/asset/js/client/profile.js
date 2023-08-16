@@ -4,15 +4,15 @@ function changePassword() {
     box.empty();
     box.append(`
     <div class="form-wrap password">
-        <div class="input-wrap lines">
+        <div class="input-wrap">
             <p class="input-title">Current Password</p>
             <input type="password" name="current_password" class="under-line editable"/>
         </div>
-        <div class="input-wrap lines" style="margin-top: 40px">
+        <div class="input-wrap" style="margin-top: 40px">
             <p class="input-title">New Password</p>
             <input type="password" name="new_password" class="under-line editable"/>
         </div>
-        <div class="input-wrap lines">
+        <div class="input-wrap">
             <p class="input-title">Confirm New Password</p>
             <input type="password" name="confirm_new_password" class="under-line editable"/>
         </div>
@@ -38,15 +38,15 @@ function refreshProfile() {
             box.empty();
             box.prepend(`
             <div class="form-wrap profile">
-                <div class="input-wrap lines">
+                <div class="input-wrap">
                     <p class="input-title">Username</p>
                     <input type="text" name="name" class="under-line" readonly value="${data.username}"/>
                 </div>
-                <div class="input-wrap lines">
+                <div class="input-wrap">
                     <p class="input-title">Email</p>
                     <input type="text" name="name" class="under-line" readonly value="${data.email}"/>
                 </div>
-                <div class="input-wrap lines">
+                <div class="input-wrap">
                     <p class="input-title">Name</p>
                     <input type="text" name="name" class="under-line editable" readonly value="${data.name}"/>
                 </div>

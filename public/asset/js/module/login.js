@@ -36,15 +36,15 @@ async function openPopupLogin() {
             margin: 10px 50px;
         }
 
-        .${className} .input-wrap .input-title {
-            width: calc(30% - 15px);
-        }
-
         .${className} .form-wrap .input-wrap * {
             line-height: 40px;
         }
 
-        .${className} .control-wrap {
+        .${className} .input-wrap.inline .input-title {
+            width: calc(30% - 15px);
+        }
+
+        .${className} .control-button-wrap {
             line-height: 20px;
             font-weight: 600;
             margin: 0 50px;
@@ -65,16 +65,16 @@ async function openPopupLogin() {
             Login
         </h3>
         <div class="form-wrap">
-            <div class="input-wrap lines">
+            <div class="input-wrap">
                 <p class="input-title">Username</p>
                 <input type="text" name="username" class="under-line"/>
             </div>
-            <div class="input-wrap lines">
+            <div class="input-wrap">
                 <p class="input-title">Password</p>
                 <input type="password" name="password" class="under-line"/>
             </div>
         </div>
-        <div class="control-wrap">
+        <div class="control-button-wrap">
             <a href="/registration" class="button register">
                 <img src="/asset/images/icon/plus_circle.png"/>
                 <span>Register</span>

@@ -39,7 +39,7 @@ function sendVerificationCode() {
                 </div>
                 `)
             $('#container .form-wrap').append(`
-                    <div class="input-wrap lines disappear-at-next-step">
+                    <div class="input-wrap disappear-at-next-step">
                         <p class="input-title">Verification Code</p>
                         <input type="text" name="code" class="under-line"/>
                     </div>
@@ -195,19 +195,19 @@ function confirmVerificationCode() {
 
             $(`#container .form-wrap .disappear-at-next-step`).remove();
             $('#container .form-wrap').append(`
-                    <div class="input-wrap lines" style="margin-top: 40px">
+                    <div class="input-wrap" style="margin-top: 40px">
                         <p class="input-title">Username</p>
                         <input type="text" name="username" class="under-line"/>
                     </div>
-                    <div class="input-wrap lines">
+                    <div class="input-wrap">
                         <p class="input-title">Name</p>
                         <input type="text" name="name" class="under-line"/>
                     </div>
-                    <div class="input-wrap lines" style="margin-top: 40px">
+                    <div class="input-wrap" style="margin-top: 40px">
                         <p class="input-title">Password</p>
                         <input type="password" name="password" class="under-line"/>
                     </div>
-                    <div class="input-wrap lines">
+                    <div class="input-wrap">
                         <p class="input-title">Confirm Password</p>
                         <input type="password" name="confirm_password" class="under-line"/>
                     </div>
