@@ -121,7 +121,6 @@ function fromDataToHtml(key, data, typeSet) {
         if (readonly) {
             classes.push('readonly')
         }
-        console.log(classes)
         if (classes.length == 0) return '';
         let prefix = '';
         let result = `class="`
@@ -212,7 +211,7 @@ function initializeInputPopup(input) {
  * @param data
  */
 function addInputPopupControlWrap(className, data) {
-    let controlHtml = getControlHtml ? getControlHtml(data) : undefined;
+    let controlHtml = getControlHtml ? getControlHtml(className, data) : undefined;
     if (typeof controlHtml == 'string' && controlHtml.length == 0) {
         return;
     }

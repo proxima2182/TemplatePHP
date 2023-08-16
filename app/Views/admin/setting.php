@@ -72,9 +72,9 @@
             }
             return html;
         },
-        getControlHtml: function (data) {
+        getControlHtml: function (className, data) {
             let html = `
-            <a href="javascript:editInputPopup(${data['id']})"
+            <a href="javascript:editInputPopup('${className}', ${data['id']})"
                class="button edit">
                 <img src="/asset/images/icon/edit.png"/>
                 <span>Edit</span>

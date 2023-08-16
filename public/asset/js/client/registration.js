@@ -1,7 +1,7 @@
 
 function sendVerificationCode() {
     let $inputEmail = $('#container .form-wrap input[name=email]');
-    let $wrapErrorMessage = $('#container .form-wrap .error-message-wrap');
+    let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
     $wrapErrorMessage.empty();
     if (isEmpty($inputEmail.val())) {
         $wrapErrorMessage.append(`<p>email field is empty.</p>`)
@@ -32,13 +32,13 @@ function sendVerificationCode() {
             $inputEmail.attr({
                 'readonly': true,
             })
-            $(`.form-wrap .form-box .disappear-at-next-step`).remove();
-            $('.form-wrap .form-box').prepend(`
+            $(`#container .form-wrap .disappear-at-next-step`).remove();
+            $('#container .form-wrap').prepend(`
                 <div class="info-wrap disappear-at-next-step">
                     * please check your spam mailbox if you don't receive the mail.
                 </div>
                 `)
-            $('.form-wrap .form-box').append(`
+            $('#container .form-wrap').append(`
                     <div class="input-wrap lines disappear-at-next-step">
                         <p class="input-title">Verification Code</p>
                         <input type="text" name="code" class="under-line"/>
@@ -62,12 +62,12 @@ function sendVerificationCode() {
 }
 
 function clearErrors() {
-    let $wrapErrorMessage = $('#container .form-wrap .error-message-wrap');
+    let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
     $wrapErrorMessage.empty();
 }
 
 function showErrors(response, status, requestOrError) {
-    let $wrapErrorMessage = $('#container .form-wrap .error-message-wrap');
+    let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
     $wrapErrorMessage.empty();
     if (status == 'success' || status >= 200 && status < 300) {
         if (response.messages) {
@@ -121,7 +121,7 @@ function stopTimer() {
     clearInterval(timer_interval_id);
     timer_interval_id = -1;
 
-    let $buttonConfirm = $('#container .form-wrap .form-box .button-wrap .button.confirm');
+    let $buttonConfirm = $('#container .form-box .button-wrap .button.confirm');
     $buttonConfirm.addClass('disabled');
 }
 
@@ -137,7 +137,7 @@ function startTimer() {
             stopTimer();
         }
     }, 1000);
-    let $buttonConfirm = $('.form-wrap .form-box .button-wrap .button.confirm');
+    let $buttonConfirm = $('#container .form-box .button-wrap .button.confirm');
     $buttonConfirm.removeClass('disabled');
 }
 
@@ -149,7 +149,7 @@ function resendVerificationCode() {
     let data = {
         'email': $inputEmail.val(),
     }
-    let $inputCode = $('#container .form-box input[name=code]');
+    let $inputCode = $('#container .form-wrap input[name=code]');
     $inputCode.val('');
 
     $.ajax({
@@ -193,8 +193,8 @@ function confirmVerificationCode() {
             }
             stopTimer();
 
-            $(`.form-wrap .form-box .disappear-at-next-step`).remove();
-            $('.form-wrap .form-box').append(`
+            $(`#container .form-wrap .disappear-at-next-step`).remove();
+            $('#container .form-wrap').append(`
                     <div class="input-wrap lines" style="margin-top: 40px">
                         <p class="input-title">Username</p>
                         <input type="text" name="username" class="under-line"/>
@@ -229,7 +229,7 @@ function confirmVerificationCode() {
 function confirmRegistration() {
     clearErrors();
 
-    let $wrapErrorMessage = $('#container .form-wrap .error-message-wrap');
+    let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
     let data = parseInputToData($(`#container .form-wrap input`))
 
     let validations = [

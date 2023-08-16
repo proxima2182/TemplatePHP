@@ -11,12 +11,12 @@
     font-weight: 600;
 }
 
-.container-inner .form-wrap {
+.container-inner .form-box {
     text-align: center;
     display: inline-block;
 }
 
-.container-inner .form-box {
+.container-inner .form-wrap {
     width: 800px;
     min-height: 250px;
     padding: 40px 100px 60px 100px;
@@ -25,15 +25,15 @@
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-.container-inner .form-wrap .input-wrap .input-title {
+.container-inner .form-box .input-wrap .input-title {
     width: calc(30% - 15px);
     display: inline-block;
     vertical-align: bottom;
 }
 
-.container-inner .form-wrap .input-wrap input:not([type=checkbox]),
-.container-inner .form-wrap .input-wrap textarea,
-.container-inner .form-wrap .input-wrap select {
+.container-inner .form-box .input-wrap input:not([type=checkbox]),
+.container-inner .form-box .input-wrap textarea,
+.container-inner .form-box .input-wrap select {
     width: 70%;
     display: inline-block;
     vertical-align: bottom;
@@ -64,12 +64,12 @@
 }
 
 /*for lines class*/
-.container-inner .form-wrap .input-wrap.lines input[type=checkbox] {
+.container-inner .form-box .input-wrap.lines input[type=checkbox] {
     margin: 10px;
 }
 
-.container-inner .form-wrap .input-wrap.lines input:not([type=checkbox]),
-.container-inner .form-wrap .input-wrap.lines textarea,
-.container-inner .form-wrap .input-wrap.lines select {
+.container-inner .form-box .input-wrap.lines input:not([type=checkbox]),
+.container-inner .form-box .input-wrap.lines textarea,
+.container-inner .form-box .input-wrap.lines select {
     line-height: 40px;
 }

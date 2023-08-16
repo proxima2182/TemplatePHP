@@ -3,8 +3,8 @@
         <h3 class="title">
             Registration
         </h3>
-        <div class="form-wrap">
-            <div class="form-box">
+        <div class="form-box">
+            <div class="form-wrap">
                 <div class="input-wrap lines">
                     <p class="input-title">Email</p>
                     <input type="email" name="email" class="under-line" value=""/>

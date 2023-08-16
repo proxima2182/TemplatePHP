@@ -6,8 +6,8 @@ if (!isset($username) || !isset($name) || !isset($email)) return;
         <h3 class="title">
             Profile
         </h3>
-        <div class="form-wrap">
-            <div class="form-box profile">
+        <div class="form-box">
+            <div class="form-wrap profile">
                 <div class="input-wrap lines">
                     <p class="input-title">Username</p>
                     <input type="text" name="username" class="under-line" readonly value="<?= $username ?>"/>

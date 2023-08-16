@@ -3,16 +3,16 @@
 use Crisu83\ShortId\ShortId;
 
 if ($type == 'create') {
-    $title = '';
-    $content = '';
+    $data['title'] = '';
+    $data['content'] = '';
 }
 $shortid = ShortId::create();
 $identifier = $shortid->generate();
 ?>
 <script type="text/javascript">
     let image_file_ids = [];
-    <?php if (isset($images)) {
-    foreach ($images as $index => $image) { ?>
+    <?php if (isset($data['images'])) {
+    foreach ($data['images'] as $index => $image) { ?>
     image_file_ids.push('<?=$image['id']?>')
     <?php }
     }?>
@@ -20,19 +20,21 @@ $identifier = $shortid->generate();
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="title">
-            <?= $alias ?>
+            <?= $data['board_alias'] ?>
         </h3>
         <div class="topic-wrap">
-            <div class="form-box">
+            <div class="form-wrap">
                 <div class="row row-title line-after black">
                     <input type="text" placeholder="Title" name="title" class="column title editable"
-                           value="<?= $title ?>"/>
+                           value="<?= $data['title'] ?>"/>
                 </div>
                 <div class="text-wrap line-after">
-                    <textarea placeholder="Content" name="content" class="content editable"><?= $content ?></textarea>
+                    <textarea placeholder="Content" name="content"
+                              class="content editable"><?= $data['content'] ?></textarea>
                 </div>
-                <input hidden type="text" name="board_id" class="editable" value="<?= $board_id ?>"/>
+                <input hidden type="text" name="board_id" class="editable" value="<?= $data['board_id'] ?>"/>
                 <input hidden type="text" name="identifier" class="editable" value="<?= $identifier ?>"/>
+                <input hidden type="text" name="user_id" class="editable" value="<?= $user_id ?>">
             </div>
             <div class="slider-wrap">
                 <div class="slider-box">
@@ -45,8 +47,8 @@ $identifier = $shortid->generate();
                                    accept="image/*"/>
                             <!--                            <a href="#" class="button"></a>-->
                         </div>
-                        <?php if (isset($images)) {
-                            foreach ($images as $index => $image) { ?>
+                        <?php if (isset($data['images'])) {
+                            foreach ($data['images'] as $index => $image) { ?>
                                 <div class="slick-element draggable-element" draggable="true"
                                      style="background: url('/image-file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
                                     Slider #<?= $image['id'] ?>
@@ -64,7 +66,7 @@ $identifier = $shortid->generate();
                 </div>
             </div>
             <div class="button-wrap">
-                <a href="<?= $type == 'create' ? 'javascript:confirmCreateTopic()' : 'javascript:confirmEditTopic(' . $id . ')' ?>"
+                <a href="<?= $type == 'create' ? 'javascript:confirmCreateTopic()' : 'javascript:confirmEditTopic(' . $data['id'] . ')' ?>"
                    class="button confirm black">Confirm</a>
             </div>
         </div>
@@ -80,7 +82,7 @@ $identifier = $shortid->generate();
     })
 
     function confirmEditTopic(id) {
-        let data = parseInputToData($(`.form-wrap .editable`))
+        let data = parseInputToData($(`.topic-wrap .form-box .editable`))
 
         data['images'] = image_file_ids;
 
@@ -94,7 +96,7 @@ $identifier = $shortid->generate();
                     openPopupErrors('popup-error', response, status, request);
                     return;
                 }
-                History.back();
+                history.back();
             },
             error: function (response, status, error) {
                 openPopupErrors('popup-error', response, status, error);
@@ -103,7 +105,7 @@ $identifier = $shortid->generate();
     }
 
     function confirmCreateTopic() {
-        let data = parseInputToData($(`.form-wrap .editable`))
+        let data = parseInputToData($(`.topic-wrap .form-box .editable`))
 
         data['images'] = image_file_ids;
 
@@ -117,7 +119,7 @@ $identifier = $shortid->generate();
                     openPopupErrors('popup-error', response, status, request);
                     return;
                 }
-                History.back();
+                history.back();
             },
             error: function (response, status, error) {
                 openPopupErrors('popup-error', response, status, error);

@@ -1,9 +1,9 @@
 function changePassword() {
     $('h3.title').html('Change Password')
-    const wrap = $('.form-wrap');
-    wrap.empty();
-    wrap.append(`
-    <div class="form-box password">
+    const box = $('.form-box');
+    box.empty();
+    box.append(`
+    <div class="form-wrap password">
         <div class="input-wrap lines">
             <p class="input-title">Current Password</p>
             <input type="password" name="current_password" class="under-line editable"/>
@@ -34,10 +34,10 @@ function refreshProfile() {
             if (!response.success) return;
             let data = response.data;
             $('h3.title').html('Profile')
-            const wrap = $('.form-wrap');
-            wrap.empty();
-            wrap.prepend(`
-            <div class="form-box profile">
+            const box = $('.form-box');
+            box.empty();
+            box.prepend(`
+            <div class="form-wrap profile">
                 <div class="input-wrap lines">
                     <p class="input-title">Username</p>
                     <input type="text" name="name" class="under-line" readonly value="${data.username}"/>
@@ -68,8 +68,8 @@ function refreshProfile() {
 function editProfile() {
     $('h3.title').html('Edit Profile')
     $('.form-wrap .editable').removeAttr('readonly')
-    $('.form-box .button-wrap').remove();
-    $('.form-wrap').append(`
+    $('.form-wrap .button-wrap').remove();
+    $('.form-box').append(`
     <div class="button-wrap controls">
         <a href="javascript:refreshProfile()" class="button cancel white">Cancel</a>
         <a href="javascript:confirmEditProfile()" class="button confirm black">Confirm</a>
@@ -79,7 +79,7 @@ function editProfile() {
 function confirmChangePassword() {
     clearErrors();
 
-    let $wrapErrorMessage = $('#container .form-wrap .error-message-wrap');
+    let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
     let data = parseInputToData($(`#container .form-wrap .editable`))
 
     let validations = [
@@ -152,12 +152,12 @@ function confirmEditProfile() {
 }
 
 function clearErrors() {
-    let $wrapErrorMessage = $('#container .form-wrap .error-message-wrap');
+    let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
     $wrapErrorMessage.empty();
 }
 
 function showErrors(response, status, requestOrError) {
-    let $wrapErrorMessage = $('#container .form-wrap .error-message-wrap');
+    let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
     $wrapErrorMessage.empty();
     if (status == 'success' || status >= 200 && status < 300) {
         if (response.messages) {

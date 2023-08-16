@@ -24,7 +24,7 @@ class BoardController extends BaseAdminController
     function index($page = 1): string
     {
         $page = Utils::toInt($page);
-        $result = null;
+        $data = $this->getViewData();
         try {
             $result = $this->boardModel->getPaginated([
                 'per_page' => $this->per_page,
@@ -32,13 +32,14 @@ class BoardController extends BaseAdminController
             ], [
                 'is_deleted' => 0,
             ]);
+            $data = array_merge($data, $result);
+            $data = array_merge($data, [
+                'pagination_link' => '/admin/board',
+            ]);
         } catch (Exception $e) {
             //todo(log)
             //TODO show error page
         }
-        $data = array_merge($result, [
-            'pagination_link' => '/admin/board',
-        ]);
         return parent::loadHeader([
                 'css' => [
                     '/common/table',
@@ -54,7 +55,7 @@ class BoardController extends BaseAdminController
 
     function getBoard($code, $page = 1): string
     {
-        $data = null;
+        $data = $this->getViewData();
         try {
             $board = $this->boardModel->findByCode($code);
 
@@ -64,11 +65,11 @@ class BoardController extends BaseAdminController
             ], [
                 'board_id' => $board['id'],
             ]);
-            $data = array_merge($result, [
+            $data = array_merge($data, $result);
+            $data = array_merge($data, [
                 'board_id' => $board['id'],
                 'board_code' => $board['code'],
-                'alias' => $board['alias'],
-                'is_admin' => true,
+                'board_alias' => $board['alias'],
                 'pagination_link' => '/admin/board/' . $code,
             ]);
         } catch (Exception $e) {
@@ -94,16 +95,15 @@ class BoardController extends BaseAdminController
         return array_merge($result, [
             'board_id' => $board['id'],
             'board_code' => $board['code'],
-            'alias' => $board['alias'],
-            'is_admin' => true,
+            'board_alias' => $board['alias'],
         ]);
     }
 
-    public function getTopic($id = 1): string
+    public function getTopic($id): string
     {
-        $data = null;
+        $data = $this->getViewData();
         try {
-            $data = $this->getTopicData($id);
+            $data['data'] = $this->getTopicData($id);
         } catch (Exception $e) {
             //todo(log)
             //TODO show 404 page
@@ -123,9 +123,12 @@ class BoardController extends BaseAdminController
 
     public function editTopic($id = 1): string
     {
-        $data = null;
+        $data = $this->getViewData();
         try {
-            $data = $this->getTopicData($id);
+            $data['data'] = $this->getTopicData($id);
+            $data = array_merge($data, [
+                'type' => 'edit'
+            ]);
         } catch (Exception $e) {
             //todo(log)
             //TODO show 404 page
@@ -137,20 +140,25 @@ class BoardController extends BaseAdminController
                 ],
                 'js' => [
                     '/slick/slick.min.js',
-                    '/module/draggable.js',
+                    '/module/draggable',
                 ],
             ])
-            . view('/admin/board/topic_input', array_merge($data, [
-                'type' => 'edit'
-            ]))
+            . view('/admin/board/topic_input', $data)
             . parent::loadFooter();
     }
 
     public function createTopic($code): string
     {
-        $board = null;
+        $data = $this->getViewData();
         try {
             $board = $this->boardModel->findByCode($code);
+            $data['data'] = [
+                'board_id' => $board['id'],
+                'board_alias' => $board['alias'],
+            ];
+            $data = array_merge($data,[
+                'type' => 'create'
+            ]);
         } catch (Exception $e) {
             //todo(log)
             //TODO show 404 page
@@ -162,13 +170,10 @@ class BoardController extends BaseAdminController
                 ],
                 'js' => [
                     '/slick/slick.min.js',
+                    '/module/draggable',
                 ],
             ])
-            . view('/admin/board/topic_input', [
-                'alias' => $board['alias'],
-                'board_id' => $board['id'],
-                'type' => 'create'
-            ])
+            . view('/admin/board/topic_input', $data)
             . parent::loadFooter();
     }
 

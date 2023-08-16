@@ -288,8 +288,8 @@ $sliderImages = [
 
     <div class="section" id="page-last">
         <div class="page-inner">
-            <div class="form-wrap">
-                <div class="form-box">
+            <div class="form-box">
+                <div class="form-wrap">
                     <h3 class="title">Enquiries about membership</h3>
                     <div class="input-wrap">
                         <p class="input-title">Name</p>

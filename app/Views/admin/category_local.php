@@ -75,27 +75,6 @@
             html += `<input hidden type="text" name="category_id" class="editable" value="<?=$category_id?>"/>`
             return html;
         },
-        getControlHtml: function (data) {
-            let html = ``
-            if (data['is_default'] != 0) {
-                html += `
-                <a href="javascript:setDefault(${data['id']})" class="button default">
-                    <img src="/asset/images/icon/check.png"/>
-                    <span>Make as Default</span>
-                </a>`
-            }
-            html += `
-            <a href="javascript:editInputPopup(${data['id']})"
-               class="button edit">
-                <img src="/asset/images/icon/edit.png"/>
-                <span>Edit</span>
-            </a>
-            <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
-                <img src="/asset/images/icon/delete.png"/>
-                <span>Delete</span>
-            </a>`;
-            return html;
-        },
     })
 
     initializeDraggable({

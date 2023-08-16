@@ -31,4 +31,11 @@ class BaseAdminController extends BaseController
     {
         return view('admin/footer');
     }
+
+    protected function getViewData(): array
+    {
+        return array_merge(parent::getViewData(), [
+            'is_admin_page' => true,
+        ]);
+    }
 }

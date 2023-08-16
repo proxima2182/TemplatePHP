@@ -2,6 +2,7 @@
 
 namespace API;
 
+use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Leaf\Helpers\Password;
@@ -199,10 +200,10 @@ class UserController extends BaseApiController
                 'label' => 'Username',
                 'rules' => 'required|min_length[5]|max_length[50]',
             ],
-            'password' => [
-                'label' => 'Password',
-                'rules' => 'required|min_length[8]',
-            ],
+//            'password' => [
+//                'label' => 'Password',
+//                'rules' => 'required|min_length[8]',
+//            ],
         ];
 
         $response = [
@@ -225,6 +226,7 @@ class UserController extends BaseApiController
                     'name' => strlen($user['name']) == 0 ? $user['username'] : $user['name'],
                     'user_id' => $user['id'],
                     'is_login' => true,
+                    'is_admin' => $user['type'] == 'admin',
                 ]);
                 $response['success'] = true;
             } catch (Exception $e) {
@@ -249,6 +251,7 @@ class UserController extends BaseApiController
             'name' => '',
             'user_id' => -1,
             'is_login' => false,
+            'is_admin' => false,
         ]);
         return $this->response->setJSON($response);
     }

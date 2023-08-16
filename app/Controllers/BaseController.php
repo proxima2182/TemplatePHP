@@ -110,6 +110,8 @@ abstract class BaseController extends Controller
     {
         $data = array_merge([
             'is_login' => $this->session->is_login,
+            'is_admin' => $this->session->is_admin,
+            'user_id' => $this->session->user_id,
         ], $initData);
         if (isset($input['css'])) {
             $data['css'] = $this->generateAssetStatement("css", $input['css']);
@@ -118,5 +120,14 @@ abstract class BaseController extends Controller
             $data['js'] = $this->generateAssetStatement("js", $input['js']);
         }
         return $data;
+    }
+
+    protected function getViewData(): array
+    {
+        return [
+            'is_login' => $this->session->is_login,
+            'is_admin' => $this->session->is_admin,
+            'user_id' => $this->session->user_id,
+        ];
     }
 }

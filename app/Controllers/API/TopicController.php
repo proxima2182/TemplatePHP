@@ -5,12 +5,13 @@ namespace API;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\BaseModel;
+use Models\ImageFileModel;
 use Models\TopicModel;
 
 class TopicController extends BaseApiController
 {
     protected TopicModel $topicModel;
-    protected TopicModel $imageFileModel;
+    protected ImageFileModel $imageFileModel;
 
     public function __construct()
     {

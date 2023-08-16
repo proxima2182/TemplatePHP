@@ -1,17 +1,17 @@
-<?php
-$is_admin_page = isset($is_admin) && $is_admin;
-?>
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="title">
-            <?=$alias?>
+            <?= $board_alias ?>
         </h3>
-        <div class="control-wrap">
-            <a href="<?= $is_admin_page ? '/admin/board/'.$board_code.'/topic/create' : '/board/'.$board_code.'/topic/create' ?>" class="button create">
-                <img src="/asset/images/icon/plus.png"/>
-                <span>Create</span>
-            </a>
-        </div>
+        <?php if ($is_login) { ?>
+            <div class="control-wrap">
+                <a href="<?= $is_admin_page ? '/admin/board/' . $board_code . '/topic/create' : '/board/' . $board_code . '/topic/create' ?>"
+                   class="button create">
+                    <img src="/asset/images/icon/plus.png"/>
+                    <span>Create</span>
+                </a>
+            </div>
+        <?php } ?>
         <div class="list-wrap">
             <div class="list-box">
                 <div class="row-title">

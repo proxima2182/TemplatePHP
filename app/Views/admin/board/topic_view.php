@@ -1,7 +1,4 @@
 <?php
-$is_admin_page = isset($is_admin) && $is_admin;
-?>
-<?php
 $reply = [
     'page' => 1,
     'per-page' => 5,
@@ -98,20 +95,20 @@ $reply = [
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="title">
-            <?=$alias?>
+            <?= $data['board_alias'] ?>
         </h3>
         <div class="topic-wrap">
             <div class="row row-title line-after black">
-                <span class="column title"><?= $title ?></span>
-                <span class="column  created-at"><?= $created_at ?></span>
+                <span class="column title"><?= $data['title'] ?></span>
+                <span class="column  created-at"><?= $data['created_at'] ?></span>
             </div>
             <div class="text-wrap line-after">
-                <div class="content"><?= $content ?></div>
+                <div class="content"><?= $data['content'] ?></div>
             </div>
             <div class="slider-wrap">
                 <div class="slider-box">
                     <div class="slick">
-                        <?php foreach ($images as $index => $image) { ?>
+                        <?php foreach ($data['images'] as $index => $image) { ?>
                             <div class="slick-element"
                                  style="background: url('/image-file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
                                 Slider #<?= $image['id'] ?>
@@ -120,19 +117,23 @@ $reply = [
                     </div>
                 </div>
             </div>
-            <div class="control-wrap">
-                <a href="<?= $is_admin_page ? '/admin/topic/' . $id . '/edit' : '/topic/' . $id . '/edit' ?>"
-                   class="button edit">
-                    <img src="/asset/images/icon/edit.png"/>
-                    <span>Edit</span>
-                </a>
-                <?php if ($is_admin_page) { ?>
-                    <a href="javascript:openTopicPopupDelete(<?= $id ?>)" class="button delete">
-                        <img src="/asset/images/icon/delete.png"/>
-                        <span>Delete</span>
-                    </a>
-                <?php } ?>
-            </div>
+            <?php if ($is_login && ($is_admin || $user_id == $data['user_id'])) { ?>
+                <div class="control-wrap">
+                    <?php if ($user_id == $data['user_id']) { ?>
+                        <a href="<?= $is_admin_page ? '/admin/topic/' . $data['id'] . '/edit' : '/topic/' . $data['id'] . '/edit' ?>"
+                           class="button edit">
+                            <img src="/asset/images/icon/edit.png"/>
+                            <span>Edit</span>
+                        </a>
+                    <?php } ?>
+                    <?php if ($is_admin) { ?>
+                        <a href="javascript:openTopicPopupDelete(<?= $data['id'] ?>)" class="button delete">
+                            <img src="/asset/images/icon/delete.png"/>
+                            <span>Delete</span>
+                        </a>
+                    <?php } ?>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </div>
