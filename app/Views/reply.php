@@ -385,6 +385,9 @@ $end = min($end, $total_page);
                 }
             }
         }
+        let offset = $parent.find('.nested-reply li').last().offset();
+        console.log(offset)
+        window.scrollTo(offset.left, offset.top)
     }
 
     /**
@@ -469,7 +472,7 @@ $end = min($end, $total_page);
                 </div>`)
                 <?php } ?>
 
-                addReplyPagination(wrap, topic_id, data['pagination'])
+                addReplyPagination($parent, topic_id, data['pagination'])
                 resizeReplyWrap();
             },
             error: function (response, status, error) {
