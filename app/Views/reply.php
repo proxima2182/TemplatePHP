@@ -71,7 +71,6 @@ $end = min($end, $total_page);
     }
 
     .reply-wrap .button-wrap.more {
-        text-align: right;
         padding: 0 20px;
         background: #eee;
     }
@@ -156,6 +155,9 @@ $end = min($end, $total_page);
 
     .reply-wrap .input-wrap.reply {
         position: relative;
+    }
+
+    .reply-wrap .input-wrap.topic-reply {
         margin-top: -1px;
     }
 
@@ -234,9 +236,15 @@ $end = min($end, $total_page);
     </div>
 </div>
 <script type="text/javascript">
+    /**
+     * topic view(#container) 에서 여백을 만들어 주는 기능
+     * reply view 를 absolute 로 추가해 주기 때문에 생성 후 추가해 준다
+     */
     function resizeReplyWrap() {
         let $wrapReply = $('.reply-wrap');
         if ($wrapReply.length > 0) {
+            // topic view(#container) 에 이미 최소 높이를 줬기 때문에
+            // 그냥 주게되면 텅 빈 화면이 반을 차지하기 때문에댓글이 있는 경우에만 최소 높이 줌
             if ($wrapReply.find('.list').children().length > 0) {
                 $wrapReply.find('.list').css({
                     'min-height': '251px'
@@ -248,6 +256,12 @@ $end = min($end, $total_page);
         }
     }
 
+    /**
+     * 댓글 view 를 생성해 주는 기능
+     * 댓글 페이징 시에 전체 reload 를 하지 않기 위해 js 로도 구현
+     * @param $parent
+     * @param array
+     */
     function addReplyItems($parent, array) {
         if (typeof $parent === 'string') {
             $parent = $($parent);
@@ -275,6 +289,12 @@ $end = min($end, $total_page);
         $parent.append(html);
     }
 
+    /**
+     * 하위 댓글 view 를 생성해 주는 기능
+     * @param $parent
+     * @param array
+     * @param pagination
+     */
     function addReplyNestedItems($parent, array, pagination) {
         if (typeof $parent === 'string') {
             $parent = $($parent);
@@ -290,7 +310,9 @@ $end = min($end, $total_page);
         let html = ``;
         let $oldPage = $parent.find(`.nested-reply-page-${page}`);
 
-        let $list = $parent.find('.nested-reply li');
+        let $list = $parent.find('.nested-reply .row');
+        // 이전 보기 버튼보다 상단에 있는 item 중 마지막
+        // 혹은 이전 보기 버튼이 list 내에 없는 경우 모든 item 중 마지막
         let $lastItem = null;
         let $buttonLoadPrevious = null;
         for (let i in $list) {
@@ -302,10 +324,14 @@ $end = min($end, $total_page);
             }
         }
         if (!$lastItem) {
+            // 새 댓글을 다는 경우 확인을 위해 마지막 페이지를 보여주는데 (생성일자의 DESC 순으로 정렬해서 보여주기 때문에)
+            // 첫 번째 페이지만 load 후에 새 댓글을 다는 경우 1 페이지와 last 페이지 간의 간격이 1 이상일 수 있음
+            // 해당 경우에도 새로운 데이터 추가 시 '이전 보기 버튼' 의 추가가 필요한 경우를 비교하기 위함
             $lastItem = $list.last();
         }
         if ($lastItem) {
             try {
+                // 존재하는 마지막 item 과 페이지 차이가 없는 경우에는 '이전 보기 버튼'을 추가하지 않음
                 let previousPage = parseInt($lastItem.attr('page'));
                 if (page > 1 && (page - 1 - previousPage) > 0) {
                     html += `
@@ -333,11 +359,13 @@ $end = min($end, $total_page);
 
         if ($oldPage.length > 0) {
             // 만약 refresh 되는 last 페이지가 이미 load 되어 있는 경우
+            // item 교체만 수행
             $oldPage.last().after(html);
             $oldPage.remove();
         } else {
             if ($buttonLoadPrevious) {
                 // 이전 보기 버튼 누른 경우 (... 버튼)
+                // 이전 보기 버튼을 기준으로 새로운 데이터 추가
                 $buttonLoadPrevious.before(html);
                 $buttonLoadPrevious.remove();
             } else {
@@ -345,22 +373,27 @@ $end = min($end, $total_page);
                 $parent.find('.nested-reply').append(html);
 
                 let $wrapMoreButton = $parent.find(`.button-wrap`)
-                if (pagination['page'] >= pagination['total-page']) {
-                    $wrapMoreButton.remove();
-                } else {
-                    $wrapMoreButton.remove();
-                    $parent.find(`.nested-reply`).after(`
-                    <div class="button-wrap more">
+                $wrapMoreButton.remove();
+                if (pagination['page'] < pagination['total-page']) {
+                    $parent.find(`.nested-reply`).append(`
+                    <li class="button-wrap more">
                         <a href="javascript:loadReplyNested(${reply_id},${page + 1});" class="button more">
                             <span>See More</span>
                             <img src="/asset/images/icon/plus.png"/>
                         </a>
-                    </div>`);
+                    </li>`);
                 }
             }
         }
     }
 
+    /**
+     * pagination 추가 기능
+     * 댓글 페이징 시에 전체 reload 를 하지 않기 위해 js 로도 구현
+     * @param $parent
+     * @param topic_id
+     * @param pagination
+     */
     function addReplyPagination($parent, topic_id, pagination) {
         if (typeof $parent === 'string') {
             $parent = $($parent);
@@ -406,6 +439,12 @@ $end = min($end, $total_page);
         $parent.append(html);
     }
 
+    /**
+     * 데이터 조회 하여 [addReplyItems] 을 호출하는 함수
+     * 실제 버튼 클릭 시 호출
+     * @param topic_id
+     * @param page
+     */
     function loadReply(topic_id, page) {
         $.ajax({
             type: 'GET',
@@ -414,12 +453,13 @@ $end = min($end, $total_page);
             success: function (response, status, request) {
                 if (!response.success) return;
                 let data = response.data;
-                const wrap = $('.reply-wrap');
-                wrap.empty()
+                const $parent = $('.reply-wrap');
+                $parent.empty()
+                addReplyItems($parent, data['array'])
 
-                addReplyItems(wrap, data['array'])
+                // 로그인 한 경우 댓글 입력창 추가
                 <?php if($is_login) {?>
-                wrap.append(`
+                $parent.append(`
                 <div class="input-wrap reply topic-reply lines-horizontal">
                     <textarea placeholder="Comment"></textarea>
                     <a href="javascript:postReply(${topic_id})" class="button float">
@@ -428,8 +468,8 @@ $end = min($end, $total_page);
                     </a>
                 </div>`)
                 <?php } ?>
-                addReplyPagination(wrap, topic_id, data['pagination'])
 
+                addReplyPagination(wrap, topic_id, data['pagination'])
                 resizeReplyWrap();
             },
             error: function (response, status, error) {
@@ -437,7 +477,14 @@ $end = min($end, $total_page);
         })
     }
 
-    function loadReplyNested(reply_id, page = 1, callback) {
+    /**
+     * 데이터 조회 하여 [addReplyNestedItems] 을 호출하는 함수
+     * 실제 버튼 클릭 시 호출
+     * @param reply_id
+     * @param page
+     * @param callback
+     */
+    function loadReplyNested(reply_id, page = 1, callback = null) {
         $.ajax({
             type: 'GET',
             dataType: 'json',
@@ -447,7 +494,11 @@ $end = min($end, $total_page);
                 let data = response.data;
                 let $parent = $(`#reply-${reply_id}`);
                 addReplyNestedItems($parent, data['array'], data['pagination'])
+
+                // 로그인 한 경우 댓글 입력창 추가
                 if (callback && typeof callback == 'function') callback();
+                $parent.addClass('opened');
+
                 resizeReplyWrap();
             },
             error: function (response, status, error) {
@@ -455,26 +506,30 @@ $end = min($end, $total_page);
         })
     }
 
-    function clearReplyNestedInput(reply_id) {
-        let elementCommentInput = $(`.reply-wrap .list.reply .input-wrap.reply`).get(0);
-        if (reply_id != undefined && elementCommentInput && elementCommentInput.getAttribute('id') == reply_id) {
-            return false;
-        } else {
-            $(`.reply-wrap .list.reply .input-wrap.reply`).remove();
-        }
-        return true;
-    }
-
+    /**
+     * item 클릭 제어 기능
+     * @param reply_id
+     */
     function openReplyNested(reply_id) {
-        if (!clearReplyNestedInput(reply_id)) {
+        // 기존의 active item 과 현재 active item 을 비교
+        // active item = 하위 댓글용 input 이 존재
+        // (하위 댓글용 input 은 한페이지에 한개씩 열림)
+        let $input = $(`.reply-wrap .list.reply .input-wrap.reply`);
+        let elementCommentInput = $input.get(0);
+        if (elementCommentInput && elementCommentInput.getAttribute('id') == reply_id) {
             $(`#reply-${reply_id} textarea`).focus();
+            // 기존의 active item 과 현재 active item 이 같다면 아무 동작 할 필요가 없음
             return;
         }
-        let $liReply = $(`#reply-${reply_id}`);
+        $input.remove();
+
+        let $parent = $(`#reply-${reply_id}`);
         let callback;
         <?php if($is_login) {?>
+        // 만약 하위 댓글 input 을 열 필요가 있더라도 데이터 조회 이후 추가해 줘야 하기 때문에 callback 으로 전달
         callback = function () {
-            $liReply.append(`
+            let $parent = $(`#reply-${reply_id}`);
+            $parent.append(`
             <div class="input-wrap reply line-after" id=${reply_id}>
                 <textarea placeholder="Comment"></textarea>
                 <a href="javascript:postReplyNested(${reply_id})" class="button float">
@@ -482,17 +537,23 @@ $end = min($end, $total_page);
                     <img src="/asset/images/icon/send.png"/>
                 </a>
             </div>`)
-            $liReply.find(`textarea`).focus();
+            $parent.find(`textarea`).focus();
         }
         <?php } ?>
-        if ($liReply.hasClass('opened')) {
+        if ($parent.hasClass('opened')) {
+            // 이미 하위 댓글 창이 열려 있는 경우 input 만 추가해준다.
             if (callback && typeof callback == 'function') callback();
-            return;
+        } else {
+            // 아닌 경우 하위 댓글 데이터 첫 페이지 조회 호출
+            loadReplyNested(reply_id, 1, callback)
         }
-        $liReply.addClass('opened');
-        loadReplyNested(reply_id, 1, callback)
     }
 
+    /**
+     * 댓글 업로드 기능
+     * (댓글이 달릴 topic 의 id 필요)
+     * @param topic_id
+     */
     function postReply(topic_id) {
         let $inputComment = $(`.reply-wrap .input-wrap.topic-reply textarea`);
         let data = {
@@ -516,6 +577,11 @@ $end = min($end, $total_page);
         })
     }
 
+    /**
+     * 하위 댓글 업로드 기능
+     * (부모 댓글 id 필요)
+     * @param reply_id
+     */
     function postReplyNested(reply_id) {
         let $inputComment = $(`#reply-${reply_id} .input-wrap.reply textarea`);
         let data = {
