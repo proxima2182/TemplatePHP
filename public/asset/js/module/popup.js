@@ -270,6 +270,7 @@ function openPopupErrors(className, response, status, requestOrError) {
                 message = errorObject.message
             }
         } catch (e) {
+            // do nothing
         }
         if (message) {
             html += `<div>${message}</div>`

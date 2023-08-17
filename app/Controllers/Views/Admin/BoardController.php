@@ -6,6 +6,7 @@ use App\Helpers\Utils;
 use Exception;
 use Models\BoardModel;
 use Models\ImageFileModel;
+use Models\ReplyModel;
 use Models\TopicModel;
 
 class BoardController extends BaseAdminController
@@ -13,12 +14,14 @@ class BoardController extends BaseAdminController
     protected BoardModel $boardModel;
     protected TopicModel $topicModel;
     protected ImageFileModel $imageFileModel;
+    protected ReplyModel $replyModel;
 
     public function __construct()
     {
         $this->boardModel = model('Models\BoardModel');
         $this->topicModel = model('Models\TopicModel');
         $this->imageFileModel = model('Models\ImageFileModel');
+        $this->replyModel = model('Models\ReplyModel');
     }
 
     function index($page = 1): string
@@ -104,6 +107,14 @@ class BoardController extends BaseAdminController
         $data = $this->getViewData();
         try {
             $data['data'] = $this->getTopicData($id);
+            $result = $this->replyModel->getPaginated([
+                'per_page' => 5,
+                'page' => 1,
+            ], [
+                'topic_id' => $id,
+                'depth' => 0,
+            ]);
+            $data['reply'] = $result;
         } catch (Exception $e) {
             //todo(log)
             //TODO show 404 page

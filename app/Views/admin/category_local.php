@@ -4,7 +4,7 @@
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="page-title">
-            Category Path
+            Category Local
         </h3>
         <div class="control-button-wrap">
             <a href="javascript:openInputPopupCreate();" class="button create">
@@ -41,16 +41,16 @@
      */
     initializeInputPopup({
         getGetUrl: function (id) {
-            return `/api/category/path/get/${id}`
+            return `/api/category/local/get/${id}`
         },
         getCreateUrl: function () {
-            return `/api/category/path/create`
+            return `/api/category/local/create`
         },
         getUpdateUrl: function (id) {
-            return `/api/category/path/update/${id}`
+            return `/api/category/local/update/${id}`
         },
         getDeleteUrl: function (id) {
-            return `/api/category/path/delete/${id}`
+            return `/api/category/local/delete/${id}`
         },
         getHtml: function (data) {
             const typeSet = {
@@ -86,7 +86,7 @@
             await $.ajax({
                 type: 'GET',
                 dataType: 'json',
-                url: `/api/category/path/exchange-priority/${fromValue}/${toValue}`,
+                url: `/api/category/local/exchange-priority/${fromValue}/${toValue}`,
                 success: function (response, status, request) {
                     if (!response.success) return;
                     isSuccess = true;

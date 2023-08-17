@@ -138,22 +138,36 @@ class CategoryController extends BaseApiController
     }
 
     /**
-     * [get] /api/category/path/get/{id}
+     * [get] /api/category/local/get/{id}
      * @param $id
      * @return ResponseInterface
      */
-    public function getCategoryPath($id): ResponseInterface
+    public function getCategoryLocal($id): ResponseInterface
     {
         return $this->typicallyGet($this->categoryLocalModel, $id);
     }
 
     /**
-     * [post] /api/category/path/create
+     * [post] /api/category/local/create
      * @return ResponseInterface
      */
-    public function createCategoryPath(): ResponseInterface
+    public function createCategoryLocal(): ResponseInterface
     {
         $data = $this->request->getPost();
+
+        try {
+            $category_id = $data['category_id'];
+            $parent = $this->categoryModel->find($category_id);
+            if(!$parent) throw new Exception('not exist');
+        } catch (Exception $e) {
+            //todo(log)
+            $response = [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ];
+            return $this->response->setJSON($response);
+        }
+
         $validationRules = [
             'name' => [
                 'label' => 'Name',
@@ -177,33 +191,33 @@ class CategoryController extends BaseApiController
     }
 
     /**
-     * [post] /api/category/path/update/{id}
+     * [post] /api/category/local/update/{id}
      * @param $id
      * @return ResponseInterface
      */
-    public function updateCategoryPath($id): ResponseInterface
+    public function updateCategoryLocal($id): ResponseInterface
     {
         $data = $this->request->getPost();
         return $this->typicallyUpdate($this->categoryLocalModel, $id, $data);
     }
 
     /**
-     * [delete] /api/category/path/delete/{id}
+     * [delete] /api/category/local/delete/{id}
      * @param $id
      * @return ResponseInterface
      */
-    public function deleteCategoryPath($id): ResponseInterface
+    public function deleteCategoryLocal($id): ResponseInterface
     {
         return $this->typicallyDelete($this->categoryLocalModel, $id);
     }
 
     /**
-     * [get] /api/category/path/exchange-priority/{from}/{to}
+     * [get] /api/category/local/exchange-priority/{from}/{to}
      * @param $from
      * @param $to
      * @return ResponseInterface
      */
-    public function exchangeCategoryPathPriority($from, $to): ResponseInterface
+    public function exchangeCategoryLocalPriority($from, $to): ResponseInterface
     {
         $response = [
             'success' => false,

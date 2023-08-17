@@ -15,9 +15,13 @@ class BasePriorityModel extends BaseModel
      * @param $condition
      * @return array
      */
-    public function get($condition = null): array
+    public function get($condition = null, $limit = null): array
     {
-        return $this->builder()->orderBy("priority", "ASC")->getWhere($condition)->getResultArray();
+        $builder = $this->builder()->orderBy("priority", "ASC");
+        if (isset($limit)) {
+            $builder = $builder->limit($limit['value'], $limit['offset']);
+        }
+        return $builder->getWhere($condition)->getResultArray();
     }
 
     /**

@@ -177,6 +177,7 @@ function showErrors(response, status, requestOrError) {
                 message = errorObject.message
             }
         } catch (e) {
+            // do nothing
         }
         if (message) {
             $wrapErrorMessage.append(`<div>${message}</div>`);

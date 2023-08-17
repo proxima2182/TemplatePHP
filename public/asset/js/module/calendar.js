@@ -30,7 +30,7 @@ jQuery.prototype.initCalendar = function (option) {
                 option: JSON.stringify(option),
             })
         } catch (e) {
-            console.error(e)
+            // do nothing
         }
     }
     $parent.append(`
@@ -331,7 +331,7 @@ function setCalendar($parent, date) {
         try {
             option = JSON.parse(optionString);
         } catch (e) {
-            console.error(e)
+            // do nothing
         }
     }
 

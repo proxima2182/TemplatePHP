@@ -98,7 +98,7 @@ async function openPopupLogin() {
             },
         })
     } catch (e) {
-        console.log(e)
+        // do nothing
     }
 }
 
@@ -128,6 +128,7 @@ function showErrors(className, response, status, requestOrError) {
                 message = errorObject.message
             }
         } catch (e) {
+            // do nothing
         }
         if (message) {
             $wrapErrorMessage.append(`<div>${message}</div>`);

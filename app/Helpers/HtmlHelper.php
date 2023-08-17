@@ -24,12 +24,16 @@ final class HtmlHelper
         $data = [];
         $data['topic_id'] = $topic_id;
         if (isset($input)) {
-            if (isset($input['page']) && isset($input['per-page']) && isset($input['total']) && isset($input['total-page'])) {
+            $pagination = $input['pagination'];
+            if (isset($pagination['page']) &&
+                isset($pagination['per-page']) &&
+                isset($pagination['total']) &&
+                isset($pagination['total-page'])) {
                 $data['pagination'] = [
-                    'page' => $input['page'],
-                    'per-page' => $input['per-page'],
-                    'total' => $input['total'],
-                    'total-page' => $input['total-page'],
+                    'page' => $pagination['page'],
+                    'per-page' => $pagination['per-page'],
+                    'total' => $pagination['total'],
+                    'total-page' => $pagination['total-page'],
                 ];
             }
             if (isset($input['array'])) {

@@ -69,7 +69,7 @@ async function openInputPopupCreate() {
 
         $(`.${className} input[name=address]`).on("input", generateBlockConfirm(className));
     } catch (e) {
-        console.log(e)
+        // do nothing
     }
 }
 

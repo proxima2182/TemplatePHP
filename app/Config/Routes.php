@@ -106,8 +106,10 @@ $routes->get('/api/topic/get/([0-9]+)', [\API\TopicController::class, 'getTopic'
 $routes->post('/api/topic/create', [\API\TopicController::class, 'createTopic']);
 $routes->post('/api/topic/update/([0-9]+)', [\API\TopicController::class, 'updateTopic']);
 $routes->delete('/api/topic/delete/([0-9]+)', [\API\TopicController::class, 'deleteTopic']);
-$routes->get('/api/topic/get/([0-9]+)/reply', [\API\TopicController::class, 'getTopicReply']);
-$routes->get('/api/topic/reply/get/([0-9]+)/nested', [\API\TopicController::class, 'getNestedReply']);
+$routes->get('/api/topic/([0-9]+)/get/reply', [\API\TopicController::class, 'getTopicReply']);
+$routes->post('/api/topic/([0-9]+)/create/reply', [\API\TopicController::class, 'createReply']);
+$routes->get('/api/topic/reply/([0-9]+)/get/nested-reply', [\API\TopicController::class, 'getNestedReply']);
+$routes->post('/api/topic/reply/([0-9]+)/create/nested-reply', [\API\TopicController::class, 'createNestedReply']);
 $routes->get('/api/topic/reply/get/([0-9]+)', [\API\TopicController::class, 'getReply']);
 $routes->delete('/api/topic/reply/delete/([0-9]+)', [\API\TopicController::class, 'deleteReply']);
 
@@ -128,11 +130,11 @@ $routes->post('/api/category/create', [\API\CategoryController::class, 'createCa
 $routes->post('/api/category/update/([0-9]+)', [\API\CategoryController::class, 'updateCategory']);
 $routes->delete('/api/category/delete/([0-9]+)', [\API\CategoryController::class, 'deleteCategory']);
 $routes->get('/api/category/exchange-priority/([0-9]+)/([0-9]+)', [\API\CategoryController::class, 'exchangeCategoryPriority']);
-$routes->get('/api/category/path/get/([0-9]+)', [\API\CategoryController::class, 'getCategoryPath']);
-$routes->post('/api/category/path/create', [\API\CategoryController::class, 'createCategoryPath']);
-$routes->post('/api/category/path/update/([0-9]+)', [\API\CategoryController::class, 'updateCategoryPath']);
-$routes->delete('/api/category/path/delete/([0-9]+)', [\API\CategoryController::class, 'deleteCategoryPath']);
-$routes->get('/api/category/path/exchange-priority/([0-9]+)/([0-9]+)', [\API\CategoryController::class, 'exchangeCategoryPathPriority']);
+$routes->get('/api/category/local/get/([0-9]+)', [\API\CategoryController::class, 'getCategoryLocal']);
+$routes->post('/api/category/local/create', [\API\CategoryController::class, 'createCategoryLocal']);
+$routes->post('/api/category/local/update/([0-9]+)', [\API\CategoryController::class, 'updateCategoryLocal']);
+$routes->delete('/api/category/local/delete/([0-9]+)', [\API\CategoryController::class, 'deleteCategoryLocal']);
+$routes->get('/api/category/local/exchange-priority/([0-9]+)/([0-9]+)', [\API\CategoryController::class, 'exchangeCategoryLocalPriority']);
 
 $routes->get('/api/reservation-board/get/([0-9]+)', [\API\ReservationController::class, 'getBoard']);
 $routes->post('/api/reservation-board/create', [\API\ReservationController::class, 'createBoard']);

@@ -56,6 +56,10 @@ class TopicController extends BaseApiController
                 'label' => 'Title',
                 'rules' => 'required|min_length[1]',
             ],
+            'user_id' => [
+                'label' => 'User',
+                'rules' => 'required|min_length[1]',
+            ],
         ];
 
         $response = [
@@ -146,22 +150,26 @@ class TopicController extends BaseApiController
     }
 
     /**
-     * [get] /api/topic/get/{topic_id}/reply
+     * [get] /api/topic/{topic_id}/get/reply
      * @param $topic_id
      * @return ResponseInterface
      */
     public function getTopicReply($topic_id): ResponseInterface
     {
         $queryParams = $this->request->getGet();
-        $page = Utils::toInt($queryParams['page']);
+        $page = $queryParams['page'];
+        if ($queryParams['page'] != 'last') {
+            $page = Utils::toInt($queryParams['page']);
+        }
 
         try {
             $result = $this->replyModel->getPaginated([
-                'per_page' => 10,
+                'per_page' => 5,
                 'page' => $page,
             ], [
                 'topic_id' => $topic_id,
-                'depth' => 0]);
+                'depth' => 0,
+            ]);
             $response['success'] = true;
             $response['data'] = $result;
         } catch (Exception $e) {
@@ -169,82 +177,65 @@ class TopicController extends BaseApiController
             $response['message'] = $e->getMessage();
         }
         return $this->response->setJSON($response);
-//        $response = [
-//            'success' => false,
-//            'data' => [],
-//            'message' => ""
-//        ];
-//        $queryParams = $this->request->getGet();
-//        $page = $queryParams['page'] ?? 1;
-//
-//        $response = [
-//            'success' => true,
-//            'data' => [
-//                'page' => 3,
-//                'per-page' => 10,
-//                'total' => 13,
-//                'total-page' => 3,
-//                'array' => [
-//                    [
-//                        'id' => 6,
-//                        'user_name' => 'Lorem Ipsum',
-//                        'depth' => 0,
-//                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-//                        'created_at' => '2023-07-03 22:35:00',
-//                        'nested_reply' => [
-//                            'page' => 1,
-//                            'per-page' => 10,
-//                            'total' => 2,
-//                            'total-page' => 3,
-//                            'array' => [
-//                                [
-//                                    'user_name' => 'Lorem Ipsum',
-//                                    'depth' => 1,
-//                                    'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-//                                    'created_at' => '2023-07-03 22:35:00',
-//                                ],
-//                                [
-//                                    'user_name' => 'Lorem Ipsum',
-//                                    'depth' => 1,
-//                                    'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-//                                    'created_at' => '2023-07-03 22:35:00',
-//                                ],
-//                            ],
-//                        ],
-//                    ],
-//                    [
-//                        'id' => 7,
-//                        'user_name' => 'Lorem Ipsum',
-//                        'depth' => 0,
-//                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-//                        'created_at' => '2023-07-03 22:35:00',
-//                        'nested_reply' => [
-//                            'page' => 1,
-//                            'per-page' => 10,
-//                            'total' => 0,
-//                            'total-page' => 0,
-//                            'array' => [],
-//                        ],
-//                    ],
-//                    [
-//                        'id' => 8,
-//                        'user_name' => 'Lorem Ipsum',
-//                        'depth' => 0,
-//                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-//                        'created_at' => '2023-07-03 22:35:00',
-//                        'nested_reply' => [
-//                            'page' => 1,
-//                            'per-page' => 10,
-//                            'total' => 0,
-//                            'total-page' => 0,
-//                            'array' => [],
-//                        ],
-//                    ],
-//                ],
-//            ],
-//            'message' => ""
-//        ];
-//        return $this->response->setJSON($response);
+    }
+
+    /**
+     * [post] /api/topic/{topic_id}/create/reply
+     * @param $topic_id
+     * @return ResponseInterface
+     */
+    public function createReply($topic_id): ResponseInterface
+    {
+        $data = $this->request->getPost();
+        $data['topic_id'] = $topic_id;
+        $validationRules = [
+            'content' => [
+                'label' => 'Content',
+                'rules' => 'required|min_length[1]',
+            ],
+            'user_id' => [
+                'label' => 'User',
+                'rules' => 'required|min_length[1]',
+            ],
+        ];
+        return $this->typicallyCreate($this->replyModel, $data, $validationRules);
+    }
+
+    /**
+     * [post] /api/topic/reply/{reply_id}/create/nested-reply
+     * @param $reply_id
+     * @return ResponseInterface
+     */
+    public function createNestedReply($reply_id): ResponseInterface
+    {
+        $data = $this->request->getPost();
+        $data['reply_id'] = $reply_id;
+
+        try {
+            $parent = $this->replyModel->find($reply_id);
+            if (!$parent) throw new Exception('not exist');
+            $data['depth'] = $parent['depth'] + 1;
+            $data['topic_id'] = $parent['topic_id'];
+        } catch (Exception $e) {
+            //todo(log)
+            $response = [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ];
+            return $this->response->setJSON($response);
+        }
+
+        $validationRules = [
+            'content' => [
+                'label' => 'Content',
+                'rules' => 'required|min_length[1]',
+            ],
+            'user_id' => [
+                'label' => 'User',
+                'rules' => 'required|min_length[1]',
+            ],
+        ];
+        return $this->typicallyCreate($this->replyModel, $data, $validationRules);
     }
 
     /**
@@ -284,20 +275,25 @@ class TopicController extends BaseApiController
     }
 
     /**
-     * [get] /api/topic/reply/get/{reply_id}/nested
+     * [get] /api/topic/reply/{reply_id}/get/nested-reply
      * @param $reply_id
      * @return ResponseInterface
      */
     public function getNestedReply($reply_id): ResponseInterface
     {
         $queryParams = $this->request->getGet();
-        $page = Utils::toInt($queryParams['page']);
+        $page = $queryParams['page'];
+        if ($queryParams['page'] != 'last') {
+            $page = Utils::toInt($queryParams['page']);
+        }
 
         try {
             $result = $this->replyModel->getPaginated([
-                'per_page' => 10,
+                'per_page' => 5,
                 'page' => $page,
-            ], ['reply_id' => $reply_id]);
+            ], [
+                'reply_id' => $reply_id,
+            ]);
             $response['success'] = true;
             $response['data'] = $result;
         } catch (Exception $e) {

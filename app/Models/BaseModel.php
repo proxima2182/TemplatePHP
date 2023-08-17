@@ -2,6 +2,7 @@
 
 namespace Models;
 
+use App\Helpers\ServerLogger;
 use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\Model;
 use Exception;
@@ -26,16 +27,19 @@ class BaseModel extends Model
     {
         $total = $this->builder()->getWhere($condition)->getNumRows();
         $per_page = $pagination['per_page'];
-        $page = $pagination['page'];
-        $offset = 0;
         $total_page = (int)($total / $per_page) + ($total % $per_page == 0 ? 0 : 1);
+        $page = $pagination['page'] == 'last' ? $total_page : $pagination['page'];
+        $offset = 0;
         if ($page > $total_page) {
             $page = $total_page;
         }
         if ($page > 0) {
             $offset = ($page - 1) * $per_page;
         }
-        $result = $this->builder()->limit($per_page, $offset)->orderBy("created_at", "DESC")->getWhere($condition)->getResultArray();
+        $result = $this->get($condition, [
+            'value' => $per_page,
+            'offset' => $offset
+        ]);
 
         return [
             'array' => $result,
@@ -71,9 +75,13 @@ class BaseModel extends Model
      * @param $condition
      * @return array
      */
-    public function get($condition = null): array
+    public function get($condition = null, $limit = null): array
     {
-        return $this->builder()->orderBy("created_at", "DESC")->getWhere($condition)->getResultArray();
+        $builder = $this->builder()->orderBy("created_at", "DESC");
+        if (isset($limit)) {
+            $builder = $builder->limit($limit['value'], $limit['offset']);
+        }
+        return $builder->getWhere($condition)->getResultArray();
     }
 
     /**

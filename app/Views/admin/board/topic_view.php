@@ -1,97 +1,3 @@
-<?php
-$reply = [
-    'page' => 1,
-    'per-page' => 5,
-    'total' => 13,
-    'total-page' => 3,
-    'array' => [
-        [
-            'id' => 0,
-            'user_name' => 'Lorem Ipsum',
-            'depth' => 0,
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'created_at' => '2023-07-03 22:35:00',
-            'nested_reply' => [
-                'page' => 1,
-                'per-page' => 10,
-                'total' => 2,
-                'total-page' => 3,
-                'array' => [
-                    [
-                        'user_name' => 'Lorem Ipsum',
-                        'depth' => 1,
-                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                        'created_at' => '2023-07-03 22:35:00',
-                    ],
-                    [
-                        'user_name' => 'Lorem Ipsum',
-                        'depth' => 1,
-                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                        'created_at' => '2023-07-03 22:35:00',
-                    ],
-                ],
-            ],
-        ],
-        [
-            'id' => 1,
-            'user_name' => 'Lorem Ipsum',
-            'depth' => 0,
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'created_at' => '2023-07-03 22:35:00',
-            'nested_reply' => [
-                'page' => 1,
-                'per-page' => 10,
-                'total' => 0,
-                'total-page' => 0,
-                'array' => [],
-            ],
-        ],
-        [
-            'id' => 3,
-            'user_name' => 'Lorem Ipsum',
-            'depth' => 0,
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'created_at' => '2023-07-03 22:35:00',
-            'nested_reply' => [
-                'page' => 1,
-                'per-page' => 10,
-                'total' => 0,
-                'total-page' => 0,
-                'array' => [],
-            ],
-        ],
-        [
-            'id' => 4,
-            'user_name' => 'Lorem Ipsum',
-            'depth' => 0,
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'created_at' => '2023-07-03 22:35:00',
-            'nested_reply' => [
-                'page' => 1,
-                'per-page' => 10,
-                'total' => 0,
-                'total-page' => 0,
-                'array' => [],
-            ],
-        ],
-        [
-            'id' => 5,
-            'user_name' => 'Lorem Ipsum',
-            'depth' => 0,
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'created_at' => '2023-07-03 22:35:00',
-            'nested_reply' => [
-                'page' => 1,
-                'per-page' => 10,
-                'total' => 0,
-                'total-page' => 0,
-                'array' => [],
-            ],
-        ],
-    ],
-];
-?>
-
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="page-title">
@@ -137,7 +43,8 @@ $reply = [
         </div>
     </div>
 </div>
-<?= \App\Helpers\HtmlHelper::getReply($data['id'], $reply); ?>
+<?=
+\App\Helpers\HtmlHelper::getReply($data['id'], $reply); ?>
 <script type="text/javascript">
     $('.slider-wrap .slick').slick({
         slidesToShow: 4,

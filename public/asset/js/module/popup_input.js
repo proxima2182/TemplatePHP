@@ -155,7 +155,7 @@ function fromDataToHtml(key, data, typeSet) {
                         html += `<option value="${optionValue}" ${value == optionValue ? 'selected' : ''}>${set['options'][i]['name']}</option>`
                     }
                 } catch (e) {
-                    console.error(e)
+                    // do nothing
                 }
             }
             html += `
@@ -292,7 +292,7 @@ async function openInputPopup(id) {
             },
         });
     } catch (e) {
-        console.log(e)
+        // do nothing
     }
 }
 
@@ -376,7 +376,7 @@ async function openInputPopupCreate() {
             </div>
         </div>`);
     } catch (e) {
-        console.log(e)
+        // do nothing
     }
 }
 
@@ -488,6 +488,7 @@ function getErrorCallback(className) {
                 message = errorObject.message
             }
         } catch (e) {
+            // do nothing
         }
         if (message) {
             $(`.${className} .error-message-wrap`).append(`<div>${message}</div>`)

@@ -39,16 +39,19 @@ class CategoryModel extends BasePriorityModel
     /**
      * @throws Exception
      */
-    public function get($condition = null): array
+    public function get($condition = null, $limit = null): array
     {
         $query = "SELECT *, (SELECT COUNT(id) FROM category_local WHERE category_id = category.id) AS cnt FROM category ";
         $values = [];
         if ($condition) {
             $set = $this->getConditionSet($condition);
             $values = array_merge($values, $set['values']);
-            $query .= $set['query'];
+            $query .= " ".$set['query'];
         }
         $query .= " ORDER BY priority ASC";
+        if(isset($limit)) {
+            $query.= " LIMIT ".$limit['offset'].", ".$limit['value'];
+        }
         return BaseModel::transaction($this->db, [
             [
                 "query" => $query,
