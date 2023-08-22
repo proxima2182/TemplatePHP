@@ -50,6 +50,14 @@ async function openPopupLogin() {
             margin: 0 50px;
         }
 
+        .${className} .control-button-wrap a {
+            margin: 3px;
+        }
+
+        .${className} .control-button-wrap span {
+            font-size: 16px;
+        }
+
         .${className} .popup-inner .button-wrap {
             margin-top: 40px;
         }
@@ -78,6 +86,12 @@ async function openPopupLogin() {
             <a href="/registration" class="button register">
                 <img src="/asset/images/icon/plus_circle.png"/>
                 <span>Register</span>
+            </a>
+        </div>
+        <div class="control-button-wrap">
+            <a href="/reset-password" class="button forgot-password">
+                <img src="/asset/images/icon/password.png"/>
+                <span>Forgot Password</span>
             </a>
         </div>
         <div class="error-message-wrap">

@@ -58,4 +58,19 @@ class Utils
         }
         return $randomString;
     }
+
+    static function encodeText(string $value) : string
+    {
+        $encrypted = \Config\Services::encrypter()->encrypt($value);
+//        $encrypted = utf8_encode($encrypted);
+//        $encrypted = base64_encode($encrypted);
+        return bin2hex($encrypted);
+    }
+    static function decodeText(string $value) : string
+    {
+        $decrypted = hex2bin($value);
+//        $decrypted = base64_decode($value);
+//        $decrypted = utf8_decode($decrypted);
+        return \Config\Services::encrypter()->decrypt($decrypted);
+    }
 }

@@ -16,7 +16,7 @@ class ProfileController extends BaseClientController
 
     public function index()
     {
-        $data = null;
+        $data = [];
         if(!$this->session->is_login) {
             //todo show need login
             return;

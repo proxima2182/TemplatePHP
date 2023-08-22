@@ -1,35 +1,29 @@
 
 function sendVerificationCode() {
-    let $inputEmail = $('#container .form-wrap input[name=email]');
+    let $inputUsername = $('#container .form-wrap input[name=username]');
     let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
     $wrapErrorMessage.empty();
-    if (isEmpty($inputEmail.val())) {
-        $wrapErrorMessage.append(`<p>email field is empty.</p>`)
+    if (isEmpty($inputUsername.val())) {
+        $wrapErrorMessage.append(`<p>username field is empty.</p>`)
         return;
-    } else {
-        let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-        if (!regex.test($inputEmail.val())) {
-            $wrapErrorMessage.append(`<p>please check the email format.</p>`)
-            return;
-        }
     }
 
     let data = {
-        'email': $inputEmail.val(),
+        'username': $inputUsername.val(),
     }
 
     $.ajax({
         type: 'POST',
         data: data,
         dataType: 'json',
-        url: `/api/email/send/verification-code`,
+        url: `/api/email/send/verification-code/reset-password`,
         success: function (response, status, request) {
             if (!response.success) {
                 showErrors(response, status, request);
                 return;
             }
 
-            $inputEmail.attr({
+            $inputUsername.attr({
                 'readonly': true,
             })
             $(`#container .form-wrap .disappear-at-next-step`).remove();
@@ -146,9 +140,9 @@ function resendVerificationCode() {
     stopTimer();
     clearErrors();
 
-    let $inputEmail = $('#container .form-wrap input[name=email]');
+    let $inputUsername = $('#container .form-wrap input[name=username]');
     let data = {
-        'email': $inputEmail.val(),
+        'username': $inputUsername.val(),
     }
     let $inputCode = $('#container .form-wrap input[name=code]');
     $inputCode.val('');
@@ -157,7 +151,7 @@ function resendVerificationCode() {
         type: 'POST',
         data: data,
         dataType: 'json',
-        url: `/api/email/send/verification-code`,
+        url: `/api/email/send/verification-code/reset-password`,
         success: function (response, status, request) {
             if (!response.success) {
                 showErrors(response, status, request);
@@ -175,10 +169,10 @@ function resendVerificationCode() {
 function confirmVerificationCode() {
     clearErrors();
 
-    let $inputEmail = $('#container .form-wrap input[name=email]');
+    let $inputUsername = $('#container .form-wrap input[name=username]');
     let $inputCode = $('#container .form-wrap input[name=code]');
     let data = {
-        'email': $inputEmail.val(),
+        'username': $inputUsername.val(),
         'code': $inputCode.val(),
     }
 
@@ -186,7 +180,7 @@ function confirmVerificationCode() {
         type: 'POST',
         data: data,
         dataType: 'json',
-        url: `/api/user/registration/verify`,
+        url: `/api/user/reset-password/verify`,
         success: function (response, status, request) {
             if (!response.success) {
                 showErrors(response, status, request);
@@ -197,26 +191,18 @@ function confirmVerificationCode() {
             $(`#container .form-wrap .disappear-at-next-step`).remove();
             $('#container .form-wrap').append(`
             <div class="input-wrap" style="margin-top: 40px">
-                <p class="input-title">Username</p>
-                <input type="text" name="username" class="under-line"/>
+                <p class="input-title">New Password</p>
+                <input type="password" name="password" class="under-line editable"/>
             </div>
             <div class="input-wrap">
-                <p class="input-title">Name</p>
-                <input type="text" name="name" class="under-line"/>
-            </div>
-            <div class="input-wrap" style="margin-top: 40px">
-                <p class="input-title">Password</p>
-                <input type="password" name="password" class="under-line"/>
-            </div>
-            <div class="input-wrap">
-                <p class="input-title">Confirm Password</p>
-                <input type="password" name="confirm_password" class="under-line"/>
+                <p class="input-title">Confirm New Password</p>
+                <input type="password" name="confirm_password" class="under-line editable"/>
             </div>
             <div class="error-message-wrap">
             </div>`)
             $('#container .form-box').append(`
             <div class="button-wrap controls">
-                <a href="javascript:confirmRegistration()" class="button confirm black">Confirm</a>
+                <a href="javascript:confirmChangePassword()" class="button confirm black">Confirm</a>
             </div>`)
 
         },
@@ -226,7 +212,7 @@ function confirmVerificationCode() {
     });
 }
 
-function confirmRegistration() {
+function confirmChangePassword() {
     clearErrors();
 
     let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
@@ -261,7 +247,7 @@ function confirmRegistration() {
         type: 'POST',
         data: data,
         dataType: 'json',
-        url: `/api/user/registration/register`,
+        url: `/api/user/reset-password/confirm`,
         success: function (response, status, request) {
             if (!response.success) {
                 showErrors(response, status, request);

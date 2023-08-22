@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Helpers\ServerLogger;
 use App\Helpers\Utils;
 use CodeIgniter\Controller;
 use CodeIgniter\Database\BaseConnection;
@@ -10,7 +9,6 @@ use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
-use Exception;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -47,6 +45,7 @@ abstract class BaseController extends Controller
      */
     protected $session;
 
+    protected string $host = 'http://localhost:8080';
     protected BaseConnection $db;
 
     protected int $per_page = 30;
@@ -64,6 +63,15 @@ abstract class BaseController extends Controller
         // <MEMO> config 로 App:class 를 줘도, 비워서 default로 해도 \Config\Session 의 영향을 받음
         // $this->session = \Config\Services::session(config(\Config\App::class));
         $this->session = \Config\Services::session();
+
+//        //initialize key
+//        // Get a hex-encoded representation of the key:
+//        $encoded = bin2hex(\CodeIgniter\Encryption\Encryption::createKey(32));
+//
+//        // Put the same value with hex2bin(),
+//        // so that it is still passed as binary to the library:
+//        $key = hex2bin($encoded);
+//        ServerLogger::log($encoded);
     }
 
     /**view functions**/

@@ -1,14 +1,14 @@
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="page-title">
-            Registration
+            Reset Password
         </h3>
-        <?php if (isset($email) && isset($code)) { ?>
+        <?php if (isset($username) && isset($code)) { ?>
             <div class="form-box">
                 <div class="form-wrap">
                     <div class="input-wrap">
-                        <p class="input-title">Email</p>
-                        <input type="email" name="email" class="under-line" readonly value="<?= $email ?>"/>
+                        <p class="input-title">Username</p>
+                        <input type="email" name="username" class="under-line" readonly value="<?= $username ?>"/>
                     </div>
                     <div class="input-wrap disappear-at-next-step">
                         <p class="input-title">Verification Code</p>
@@ -25,8 +25,8 @@
             <div class="form-box">
                 <div class="form-wrap">
                     <div class="input-wrap">
-                        <p class="input-title">Email</p>
-                        <input type="email" name="email" class="under-line"/>
+                        <p class="input-title">Username</p>
+                        <input type="email" name="username" class="under-line"/>
                     </div>
                     <div class="error-message-wrap disappear-at-next-step">
                     </div>

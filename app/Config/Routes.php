@@ -39,6 +39,7 @@ $routes->get('/get-session', [\Views\MainController::class, 'getSession']);
 $routes->get('/set-session', [\Views\MainController::class, 'setSession']);
 $routes->get('/profile', [\Views\ProfileController::class, 'index']);
 $routes->get('/registration', [\Views\RegistrationController::class, 'index']);
+$routes->get('/reset-password', [\Views\RegistrationController::class, 'resetPassword']);
 $routes->get('/board/grid/([0-9]+)', [\Views\BoardController::class, 'getGridBoard']);
 $routes->addRedirect('/board/grid', '/board/grid/1');
 $routes->get('/board/table/([0-9]+)', [\Views\BoardController::class, 'getTableBoard']);
@@ -90,8 +91,10 @@ $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']
 $routes->get('/api/user/get/([0-9]+)', [\API\UserController::class, 'getUser']);
 $routes->post('/api/user/update/profile', [\API\UserController::class, 'updateProfile']);
 $routes->post('/api/user/update/([0-9]+)', [\API\UserController::class, 'updateUser']);
-$routes->post('/api/user/registration-verify', [\API\UserController::class, 'verify']);
-$routes->post('/api/user/registration-register', [\API\UserController::class, 'register']);
+$routes->post('/api/user/registration/verify', [\API\UserController::class, 'verify']);
+$routes->post('/api/user/registration/register', [\API\UserController::class, 'register']);
+$routes->post('/api/user/reset-password/verify', [\API\UserController::class, 'verifyResetPassword']);
+$routes->post('/api/user/reset-password/confirm', [\API\UserController::class, 'confirmResetPassword']);
 $routes->post('/api/user/login', [\API\UserController::class, 'login']);
 $routes->post('/api/user/logout', [\API\UserController::class, 'logout']);
 $routes->post('/api/user/password-change', [\API\UserController::class, 'changePassword']);
@@ -148,6 +151,7 @@ $routes->post('/api/reservation/accept/([0-9]+)', [\API\ReservationController::c
 
 //$routes->post('/api/email/send', [\API\EmailController::class, 'send']);
 $routes->post('/api/email/send/verification-code', [\API\EmailController::class, 'sendVerificationCode']);
+$routes->post('/api/email/send/verification-code/(:any)', [\API\EmailController::class, 'sendVerificationCode']);
 
 /*
  * --------------------------------------------------------------------
