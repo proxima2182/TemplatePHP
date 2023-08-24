@@ -46,6 +46,55 @@ class BoardController extends BaseClientController
                 ],
             ])
             . view('/client/board/table', [
+                'title' => 'test',
+                'array' => [
+                    [
+                        'id' => 0,
+                        'images' => ['/asset/images/object.png'],
+                        'title' => 'Lorem ipsum',
+                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
+                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
+                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
+                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
+                    volutpat quis mauris eu vestibulum.',
+                        'created_at' => '2023-06-29 00:00:00',
+                    ],
+                    [
+                        'id' => 0,
+                        'images' => ['/asset/images/object.png'],
+                        'title' => 'Lorem ipsum',
+                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
+                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
+                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
+                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
+                    volutpat quis mauris eu vestibulum.',
+                        'created_at' => '2023-06-29 00:00:00',
+                    ],
+                    [
+                        'id' => 0,
+                        'images' => ['/asset/images/object.png'],
+                        'title' => 'Lorem ipsum',
+                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
+                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
+                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
+                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
+                    volutpat quis mauris eu vestibulum.',
+                        'created_at' => '2023-06-29 00:00:00',
+                    ],
+                    [
+                        'id' => 0,
+                        'images' => ['/asset/images/object.png'],
+                        'title' => 'Lorem ipsum',
+                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
+                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
+                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
+                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
+                    volutpat quis mauris eu vestibulum.',
+                        'created_at' => '2023-06-29 00:00:00',
+                    ],
+                ],
+                'is_admin_page' => false,
+                'code' => 'test',
                 'pagination' => [
                     'per-page' => 30,
                     'page' => 6,

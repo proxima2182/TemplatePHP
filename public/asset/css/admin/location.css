@@ -1,15 +1,15 @@
-.list-wrap .column.name {
+.table-wrap .column.name {
     width: 20%;
 }
 
-.list-wrap .column.address {
+.table-wrap .column.address {
     width: 50%;
 }
 
-.list-wrap .column.latitude {
+.table-wrap .column.latitude {
     width: 15%;
 }
 
-.list-wrap .column.longitude {
+.table-wrap .column.longitude {
     width: 15%;
 }

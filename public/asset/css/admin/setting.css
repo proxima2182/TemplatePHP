@@ -1,11 +1,11 @@
-.list-wrap .column.code {
+.table-wrap .column.code {
     width: 20%;
 }
 
-.list-wrap .column.name {
+.table-wrap .column.name {
     width: 30%;
 }
 
-.list-wrap .column.value {
+.table-wrap .column.value {
     width: 50%;
 }

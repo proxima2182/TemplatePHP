@@ -1,19 +1,19 @@
-.list-wrap .column.username {
+.table-wrap .column.username {
     width: 20%;
 }
 
-.list-wrap .column.type {
+.table-wrap .column.type {
     width: 15%;
 }
 
-.list-wrap .column.name {
+.table-wrap .column.name {
     width: 15%;
 }
 
-.list-wrap .column.email {
+.table-wrap .column.email {
     width: 30%;
 }
 
-.list-wrap .column.created-at {
+.table-wrap .column.created-at {
     width: 20%;
 }

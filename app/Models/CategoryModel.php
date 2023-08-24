@@ -37,6 +37,8 @@ class CategoryModel extends BasePriorityModel
 
 
     /**
+     * select 문을 호출하는 기능
+     * 하위 category_local 의 갯수 필드 추가를 위해 override
      * @throws Exception
      */
     public function get($condition = null, $limit = null): array

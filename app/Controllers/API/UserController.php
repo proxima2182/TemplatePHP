@@ -77,11 +77,36 @@ class UserController extends BaseApiController
     }
 
     /**
+     * 가장 마지막에 인증한 데이터 조회 및 체크 기능
+     * @param string $email
+     * @return array
+     * @throws Exception
+     */
+    private function getLastVerificationCode(string $email): array
+    {
+        $result = $this->verificationCodeModel->getLatest(['email' => $email]);
+        if (!$result) {
+            throw new Exception('you have to send verification code first.');
+        }
+        if ($result['code'] != $data['code']) {
+            throw new Exception('please check your code again.');
+        }
+        $diff = time() - strtotime($result['created_at']);
+        if ($diff > 600) {
+            throw new Exception('code is already expired');
+        }
+        if ($result['is_used'] == 1) {
+            throw new Exception('this code is already used');
+        }
+        return $result;
+    }
+
+    /**
      * [post] /api/user/registration/verify
      * registration step#01
      * @return ResponseInterface
      */
-    public function verify()
+    public function verifyRegistration(): ResponseInterface
     {
         //TODO need to check user is already exist
         $data = $this->request->getPost();
@@ -106,22 +131,8 @@ class UserController extends BaseApiController
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
-                $latestCode = $this->verificationCodeModel->getLatest(['email' => $data['email']]);
-                if (!$latestCode) {
-                    throw new Exception('you have to send verification code first.');
-                }
-                if ($latestCode['code'] != $data['code']) {
-                    throw new Exception('please check your code again.');
-                }
-                $diff = time() - strtotime($latestCode['created_at']);
-                if ($diff > 600) {
-                    throw new Exception('code is already expired');
-                }
-                if ($latestCode['is_used'] == 1) {
-                    throw new Exception('this code is already used');
-                }
-
-                $this->verificationCodeModel->update($latestCode['id'], [
+                $code = $this->getLastVerificationCode($data['email']);
+                $this->verificationCodeModel->update($code['id'], [
                     'is_used' => 1,
                 ]);
                 $response['success'] = true;
@@ -223,22 +234,8 @@ class UserController extends BaseApiController
                 }
                 $user = $users[0];
 
-                $latestCode = $this->verificationCodeModel->getLatest(['email' => $user['email']]);
-                if (!$latestCode) {
-                    throw new Exception('you have to send verification code first.');
-                }
-                if ($latestCode['code'] != $data['code']) {
-                    throw new Exception('please check your code again.');
-                }
-                $diff = time() - strtotime($latestCode['created_at']);
-                if ($diff > 600) {
-                    throw new Exception('code is already expired');
-                }
-                if ($latestCode['is_used'] == 1) {
-                    throw new Exception('this code is already used');
-                }
-
-                $this->verificationCodeModel->update($latestCode['id'], [
+                $code = $this->getLastVerificationCode($user['email']);
+                $this->verificationCodeModel->update($code['id'], [
                     'is_used' => 1,
                 ]);
                 $response['success'] = true;

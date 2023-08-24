@@ -2,7 +2,6 @@
 
 namespace Models;
 
-use App\Helpers\ServerLogger;
 use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\Model;
 use Exception;
@@ -157,7 +156,7 @@ class BaseModel extends Model
         $values = [];
 
         foreach ($data as $key => $value) {
-            $query .= $prefix . $key . " =  ?";
+            $query .= $prefix . $this->table . "." . $key . " = ?";
             $values[] = $value;
             $prefix = " AND ";
         }

@@ -1,36 +1,36 @@
-.list-wrap .column.user {
+.table-wrap .column.user {
     width: 20%;
 }
 
-.list-wrap .column.content {
+.table-wrap .column.content {
     width: 50%;
 }
 
-.list-wrap .column.board {
+.table-wrap .column.board {
     width: 12%;
 }
 
-.list-wrap .column.created-at {
+.table-wrap .column.created-at {
     width: 18%;
     text-align: right;
     /*padding-right: 90px;*/
 }
 
-.list-wrap .row {
+.table-wrap .row {
     position: relative;
 }
 
-.list-wrap .button.float {
+.table-wrap .button.float {
     width: 40px;
     position: absolute;
     top: 5px;
     padding: 0;
 }
 
-.list-wrap .button.detail {
+.table-wrap .button.detail {
     right: 10px;
 }
 
-.list-wrap .button.topic {
+.table-wrap .button.topic {
     right: 50px;
 }

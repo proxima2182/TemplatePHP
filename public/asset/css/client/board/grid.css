@@ -1,11 +1,11 @@
-.list-wrap {
+.table-wrap {
     width: 1125px;
     min-height: 800px;
     display: inline-block;
     font-size: 0;
 }
 
-.list-wrap li {
+.table-wrap li {
     width: 270px;
     margin-left: 15px;
     margin-bottom: 25px;
@@ -14,11 +14,11 @@
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-.list-wrap li.first {
+.table-wrap li.first {
     margin-left: 0;
 }
 
-.list-wrap li .image-wrap {
+.table-wrap li .image-wrap {
     width: 100%;
     height: 200px;
     display: inline-block;
@@ -26,24 +26,24 @@
     line-height: 200px;
 }
 
-.list-wrap li .image-wrap img {
+.table-wrap li .image-wrap img {
     display: inline-block;
     vertical-align: middle;
 }
 
-.list-wrap li .text-wrap {
+.table-wrap li .text-wrap {
     text-align: left;
     background: #222;
     color: #fff;
     padding: 10px;
 }
 
-.list-wrap li .text-wrap .title {
+.table-wrap li .text-wrap .title {
     font-size: 18px;
     line-height: 30px;
 }
 
-.list-wrap li .text-wrap .content {
+.table-wrap li .text-wrap .content {
     font-size: 16px;
     height: 120px;
     text-overflow: ellipsis;
@@ -52,11 +52,11 @@
     display: inline-block;
 }
 
-.list-wrap li .button {
+.table-wrap li .button {
     position: relative;
 }
 
-.list-wrap li .button:hover:after {
+.table-wrap li .button:hover:after {
     content: "";
     display: block;
     background: rgba(0, 0, 0, 0.1);

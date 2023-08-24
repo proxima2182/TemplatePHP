@@ -1,15 +1,15 @@
-.list-wrap .column.questioner {
+.table-wrap .column.questioner {
     width: 20%;
 }
 
-.list-wrap .column.status {
+.table-wrap .column.status {
     width: 20%;
 }
 
-.list-wrap .column.expect-date {
+.table-wrap .column.expect-date {
     width: 30%;
 }
 
-.list-wrap .column.expect-time {
+.table-wrap .column.expect-time {
     width: 30%;
 }

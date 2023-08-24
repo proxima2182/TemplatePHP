@@ -91,7 +91,7 @@ $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']
 $routes->get('/api/user/get/([0-9]+)', [\API\UserController::class, 'getUser']);
 $routes->post('/api/user/update/profile', [\API\UserController::class, 'updateProfile']);
 $routes->post('/api/user/update/([0-9]+)', [\API\UserController::class, 'updateUser']);
-$routes->post('/api/user/registration/verify', [\API\UserController::class, 'verify']);
+$routes->post('/api/user/registration/verify', [\API\UserController::class, 'verifyRegistration']);
 $routes->post('/api/user/registration/register', [\API\UserController::class, 'register']);
 $routes->post('/api/user/reset-password/verify', [\API\UserController::class, 'verifyResetPassword']);
 $routes->post('/api/user/reset-password/confirm', [\API\UserController::class, 'confirmResetPassword']);

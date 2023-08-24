@@ -82,7 +82,7 @@ $identifier = $shortid->generate();
     })
 
     function confirmEditTopic(id) {
-        let data = parseInputToData($(`.topic-wrap .form-box .editable`))
+        let data = parseInputToData($(`.topic-wrap .form-wrap .editable`))
 
         data['images'] = image_file_ids;
 
@@ -105,7 +105,7 @@ $identifier = $shortid->generate();
     }
 
     function confirmCreateTopic() {
-        let data = parseInputToData($(`.topic-wrap .form-box .editable`))
+        let data = parseInputToData($(`.topic-wrap .form-wrap .editable`))
 
         data['images'] = image_file_ids;
 

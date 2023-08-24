@@ -4,69 +4,6 @@ use App\Helpers\Utils;
 
 if (!isset($links) && !isset($is_login)) return;
 
-//dummy data
-$points = [
-    [
-        'name' => 'point A',
-        'address' => 'point A Address',
-        'latitude' => 33.452278,
-        'longitude' => 126.567803,
-    ],
-    [
-        'name' => 'point B',
-        'address' => 'point B Address',
-        'latitude' => 33.452671,
-        'longitude' => 126.574792,
-    ],
-    [
-        'name' => 'point C',
-        'address' => 'point C Address',
-        'latitude' => 33.451744,
-        'longitude' => 126.572441,
-    ],
-    [
-        'name' => 'point D',
-        'address' => 'point D Address',
-        'latitude' => 33.452744,
-        'longitude' => 126.572441,
-    ],
-    [
-        'name' => 'point E',
-        'address' => 'point E Address',
-        'latitude' => 33.453744,
-        'longitude' => 126.572441,
-    ],
-    [
-        'name' => 'point F',
-        'address' => 'point F Address',
-        'latitude' => 33.454744,
-        'longitude' => 126.572441,
-    ],
-    [
-        'name' => 'point G',
-        'address' => 'point G Address',
-        'latitude' => 33.455744,
-        'longitude' => 126.572441,
-    ],
-    [
-        'name' => 'point AA',
-        'address' => 'point AA Address',
-        'latitude' => 33.756744,
-        'longitude' => 126.572441,
-    ],
-    [
-        'name' => 'point AB',
-        'address' => 'point AB Address',
-        'latitude' => 33.866744,
-        'longitude' => 126.572441,
-    ],
-    [
-        'name' => 'point AC',
-        'address' => 'point AC Address',
-        'latitude' => 34.476744,
-        'longitude' => 126.572441,
-    ],
-];
 $sliderImages = [
     '/asset/images/slider/drilling-rig-4581167_1280.jpeg',
     '/asset/images/slider/film-4613426_1280.jpeg',
@@ -89,6 +26,7 @@ $sliderImages = [
     <link rel="stylesheet" type="text/css" href="/asset/css/client/include.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/client/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/common/table.css"/>
 
     <script type="text/javascript" src="/asset/js/default.js"></script>
     <script type="text/javascript" src="/asset/js/fullpage/jquery.min.js"></script>
@@ -185,7 +123,7 @@ $sliderImages = [
             <source src="/asset/video/pexels-kelly-2491284-4096x2160-24fps.mp4" type="video/mp4">
         </video>
 
-        <div class="page-inner">
+        <div class="page-inner whole-page">
             <div class="text-box">
                 <div class="text-wrap">
                     <h3 class="title">Lorem ipsum</h3>
@@ -227,64 +165,130 @@ $sliderImages = [
         </div>
     </div>
 
-
-    <div class="section" id="page-preview">
-        <div class="page-inner">
-            <div class="inner-box">
-                <h3 class="title">
-                    Preview
-                </h3>
-                <div class="preview-slider">
-                    <div class="slick">
-                        <?php for ($i = 0; $i < 6; $i++) { ?>
-                            <div class="slick-element">
-                                <div class="element-box">
-                                    <div class="image-wrap">
-                                        <img src="/asset/images/object.png">
-                                    </div>
-                                    <div class="text-wrap">
-                                        <h4 class="title">Lorem ipsum</h4>
-                                        <p class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Proin semper dolor in purus iaculis ullamcorper. In eu posuere sapien, id
-                                            finibus libero.</p>
+    <?php if (isset($topics_grid)) { ?>
+        <div class="section" id="page-notice">
+            <div class="page-inner">
+                <div class="inner-box">
+                    <h3 class="title">
+                        <?= $topics_grid['board_alias'] ?>
+                    </h3>
+                    <div class="table-box">
+                        <?php if (!isset($topics_grid['array']) || sizeof($topics_grid['array']) == 0) { ?>
+                            <div class="no-data-box">
+                                <div class="no-data-wrap">
+                                    <img src="/asset/images/icon/empty_folder.png">
+                                    <span>No data available.</span>
+                                </div>
+                            </div>
+                        <?php } else {
+                            $array = $topics_grid['array']; ?>
+                            <div class="table-wrap">
+                                <div class="row-title">
+                                    <div class="row">
+                                        <span class="column title">Title</span>
+                                        <span class="column  created-at">Created At</span>
                                     </div>
                                 </div>
+                                <ul>
+                                    <?php foreach ($array as $index => $item) { ?>
+                                        <li class=" row">
+                                            <a href="#"
+                                               class="button row-button">
+                                                <span class="column title"><?= $item['title'] ?></span>
+                                                <span class="column created-at"><?= $item['created_at'] ?></span>
+                                            </a>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                            </div>
+                            <div class="button-wrap">
+                                <a href="<?= $topics_grid['link'] ?>" class="button more">
+                                    <span>See More</span>
+                                    <img src="/asset/images/icon/arrow_right.png"/>
+                                </a>
                             </div>
                         <?php } ?>
                     </div>
-                    <a href="javascript:requestRegister();" class="button more"><span>See More</span><img
-                            src="/asset/images/icon/arrow_right.png"/></a>
                 </div>
             </div>
         </div>
-    </div>
+    <?php } ?>
 
-    <div class="section" id="page-map">
-        <div class="page-inner">
-            <div class="list-box">
-                <h3 class="title">Map Locations</h3>
-                <?php $locationPagination = $locations['pagination']; ?>
-                <div class="list-wrap" page="<?= $locationPagination['page'] ?>"
-                     per-page="<?= $locationPagination['per-page'] ?>"
-                     total="<?= $locationPagination['total'] ?>"
-                     total-page="<?= $locationPagination['total-page'] ?>">
-                    <ul>
-                        <?php foreach ($locations['array'] as $index => $point) { ?>
-                            <li class="button">
-                                <div class="text-wrap">
-                                    <div class="title"><?= $point['name'] ?></div>
-                                    <div class="content"><?= $point['address'] ?></div>
+    <?php if (isset($topics_grid)) { ?>
+        <div class="section" id="page-preview">
+            <div class="page-inner">
+                <div class="inner-box">
+                    <h3 class="title">
+                        <?= $topics_grid['board_alias'] ?>
+                    </h3>
+                    <div class="slider-box">
+                        <?php if (!isset($topics_grid['array']) || sizeof($topics_grid['array']) == 0) { ?>
+                            <div class="no-data-box">
+                                <div class="no-data-wrap">
+                                    <img src="/asset/images/icon/empty_folder.png">
+                                    <span>No data available.</span>
                                 </div>
-                            </li>
+                            </div>
+                        <?php } else {
+                            $array = $topics_grid['array']; ?>
+                            <div class="slick slider-wrap">
+                                <?php foreach ($array as $index => $item) { ?>
+                                    <div class="slick-element">
+                                        <div class="element-box">
+                                            <?php if (isset($item['image_id'])) { ?>
+                                                <div class="image-wrap"
+                                                     style="background: url('/image-file/<?= $item['image_id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+                                                </div>
+                                            <?php } ?>
+                                            <div class="text-wrap">
+                                                <h4 class="title"><?= $item['title'] ?></h4>
+                                                <p class="content"><?= $item['content'] ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                            <div class="button-wrap">
+                                <a href="<?= $topics_grid['link'] ?>" class="button more">
+                                    <span>See More</span>
+                                    <img src="/asset/images/icon/arrow_right.png"/>
+                                </a>
+                            </div>
                         <?php } ?>
-                    </ul>
+                    </div>
                 </div>
             </div>
-            <div class="map-box">
-                <div id="map" style="width:100%;height:100%;"></div>
+        </div>
+    <?php } ?>
+
+    <?php if (isset($locations)) {
+        $locationPagination = $locations['pagination']; ?>
+        <div class="section" id="page-map">
+            <div class="page-inner whole-page">
+                <div class="location-list-box">
+                    <h3 class="title">Map Locations</h3>
+                    <div class="location-list-wrap" page="<?= $locationPagination['page'] ?>"
+                         per-page="<?= $locationPagination['per-page'] ?>"
+                         total="<?= $locationPagination['total'] ?>"
+                         total-page="<?= $locationPagination['total-page'] ?>">
+                        <ul>
+                            <?php foreach ($locations['array'] as $index => $point) { ?>
+                                <li class="button">
+                                    <div class="text-wrap">
+                                        <div class="title"><?= $point['name'] ?></div>
+                                        <div class="content"><?= $point['address'] ?></div>
+                                    </div>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </div>
+                <div class="map-box">
+                    <div id="map" style="width:100%;height:100%;"></div>
+                </div>
             </div>
         </div>
-    </div>
+    <?php } ?>
 
     <div class="section" id="page-last">
         <div class="page-inner">

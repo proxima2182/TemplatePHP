@@ -147,8 +147,9 @@ $(document).ready(function () {
         accessibility: false,
     });
     $('#page-preview .slick').slick({
-        slidesToShow: 3,
+        slidesToShow: 4,
         slidesToScroll: 1,
+        infinite: false,
         autoplay: false,
     });
 
@@ -255,7 +256,7 @@ function checkPagePopup() {
                         </div>
                     </div>
                     <div class="button-wrap">
-                        <a href="javascript:closePagePopupTodayDisabled('${className}', ${data['id']})" class="button black">
+                        <a href="javascript:closePagePopupTodayDisabled('${className}', ${item['id']})" class="button black">
                             <span>Don't show this popup today</span>
                         </a>
                     </div>`
@@ -338,15 +339,18 @@ function resizeWindow() {
     $('#page-start .slider-text-wrap').css({
         'line-height': `${content_height}px`,
     })
-    $('#page-video .page-inner').css({
-        'line-height': `${window.innerHeight - 100}px`,
-    })
-    $('#page-preview .page-inner').css({
-        'line-height': `${window.innerHeight - 100}px`,
-    })
-    $('#page-last .page-inner').css({
-        'line-height': `${window.innerHeight - 265}px`,
-    })
+
+    let $pageInners = $('.section .page-inner').not('.whole-page');
+    for(let i in $pageInners) {
+        let height = window.innerHeight - 110;
+        let $footer = $pageInners.eq(i).parent().find('#footer')
+        if($footer.length > 0) {
+            height -= $footer.height();
+        }
+        $pageInners.eq(i).css({
+            'line-height': `${height}px`,
+        })
+    }
     resizePagePopupWindow();
 }
 
@@ -364,7 +368,7 @@ let bounds;
  * @param points
  */
 function setMapPoints(points) {
-    if(!bounds) {
+    if (!bounds) {
         bounds = new kakao.maps.LatLngBounds();
     }
     // let bounds = new kakao.maps.LatLngBounds();

@@ -1,33 +1,33 @@
-.list-wrap .column.code {
+.table-wrap .column.code {
     width: 15%;
 }
 
-.list-wrap .column.name {
+.table-wrap .column.name {
     width: 20%;
 }
 
-.list-wrap .column.path {
+.table-wrap .column.path {
     width: 30%;
 }
 
-.list-wrap .column.main-only {
+.table-wrap .column.main-only {
     width: 10%;
 }
 
-.list-wrap .column.local {
+.table-wrap .column.local {
     width: 10%;
 }
 
-.list-wrap .column.local-count {
+.table-wrap .column.local-count {
     width: 15%;
 }
 
-.list-wrap .row {
+.table-wrap .row {
     position: relative;
     cursor: move;
 }
 
-.list-wrap .button.detail {
+.table-wrap .button.detail {
     width: 40px;
     position: absolute;
     right: 10px;

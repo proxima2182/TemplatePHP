@@ -9,8 +9,8 @@
                 <span>Create</span>
             </a>
         </div>
-        <div class="list-wrap">
-            <div class="list-box">
+        <div class="table-box">
+            <div class="table-wrap">
                 <div class="row-title">
                     <div class="row">
                         <span class="column code">Code</span>

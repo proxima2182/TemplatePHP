@@ -1,8 +1,8 @@
-.list-wrap .column.title {
+.table-wrap .column.title {
     width: 60%;
 }
 
-.list-wrap .column.created-at {
+.table-wrap .column.created-at {
     width: 40%;
     text-align: right;
 }

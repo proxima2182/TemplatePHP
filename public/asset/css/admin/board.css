@@ -1,24 +1,24 @@
-.list-wrap .column.code {
+.table-wrap .column.code {
     width: 20%;
 }
 
-.list-wrap .column.type {
+.table-wrap .column.type {
     width: 20%;
 }
 
-.list-wrap .column.alias {
+.table-wrap .column.alias {
     width: 45%;
 }
 
-.list-wrap .column.public {
+.table-wrap .column.public {
     width: 15%;
 }
 
-.list-wrap .row {
+.table-wrap .row {
     position: relative;
 }
 
-.list-wrap .button.detail {
+.table-wrap .button.detail {
     width: 40px;
     position: absolute;
     right: 10px;

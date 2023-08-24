@@ -34,14 +34,4 @@ class BoardModel extends BaseModel
         'created_at',
         'updated_at',
     ];
-
-    function getBoards()
-    {
-        $this->builder()->getWhere(["is_public" => 1])->getResultArray();
-    }
-
-    function getBoard($code)
-    {
-        $this->builder()->getWhere(["code" => $code])->getResultArray();
-    }
 }

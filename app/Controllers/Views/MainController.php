@@ -4,19 +4,25 @@ namespace Views;
 
 use App\Helpers\ServerLogger;
 use Exception;
+use Models\BoardModel;
 use Models\LocationModel;
+use Models\TopicModel;
 use Models\UserModel;
 
 class MainController extends BaseClientController
 {
 
     protected UserModel $userModel;
+    protected BoardModel $boardModel;
+    protected TopicModel $topicModel;
     protected LocationModel $locationModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->userModel = model('Models\UserModel');
+        $this->boardModel = model('Models\BoardModel');
+        $this->topicModel = model('Models\TopicModel');
         $this->locationModel = model('Models\LocationModel');
     }
 
@@ -46,6 +52,27 @@ class MainController extends BaseClientController
 //                    'total-page' => 0,
 //                ]
 //            ];
+
+            {
+                // load grid view
+                $code = 'menu';
+                $board = $this->boardModel->findByCode($code);
+                if ($board) {
+                    $result = $this->topicModel->getPaginated([
+                        'per_page' => 8,
+                        'page' => 1,
+                    ], [
+                        'board_id' => $board['id'],
+                    ]);
+                    $result = array_merge($result, [
+                        'board_id' => $board['id'],
+                        'board_code' => $board['code'],
+                        'board_alias' => $board['alias'],
+                        'link' => '/board/' . $code,
+                    ]);
+                    $data['topics_grid'] = $result;
+                }
+            }
         } catch (Exception $e) {
             //todo(log)
             //TODO show error page

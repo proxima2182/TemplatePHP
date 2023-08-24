@@ -1,16 +1,16 @@
-.list-wrap .column.code {
+.table-wrap .column.code {
     width: 20%;
 }
 
-.list-wrap .column.alias {
+.table-wrap .column.alias {
     width: 80%;
 }
 
-.list-wrap .row {
+.table-wrap .row {
     position: relative;
 }
 
-.list-wrap .button.detail {
+.table-wrap .button.detail {
     width: 40px;
     position: absolute;
     right: 10px;

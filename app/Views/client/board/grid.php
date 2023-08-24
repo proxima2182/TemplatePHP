@@ -3,7 +3,7 @@
         <h3 class="page-title">
             Preview
         </h3>
-        <div class="list-wrap">
+        <div class="table-wrap">
             <ul>
                 <?php for ($i = 0; $i < 8; $i++) {
                     if ($i % 4 == 0) { ?>

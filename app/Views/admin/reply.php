@@ -3,8 +3,8 @@
         <h3 class="page-title">
             Reply
         </h3>
-        <div class="list-wrap">
-            <div class="list-box">
+        <div class="table-box">
+            <div class="table-wrap">
                 <div class="row-title">
                     <div class="row">
                         <span class="column user">User</span>

@@ -14,6 +14,22 @@
     overflow: hidden;
 }
 
+.section .page-inner {
+    padding-top: 110px;
+    text-align: center;
+}
+
+.section .page-inner.whole-page {
+    padding-top: 0;
+}
+
+.section .page-inner .inner-box {
+    line-height: normal;
+    width: 100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 @keyframes headerSlideOut {
     from {
         top: -60px;
@@ -156,18 +172,6 @@ video background 패이지
 youtube 패이지
  */
 
-#page-video .page-inner {
-    padding-top: 100px;
-    text-align: center;
-}
-
-#page-video .inner-box {
-    width: 100%;
-    display: inline-block;
-    vertical-align: middle;
-    line-height: normal;
-}
-
 #page-video hr {
     margin: 40px 0;
 }
@@ -191,9 +195,45 @@ youtube 패이지
 }
 
 /*
-preview 페이지
+notice 페이지
  */
 
+#page-notice .page-inner h3.title {
+    margin: 0 20px;
+    font-size: 26px;
+    line-height: 50px;
+    font-weight: 600;
+}
+
+#page-notice .page-inner .table-box {
+    width: 1200px;
+    min-height: 400px;
+    line-height: 400px;
+    display: inline-block;
+    margin-top: 40px;
+}
+
+#page-notice .page-inner .table-wrap {
+    min-height: 450px;
+}
+
+#page-notice .page-inner .table-wrap .column.title {
+    width: 60%;
+}
+
+#page-notice .page-inner .table-wrap .column.created-at {
+    width: 40%;
+    text-align: right;
+}
+
+#page-notice .page-inner .button-wrap {
+    line-height: normal;
+    margin-bottom: 40px;
+}
+
+/*
+preview 페이지
+ */
 /*slick override*/
 #page-preview .slick button.slick-prev {
     left: -60px;
@@ -203,17 +243,6 @@ preview 페이지
     right: -60px;
 }
 
-#page-preview .page-inner {
-    padding-top: 100px;
-    text-align: center;
-}
-
-#page-preview .inner-box {
-    display: inline-block;
-    vertical-align: middle;
-    line-height: normal;
-}
-
 #page-preview .page-inner h3.title {
     margin: 0 20px;
     font-size: 26px;
@@ -221,15 +250,23 @@ preview 페이지
     font-weight: 600;
 }
 
-#page-preview .page-inner .preview-slider {
-    width: 900px;
-    margin-top: 15px;
+#page-preview .page-inner .slider-box {
+    width: 1200px;
+    line-height: 400px;
+    margin-top: 40px;
     display: inline-block;
 }
 
+#page-preview .page-inner .button-wrap {
+    line-height: normal;
+    margin-bottom: 40px;
+}
+
 #page-preview .page-inner .slick-element .element-box {
+    height: 400px;
     overflow: hidden;
     margin: 15px;
+    background: #222;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -248,23 +285,39 @@ preview 페이지
 
 #page-preview .page-inner .slick-element .text-wrap {
     text-align: left;
-    background: #222;
     color: #fff;
     padding: 10px;
+    position: relative;
+}
+
+/*text 가 중간에 잘린것 같이 보이는 것을 가려주기 위해*/
+#page-preview .page-inner .slick-element .text-wrap:after {
+    content: "";
+    height: 80px;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0), #222 80%);
+}
+
+#page-preview .page-inner .slick-element .text-wrap * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
 }
 
 #page-preview .page-inner .slick-element .text-wrap .title {
     font-size: 18px;
     line-height: 30px;
+    height: 30px;
 }
 
 #page-preview .page-inner .slick-element .text-wrap .content {
     font-size: 16px;
-    height: 120px;
-    text-overflow: ellipsis;
-    white-space: normal;
-    overflow: hidden;
-    display: inline-block;
+    min-height: 120px;
+    max-height: 300px;
 }
 
 #page-preview .button.more {
@@ -288,22 +341,17 @@ preview 페이지
     background: #333;
 }
 
-
 /*
 map 패이지
  */
-#page-map {
-    /*background: #bbb;*/
-}
-
 #page-map .page-inner {
     width: 1280px;
     margin: 0 auto;
     padding: 140px 40px 40px 40px;
     box-sizing: border-box;
-    text-align: center;
     /*background: #fff;*/
     font-size: 0;
+    text-align: center;
     position: relative;
 }
 
@@ -312,7 +360,7 @@ map 패이지
     vertical-align: top;
 }
 
-#page-map .list-box {
+#page-map .location-list-box {
     top: 190px;
     left: 80px;
     bottom: 80px;
@@ -322,7 +370,7 @@ map 패이지
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-#page-map .list-box h3.title {
+#page-map .location-list-box h3.title {
     font-size: 22px;
     line-height: 50px;
     font-weight: 600;
@@ -334,7 +382,7 @@ map 패이지
     z-index: 10;
 }
 
-#page-map .list-wrap {
+#page-map .location-list-wrap {
     height: 100%;
     /*background: rgba(255, 255, 255, 0.8);*/
     background: #fff;
@@ -342,7 +390,7 @@ map 패이지
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-#page-map .list-wrap li:after {
+#page-map .location-list-wrap li:after {
     content: "";
     display: block;
     width: 100%;
@@ -350,22 +398,22 @@ map 패이지
     background: #eee;
 }
 
-#page-map .list-wrap .button {
+#page-map .location-list-wrap .button {
     width: 100%;
 }
 
-#page-map .list-wrap li .text-wrap {
+#page-map .location-list-wrap li .text-wrap {
     padding: 15px;
     text-align: left;
 }
 
-#page-map .list-wrap .title {
+#page-map .location-list-wrap .title {
     font-size: 18px;
     line-height: 25px;
     color: #000;
 }
 
-#page-map .list-wrap .content {
+#page-map .location-list-wrap .content {
     font-size: 16px;
     color: #666;
 }
@@ -386,9 +434,7 @@ submit 페이지
 #page-last .page-inner {
     height: 100%;
     /*background: #fff;*/
-    padding-top: 100px;
     padding-bottom: 165px;
-    text-align: center;
 }
 
 #page-last .page-inner .form-box {
