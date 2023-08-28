@@ -30,6 +30,32 @@
     vertical-align: middle;
 }
 
+.section .page-inner .button-wrap {
+    line-height: normal;
+    margin: 20px 0 40px 0;
+}
+
+.section .page-inner .button-wrap .button.more {
+    line-height: 20px;
+    position: relative;
+}
+
+.section .page-inner .button-wrap .button.more * {
+    vertical-align: middle;
+    margin: 0 5px;
+}
+
+.section .page-inner .button-wrap .button.more:hover:after {
+    content: "";
+    display: inline-block;
+    height: 1px;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    background: #333;
+}
+
 @keyframes headerSlideOut {
     from {
         top: -60px;
@@ -173,7 +199,7 @@ youtube 패이지
  */
 
 #page-video hr {
-    margin: 40px 0;
+    margin: 20px 0;
 }
 
 #page-video .main-video {
@@ -184,10 +210,8 @@ youtube 패이지
     color: #000;
 }
 
-#page-video .text-wrap .title {
-    font-size: 26px;
-    line-height: 50px;
-    font-weight: 600;
+#page-video .text-wrap .page-title {
+    margin: 0;
 }
 
 #page-video .text-wrap .content {
@@ -198,19 +222,11 @@ youtube 패이지
 notice 페이지
  */
 
-#page-notice .page-inner h3.title {
-    margin: 0 20px;
-    font-size: 26px;
-    line-height: 50px;
-    font-weight: 600;
-}
-
 #page-notice .page-inner .table-box {
     width: 1200px;
     min-height: 400px;
     line-height: 400px;
     display: inline-block;
-    margin-top: 40px;
 }
 
 #page-notice .page-inner .table-wrap {
@@ -226,11 +242,6 @@ notice 페이지
     text-align: right;
 }
 
-#page-notice .page-inner .button-wrap {
-    line-height: normal;
-    margin-bottom: 40px;
-}
-
 /*
 preview 페이지
  */
@@ -243,102 +254,10 @@ preview 페이지
     right: -60px;
 }
 
-#page-preview .page-inner h3.title {
-    margin: 0 20px;
-    font-size: 26px;
-    line-height: 50px;
-    font-weight: 600;
-}
-
 #page-preview .page-inner .slider-box {
     width: 1200px;
     line-height: 400px;
-    margin-top: 40px;
     display: inline-block;
-}
-
-#page-preview .page-inner .button-wrap {
-    line-height: normal;
-    margin-bottom: 40px;
-}
-
-#page-preview .page-inner .slick-element .element-box {
-    height: 400px;
-    overflow: hidden;
-    margin: 15px;
-    background: #222;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-#page-preview .page-inner .slick-element .image-wrap {
-    width: 100%;
-    height: 200px;
-    display: inline-block;
-    text-align: center;
-    line-height: 200px;
-}
-
-#page-preview .page-inner .slick-element .image-wrap img {
-    display: inline-block;
-    vertical-align: middle;
-}
-
-#page-preview .page-inner .slick-element .text-wrap {
-    text-align: left;
-    color: #fff;
-    padding: 10px;
-    position: relative;
-}
-
-/*text 가 중간에 잘린것 같이 보이는 것을 가려주기 위해*/
-#page-preview .page-inner .slick-element .text-wrap:after {
-    content: "";
-    height: 80px;
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(rgba(0, 0, 0, 0), #222 80%);
-}
-
-#page-preview .page-inner .slick-element .text-wrap * {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-}
-
-#page-preview .page-inner .slick-element .text-wrap .title {
-    font-size: 18px;
-    line-height: 30px;
-    height: 30px;
-}
-
-#page-preview .page-inner .slick-element .text-wrap .content {
-    font-size: 16px;
-    min-height: 120px;
-    max-height: 300px;
-}
-
-#page-preview .button.more {
-    line-height: 20px;
-    position: relative;
-}
-
-#page-preview .button.more * {
-    vertical-align: middle;
-    margin: 0 5px;
-}
-
-#page-preview .button.more:hover:after {
-    content: "";
-    display: inline-block;
-    height: 1px;
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    right: 0;
-    background: #333;
 }
 
 /*
@@ -361,21 +280,18 @@ map 패이지
 }
 
 #page-map .location-list-box {
-    top: 190px;
-    left: 80px;
-    bottom: 80px;
+    top: 200px;
+    left: 70px;
+    bottom: 70px;
     width: 300px;
     position: absolute;
     z-index: 10;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-#page-map .location-list-box h3.title {
-    font-size: 22px;
+#page-map .page-title {
+    margin: 0;
     line-height: 50px;
-    font-weight: 600;
-    color: #222;
-    /*text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);*/
     position: absolute;
     top: -50px;
     left: 10px;
@@ -558,7 +474,7 @@ submit 페이지
     position: relative;
 }
 
-.page-popup .slider-wrap .slick-element {
+.page-popup .slider-wrap .slick-item {
     height: 600px;
     display: inline-block;
 }

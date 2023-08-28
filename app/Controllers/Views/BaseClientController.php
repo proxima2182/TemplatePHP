@@ -45,4 +45,11 @@ class BaseClientController extends BaseController
     {
         return view('client/footer');
     }
+
+    protected function getViewData(): array
+    {
+        return array_merge(parent::getViewData(), [
+            'is_admin_page' => false,
+        ]);
+    }
 }

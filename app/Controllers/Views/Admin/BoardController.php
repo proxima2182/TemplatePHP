@@ -58,6 +58,7 @@ class BoardController extends BaseAdminController
 
     function getBoard($code, $page = 1): string
     {
+        $page = Utils::toInt($page);
         $data = $this->getViewData();
         try {
             $board = $this->boardModel->findByCode($code);
@@ -89,24 +90,12 @@ class BoardController extends BaseAdminController
             . parent::loadFooter();
     }
 
-    private function getTopicData($id): array
-    {
-        $result = $this->topicModel->find($id);
-        $board = $this->boardModel->find($result['board_id']);
-        $images = $this->imageFileModel->get(['topic_id' => $id]);
-        $result['images'] = $images;
-        return array_merge($result, [
-            'board_id' => $board['id'],
-            'board_code' => $board['code'],
-            'board_alias' => $board['alias'],
-        ]);
-    }
-
     public function getTopic($id): string
     {
         $data = $this->getViewData();
         try {
-            $data['data'] = $this->getTopicData($id);
+            $topic = $this->getTopicData($id);
+            $data['data'] = $topic;
             $result = $this->replyModel->getPaginated([
                 'per_page' => 5,
                 'page' => 1,
@@ -118,6 +107,7 @@ class BoardController extends BaseAdminController
         } catch (Exception $e) {
             //todo(log)
             //TODO show 404 page
+            return '';
         }
         return parent::loadHeader([
                 'css' => [
@@ -167,7 +157,7 @@ class BoardController extends BaseAdminController
                 'board_id' => $board['id'],
                 'board_alias' => $board['alias'],
             ];
-            $data = array_merge($data,[
+            $data = array_merge($data, [
                 'type' => 'create'
             ]);
         } catch (Exception $e) {
@@ -247,5 +237,18 @@ class BoardController extends BaseAdminController
                 'pagination_link' => '/admin/topic/reply'
             ])
             . parent::loadFooter();
+    }
+
+    private function getTopicData($id): array
+    {
+        $result = $this->topicModel->find($id);
+        $board = $this->boardModel->find($result['board_id']);
+        $images = $this->imageFileModel->get(['topic_id' => $id]);
+        $result['images'] = $images;
+        return array_merge($result, [
+            'board_id' => $board['id'],
+            'board_code' => $board['code'],
+            'board_alias' => $board['alias'],
+        ]);
     }
 }

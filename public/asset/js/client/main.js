@@ -250,7 +250,7 @@ function checkPagePopup() {
                     //TODO add loop
                     for (let index in item.images) {
                         let image = item.images[index];
-                        html += `<div class="slick-element" style="background: url('/image-file/${image['id']}') no-repeat center; background-size: cover; font-size: 0;">Slider #${index}</div>`
+                        html += `<div class="slick-item" style="background: url('/image-file/${image['id']}') no-repeat center; background-size: cover; font-size: 0;">Slider #${index}</div>`
                     }
                     html += `
                         </div>
@@ -334,7 +334,7 @@ function resizeWindow() {
     let content_height = window.innerHeight - header_height
     $('#page-start .main-slider-wrap').css('padding-top', header_height);
     $('#page-start .main-slider-wrap .slick').css('height', content_height);
-    $('#page-start .main-slider-wrap .slick .slick-element').css('height', content_height);
+    $('#page-start .main-slider-wrap .slick .slick-item').css('height', content_height);
 
     $('#page-start .slider-text-wrap').css({
         'line-height': `${content_height}px`,

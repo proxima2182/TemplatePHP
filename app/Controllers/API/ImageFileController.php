@@ -2,7 +2,6 @@
 
 namespace API;
 
-use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 use Crisu83\ShortId\ShortId;
 use Exception;
@@ -92,7 +91,6 @@ class ImageFileController extends BaseApiController
             }
         } catch (Exception $e) {
             //todo(log)
-            ServerLogger::log($e);
         }
     }
 
@@ -114,7 +112,6 @@ class ImageFileController extends BaseApiController
             }
         } catch (Exception $e) {
             //todo(log)
-            ServerLogger::log($e);
             $response['message'] = $e->getMessage();
         }
         return $this->response->setJSON($response);
@@ -141,7 +138,6 @@ class ImageFileController extends BaseApiController
             $response['success'] = true;
         } catch (Exception $e) {
             //todo(log)
-            ServerLogger::log($e);
             $response['message'] = $e->getMessage();
         }
         return $this->response->setJSON($response);

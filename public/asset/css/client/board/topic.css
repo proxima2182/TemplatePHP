@@ -31,7 +31,7 @@
     padding: 20px 40px;
 }
 
-.topic-wrap .slider-wrap .slick-element {
+.topic-wrap .slider-wrap .slick-item {
     height: 250px;
     line-height: 200px;
     text-align: center;

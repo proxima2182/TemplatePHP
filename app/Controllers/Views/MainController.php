@@ -26,7 +26,6 @@ class MainController extends BaseClientController
         $this->locationModel = model('Models\LocationModel');
     }
 
-
     /**
      * main 페이지
      * @return string
@@ -53,26 +52,10 @@ class MainController extends BaseClientController
 //                ]
 //            ];
 
-            {
-                // load grid view
-                $code = 'menu';
-                $board = $this->boardModel->findByCode($code);
-                if ($board) {
-                    $result = $this->topicModel->getPaginated([
-                        'per_page' => 8,
-                        'page' => 1,
-                    ], [
-                        'board_id' => $board['id'],
-                    ]);
-                    $result = array_merge($result, [
-                        'board_id' => $board['id'],
-                        'board_code' => $board['code'],
-                        'board_alias' => $board['alias'],
-                        'link' => '/board/' . $code,
-                    ]);
-                    $data['topics_grid'] = $result;
-                }
-            }
+            // load table view
+            $data['topics_table'] = $this->getTopicData('notice');
+            // load grid view
+            $data['topics_grid'] = $this->getTopicData('menu');
         } catch (Exception $e) {
             //todo(log)
             //TODO show error page
@@ -125,5 +108,26 @@ class MainController extends BaseClientController
         ServerLogger::log($name);
         ServerLogger::log($this->session->has('username'));
         return view('welcome_message');
+    }
+
+    private function getTopicData($code): array
+    {
+        $board = $this->boardModel->findByCode($code);
+        if ($board) {
+            $result = $this->topicModel->getPaginated([
+                'per_page' => 8,
+                'page' => 1,
+            ], [
+                'board_id' => $board['id'],
+            ]);
+            $result = array_merge($result, [
+                'board_id' => $board['id'],
+                'board_code' => $board['code'],
+                'board_alias' => $board['alias'],
+                'link' => '/board/' . $code,
+            ]);
+            return $result;
+        }
+        return [];
     }
 }

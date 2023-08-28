@@ -6,7 +6,7 @@
         <div class="topic-wrap">
             <div class="row row-title line-after black">
                 <span class="column title"><?= $data['title'] ?></span>
-                <span class="column  created-at"><?= $data['created_at'] ?></span>
+                <span class="column created-at"><?= $data['created_at'] ?></span>
             </div>
             <div class="text-wrap line-after">
                 <div class="content"><?= $data['content'] ?></div>
@@ -15,7 +15,7 @@
                 <div class="slider-box">
                     <div class="slick">
                         <?php foreach ($data['images'] as $index => $image) { ?>
-                            <div class="slick-element"
+                            <div class="slick-item"
                                  style="background: url('/image-file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
                                 Slider #<?= $image['id'] ?>
                             </div>

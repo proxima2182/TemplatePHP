@@ -6,14 +6,16 @@
         <h3 class="page-title">
             Category Local
         </h3>
-        <div class="control-button-wrap">
-            <a href="javascript:openInputPopupCreate();" class="button create">
-                <img src="/asset/images/icon/plus.png"/>
-                <span>Create</span>
-            </a>
-        </div>
         <div class="table-box">
             <div class="table-wrap">
+                <?php if ($is_login) { ?>
+                    <div class="control-button-wrap">
+                        <a href="javascript:openInputPopupCreate();" class="button create">
+                            <img src="/asset/images/icon/plus.png"/>
+                            <span>Create</span>
+                        </a>
+                    </div>
+                <?php } ?>
                 <div class="row-title">
                     <div class="row">
                         <span class="column name">Name</span>
@@ -22,7 +24,7 @@
                 </div>
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
-                        <li class="row draggable-element" draggable="true">
+                        <li class="row draggable-item" draggable="true">
                             <input hidden type="text" value="<?= $item['id'] ?>"/>
                             <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
                                 <span class="column name"><?= $item['name'] ?></span>

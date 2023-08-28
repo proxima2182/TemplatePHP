@@ -2,7 +2,6 @@
 
 namespace Views\Admin;
 
-use App\Helpers\ServerLogger;
 use App\Helpers\Utils;
 use Exception;
 use Models\SettingModel;
@@ -25,7 +24,6 @@ class SettingController extends BaseAdminController
                 'page' => $page,
             ]);
         } catch (Exception $e) {
-            ServerLogger::log($e);
             //todo(log)
             //TODO show error page
         }

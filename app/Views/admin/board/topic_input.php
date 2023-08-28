@@ -39,7 +39,7 @@ $identifier = $shortid->generate();
             <div class="slider-wrap">
                 <div class="slider-box">
                     <div class="slick">
-                        <div class="slick-element add"
+                        <div class="slick-item add"
                              style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                             <label for="file" class="button"></label>
                             <input type="file" name="file" multiple id="file"
@@ -49,11 +49,11 @@ $identifier = $shortid->generate();
                         </div>
                         <?php if (isset($data['images'])) {
                             foreach ($data['images'] as $index => $image) { ?>
-                                <div class="slick-element draggable-element" draggable="true"
+                                <div class="slick-item draggable-item" draggable="true"
                                      style="background: url('/image-file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
                                     Slider #<?= $image['id'] ?>
                                     <input hidden type="text" name="id" value="<?= $image['id'] ?>">
-                                    <div class="slick-element-hover">
+                                    <div class="slick-item-hover">
                                         <a href="javascript:deleteImage('<?= $image['id'] ?>')"
                                            class="button delete-image black">
                                             <img src="/asset/images/icon/cancel_white.png"/>
@@ -170,11 +170,11 @@ $identifier = $shortid->generate();
                 image_file_ids.push(data.id.toString());
 
                 $('.slider-wrap .slick').slick('slickAdd', `
-                <div class="slick-element draggable-element" draggable="true"
+                <div class="slick-item draggable-item" draggable="true"
                      style="background: url('/image-file/${data.id}') no-repeat center; background-size: cover; font-size: 0;">
                     Slider #${data.id}
                     <input hidden type="text" name="id" value="${data.id}">
-                    <div class="slick-element-hover">
+                    <div class="slick-item-hover">
                         <a href="javascript:deleteImage('${data.id}')"
                            class="button delete-image black">
                             <img src="/asset/images/icon/cancel_white.png"/>

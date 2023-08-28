@@ -6,14 +6,16 @@ $is_admin_page = isset($is_admin) && $is_admin;
         <h3 class="page-title">
             Reservation
         </h3>
-        <div class="control-button-wrap">
-            <a href="javascript:openReservationPopupRequest(this);" class="button create">
-                <img src="/asset/images/icon/plus.png"/>
-                <span>Reserve</span>
-            </a>
-        </div>
         <div class="table-box">
             <div class="table-wrap">
+                <?php if ($is_login) { ?>
+                    <div class="control-button-wrap">
+                        <a href="javascript:openReservationPopupRequest(this);" class="button create">
+                            <img src="/asset/images/icon/plus.png"/>
+                            <span>Reserve</span>
+                        </a>
+                    </div>
+                <?php } ?>
                 <div class="row-title">
                     <div class="row">
                         <span class="column questioner">Questioner</span>
@@ -152,7 +154,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
                 </div>`;
                 openPopup({
                     className: className,
-                    style: getPopupViewStyle(className) + style,
+                    style: style,
                     html: html,
                 })
             },
@@ -278,7 +280,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
         </div>`;
         openPopup({
             className: className,
-            style: getPopupViewStyle(className) + style,
+            style: style,
             html: html,
             callback: function () {
                 $(`.${className} .calendar`).initCalendar({

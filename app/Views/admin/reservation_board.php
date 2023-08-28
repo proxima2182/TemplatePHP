@@ -3,14 +3,16 @@
         <h3 class="page-title">
             Reservation Board
         </h3>
-        <div class="control-button-wrap">
-            <a href="javascript:openInputPopupCreate();" class="button create">
-                <img src="/asset/images/icon/plus.png"/>
-                <span>Create</span>
-            </a>
-        </div>
         <div class="table-box">
             <div class="table-wrap">
+                <?php if ($is_login) { ?>
+                    <div class="control-button-wrap">
+                        <a href="javascript:openInputPopupCreate();" class="button create">
+                            <img src="/asset/images/icon/plus.png"/>
+                            <span>Create</span>
+                        </a>
+                    </div>
+                <?php } ?>
                 <div class="row-title">
                     <div class="row">
                         <span class="column code">Code</span>

@@ -3,14 +3,16 @@
         <h3 class="page-title">
             Board
         </h3>
-        <div class="control-button-wrap">
-            <a href="javascript:openInputPopupCreate();" class="button create">
-                <img src="/asset/images/icon/plus.png"/>
-                <span>Create</span>
-            </a>
-        </div>
         <div class="table-box">
             <div class="table-wrap">
+                <?php if ($is_login) { ?>
+                    <div class="control-button-wrap">
+                        <a href="javascript:openInputPopupCreate();" class="button create">
+                            <img src="/asset/images/icon/plus.png"/>
+                            <span>Create</span>
+                        </a>
+                    </div>
+                <?php } ?>
                 <div class="row-title">
                     <div class="row">
                         <span class="column code">Code</span>
@@ -99,7 +101,8 @@
             let html = ``;
 
             // copy text button
-            html += `
+            if(data) {
+                html += `
             <div class="input-wrap inline" style="position: relative;">
                 <p class="input-title">Link</p>
                 <input type="text" name="link" class="under-line" readonly value="/board/${data['code']}">
@@ -107,6 +110,7 @@
                     <img src="/asset/images/icon/copy@2x.png"/>
                 </span>
             </div>`
+            }
             for (let i in keys) {
                 let key = keys[i];
                 let extracted = fromDataToHtml(key, data, typeSet);

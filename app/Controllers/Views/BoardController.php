@@ -2,12 +2,21 @@
 
 namespace Views;
 
+use App\Helpers\Utils;
+use Exception;
+use Models\BoardModel;
+use Models\TopicModel;
+
 class BoardController extends BaseClientController
 {
+    protected BoardModel $boardModel;
+    protected TopicModel $topicModel;
 
     public function __construct()
     {
         parent::__construct();
+        $this->boardModel = model('Models\BoardModel');
+        $this->topicModel = model('Models\TopicModel');
     }
 
     public function index()
@@ -15,10 +24,61 @@ class BoardController extends BaseClientController
 
     }
 
+    public function getBoard($code, $page = 1): string
+    {
+        $page = Utils::toInt($page);
+        $data = $this->getViewData();
+        $board = null;
+        try {
+            $board = $this->boardModel->findByCode($code);
+            $result = $this->topicModel->getPaginated([
+                'per_page' => $this->per_page,
+                'page' => $page,
+            ], [
+                'board_id' => $board['id'],
+            ]);
+            $data = array_merge($data, $result);
+            $data = array_merge($data, [
+                'board_id' => $board['id'],
+                'board_code' => $board['code'],
+                'board_alias' => $board['alias'],
+                'pagination_link' => '/board/' . $code,
+            ]);
+        } catch (Exception $e) {
+            //todo(log)
+            //TODO show error page
+            return '';
+        }
+        $css = [];
+        $js = ['/slick/slick.min.js'];
+        $view = '';
+        if ($board['type'] == 'grid') {
+            $css = [
+                '/common/grid',
+                '/client/board/grid',
+            ];
+            $js = array_merge($js, ['/module/popup_topic']);
+            $view = '/client/board/grid';
+        } else if ($board['type'] == 'table') {
+            $css = [
+                '/common/table',
+                '/client/board/table',
+            ];
+            $view = '/client/board/table';
+        }
+        return parent::loadHeader([
+                'css' => $css,
+                'js' => $js,
+            ])
+            . view($view, $data)
+            . parent::loadFooter();
+    }
+
     public function getGridBoard($page = 1): string
     {
         return parent::loadHeader([
                 'css' => [
+                    '/common/grid',
                     '/client/board/grid',
                 ],
                 'js' => [

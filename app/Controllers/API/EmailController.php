@@ -2,7 +2,6 @@
 
 namespace API;
 
-use App\Helpers\ServerLogger;
 use App\Helpers\Utils;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
@@ -137,13 +136,12 @@ class EmailController extends BaseApiController
             if ($email->send()) {
                 $response['success'] = true;
             } else {
-                ServerLogger::log($email->printDebugger());
+//                ServerLogger::log($email->printDebugger());
                 $response['message'] = 'fail to send email.';
             }
         } catch (Exception $e) {
             //todo(log)
             $response['message'] = $e->getMessage();
-            ServerLogger::log($e);
         }
         return $this->response->setJSON($response);
     }

@@ -43,7 +43,7 @@ class CategoryModel extends BasePriorityModel
      */
     public function get($condition = null, $limit = null): array
     {
-        $query = "SELECT *, (SELECT COUNT(id) FROM category_local WHERE category_id = category.id) AS cnt FROM category ";
+        $query = "SELECT *, (SELECT COUNT(id) FROM category_local WHERE category_id = category.id) AS cnt FROM category";
         $values = [];
         if ($condition) {
             $set = $this->getConditionSet($condition);

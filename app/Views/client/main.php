@@ -24,9 +24,9 @@ $sliderImages = [
     <link rel="stylesheet" type="text/css" href="/asset/css/default.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/client/include.css"/>
-    <link rel="stylesheet" type="text/css" href="/asset/css/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="/asset/css/client/main.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/common/table.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/common/grid.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/client/main.css"/>
 
     <script type="text/javascript" src="/asset/js/default.js"></script>
     <script type="text/javascript" src="/asset/js/fullpage/jquery.min.js"></script>
@@ -37,6 +37,7 @@ $sliderImages = [
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=221aa6cfc43d262a0a90ca26facc9708"></script>
 
     <script type="text/javascript" src="/asset/js/module/popup.js"></script>
+    <script type="text/javascript" src="/asset/js/module/popup_topic.js"></script>
     <script type="text/javascript" src="/asset/js/module/login.js"></script>
     <script type="text/javascript" src="/asset/js/client/main.js"></script>
     <script type="text/javascript">
@@ -96,7 +97,7 @@ $sliderImages = [
             <div class="slider-box">
                 <div class="slick">
                     <?php foreach ($sliderImages as $index => $image) { ?>
-                        <div class="slick-element"
+                        <div class="slick-item"
                              style="background: url('<?= $image ?>') no-repeat center; background-size: cover; font-size: 0;">
                             Slider #<?= $index ?>
                         </div>
@@ -152,7 +153,7 @@ $sliderImages = [
                 </iframe>
                 <hr>
                 <div class="text-wrap">
-                    <h3 class="title">Lorem ipsum</h3>
+                    <h3 class="page-title">Lorem ipsum</h3>
                     <ul class="content cf">
                         <li><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></li>
                         <li><p>Proin semper dolor in purus iaculis ullamcorper.</p></li>
@@ -165,15 +166,15 @@ $sliderImages = [
         </div>
     </div>
 
-    <?php if (isset($topics_grid)) { ?>
+    <?php if (isset($topics_table)) { ?>
         <div class="section" id="page-notice">
             <div class="page-inner">
                 <div class="inner-box">
-                    <h3 class="title">
-                        <?= $topics_grid['board_alias'] ?>
+                    <h3 class="page-title">
+                        <?= $topics_table['board_alias'] ?>
                     </h3>
                     <div class="table-box">
-                        <?php if (!isset($topics_grid['array']) || sizeof($topics_grid['array']) == 0) { ?>
+                        <?php if (!isset($topics_table['array']) || sizeof($topics_table['array']) == 0) { ?>
                             <div class="no-data-box">
                                 <div class="no-data-wrap">
                                     <img src="/asset/images/icon/empty_folder.png">
@@ -181,7 +182,7 @@ $sliderImages = [
                                 </div>
                             </div>
                         <?php } else {
-                            $array = $topics_grid['array']; ?>
+                            $array = $topics_table['array']; ?>
                             <div class="table-wrap">
                                 <div class="row-title">
                                     <div class="row">
@@ -192,8 +193,7 @@ $sliderImages = [
                                 <ul>
                                     <?php foreach ($array as $index => $item) { ?>
                                         <li class=" row">
-                                            <a href="#"
-                                               class="button row-button">
+                                            <a href="javascript:openTopicPopup(<?= $item['id'] ?>);" class="button row-button">
                                                 <span class="column title"><?= $item['title'] ?></span>
                                                 <span class="column created-at"><?= $item['created_at'] ?></span>
                                             </a>
@@ -202,7 +202,7 @@ $sliderImages = [
                                 </ul>
                             </div>
                             <div class="button-wrap">
-                                <a href="<?= $topics_grid['link'] ?>" class="button more">
+                                <a href="<?= $topics_table['link'] ?>" class="button more">
                                     <span>See More</span>
                                     <img src="/asset/images/icon/arrow_right.png"/>
                                 </a>
@@ -218,7 +218,7 @@ $sliderImages = [
         <div class="section" id="page-preview">
             <div class="page-inner">
                 <div class="inner-box">
-                    <h3 class="title">
+                    <h3 class="page-title">
                         <?= $topics_grid['board_alias'] ?>
                     </h3>
                     <div class="slider-box">
@@ -233,17 +233,15 @@ $sliderImages = [
                             $array = $topics_grid['array']; ?>
                             <div class="slick slider-wrap">
                                 <?php foreach ($array as $index => $item) { ?>
-                                    <div class="slick-element">
-                                        <div class="element-box">
-                                            <?php if (isset($item['image_id'])) { ?>
-                                                <div class="image-wrap"
-                                                     style="background: url('/image-file/<?= $item['image_id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
-                                                </div>
-                                            <?php } ?>
-                                            <div class="text-wrap">
-                                                <h4 class="title"><?= $item['title'] ?></h4>
-                                                <p class="content"><?= $item['content'] ?></p>
+                                    <div class="slick-item grid-item button" onclick="openTopicPopup(<?= $item['id'] ?>)">
+                                        <?php if (isset($item['image_id'])) { ?>
+                                            <div class="image-wrap"
+                                                 style="background: url('/image-file/<?= $item['image_id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
                                             </div>
+                                        <?php } ?>
+                                        <div class="text-wrap">
+                                            <span class="title"><?= $item['title'] ?></span>
+                                            <span class="content"><?= $item['content'] ?></span>
                                         </div>
                                     </div>
                                 <?php } ?>
@@ -266,7 +264,7 @@ $sliderImages = [
         <div class="section" id="page-map">
             <div class="page-inner whole-page">
                 <div class="location-list-box">
-                    <h3 class="title">Map Locations</h3>
+                    <h3 class="page-title">Map Locations</h3>
                     <div class="location-list-wrap" page="<?= $locationPagination['page'] ?>"
                          per-page="<?= $locationPagination['per-page'] ?>"
                          total="<?= $locationPagination['total'] ?>"

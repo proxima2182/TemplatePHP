@@ -1,0 +1,95 @@
+
+.grid-item {
+    width: 280px;
+    height: 350px;
+    margin: 10px;
+    box-sizing: border-box;
+    display: inline-block;
+    overflow: hidden;
+    background: #222;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.grid-item.empty {
+    background: #fff;
+    /*box-shadow: none;*/
+    /*border-radius: 5px;*/
+    border: 1px double #ddd;
+}
+
+.grid-item.empty:hover:after {
+    display: none;
+}
+
+
+.grid-item a {
+    width: 100%;
+    height: 100%;
+}
+
+.grid-item .image-wrap {
+    width: 100%;
+    height: 200px;
+    display: inline-block;
+    text-align: center;
+    line-height: 200px;
+    background: #fff;
+}
+
+.grid-item .image-wrap img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.grid-item .text-wrap {
+    height: 150px;
+    padding: 10px;
+    text-align: left;
+    color: #fff;
+    position: relative;
+}
+
+/*text 가 중간에 잘린것 같이 보이는 것을 가려주기 위해*/
+.grid-item .text-wrap:after {
+    content: "";
+    height: 80px;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0), #222 80%);
+}
+
+.grid-item .text-wrap * {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+.grid-item .text-wrap .title {
+    font-size: 18px;
+    line-height: 30px;
+    height: 30px;
+    font-weight: 600;
+}
+
+.grid-item .text-wrap .content {
+    font-size: 16px;
+    height: 120px;
+    max-height: 300px;
+    text-overflow: ellipsis;
+}
+
+.grid-item:hover:after {
+    content: "";
+    display: block;
+    background: rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}

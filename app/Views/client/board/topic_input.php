@@ -19,7 +19,7 @@
             <div class="slider-wrap">
                 <div class="slider-box">
                     <div class="slick">
-                        <div class="slick-element add"
+                        <div class="slick-item add"
                              style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                             <label for="file" class="button"></label>
                             <input type="file" name="file" multiple id="file" onchange="onFileUpload(this);"
@@ -27,10 +27,10 @@
                             <!--                            <a href="#" class="button"></a>-->
                         </div>
                         <?php foreach ($images as $index => $image) { ?>
-                            <div class="slick-element"
+                            <div class="slick-item"
                                  style="background: url('<?= $image ?>') no-repeat center; background-size: cover; font-size: 0;">
                                 Slider #<?= $index ?>
-                                <div class="slick-element-hover">
+                                <div class="slick-item-hover">
                                     <a href="javascript:deleteImage(<?= $index + 1 ?>)"
                                        class="button delete-image black">
                                         <img src="/asset/images/icon/cancel_white.png"/>
@@ -39,7 +39,7 @@
                             </div>
                         <?php } ?>
 
-                        <div class="slick-element"
+                        <div class="slick-item"
                              style="background: url('./writable/uploads/object.png') no-repeat center; background-size: cover; font-size: 0;">
                             Slider #1
                         </div>

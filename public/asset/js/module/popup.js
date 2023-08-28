@@ -106,6 +106,35 @@ function openPopup(input) {
     display: inline-block;
     vertical-align: middle;
 }
+
+.${className} .popup-inner .row {
+    text-align: left;
+    font-size: 0;
+}
+
+.${className} .popup-inner .row .column {
+    padding: 10px;
+    line-height: 35px;
+    text-align: left;
+    box-sizing: border-box;
+    font-size: 18px;
+    font-weight: 400;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.${className} .popup-inner .control-button-wrap.absolute {
+    line-height: 20px;
+    text-align: right;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+}
+.${className} .popup-inner .control-box {
+    padding: 5px 20px 15px 20px;
+}
 </style>
 ${style ?? ''}
     <div class="popup">
@@ -121,17 +150,21 @@ ${style ?? ''}
         </div>
     </div>
 </div>`)
-    resizeWindowPopup();
+    onPopupResizeWindow();
     if (callback && typeof callback == 'function') callback();
+
+    if($(`.${className} .control-button-wrap.absolute`).length > 0) {
+        $(`.${className} .popup-inner`).css({
+            'padding-bottom' : '80px'
+        });
+    }
 
     // popup 내부의 tab 처리
     let $tabbable = $(`.${className}`).find("input:not([type='hidden']), select, textarea, [href]");
     let $tabbableFirst = $tabbable && $tabbable.first();
 
-    let nowScrollPos = $(window).scrollTop();
-    $("body").css("top", -nowScrollPos).addClass("scroll-off").on("scroll touchmove mousewheel", function (event) {
-        event.preventDefault(); // iOS 레이어 열린 상태에서 body 스크롤되는 문제 방지
-    });
+    let elementBody = document.querySelector('body');
+    elementBody.addEventListener("scroll touchmove mousewheel", onPopupScroll);
 
     for (let i = 0; i < $tabbable.length; ++i) {
         $tabbable.eq(i).attr('index', i);
@@ -149,7 +182,7 @@ ${style ?? ''}
         }
     })
 
-    $('#container').find("button, input:not([type='hidden']), select, iframe, textarea, [href], [tabindex]:not([tabindex='-1']), .slick-element").attr("tabindex", "-1"); // 레이어 바깥 영역을 스크린리더가 읽지 않게
+    $('#container').find("button, input:not([type='hidden']), select, iframe, textarea, [href], [tabindex]:not([tabindex='-1']), .slick-item").attr("tabindex", "-1"); // 레이어 바깥 영역을 스크린리더가 읽지 않게
     if ($tabbableFirst) $tabbableFirst.focus();
 
     let element = $(`.${className}`).get(0);
@@ -172,7 +205,7 @@ ${style ?? ''}
         })
     }
 
-    addEventListener("resize", resizeWindowPopup);
+    addEventListener("resize", onPopupResizeWindow);
 }
 
 /**
@@ -185,13 +218,13 @@ function closePopup(className) {
         'animation-duration': '0.2s',
         'animation-name': 'popupFadeOut',
     })
-    removeEventListener('resize', resizeWindowPopup);
+    removeEventListener('resize', onPopupResizeWindow);
 
     // popup 내부의 tab 처리를 위해 설정했던 것 되돌림
-    let nowScrollPos = $(window).scrollTop();
-    $("body").removeClass("scroll-off").css("top", "").off("scroll touchmove mousewheel");
-    $(window).scrollTop(nowScrollPos); // 레이어 닫은 후 화면 최상단으로 이동 방지
-    $('#container').find("button, input:not([type='hidden']), select, iframe, textarea, [href], [tabindex]:not([tabindex='-1']), .slick-element").attr("tabindex", ""); // 레이어 바깥 영역을 스크린리더가 읽지 않게
+    let elementBody = document.querySelector('body');
+    elementBody.removeEventListener("scroll touchmove mousewheel", onPopupScroll);
+
+    $('#container').find("button, input:not([type='hidden']), select, iframe, textarea, [href], [tabindex]:not([tabindex='-1']), .slick-item").attr("tabindex", ""); // 레이어 바깥 영역을 스크린리더가 읽지 않게
 
     popupTimeoutId = setTimeout(function () {
         let element = $popupWrap.get(0);
@@ -209,7 +242,7 @@ function closePopup(className) {
  * line-height 를 화면에 비례해 조정해 준다
  * @param event
  */
-function resizeWindowPopup(event) {
+function onPopupResizeWindow(event) {
     $('.popup-wrap').css({
         'line-height': `${window.innerHeight}px`,
     })
@@ -217,6 +250,10 @@ function resizeWindowPopup(event) {
     $('.popup-wrap .popup-inner').css({
         'max-height': `${popup_height}px`,
     })
+}
+
+function onPopupScroll(event) {
+    event.preventDefault(); // iOS 레이어 열린 상태에서 body 스크롤되는 문제 방지
 }
 
 /**
@@ -289,48 +326,4 @@ function openPopupErrors(className, response, status, requestOrError) {
             html: html,
         });
     }
-}
-
-/**
- * 공통 style string 생성 함수
- * - popup-input 을 사용하지 않는 보기 전용인 경우 호출
- * @param className
- * @returns {string}
- */
-function getPopupViewStyle(className) {
-    return `
-    <style>
-    .${className} .popup-inner {
-        padding: 20px 20px 80px 20px;
-    }
-    
-    .${className} .row {
-        text-align: left;
-        font-size: 0;
-    }
-    
-    .${className} .row .column {
-        padding: 10px;
-        line-height: 35px;
-        text-align: left;
-        box-sizing: border-box;
-        font-size: 18px;
-        font-weight: 400;
-        display: inline-block;
-        vertical-align: bottom;
-    }
-    
-    .${className} .popup-inner .control-button-wrap.absolute {
-        line-height: 20px;
-        text-align: right;
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: #fff;
-    }
-    .${className} .popup-inner .control-box {
-        padding: 5px 20px 15px 20px;
-    }
-    </style>`
 }

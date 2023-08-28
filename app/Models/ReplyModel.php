@@ -40,7 +40,7 @@ class ReplyModel extends BaseModel
      */
     public function get($condition = null, $limit = null): array
     {
-        $query = "SELECT rp.*, usr.name AS user_name FROM reply rp INNER JOIN user usr ON usr.id = rp.user_id";
+        $query = "SELECT reply.*, user.name AS user_name FROM reply INNER JOIN user ON user.id = reply.user_id";
         $values = [];
         if ($condition) {
             $set = $this->getConditionSet($condition);

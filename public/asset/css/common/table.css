@@ -3,8 +3,9 @@
 }
 
 .table-wrap {
-    width: 1125px;
-    padding: 20px 0;
+    width: 1200px;
+    padding: 0 40px;
+    box-sizing: border-box;
     display: inline-block;
     font-size: 0;
     line-height: normal;

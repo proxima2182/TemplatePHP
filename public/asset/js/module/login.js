@@ -22,6 +22,10 @@ async function openPopupLogin() {
             width: 600px;
         }
 
+        .${className} .popup-inner {
+            padding: 20px;
+        }
+
         .${className} h3.title {
             margin: 0 0 20px 0;
             font-size: 20px;
@@ -34,14 +38,6 @@ async function openPopupLogin() {
 
         .${className} .form-wrap {
             margin: 10px 50px;
-        }
-
-        .${className} .form-wrap .input-wrap * {
-            line-height: 40px;
-        }
-
-        .${className} .input-wrap.inline .input-title {
-            width: calc(30% - 15px);
         }
 
         .${className} .control-button-wrap {
@@ -59,7 +55,7 @@ async function openPopupLogin() {
         }
 
         .${className} .popup-inner .button-wrap {
-            margin-top: 40px;
+            margin: 20px 0;
         }
 
         .${className} .popup-inner .button-wrap .button {

@@ -111,7 +111,7 @@ $reply = [
                 <div class="slider-box">
                     <div class="slick">
                         <?php foreach ($images as $index => $image) { ?>
-                            <div class="slick-element"
+                            <div class="slick-item"
                                  style="background: url('<?= $image ?>') no-repeat center; background-size: cover; font-size: 0;">
                                 Slider #<?= $index ?>
                             </div>

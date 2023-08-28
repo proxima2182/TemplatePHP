@@ -38,6 +38,10 @@
     -ms-user-select: none;
 }
 
+.button:focus {
+    outline: none;
+}
+
 .button.black {
     background: #000;
     color: #fff;
@@ -209,8 +213,15 @@ input[type=checkbox] {
     line-height: 300px;
     vertical-align: middle;
     display: inline-block;
-    border-radius: 5px;
-    border: 1px solid #000;
+}
+
+.no-data-box:before,
+.no-data-box:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: #ddd;
 }
 
 .no-data-wrap {
@@ -225,10 +236,10 @@ input[type=checkbox] {
 }
 
 .no-data-wrap span {
-    margin: 5px;
     font-weight: 200;
     font-size: 18px;
     display: block;
+    color: #ddd;
 }
 
 /*slick 관련 default 설정*/
@@ -244,7 +255,7 @@ input[type=checkbox] {
     overflow: hidden;
 }
 
-.slick-element {
+.slick-item {
     font-size: 0;
     display: inline-block;
     vertical-align: middle;

@@ -9,9 +9,11 @@
 }
 
 .topic-wrap .text-wrap .content {
-    margin: 10px 20px;
     min-height: 250px;
+    padding: 20px;
     font-size: 18px;
+    font-weight: 200;
+    white-space: pre-wrap;
 }
 
 .topic-wrap .control-button-wrap {

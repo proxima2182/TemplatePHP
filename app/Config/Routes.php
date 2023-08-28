@@ -44,6 +44,8 @@ $routes->get('/board/grid/([0-9]+)', [\Views\BoardController::class, 'getGridBoa
 $routes->addRedirect('/board/grid', '/board/grid/1');
 $routes->get('/board/table/([0-9]+)', [\Views\BoardController::class, 'getTableBoard']);
 $routes->addRedirect('/board/table', '/board/table/1');
+$routes->get('/board/(:any)/([0-9]+)', [\Views\BoardController::class, 'getBoard']);
+$routes->addRedirect('/board/(:any)', '/board/(:any)/1');
 $routes->get('/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/topic/create', [\Views\BoardController::class, 'createTopic']);
 $routes->get('/topic/([0-9]+)', [\Views\BoardController::class, 'getTopic']);
 $routes->get('/topic/([0-9]+)/edit', [\Views\BoardController::class, 'editTopic']);

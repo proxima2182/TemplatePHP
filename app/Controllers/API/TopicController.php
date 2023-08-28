@@ -36,8 +36,8 @@ class TopicController extends BaseApiController
         ];
 
         try {
-            $result = $tihs->topicModel->find($id);
-            $images = $tihs->imageFileModel->get(['topic_id' => $id]);
+            $result = $this->topicModel->find($id);
+            $images = $this->imageFileModel->get(['topic_id' => $id]);
             $result['images'] = $images;
             $response['success'] = true;
             $response['data'] = $result;

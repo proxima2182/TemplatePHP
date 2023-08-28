@@ -1,10 +1,7 @@
-<?php
-$is_admin_page = isset($is_admin) && $is_admin;
-?>
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="page-title">
-            <?= $title ?>
+            <?= $board_alias ?>
         </h3>
         <div class="table-box">
             <div class="table-wrap">
@@ -16,7 +13,15 @@ $is_admin_page = isset($is_admin) && $is_admin;
                             <span>Create</span>
                         </a>
                     </div>
-                <?php } ?>
+                <?php }
+                if (!isset($array) || sizeof($array) == 0) { ?>
+                    <div class="no-data-box">
+                        <div class="no-data-wrap">
+                            <img src="/asset/images/icon/empty_folder.png">
+                            <span>No data available.</span>
+                        </div>
+                    </div>
+                <?php } else { ?>
                 <div class="row-title">
                     <div class="row">
                         <span class="column title">Title</span>
@@ -35,6 +40,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
                     <?php } ?>
                 </ul>
             </div>
+            <?php } ?>
         </div>
 
         <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>

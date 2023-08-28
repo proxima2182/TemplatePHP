@@ -108,7 +108,7 @@
                 </div>`;
                 openPopup({
                     className: className,
-                    style: getPopupViewStyle(className) + style,
+                    style: style,
                     html: html,
                 })
             },
