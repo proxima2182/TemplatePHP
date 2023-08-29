@@ -43,11 +43,9 @@
 }
 
 .grid-item .text-wrap {
-    height: 150px;
     padding: 10px;
     text-align: left;
     color: #fff;
-    position: relative;
 }
 
 /*text 가 중간에 잘린것 같이 보이는 것을 가려주기 위해*/
@@ -78,7 +76,7 @@
 
 .grid-item .text-wrap .content {
     font-size: 16px;
-    height: 120px;
+    min-height: 120px;
     max-height: 300px;
     text-overflow: ellipsis;
 }
@@ -86,7 +84,7 @@
 .grid-item:hover:after {
     content: "";
     display: block;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.3);
     position: absolute;
     top: 0;
     left: 0;

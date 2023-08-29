@@ -7,7 +7,8 @@
             <div class="table-wrap">
                 <?php if ($is_login) { ?>
                     <div class="control-button-wrap">
-                        <a href="javascript:openInputPopupCreate();" class="button create">
+                        <a href="javascript:openInputPopupCreate();"
+                           class="button under-line create">
                             <img src="/asset/images/icon/plus.png"/>
                             <span>Create</span>
                         </a>
@@ -125,14 +126,15 @@
             if (data['is_editable'] == 1) {
                 html += `
                 <a href="javascript:editInputPopup('${className}', ${data['id']})"
-                   class="button edit">
+                   class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span>Edit</span>
                 </a>`;
             }
             if (data['is_deletable'] == 1) {
                 html += `
-                <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
+                <a href="javascript:openInputPopupDelete(${data['id']});"
+                class="button under-line delete">
                     <img src="/asset/images/icon/delete.png"/>
                     <span>Delete</span>
                 </a>`;

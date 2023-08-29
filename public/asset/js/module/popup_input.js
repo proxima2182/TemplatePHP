@@ -231,11 +231,12 @@ function addInputPopupControlWrap(className, data) {
         <div class="control-button-wrap absolute line-before">
             <div class="control-box">
                 <a href="javascript:editInputPopup('${className}',${data['id']})"
-                   class="button edit">
+                   class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span>Edit</span>
                 </a>
-                <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
+                <a href="javascript:openInputPopupDelete(${data['id']});"
+                    class="button under-line delete">
                     <img src="/asset/images/icon/delete.png"/>
                     <span>Delete</span>
                 </a>
@@ -365,11 +366,13 @@ async function openInputPopupCreate() {
         $(`.${className} .popup-inner`).append(`
         <div class="control-button-wrap absolute line-before">
             <div class="control-box">
-                <a href="javascript:closePopup('${className}');" class="button cancel">
+                <a href="javascript:closePopup('${className}');"
+                    class="button under-line cancel">
                     <img src="/asset/images/icon/cancel.png"/>
                     <span>Cancel</span>
                 </a>
-                <a href="javascript:confirmInputPopupCreate('${className}');" class="button confirm">
+                <a href="javascript:confirmInputPopupCreate('${className}');"
+                    class="button under-line confirm">
                     <img src="/asset/images/icon/check.png"/>
                     <span>Confirm</span>
                 </a>
@@ -393,11 +396,13 @@ function editInputPopup(className, id) {
     $(`.${className} .popup-inner`).append(`
     <div class="control-button-wrap absolute line-before">
         <div class="control-box">
-            <a href="javascript:refreshInputPopup(${id});" class="button cancel">
+            <a href="javascript:refreshInputPopup(${id});"
+                class="button under-line cancel">
                 <img src="/asset/images/icon/cancel.png"/>
                 <span>Cancel</span>
             </a>
-            <a href="javascript:confirmInputPopupEdit('${className}', ${id});" class="button confirm">
+            <a href="javascript:confirmInputPopupEdit('${className}', ${id});"
+                class="button under-line confirm">
                 <img src="/asset/images/icon/check.png"/>
                 <span>Confirm</span>
             </a>

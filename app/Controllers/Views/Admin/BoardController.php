@@ -109,6 +109,7 @@ class BoardController extends BaseAdminController
             //TODO show 404 page
             return '';
         }
+
         return parent::loadHeader([
                 'css' => [
                     '/admin/board/topic',
@@ -116,6 +117,7 @@ class BoardController extends BaseAdminController
                 ],
                 'js' => [
                     '/slick/slick.min.js',
+                    '/module/popup_topic',
                 ],
             ])
             . view('/admin/board/topic_view', $data)

@@ -52,15 +52,18 @@ async function openInputPopupCreate() {
         $(`.${className} .popup-inner`).append(`
         <div class="control-button-wrap absolute line-before">
             <div class="control-box">
-                <a href="javascript:search('${className}');" class="button search">
+                <a href="javascript:search('${className}');"
+                    class="button under-line search">
                     <img src="/asset/images/icon/search.png"/>
                     <span>Search</span>
                 </a>
-                <a href="javascript:closePopup('${className}');" class="button cancel">
+                <a href="javascript:closePopup('${className}');"
+                    class="button under-line cancel">
                     <img src="/asset/images/icon/cancel.png"/>
                     <span>Cancel</span>
                 </a>
-                <a href="javascript:confirmInputPopupCreate('${className}');" class="button confirm" style="display: none;">
+                <a href="javascript:confirmInputPopupCreate('${className}');"
+                    class="button under-line confirm" style="display: none;">
                     <img src="/asset/images/icon/check.png"/>
                     <span>Confirm</span>
                 </a>
@@ -87,15 +90,18 @@ function editInputPopup(className, id) {
     $(`.${className} .popup-inner`).append(`
     <div class="control-button-wrap absolute line-before">
         <div class="control-box">
-            <a href="javascript:search('${className}');" class="button search" style="display: none;">
+            <a href="javascript:search('${className}');"
+                class="button under-line search" style="display: none;">
                 <img src="/asset/images/icon/search.png"/>
                 <span>Search</span>
             </a>
-            <a href="javascript:refreshInputPopup(${id});" class="button cancel">
+            <a href="javascript:refreshInputPopup(${id});"
+                class="button under-line cancel">
                 <img src="/asset/images/icon/cancel.png"/>
                 <span>Cancel</span>
             </a>
-            <a href="javascript:confirmInputPopupEdit('${className}', ${id});" class="button confirm">
+            <a href="javascript:confirmInputPopupEdit('${className}', ${id});"
+                class="button under-line confirm">
                 <img src="/asset/images/icon/check.png"/>
                 <span>Confirm</span>
             </a>

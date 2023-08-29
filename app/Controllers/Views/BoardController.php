@@ -5,18 +5,24 @@ namespace Views;
 use App\Helpers\Utils;
 use Exception;
 use Models\BoardModel;
+use Models\ImageFileModel;
+use Models\ReplyModel;
 use Models\TopicModel;
 
 class BoardController extends BaseClientController
 {
     protected BoardModel $boardModel;
     protected TopicModel $topicModel;
+    protected ImageFileModel $imageFileModel;
+    protected ReplyModel $replyModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->boardModel = model('Models\BoardModel');
         $this->topicModel = model('Models\TopicModel');
+        $this->imageFileModel = model('Models\ImageFileModel');
+        $this->replyModel = model('Models\ReplyModel');
     }
 
     public function index()
@@ -74,111 +80,26 @@ class BoardController extends BaseClientController
             . parent::loadFooter();
     }
 
-    public function getGridBoard($page = 1): string
-    {
-        return parent::loadHeader([
-                'css' => [
-                    '/common/grid',
-                    '/client/board/grid',
-                ],
-                'js' => [
-                    '/slick/slick.min.js',
-                ],
-            ])
-            . view('/client/board/grid', [
-                'pagination' => [
-                    'per-page' => 30,
-                    'page' => 6,
-                    'total' => 180,
-                    'total-page' => 6,
-                ],
-                'pagination_link' => '/board/grid'
-            ])
-            . parent::loadFooter();
-    }
-
-    public function getTableBoard($page = 1): string
-    {
-        return parent::loadHeader([
-                'css' => [
-                    '/common/table',
-                    '/client/board/table',
-                ],
-            ])
-            . view('/client/board/table', [
-                'title' => 'test',
-                'array' => [
-                    [
-                        'id' => 0,
-                        'images' => ['/asset/images/object.png'],
-                        'title' => 'Lorem ipsum',
-                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
-                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
-                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
-                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
-                    volutpat quis mauris eu vestibulum.',
-                        'created_at' => '2023-06-29 00:00:00',
-                    ],
-                    [
-                        'id' => 0,
-                        'images' => ['/asset/images/object.png'],
-                        'title' => 'Lorem ipsum',
-                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
-                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
-                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
-                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
-                    volutpat quis mauris eu vestibulum.',
-                        'created_at' => '2023-06-29 00:00:00',
-                    ],
-                    [
-                        'id' => 0,
-                        'images' => ['/asset/images/object.png'],
-                        'title' => 'Lorem ipsum',
-                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
-                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
-                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
-                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
-                    volutpat quis mauris eu vestibulum.',
-                        'created_at' => '2023-06-29 00:00:00',
-                    ],
-                    [
-                        'id' => 0,
-                        'images' => ['/asset/images/object.png'],
-                        'title' => 'Lorem ipsum',
-                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
-                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
-                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
-                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
-                    volutpat quis mauris eu vestibulum.',
-                        'created_at' => '2023-06-29 00:00:00',
-                    ],
-                ],
-                'is_admin_page' => false,
-                'code' => 'test',
-                'pagination' => [
-                    'per-page' => 30,
-                    'page' => 6,
-                    'total' => 180,
-                    'total-page' => 6,
-                ],
-                'pagination_link' => '/board/table'
-            ])
-            . parent::loadFooter();
-    }
-
     public function getTopic($id = 1): string
     {
-        $data = [
-            'id' => 0,
-            'images' => ['/asset/images/object.png'],
-            'title' => 'Lorem ipsum',
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
-                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
-                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
-                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
-                    volutpat quis mauris eu vestibulum.',
-            'created_at' => '2023-06-29 00:00:00',
-        ];
+        $data = $this->getViewData();
+        try {
+            $topic = $this->getTopicData($id);
+            $data['data'] = $topic;
+            $result = $this->replyModel->getPaginated([
+                'per_page' => 5,
+                'page' => 1,
+            ], [
+                'topic_id' => $id,
+                'depth' => 0,
+            ]);
+            $data['reply'] = $result;
+        } catch (Exception $e) {
+            //todo(log)
+            //TODO show 404 page
+            return '';
+        }
+
         return parent::loadHeader([
                 'css' => [
                     '/client/board/topic',
@@ -186,6 +107,7 @@ class BoardController extends BaseClientController
                 ],
                 'js' => [
                     '/slick/slick.min.js',
+                    '/module/popup_topic',
                 ],
             ])
             . view('/client/board/topic_view', $data)
@@ -194,17 +116,16 @@ class BoardController extends BaseClientController
 
     public function editTopic($id = 1): string
     {
-        $data = [
-            'id' => 0,
-            'images' => ['/asset/images/object.png'],
-            'title' => 'Lorem ipsum',
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris bibendum elementum eros lacinia
-                    viverra. Ut venenatis ligula varius orci bibendum, sed fermentum dui volutpat. Cras blandit nisi
-                    varius, pharetra diam id, cursus diam. In dictum ipsum suscipit magna dapibus, quis vehicula diam
-                    pulvinar. Curabitur eu ipsum id nulla lacinia rutrum. Cras bibendum pulvinar eleifend. Proin
-                    volutpat quis mauris eu vestibulum.',
-            'created_at' => '2023-06-29 00:00:00',
-        ];
+        $data = $this->getViewData();
+        try {
+            $data['data'] = $this->getTopicData($id);
+            $data = array_merge($data, [
+                'type' => 'edit'
+            ]);
+        } catch (Exception $e) {
+            //todo(log)
+            //TODO show 404 page
+        }
         return parent::loadHeader([
                 'css' => [
                     '/client/board/topic',
@@ -212,9 +133,53 @@ class BoardController extends BaseClientController
                 ],
                 'js' => [
                     '/slick/slick.min.js',
+                    '/module/draggable',
                 ],
             ])
             . view('/client/board/topic_input', $data)
             . parent::loadFooter();
+    }
+
+    public function createTopic($code): string
+    {
+        $data = $this->getViewData();
+        try {
+            $board = $this->boardModel->findByCode($code);
+            $data['data'] = [
+                'board_id' => $board['id'],
+                'board_alias' => $board['alias'],
+            ];
+            $data = array_merge($data, [
+                'type' => 'create'
+            ]);
+        } catch (Exception $e) {
+            //todo(log)
+            //TODO show 404 page
+        }
+        return parent::loadHeader([
+                'css' => [
+                    '/client/board/topic',
+                    '/client/board/topic_input',
+                ],
+                'js' => [
+                    '/slick/slick.min.js',
+                    '/module/draggable',
+                ],
+            ])
+            . view('/client/board/topic_input', $data)
+            . parent::loadFooter();
+    }
+
+    private function getTopicData($id): array
+    {
+        $result = $this->topicModel->find($id);
+        $board = $this->boardModel->find($result['board_id']);
+        $images = $this->imageFileModel->get(['topic_id' => $id]);
+        $result['images'] = $images;
+        return array_merge($result, [
+            'board_id' => $board['id'],
+            'board_code' => $board['code'],
+            'board_alias' => $board['alias'],
+        ]);
     }
 }

@@ -9,9 +9,11 @@
 }
 
 .topic-wrap .text-wrap .content {
-    margin: 10px 20px;
-    min-height: 150px;
+    min-height: 250px;
+    padding: 20px;
     font-size: 18px;
+    font-weight: 200;
+    white-space: pre-wrap;
 }
 
 .topic-wrap .control-button-wrap {
@@ -19,4 +21,12 @@
     position: absolute;
     bottom: 10px;
     right: 0;
+}
+
+.inner-box .line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 15;
 }

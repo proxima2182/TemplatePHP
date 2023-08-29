@@ -59,3 +59,17 @@ function parseInputToData($inputs) {
 function openWindow(url) {
     window.open(url)
 }
+
+function getCookie(cookie_name) {
+    let x, y;
+    let val = document.cookie.split(';');
+    for (let i = 0; i < val.length; i++) {
+        x = val[i].substring(0, val[i].indexOf('='));
+        y = val[i].substring(val[i].indexOf('=') + 1);
+        x = x.replace(/^\s+|\s+$/g, '');
+        // 앞과 뒤의 공백 제거하기
+        if (x == cookie_name) {
+            return y;
+        }
+    }
+}

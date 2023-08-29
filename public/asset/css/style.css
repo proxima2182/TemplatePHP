@@ -163,6 +163,10 @@ input[type=checkbox] {
     background: #ddd;
 }
 
+.line.black {
+    background: #000;
+}
+
 .line-before.black:before,
 .line-after.black:after,
 .lines-horizontal.black:after,
@@ -170,31 +174,34 @@ input[type=checkbox] {
     background: #000;
 }
 
+.button.under-line {
+    position: relative;
+}
+
 .control-button-wrap {
     font-size: 0;
     text-align: right;
 }
 
-.control-button-wrap a {
+.control-button-wrap .button.under-line {
     height: 20px;
     line-height: 20px;
-    margin: 10px 5px;
+    margin: 5px;
     font-weight: 200;
-    position: relative;
 }
 
-.control-button-wrap img {
+.button.under-line img {
     margin-right: 2px;
 }
 
-.control-button-wrap a:hover:after {
+.button.under-line:hover:after {
     content: "";
     display: inline-block;
     height: 1px;
     position: absolute;
     bottom: -5px;
     left: 0;
-    right: 0;
+    right: -3px;
     background: #000;
 }
 

@@ -191,9 +191,9 @@ $end = min($end, $total_page);
 
 <div class="reply-wrap">
     <ul class="list reply">
-        <?php if (sizeof($array) > 0) { ?>
-            <li class="line"></li>
-        <?php } ?>
+<!--        --><?php //if (sizeof($array) > 0) { ?>
+<!--            <li class="line"></li>-->
+<!--        --><?php //} ?>
         <?php foreach ($array as $index => $reply) { ?>
             <li id="reply-<?= $reply['id'] ?>" reply-id="<?= $reply['id'] ?>">
                 <div class="row selector line-after"
@@ -270,7 +270,7 @@ $end = min($end, $total_page);
             return
         }
         let html = `<ul class="list reply">`;
-        html += `<li class="line"></li>`;
+        // html += `<li class="line"></li>`;
 
         for (let i in array) {
             let item = array[i];
@@ -303,7 +303,7 @@ $end = min($end, $total_page);
             return
         }
         if ($parent.find('.nested-reply').length == 0) {
-            $parent.append(`<ul class="nested-reply line-after"></ul>`);
+            $parent.find('.row').after(`<ul class="nested-reply line-after"></ul>`);
         }
         let page = pagination['page'];
         let reply_id = $parent.attr('reply-id');
@@ -386,7 +386,6 @@ $end = min($end, $total_page);
             }
         }
         let offset = $parent.find('.nested-reply li').last().offset();
-        console.log(offset)
         window.scrollTo(offset.left, offset.top)
     }
 
@@ -432,7 +431,7 @@ $end = min($end, $total_page);
             html += `<span class="number ${i == page ? 'now' : ''}"><a href="javascript:loadReply(${topic_id}, ${i})">${i}</a></span>`;
         }
         if (total_page == end) {
-            html += `<span className="button disabled"><a href="#" onClick="return false"></a></span>`;
+            html += `<span class="button disabled"><a href="#" onClick="return false"></a></span>`;
         } else {
             html += `<span class="button left"><a href="javascript:loadReply(${topic_id}, ${start - 5})"></a></span>`;
         }

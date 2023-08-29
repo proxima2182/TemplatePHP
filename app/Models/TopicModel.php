@@ -25,6 +25,7 @@ class TopicModel extends BaseModel
         'board_id',
         'title',
         'content',
+        'is_deleted',
         'created_at',
         'updated_at',
     ];
@@ -39,6 +40,10 @@ class TopicModel extends BaseModel
         $query = "SELECT topic.*, image_file.id AS image_id 
                 FROM topic LEFT JOIN image_file ON image_file.topic_id = topic.id AND image_file.priority = 1";
         $values = [];
+        if(!$condition) {
+            $condition = [];
+        }
+        $condition = array_merge($condition, ['is_deleted' => 0]);
         if ($condition) {
             $set = $this->getConditionSet($condition);
             $values = array_merge($values, $set['values']);

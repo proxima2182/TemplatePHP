@@ -12,7 +12,8 @@ use App\Helpers\Utils;
             <div class="table-wrap">
                 <?php if ($is_login) { ?>
                 <div class="control-button-wrap">
-                    <a href="javascript:openInputPopupCreate();" class="button create">
+                    <a href="javascript:openInputPopupCreate();"
+                       class="button under-line create">
                         <img src="/asset/images/icon/plus.png"/>
                         <span>Create</span>
                     </a>

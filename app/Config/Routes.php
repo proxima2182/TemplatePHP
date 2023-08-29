@@ -40,19 +40,16 @@ $routes->get('/set-session', [\Views\MainController::class, 'setSession']);
 $routes->get('/profile', [\Views\ProfileController::class, 'index']);
 $routes->get('/registration', [\Views\RegistrationController::class, 'index']);
 $routes->get('/reset-password', [\Views\RegistrationController::class, 'resetPassword']);
-$routes->get('/board/grid/([0-9]+)', [\Views\BoardController::class, 'getGridBoard']);
-$routes->addRedirect('/board/grid', '/board/grid/1');
-$routes->get('/board/table/([0-9]+)', [\Views\BoardController::class, 'getTableBoard']);
-$routes->addRedirect('/board/table', '/board/table/1');
 $routes->get('/board/(:any)/([0-9]+)', [\Views\BoardController::class, 'getBoard']);
 $routes->addRedirect('/board/(:any)', '/board/(:any)/1');
 $routes->get('/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/topic/create', [\Views\BoardController::class, 'createTopic']);
 $routes->get('/topic/([0-9]+)', [\Views\BoardController::class, 'getTopic']);
 $routes->get('/topic/([0-9]+)/edit', [\Views\BoardController::class, 'editTopic']);
 //admin pages
+$routes->addRedirect('/admin', '/admin/category/1');
+
 $routes->get('/admin/board/([0-9]+)', [\Views\Admin\BoardController::class, 'index']);
 $routes->addRedirect('/admin/board', '/admin/board/1');
-$routes->addRedirect('/admin', '/admin/board/1');
 $routes->get('/admin/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/([0-9]+)', [\Views\Admin\BoardController::class, 'getBoard']);
 $routes->addRedirect('/admin/board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/admin/board/$1/1');
 $routes->get('/admin/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/topic/create', [\Views\Admin\BoardController::class, 'createTopic']);

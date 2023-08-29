@@ -1,5 +1,6 @@
 <?php
 if (!isset($links) && !isset($is_login)) return;
+$is_admin_navigation_closed = isset($is_admin_navigation_closed) && $is_admin_navigation_closed == 1;
 ?>
 <!doctype html>
 <html lang="ko">
@@ -44,7 +45,8 @@ if (!isset($links) && !isset($is_login)) return;
                     <?php } ?>
                 </ul>
             </div>
-            <div class="gnb-wrap fixed">
+            <div class="gnb-wrap fixed<?= $is_admin_navigation_closed ? ' closed': ''?>"
+                <?= $is_admin_navigation_closed ? ' style="left: -150px;"': ''?>>
                 <div class="gnb">
                     <ul class="cf">
                         <?php foreach ($links as $name => $link) { ?>
@@ -57,11 +59,19 @@ if (!isset($links) && !isset($is_login)) return;
                     </a>
                 </div>
             </div>
-            <a href="javascript:closeNavigation()" class="button navigation menu">
-                <span class="top"></span>
-                <span class="middle"></span>
-                <span class="bottom"></span>
-            </a>
+            <?php if($is_admin_navigation_closed) { ?>
+                <a href="javascript:openNavigation()" class="button navigation menu">
+                    <span class="top" style="transform: rotate(0deg); top: 15px;"></span>
+                    <span class="middle" style="opacity: 1;"></span>
+                    <span class="bottom" style="transform: rotate(0deg); top: 25px;"></span>
+                </a>
+            <?php } else { ?>
+                <a href="javascript:closeNavigation()" class="button navigation menu">
+                    <span class="top"></span>
+                    <span class="middle"></span>
+                    <span class="bottom"></span>
+                </a>
+            <?php } ?>
         </div>
     </header>
     <div id="container">

@@ -42,7 +42,6 @@
 
 .section .page-inner .button-wrap .button.more * {
     vertical-align: middle;
-    margin: 0 5px;
 }
 
 .section .page-inner .button-wrap .button.more:hover:after {

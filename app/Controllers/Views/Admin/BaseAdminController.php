@@ -24,6 +24,7 @@ class BaseAdminController extends BaseController
     {
         return view('admin/header', parent::loadDataForHeader($data, [
             'links' => $this->links,
+            'is_admin_navigation_closed' => $_COOKIE['is-admin-navigation-closed'] ?? 0,
         ]));
     }
 
@@ -35,7 +36,7 @@ class BaseAdminController extends BaseController
     protected function getViewData(): array
     {
         return array_merge(parent::getViewData(), [
-            'is_admin_page' => true,
+            'is_admin_page' => true
         ]);
     }
 }

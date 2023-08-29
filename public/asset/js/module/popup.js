@@ -113,14 +113,18 @@ function openPopup(input) {
 }
 
 .${className} .popup-inner .row .column {
-    padding: 10px;
-    line-height: 35px;
+    padding: 10px 5px;
+    line-height: 30px;
     text-align: left;
     box-sizing: border-box;
     font-size: 18px;
     font-weight: 400;
     display: inline-block;
     vertical-align: bottom;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .${className} .popup-inner .control-button-wrap.absolute {
@@ -133,7 +137,7 @@ function openPopup(input) {
     background: #fff;
 }
 .${className} .popup-inner .control-box {
-    padding: 5px 20px 15px 20px;
+    padding: 10px 20px 20px 20px;
 }
 </style>
 ${style ?? ''}
@@ -153,9 +157,9 @@ ${style ?? ''}
     onPopupResizeWindow();
     if (callback && typeof callback == 'function') callback();
 
-    if($(`.${className} .control-button-wrap.absolute`).length > 0) {
+    if ($(`.${className} .control-button-wrap.absolute`).length > 0) {
         $(`.${className} .popup-inner`).css({
-            'padding-bottom' : '80px'
+            'padding-bottom': '80px'
         });
     }
 
@@ -247,7 +251,11 @@ function onPopupResizeWindow(event) {
         'line-height': `${window.innerHeight}px`,
     })
     let popup_height = window.innerHeight - 400 < 200 ? 200 : window.innerHeight - 400
-    $('.popup-wrap .popup-inner').css({
+    $('.popup-wrap .popup-inner').not('.popup-wrap.popup-image-detail .popup-inner').css({
+        'max-height': `${popup_height}px`,
+    })
+    popup_height = window.innerHeight - 200 < 200 ? 200 : window.innerHeight - 200
+    $('.popup-wrap.popup-image-detail .popup-inner').css({
         'max-height': `${popup_height}px`,
     })
 }

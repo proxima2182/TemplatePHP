@@ -8,7 +8,7 @@
                 <?php if ($is_login) { ?>
                     <div class="control-button-wrap">
                         <a href="<?= $is_admin_page ? '/admin/board/' . $board_code . '/topic/create' : '/board/' . $board_code . '/topic/create' ?>"
-                           class="button create">
+                           class="button under-line create">
                             <img src="/asset/images/icon/plus.png"/>
                             <span>Create</span>
                         </a>

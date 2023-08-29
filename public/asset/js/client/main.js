@@ -28,6 +28,7 @@ let handleStorage = {
         return parseInt(localStorage.getItem(name)) > now
     }
 };
+
 $(document).ready(function () {
     let $sections = $('.section');
     let anchors = [];
@@ -163,9 +164,9 @@ $(document).ready(function () {
         disableDoubleClickZoom: true,
     };
 
-    map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-    let event = new Event("customMapLoad");
-    dispatchEvent(event);
+    // map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+    // let event = new Event("customMapLoad");
+    // dispatchEvent(event);
 
     let element = $(`#page-map .list-wrap`).get(0);
     if (element) {
@@ -242,7 +243,7 @@ function checkPagePopup() {
             let array = response.array;
             for (let i in array) {
                 let item = array[i]
-                if (!handleStorage.has(item['id'])) {
+                if (!handleStorage.has(`main-page-popup-${item['id']}`)) {
                     let className = `page-popup-${hash()}`;
                     let html = `
                     <div class="slider-wrap">
@@ -322,7 +323,7 @@ function resizePagePopupWindow() {
 function closePagePopupTodayDisabled(className, id) {
     let $popupWrap = $(`.${className}`)
     $popupWrap.remove()
-    handleStorage.set(id, 1)
+    handleStorage.set(`main-page-popup-${id}`, 1)
     resizePagePopupWindow();
 }
 

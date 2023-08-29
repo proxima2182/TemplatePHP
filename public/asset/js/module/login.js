@@ -79,13 +79,15 @@ async function openPopupLogin() {
             </div>
         </div>
         <div class="control-button-wrap">
-            <a href="/registration" class="button register">
+            <a href="/registration"
+                class="button under-line register">
                 <img src="/asset/images/icon/plus_circle.png"/>
                 <span>Register</span>
             </a>
         </div>
         <div class="control-button-wrap">
-            <a href="/reset-password" class="button forgot-password">
+            <a href="/reset-password"
+                class="button under-line forgot-password">
                 <img src="/asset/images/icon/password.png"/>
                 <span>Forgot Password</span>
             </a>
@@ -93,8 +95,10 @@ async function openPopupLogin() {
         <div class="error-message-wrap">
         </div>
         <div class="button-wrap controls">
-            <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
-            <a href="javascript:login('${className}')" class="button confirm black">Login</a>
+            <a href="javascript:closePopup('${className}')"
+                class="button cancel white">Cancel</a>
+            <a href="javascript:login('${className}')"
+                class="button confirm black">Login</a>
         </div>`;
         openPopup({
             className: className,

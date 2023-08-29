@@ -62,6 +62,10 @@
                 .${className} .row .column.name {
                     width: 60%;
                 }
+                .${className} .row .column.name * {
+                    height: 30px;
+                    vertical-align: middle;
+                }
 
                 .${className} .row .column.created-at {
                     width: 40%;
@@ -80,19 +84,30 @@
                     text-align: left;
                 }
 
-                .${className} .control-button-wrap.top a{
+                .${className} .control-button-wrap.top a {
+                    margin: 0;
+                }
+
+                .${className} .control-button-wrap.top span{
                     font-weight: 400;
+                    font-size: 16px;
                 }
                 </style>`
                 let html = `
                 <div class="control-button-wrap top">
-                    <a href="/admin/topic/${data['topic_id']}" class="button detail">
+                    <a href="/admin/topic/${data['topic_id']}"
+                        class="button under-line detail">
                         <img src="/asset/images/icon/topic.png"/>
                         <span>${data['board_alias']} / ${data['topic_title']}</span>
                     </a>
                 </div>
                 <div class="row row-title line-after black">
-                    <span class="column name">${data['user_name']}</span>
+                    <span class="column name">
+                        <a href="#" class="button under-line">
+                            <img src="/asset/images/icon/user@2x.png"/>
+                            <span>${data['user_name']}</span>
+                        </a>
+                    </span>
                     <span class="column created-at">${data['created_at']}</span>
                 </div>
                 <div class="text-wrap">
@@ -100,7 +115,8 @@
                 </div>
                 <div class="control-button-wrap absolute line-before">
                     <div class="control-box">
-                        <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
+                        <a href="javascript:openInputPopupDelete(${data['id']});"
+                            class="button under-line delete">
                             <img src="/asset/images/icon/delete.png"/>
                             <span>Delete</span>
                         </a>

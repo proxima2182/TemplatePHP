@@ -15,8 +15,9 @@
                 <div class="slider-box">
                     <div class="slick">
                         <?php foreach ($data['images'] as $index => $image) { ?>
-                            <div class="slick-item"
-                                 style="background: url('/image-file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+                            <div class="slick-item button"
+                                 style="background: url('/image-file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;"
+                                 onclick="openTopicImagePopup(<?= $image['id'] ?>)">
                                 Slider #<?= $image['id'] ?>
                             </div>
                         <?php } ?>
@@ -27,13 +28,14 @@
                 <div class="control-button-wrap">
                     <?php if ($user_id == $data['user_id']) { ?>
                         <a href="<?= $is_admin_page ? '/admin/topic/' . $data['id'] . '/edit' : '/topic/' . $data['id'] . '/edit' ?>"
-                           class="button edit">
+                           class="button under-line edit">
                             <img src="/asset/images/icon/edit.png"/>
                             <span>Edit</span>
                         </a>
                     <?php } ?>
                     <?php if ($is_admin) { ?>
-                        <a href="javascript:openTopicPopupDelete(<?= $data['id'] ?>)" class="button delete">
+                        <a href="javascript:openTopicPopupDelete(<?= $data['id'] ?>)"
+                           class="button under-line delete">
                             <img src="/asset/images/icon/delete.png"/>
                             <span>Delete</span>
                         </a>
@@ -41,6 +43,7 @@
                 </div>
             <?php } ?>
         </div>
+        <div class="line black"></div>
     </div>
 </div>
 <?=

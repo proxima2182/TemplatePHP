@@ -75,13 +75,14 @@
         getControlHtml: function (className, data) {
             let html = `
             <a href="javascript:editInputPopup('${className}', ${data['id']})"
-               class="button edit">
+               class="button under-line edit">
                 <img src="/asset/images/icon/edit.png"/>
                 <span>Edit</span>
             </a>`;
             if (data['is_deletable'] == 1) {
                 html += `
-                <a href="javascript:openInputPopupDelete(${data['id']});" class="button delete">
+                <a href="javascript:openInputPopupDelete(${data['id']});"
+                class="button under-line delete">
                     <img src="/asset/images/icon/delete.png"/>
                     <span>Delete</span>
                 </a>`;

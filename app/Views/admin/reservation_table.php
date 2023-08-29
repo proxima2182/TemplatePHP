@@ -10,7 +10,8 @@ $is_admin_page = isset($is_admin) && $is_admin;
             <div class="table-wrap">
                 <?php if ($is_login) { ?>
                     <div class="control-button-wrap">
-                        <a href="javascript:openReservationPopupRequest(this);" class="button create">
+                        <a href="javascript:openReservationPopupRequest(this);"
+                            class="button under-line create">
                             <img src="/asset/images/icon/plus.png"/>
                             <span>Reserve</span>
                         </a>
@@ -142,11 +143,13 @@ $is_admin_page = isset($is_admin) && $is_admin;
                 html += `
                 <div class="control-button-wrap absolute line-before">
                     <div class="control-box">
-                        <a href="javascript:openReservationPopupReject(this, ${data['id']});" class="button reject">
+                        <a href="javascript:openReservationPopupReject(this, ${data['id']});"
+                            class="button under-line reject">
                             <img src="/asset/images/icon/cancel.png"/>
                             <span>Reject</span>
                         </a>
-                        <a href="javascript:openReservationPopupRequest(this, ${data['id']});" class="button accept">
+                        <a href="javascript:openReservationPopupRequest(this, ${data['id']});"
+                            class="button under-line accept">
                             <img src="/asset/images/icon/check.png"/>
                             <span>Accept</span>
                         </a>
@@ -268,7 +271,8 @@ $is_admin_page = isset($is_admin) && $is_admin;
         </div>
         <div class="control-button-wrap absolute line-before">
             <div class="control-box">
-                <a href="javascript:closePopup('${className}');" class="button cancel">
+                <a href="javascript:closePopup('${className}');"
+                    class="button under-line cancel">
                     <img src="/asset/images/icon/cancel.png"/>
                     <span>Cancel</span>
                 </a>

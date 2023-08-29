@@ -100,6 +100,7 @@ function closeNavigation() {
     let gnbWrap = $('.gnb-wrap');
     let gnb = $('.gnb');
     gnbWrap.addClass('closed')
+    document.cookie = 'is-admin-navigation-closed=1; path=/;';
     refreshNavigationPosition();
 
     // navigation slide animation
@@ -140,6 +141,7 @@ function openNavigation() {
     let gnbWrap = $('.gnb-wrap');
     let gnb = $('.gnb');
     gnbWrap.removeClass('closed')
+    document.cookie = 'is-admin-navigation-closed=0; path=/;';
     refreshNavigationPosition();
 
     // navigation slide animation

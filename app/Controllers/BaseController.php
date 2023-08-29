@@ -11,6 +11,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+helper('cookie');
 /**
  * Class BaseController
  *
@@ -132,6 +133,9 @@ abstract class BaseController extends Controller
 
     protected function getViewData(): array
     {
+        set_cookie('is_login', $this->session->is_login, httpOnly: false);
+        set_cookie('is_admin', $this->session->is_admin, httpOnly: false);
+        set_cookie('user_id', $this->session->is_admin, httpOnly: false);
         return [
             'is_login' => $this->session->is_login,
             'is_admin' => $this->session->is_admin,
