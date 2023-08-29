@@ -62,18 +62,16 @@ class BoardController extends BaseAdminController
         $data = $this->getViewData();
         try {
             $board = $this->boardModel->findByCode($code);
-
+            $data['board'] = $board;
             $result = $this->topicModel->getPaginated([
                 'per_page' => $this->per_page,
                 'page' => $page,
             ], [
                 'board_id' => $board['id'],
+                'is_deleted' => 0,
             ]);
             $data = array_merge($data, $result);
             $data = array_merge($data, [
-                'board_id' => $board['id'],
-                'board_code' => $board['code'],
-                'board_alias' => $board['alias'],
                 'pagination_link' => '/admin/board/' . $code,
             ]);
         } catch (Exception $e) {
@@ -94,13 +92,13 @@ class BoardController extends BaseAdminController
     {
         $data = $this->getViewData();
         try {
-            $topic = $this->getTopicData($id);
-            $data['data'] = $topic;
+            $data = array_merge($data, $this->getTopicData($id));
             $result = $this->replyModel->getPaginated([
                 'per_page' => 5,
                 'page' => 1,
             ], [
                 'topic_id' => $id,
+                'is_deleted' => 0,
                 'depth' => 0,
             ]);
             $data['reply'] = $result;
@@ -128,7 +126,7 @@ class BoardController extends BaseAdminController
     {
         $data = $this->getViewData();
         try {
-            $data['data'] = $this->getTopicData($id);
+            $data = array_merge($data, $this->getTopicData($id));
             $data = array_merge($data, [
                 'type' => 'edit'
             ]);
@@ -155,10 +153,7 @@ class BoardController extends BaseAdminController
         $data = $this->getViewData();
         try {
             $board = $this->boardModel->findByCode($code);
-            $data['data'] = [
-                'board_id' => $board['id'],
-                'board_alias' => $board['alias'],
-            ];
+            $data['board'] = $board;
             $data = array_merge($data, [
                 'type' => 'create'
             ]);
@@ -182,6 +177,24 @@ class BoardController extends BaseAdminController
 
     function getReply($page = 1): string
     {
+        $page = Utils::toInt($page);
+        $data = $this->getViewData();
+        try {
+            $result = $this->replyModel->getPaginated([
+                'per_page' => $this->per_page,
+                'page' => $page,
+            ], [
+                'is_deleted' => 0,
+            ]);
+            $data = array_merge($data, $result);
+            $data = array_merge($data, [
+                'pagination_link' => '/admin/topic/reply',
+            ]);
+        } catch (Exception $e) {
+            //todo(log)
+            //TODO show error page
+            return '';
+        }
         return parent::loadHeader([
                 'css' => [
                     '/common/table',
@@ -191,66 +204,19 @@ class BoardController extends BaseAdminController
                     '/module/popup_input',
                 ],
             ])
-            . view('/admin/reply', [
-                'array' => [
-                    [
-                        'id' => 6,
-                        'user_id' => 1,
-                        'topic_id' => 1,
-                        'topic_title' => 'Lorem Ipsum',
-                        'user_name' => 'Lorem Ipsum',
-                        'board_id' => 1,
-                        'board_code' => 'notice',
-                        'depth' => 0,
-                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                        'created_at' => '2023-07-03 22:35:00',
-                    ],
-                    [
-                        'id' => 7,
-                        'user_id' => 1,
-                        'topic_id' => 1,
-                        'topic_title' => 'Lorem Ipsum',
-                        'user_name' => 'Lorem Ipsum',
-                        'board_id' => 1,
-                        'board_code' => 'notice',
-                        'depth' => 0,
-                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                        'created_at' => '2023-07-03 22:35:00',
-                    ],
-                    [
-                        'id' => 8,
-                        'user_id' => 1,
-                        'topic_id' => 1,
-                        'topic_title' => 'Lorem Ipsum',
-                        'user_name' => 'Lorem Ipsum',
-                        'board_id' => 1,
-                        'board_code' => 'notice',
-                        'depth' => 0,
-                        'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                        'created_at' => '2023-07-03 22:35:00',
-                    ],
-                ],
-                'pagination' => [
-                    'page' => 3,
-                    'per-page' => 10,
-                    'total' => 13,
-                    'total-page' => 3,
-                ],
-                'pagination_link' => '/admin/topic/reply'
-            ])
+            . view('/admin/reply', $data)
             . parent::loadFooter();
     }
 
     private function getTopicData($id): array
     {
-        $result = $this->topicModel->find($id);
-        $board = $this->boardModel->find($result['board_id']);
+        $result = [];
+        $topic = $this->topicModel->find($id);
+        $board = $this->boardModel->find($topic['board_id']);
         $images = $this->imageFileModel->get(['topic_id' => $id]);
-        $result['images'] = $images;
-        return array_merge($result, [
-            'board_id' => $board['id'],
-            'board_code' => $board['code'],
-            'board_alias' => $board['alias'],
-        ]);
+        $topic['images'] = $images;
+        $result['data'] = $topic;
+        $result['board'] = $board;
+        return $result;
     }
 }

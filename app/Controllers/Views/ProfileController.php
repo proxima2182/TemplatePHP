@@ -8,22 +8,25 @@ use Models\UserModel;
 class ProfileController extends BaseClientController
 {
     protected UserModel $userModel;
+
     public function __construct()
     {
         parent::__construct();
         $this->userModel = model('Models\UserModel');
     }
 
-    public function index()
+    /**
+     * @throws Exception
+     */
+    public function index(): string
     {
-        $data = [];
-        if(!$this->session->is_login) {
-            //todo show need login
-            return;
+        if (!$this->session->is_login) {
+            return view('/errors/html/redirect_home');
         }
         try {
             $data = $this->userModel->find($this->session->user_id);
-        } catch(Exception $e) {
+            if (!$data) throw new Exception('not exist');
+        } catch (Exception $e) {
             //todo(log)
             //TODO show 404 page
         }

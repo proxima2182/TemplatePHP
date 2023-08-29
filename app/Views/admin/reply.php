@@ -19,7 +19,7 @@
                             <a href="javascript:openReplyPopup('<?= $item['id'] ?>')" class="button row-button">
                                 <span class="column user"><?= $item['user_name'] ?></span>
                                 <span class="column content"><?= $item['content'] ?></span>
-                                <span class="column board"><?= $item['board_code'] ?></span>
+                                <span class="column board"><?= $item['board_alias'] ?></span>
                                 <span class="column created-at"><?= $item['created_at'] ?></span>
                             </a>
                         </li>

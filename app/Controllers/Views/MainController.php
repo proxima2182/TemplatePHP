@@ -110,7 +110,7 @@ class MainController extends BaseClientController
         return view('welcome_message');
     }
 
-    private function getTopicData($code): array
+    private function getTopicData($code): ?array
     {
         $board = $this->boardModel->findByCode($code);
         if ($board) {
@@ -119,15 +119,13 @@ class MainController extends BaseClientController
                 'page' => 1,
             ], [
                 'board_id' => $board['id'],
+                'is_deleted' => 0,
             ]);
-            $result = array_merge($result, [
-                'board_id' => $board['id'],
-                'board_code' => $board['code'],
-                'board_alias' => $board['alias'],
+            $result['board'] = $board;
+            return array_merge($result, [
                 'link' => '/board/' . $code,
             ]);
-            return $result;
         }
-        return [];
+        return null;
     }
 }

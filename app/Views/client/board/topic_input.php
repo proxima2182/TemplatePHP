@@ -20,7 +20,7 @@ $identifier = $shortid->generate();
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="page-title">
-            <?= $data['board_alias'] ?>
+            <?= $board['alias'] ?>
         </h3>
         <div class="topic-wrap">
             <div class="form-wrap">
@@ -32,7 +32,7 @@ $identifier = $shortid->generate();
                     <textarea placeholder="Content" name="content"
                               class="content editable"><?= $data['content'] ?></textarea>
                 </div>
-                <input hidden type="text" name="board_id" class="editable" value="<?= $data['board_id'] ?>"/>
+                <input hidden type="text" name="board_id" class="editable" value="<?= $board['id'] ?>"/>
                 <input hidden type="text" name="identifier" class="editable" value="<?= $identifier ?>"/>
                 <input hidden type="text" name="user_id" class="editable" value="<?= $user_id ?>">
             </div>

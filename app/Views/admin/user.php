@@ -45,7 +45,6 @@
             return `/api/user/update/${id}`
         },
         getHtml: function (data) {
-            console.log(data)
             let typeSet;
             if (data['type'] == 'admin') {
                 typeSet = {

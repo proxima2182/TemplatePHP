@@ -19,10 +19,17 @@ class CategoryController extends BaseAdminController
 
     function index(): string
     {
-        $result = $this->categoryModel->get();
-        $data = [
-            'array' => $result,
-        ];
+        $data = $this->getViewData();
+        try {
+            $result = $this->categoryModel->get();
+            $data = array_merge($data, [
+                'array' => $result,
+            ]);
+        } catch (Exception $e) {
+            //todo(log)
+            //TODO show 404 page
+            return "";
+        }
         return parent::loadHeader([
                 'css' => [
                     '/common/table',
@@ -39,20 +46,19 @@ class CategoryController extends BaseAdminController
 
     function getCategory($code): string
     {
-        $result = null;
-        $category = null;
+        $data = $this->getViewData();
         try {
             $category = $this->categoryModel->findByCode($code);
             $result = $this->categoryLocalModel->get(['category_id' => $category['id']]);
+            $data = array_merge($data, [
+                'array' => $result,
+                'category_id' => $category['id']
+            ]);
         } catch (Exception $e) {
             //todo(log)
             //TODO show 404 page
             return "";
         }
-        $data = [
-            'array' => $result,
-            'category_id' => $category['id']
-        ];
         return parent::loadHeader([
                 'css' => [
                     '/common/table',

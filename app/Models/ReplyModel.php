@@ -40,16 +40,21 @@ class ReplyModel extends BaseModel
      */
     public function get($condition = null, $limit = null): array
     {
-        $query = "SELECT reply.*, user.name AS user_name FROM reply INNER JOIN user ON user.id = reply.user_id";
+        $query = "SELECT reply.*, user.name AS user_name,
+            topic.title AS topic_title,
+            board.code AS board_code, board.alias AS board_alias FROM reply
+            INNER JOIN user ON user.id = reply.user_id
+            INNER JOIN topic ON topic.id = reply.topic_id
+            INNER JOIN board ON board.id = topic.board_id";
         $values = [];
         if ($condition) {
             $set = $this->getConditionSet($condition);
             $values = array_merge($values, $set['values']);
-            $query .= " ".$set['query'];
+            $query .= " " . $set['query'];
         }
         $query .= " ORDER BY created_at ASC";
-        if(isset($limit)) {
-            $query.= " LIMIT ".$limit['offset'].", ".$limit['value'];
+        if (isset($limit)) {
+            $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
         }
         return BaseModel::transaction($this->db, [
             [

@@ -119,8 +119,9 @@ abstract class BaseController extends Controller
     {
         $data = array_merge([
             'is_login' => $this->session->is_login,
-            'is_admin' => $this->session->is_admin,
             'user_id' => $this->session->user_id,
+            'user_type' => $this->session->user_type,
+            'is_admin' => $this->session->is_admin,
         ], $initData);
         if (isset($input['css'])) {
             $data['css'] = $this->generateAssetStatement("css", $input['css']);
@@ -134,12 +135,14 @@ abstract class BaseController extends Controller
     protected function getViewData(): array
     {
         set_cookie('is_login', $this->session->is_login, httpOnly: false);
+        set_cookie('user_id', $this->session->user_id, httpOnly: false);
+        set_cookie('user_type', $this->session->user_type, httpOnly: false);
         set_cookie('is_admin', $this->session->is_admin, httpOnly: false);
-        set_cookie('user_id', $this->session->is_admin, httpOnly: false);
         return [
             'is_login' => $this->session->is_login,
-            'is_admin' => $this->session->is_admin,
             'user_id' => $this->session->user_id,
+            'user_type' => $this->session->user_type,
+            'is_admin' => $this->session->is_admin,
         ];
     }
 }

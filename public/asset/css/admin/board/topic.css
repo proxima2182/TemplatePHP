@@ -17,6 +17,10 @@
     font-weight: 400;
     display: inline-block;
     vertical-align: bottom;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .topic-wrap .row .column.title {

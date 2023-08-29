@@ -9,6 +9,7 @@ use Models\SettingModel;
 class SettingController extends BaseAdminController
 {
     protected SettingModel $settingModel;
+
     public function __construct()
     {
         $this->settingModel = model('Models\SettingModel');
@@ -17,19 +18,20 @@ class SettingController extends BaseAdminController
     function index($page = 1): string
     {
         $page = Utils::toInt($page);
-        $result = null;
+        $data = $this->getViewData();
         try {
             $result = $this->settingModel->getPaginated([
                 'per_page' => $this->per_page,
                 'page' => $page,
             ]);
+            $data = array_merge($data, $result);
+            $data = array_merge($data, [
+                'pagination_link' => '/admin/setting',
+            ]);
         } catch (Exception $e) {
             //todo(log)
             //TODO show error page
         }
-        $data = array_merge($result, [
-            'pagination_link' => '/admin/setting',
-        ]);
         return parent::loadHeader([
                 'css' => [
                     '/common/table',

@@ -1,7 +1,7 @@
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="page-title">
-            <?= $data['board_alias'] ?>
+            <?= $board['alias'] ?>
         </h3>
         <div class="topic-wrap">
             <div class="row row-title line-after black">
@@ -46,8 +46,11 @@
         <div class="line black"></div>
     </div>
 </div>
-<?=
-\App\Helpers\HtmlHelper::getReply($data['id'], $reply); ?>
+<?php
+if ($board['is_reply'] == 1) {
+    echo \App\Helpers\HtmlHelper::getReply($data['id'], $reply);
+}
+?>
 <script type="text/javascript">
     $('.slider-wrap .slick').slick({
         slidesToShow: 4,

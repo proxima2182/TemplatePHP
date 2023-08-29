@@ -247,11 +247,14 @@ $end = min($end, $total_page);
             // 그냥 주게되면 텅 빈 화면이 반을 차지하기 때문에댓글이 있는 경우에만 최소 높이 줌
             if ($wrapReply.find('.list').children().length > 0) {
                 $wrapReply.find('.list').css({
-                    'min-height': '251px'
+                    'min-height': '250px'
                 })
             }
             $('#container').css({
                 'padding-bottom': `${$wrapReply.outerHeight()}px`
+            })
+            $('#container .container-inner').css({
+                'padding-bottom': `0`
             })
         }
     }

@@ -1,12 +1,12 @@
 <div class="container-inner">
     <div class="inner-box">
         <h3 class="page-title">
-            Preview
+            <?= $board['alias'] ?>
         </h3>
         <div class="grid-wrap">
-            <?php if ($is_login) { ?>
+            <?php if ($is_login && ($board['is_public'] == 1 || $is_admin)) { ?>
                 <div class="control-button-wrap">
-                    <a href="<?= $is_admin_page ? '/admin/board/' . $board_code . '/topic/create' : '/board/' . $board_code . '/topic/create' ?>"
+                    <a href="<?= $is_admin_page ? '/admin/board/' . $board['code'] . '/topic/create' : '/board/' . $board['code'] . '/topic/create' ?>"
                        class="button under-line create">
                         <img src="/asset/images/icon/plus.png"/>
                         <span>Create</span>

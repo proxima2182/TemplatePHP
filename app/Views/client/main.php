@@ -171,7 +171,7 @@ $sliderImages = [
             <div class="page-inner">
                 <div class="inner-box">
                     <h3 class="page-title">
-                        <?= $topics_table['board_alias'] ?>
+                        <?= $topics_table['board']['alias'] ?>
                     </h3>
                     <div class="table-box">
                         <?php if (!isset($topics_table['array']) || sizeof($topics_table['array']) == 0) { ?>
@@ -219,7 +219,7 @@ $sliderImages = [
             <div class="page-inner">
                 <div class="inner-box">
                     <h3 class="page-title">
-                        <?= $topics_grid['board_alias'] ?>
+                        <?= $topics_grid['board']['alias'] ?>
                     </h3>
                     <div class="slider-box">
                         <?php if (!isset($topics_grid['array']) || sizeof($topics_grid['array']) == 0) { ?>

@@ -339,8 +339,9 @@ class UserController extends BaseApiController
                     'username' => $user['username'],
                     'name' => strlen($user['name']) == 0 ? $user['username'] : $user['name'],
                     'user_id' => $user['id'],
+                    'user_type' => $user['type'],
                     'is_login' => true,
-                    'is_admin' => $user['type'] == 'admin',
+                    'is_admin' => $user['type'] == 'admin' || $user['type'] == 'member',
                 ]);
                 $response['success'] = true;
             } catch (Exception $e) {
@@ -364,6 +365,7 @@ class UserController extends BaseApiController
             'username' => '',
             'name' => '',
             'user_id' => -1,
+            'user_type' => '',
             'is_login' => false,
             'is_admin' => false,
         ]);

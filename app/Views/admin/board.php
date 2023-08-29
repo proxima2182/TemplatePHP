@@ -64,30 +64,48 @@
             return `/api/board/delete/${id}`
         },
         getHtml: function (data) {
-            const typeSet = {
+            let typeSet = {
                 code: {
                     type: 'text',
                 },
                 alias: {
                     type: 'text',
                 },
-                type: {
-                    type: 'select',
-                    options: [
-                        {
-                            value: 'static',
-                            name: 'Static',
-                        },
-                        {
-                            value: 'grid',
-                            name: 'Grid',
-                        },
-                        {
-                            value: 'table',
-                            name: 'Table',
-                        },
-                    ]
-                },
+            };
+            if (data['type'] == 'static') {
+                typeSet = {
+                    ...typeSet,
+                    type: {
+                        type: 'select',
+                        options: [
+                            {
+                                value: 'static',
+                                name: 'Static',
+                            },
+                        ],
+                        editable: false,
+                    },
+                };
+            } else {
+                typeSet = {
+                    ...typeSet,
+                    type: {
+                        type: 'select',
+                        options: [
+                            {
+                                value: 'grid',
+                                name: 'Grid',
+                            },
+                            {
+                                value: 'table',
+                                name: 'Table',
+                            },
+                        ]
+                    },
+                }
+            }
+            typeSet = {
+                ...typeSet,
                 is_reply: {
                     type: 'checkbox',
                 },
@@ -102,7 +120,7 @@
             let html = ``;
 
             // copy text button
-            if(data) {
+            if (data) {
                 html += `
             <div class="input-wrap inline" style="position: relative;">
                 <p class="input-title">Link</p>

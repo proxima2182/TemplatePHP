@@ -18,19 +18,20 @@ class UserController extends BaseAdminController
     function index($page = 1): string
     {
         $page = Utils::toInt($page);
-        $result = null;
+        $data = $this->getViewData();
         try {
             $result = $this->userModel->getPaginated([
                 'per_page' => $this->per_page,
                 'page' => $page,
             ]);
+            $data = array_merge($data, $result);
+            $data = array_merge($data, [
+                'pagination_link' => '/admin/user',
+            ]);
         } catch (Exception $e) {
             //todo(log)
             //TODO show error page
         }
-        $data = array_merge($result, [
-            'pagination_link' => '/admin/user',
-        ]);
         return parent::loadHeader([
                 'css' => [
                     '/common/table',

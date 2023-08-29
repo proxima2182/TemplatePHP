@@ -1,3 +1,7 @@
+.page-inner, .container-inner {
+    padding-bottom: 60px;
+}
+
 .topic-wrap .row .column.title {
     width: 60%;
 }

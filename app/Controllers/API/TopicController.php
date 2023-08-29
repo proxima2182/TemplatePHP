@@ -168,6 +168,7 @@ class TopicController extends BaseApiController
                 'page' => $page,
             ], [
                 'topic_id' => $topic_id,
+                'is_deleted' => 0,
                 'depth' => 0,
             ]);
             $response['success'] = true;
@@ -248,29 +249,18 @@ class TopicController extends BaseApiController
     {
         $response = [
             'success' => false,
-            'data' => [],
-            'message' => ""
         ];
-        $queryParams = $this->request->getGet();
-        $page = $queryParams['page'] ?? 1;
 
-        $response = [
-            'success' => true,
-            'data' => [
-                'id' => 6,
-                'user_id' => 1,
-                'topic_id' => 1,
-                'topic_title' => 'Lorem Ipsum',
-                'user_name' => 'Lorem Ipsum',
-                'board_id' => 1,
-                'board_code' => 'notice',
-                'board_alias' => '보드이름',
-                'depth' => 0,
-                'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                'created_at' => '2023-07-03 22:35:00',
-            ],
-            'message' => ""
-        ];
+        try {
+            $result = $this->replyModel->get(['id' => $reply_id]);
+            if (sizeof($result) >= 1) {
+                $response['success'] = true;
+                $response['data'] = $result[0];
+            }
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
         return $this->response->setJSON($response);
     }
 
@@ -293,6 +283,7 @@ class TopicController extends BaseApiController
                 'page' => $page,
             ], [
                 'reply_id' => $reply_id,
+                'is_deleted' => 0,
             ]);
             $response['success'] = true;
             $response['data'] = $result;

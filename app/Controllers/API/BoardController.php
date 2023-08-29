@@ -99,7 +99,10 @@ class BoardController extends BaseApiController
             $board = $this->boardModel->findByCode($code);
             if ($board) {
                 if ($board['type'] == 'static') {
-                    $result = $this->topicModel->get(['board_id' => $board['id']]);
+                    $result = $this->topicModel->get([
+                        'board_id' => $board['id'],
+                        'is_deleted' => 0,
+                    ]);
                     foreach ($result as $index => $item) {
                         $result[$index]['images'] = $this->imageFileModel->get(['topic_id' => $item['id']]);
                     }
