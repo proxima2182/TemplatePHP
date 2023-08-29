@@ -21,7 +21,7 @@ class ProfileController extends BaseClientController
     public function index(): string
     {
         if (!$this->session->is_login) {
-            return view('/errors/html/redirect_home');
+            return view('/redirect_home');
         }
         try {
             $data = $this->userModel->find($this->session->user_id);
