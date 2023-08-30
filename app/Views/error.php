@@ -100,15 +100,11 @@
 <body>
 <div class="error-wrap">
     <div class="code-wrap">
-        <p class="code">404</p>
+        <p class="code"><?= $code ?></p>
     </div>
     <div class="text-wrap">
-        <p class="title">Not Found</p>
-        <?php if (ENVIRONMENT !== 'production') : ?>
-            <p class="message"><?= nl2br(esc($message)) ?></p>
-        <?php else : ?>
-            <p class="message"><?= lang('Errors.sorryCannotFind') ?></p>
-        <?php endif ?>
+        <p class="title"><?= $title ?></p>
+        <p class="message"><?= $message ?></p>
     </div>
 
     <a href="/" class="button white">go back to web page</a>

@@ -18,6 +18,7 @@ class BoardController extends BaseAdminController
 
     public function __construct()
     {
+        $this->isRestricted = true;
         $this->boardModel = model('Models\BoardModel');
         $this->topicModel = model('Models\TopicModel');
         $this->imageFileModel = model('Models\ImageFileModel');
@@ -114,7 +115,7 @@ class BoardController extends BaseAdminController
                     '/admin/board/topic_view',
                 ],
                 'js' => [
-                    '/slick/slick.min.js',
+                    '/library/slick/slick.min.js',
                     '/module/popup_topic',
                 ],
             ])
@@ -140,7 +141,7 @@ class BoardController extends BaseAdminController
                     '/admin/board/topic_input',
                 ],
                 'js' => [
-                    '/slick/slick.min.js',
+                    '/library/slick/slick.min.js',
                     '/module/draggable',
                 ],
             ])
@@ -167,7 +168,7 @@ class BoardController extends BaseAdminController
                     '/admin/board/topic_input',
                 ],
                 'js' => [
-                    '/slick/slick.min.js',
+                    '/library/slick/slick.min.js',
                     '/module/draggable',
                 ],
             ])

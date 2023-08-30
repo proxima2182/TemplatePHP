@@ -83,10 +83,10 @@ class EmailController extends BaseApiController
         $link = null;
         switch ($type) {
             case 'registration':
-                $link = $this->host . '/registration';
+                $link = $this->host . ($data['is_admin'] == 1 ? '/admin' : '') . '/registration';
                 break;
             case 'reset-password':
-                $link = $this->host . '/reset-password';
+                $link = $this->host . ($data['is_admin'] == 1 ? '/admin' : '') . '/reset-password';
                 break;
         }
         if (isset($link)) {
@@ -175,6 +175,8 @@ class EmailController extends BaseApiController
                 $response['message'] = 'wrong access.';
                 return $this->response->setJSON($response);
         }
+
+        if (!isset($data['is_admin'])) $data['is_admin'] = 0;
 
         $response = [
             'success' => false,

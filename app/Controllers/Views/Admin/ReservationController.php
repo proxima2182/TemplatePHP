@@ -8,6 +8,7 @@ class ReservationController extends BaseAdminController
 
     public function __construct()
     {
+        $this->isRestricted = true;
         $this->categoryModel = model('Models\CategoryModel');
     }
 

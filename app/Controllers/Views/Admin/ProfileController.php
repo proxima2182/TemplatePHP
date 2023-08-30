@@ -1,17 +1,17 @@
 <?php
 
-namespace Views;
+namespace Views\Admin;
 
 use Exception;
 use Models\UserModel;
 
-class ProfileController extends BaseClientController
+class ProfileController extends BaseAdminController
 {
     protected UserModel $userModel;
 
     public function __construct()
     {
-        parent::__construct();
+        $this->isRestricted = true;
         $this->userModel = model('Models\UserModel');
     }
 
@@ -20,11 +20,6 @@ class ProfileController extends BaseClientController
      */
     public function index(): string
     {
-        if (!$this->session->is_login) {
-            return view('/redirect', [
-                'path' => '/'
-            ]);
-        }
         $data = [];
         try {
             $data = $this->userModel->find($this->session->user_id);
@@ -37,13 +32,13 @@ class ProfileController extends BaseClientController
         return parent::loadHeader([
                 'css' => [
                     '/common/input',
-                    '/client/form',
+                    '/admin/form',
                 ],
                 'js' => [
-                    '/client/profile',
+                    '/admin/profile',
                 ],
             ])
-            . view('/client/profile', $data)
+            . view('/admin/profile', $data)
             . parent::loadFooter();
     }
 }

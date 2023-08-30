@@ -82,13 +82,13 @@ class UserController extends BaseApiController
      * @return array
      * @throws Exception
      */
-    private function getLastVerificationCode(string $email): array
+    private function getLastVerificationCode(string $email, string $code): array
     {
         $result = $this->verificationCodeModel->getLatest(['email' => $email]);
         if (!$result) {
             throw new Exception('you have to send verification code first.');
         }
-        if ($result['code'] != $data['code']) {
+        if ($result['code'] != $code) {
             throw new Exception('please check your code again.');
         }
         $diff = time() - strtotime($result['created_at']);
@@ -131,7 +131,7 @@ class UserController extends BaseApiController
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
-                $code = $this->getLastVerificationCode($data['email']);
+                $code = $this->getLastVerificationCode($data['email'], $data['code']);
                 $this->verificationCodeModel->update($code['id'], [
                     'is_used' => 1,
                 ]);
@@ -234,7 +234,7 @@ class UserController extends BaseApiController
                 }
                 $user = $users[0];
 
-                $code = $this->getLastVerificationCode($user['email']);
+                $code = $this->getLastVerificationCode($user['email'], $data['code']);
                 $this->verificationCodeModel->update($code['id'], [
                     'is_used' => 1,
                 ]);

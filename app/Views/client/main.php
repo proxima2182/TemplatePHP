@@ -29,10 +29,10 @@ $sliderImages = [
     <link rel="stylesheet" type="text/css" href="/asset/css/client/main.css"/>
 
     <script type="text/javascript" src="/asset/js/default.js"></script>
-    <script type="text/javascript" src="/asset/js/fullpage/jquery.min.js"></script>
-    <script type="text/javascript" src="/asset/js/fullpage/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/asset/js/fullpage/jquery.fullPage.js"></script>
-    <script type="text/javascript" src="/asset/js/slick/slick.min.js"></script>
+    <script type="text/javascript" src="/asset/js/library/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/asset/js/library/jquery/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/asset/js/library/fullpage/jquery.fullPage.js"></script>
+    <script type="text/javascript" src="/asset/js/library/slick/slick.min.js"></script>
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=221aa6cfc43d262a0a90ca26facc9708"></script>
 

@@ -75,9 +75,13 @@ abstract class BaseController extends Controller
 //        ServerLogger::log($encoded);
     }
 
-    /**view functions**/
-
-    protected function generateAssetStatement(string $type, array|string $urls): string
+    /**
+     * header 에 데이터 load 할 때 resource file 들의 참조를 규격화하는 기능
+     * @param string $type
+     * @param array|string $urls
+     * @return string
+     */
+    private function generateAssetStatement(string $type, array|string $urls): string
     {
         $result = "";
         $getter = null;
@@ -115,7 +119,13 @@ abstract class BaseController extends Controller
         return $result;
     }
 
-    protected function loadDataForHeader($input, $initData = []): array
+    /**
+     * header 출력 시에 공통적으로 load 될 데이터 호출 기능
+     * @param array $input
+     * @param array $initData
+     * @return array
+     */
+    protected function loadDataForHeader(array $input, array $initData = []): array
     {
         $data = array_merge([
             'is_login' => $this->session->is_login,
@@ -132,8 +142,13 @@ abstract class BaseController extends Controller
         return $data;
     }
 
+    /**
+     * body 출력 시에 공통적으로 load 될 데이터 호출 기능
+     * @return array
+     */
     protected function getViewData(): array
     {
+        // js 에서도 사용자의 기본 상태를 알기 위해 cookie 에도 매번 refresh
         set_cookie('is_login', $this->session->is_login, httpOnly: false);
         set_cookie('user_id', $this->session->user_id, httpOnly: false);
         set_cookie('user_type', $this->session->user_type, httpOnly: false);

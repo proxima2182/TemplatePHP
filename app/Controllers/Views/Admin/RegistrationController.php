@@ -1,18 +1,18 @@
 <?php
 
-namespace Views;
+namespace Views\Admin;
 
 use App\Helpers\Utils;
 
-class RegistrationController extends BaseClientController
+class RegistrationController extends BaseAdminController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function index(): string
     {
+        if($this->session->is_login) {
+            return view('/redirect', [
+                'path' => '/admin'
+            ]);
+        }
         $queryParams = $this->request->getGet();
         $data = [];
         if(isset($queryParams['email']) && isset($queryParams['code'])) {
@@ -26,18 +26,25 @@ class RegistrationController extends BaseClientController
         return parent::loadHeader([
                 'css' => [
                     '/common/input',
-                    '/client/form',
+                    '/admin/form',
                 ],
                 'js' => [
-                    '/client/registration',
+                    '/admin/registration',
                 ],
+            ], [
+                'is_registration_page' => true,
             ])
-            . view('/client/registration', $data)
+            . view('/admin/registration', $data)
             .parent::loadFooter();
     }
 
     public function resetPassword(): string
     {
+        if($this->session->is_login) {
+            return view('/redirect', [
+                'path' => '/admin'
+            ]);
+        }
         $queryParams = $this->request->getGet();
         $data = [];
         if(isset($queryParams['username']) && isset($queryParams['code'])) {
@@ -51,13 +58,15 @@ class RegistrationController extends BaseClientController
         return parent::loadHeader([
                 'css' => [
                     '/common/input',
-                    '/client/form',
+                    '/admin/form',
                 ],
                 'js' => [
-                    '/client/find_password',
+                    '/admin/find_password',
                 ],
+            ], [
+                'is_registration_page' => true,
             ])
-            . view('/client/find_password', $data)
+            . view('/admin/find_password', $data)
             .parent::loadFooter();
     }
 }

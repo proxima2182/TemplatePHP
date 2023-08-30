@@ -12,6 +12,7 @@ class UserController extends BaseAdminController
 
     public function __construct()
     {
+        $this->isRestricted = true;
         $this->userModel = model('Models\UserModel');
     }
 

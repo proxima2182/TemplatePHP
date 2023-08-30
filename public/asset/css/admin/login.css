@@ -1,0 +1,42 @@
+.container-inner {
+    line-height: 600px;
+}
+.container-inner .inner-box {
+    width: 600px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.container-inner h3.title {
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.container-inner .form-wrap {
+    margin: 10px 50px;
+}
+
+.container-inner .control-button-wrap {
+    line-height: 20px;
+    font-weight: 600;
+    margin: 0 50px;
+}
+
+.container-inner .control-button-wrap a {
+    margin: 3px;
+}
+
+.container-inner .control-button-wrap span {
+    font-size: 16px;
+}
+
+.container-inner .button-wrap {
+    margin: 20px 0;
+}
+
+.container-inner .button-wrap .button {
+    min-width: 100px;
+    padding: 10px 20px;
+    margin: 0 10px;
+}

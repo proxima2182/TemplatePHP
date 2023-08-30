@@ -54,7 +54,7 @@ class BoardController extends BaseClientController
             return '';
         }
         $css = [];
-        $js = ['/slick/slick.min.js'];
+        $js = ['/library/slick/slick.min.js'];
         $view = '';
         if ($board['type'] == 'grid') {
             $css = [
@@ -104,7 +104,7 @@ class BoardController extends BaseClientController
                     '/client/board/topic_view',
                 ],
                 'js' => [
-                    '/slick/slick.min.js',
+                    '/library/slick/slick.min.js',
                     '/module/popup_topic',
                 ],
             ])
@@ -130,7 +130,7 @@ class BoardController extends BaseClientController
                     '/client/board/topic_input',
                 ],
                 'js' => [
-                    '/slick/slick.min.js',
+                    '/library/slick/slick.min.js',
                     '/module/draggable',
                 ],
             ])
@@ -157,7 +157,7 @@ class BoardController extends BaseClientController
                     '/client/board/topic_input',
                 ],
                 'js' => [
-                    '/slick/slick.min.js',
+                    '/library/slick/slick.min.js',
                     '/module/draggable',
                 ],
             ])

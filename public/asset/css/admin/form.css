@@ -1,0 +1,58 @@
+.container-inner .inner-box {
+    padding: 40px 0 120px 0;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+
+.container-inner .form-box {
+    text-align: center;
+    display: inline-block;
+}
+
+.container-inner .form-wrap {
+    width: 800px;
+    min-height: 250px;
+    padding: 40px 100px 60px 100px;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.container-inner .input-wrap.inline .input-title {
+    width: calc(30% - 15px);
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.container-inner .input-wrap.inline input:not([type=checkbox]),
+.container-inner .input-wrap.inline textarea,
+.container-inner .input-wrap.inline select {
+    width: 70%;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.container-inner .input-wrap input:not([type=checkbox]),
+.container-inner .input-wrap textarea,
+.container-inner .input-wrap select {
+    line-height: 40px;
+}
+
+.container-inner .button-wrap {
+    margin-top: 40px;
+}
+
+.container-inner .form-wrap .button-wrap {
+    margin-top: 20px;
+}
+
+.container-inner .button-wrap .button {
+    min-width: 100px;
+    padding: 10px 20px;
+    margin: 0 10px;
+}
+
+/*for lines class*/
+.container-inner .input-wrap input[type=checkbox] {
+    margin: 10px;
+}

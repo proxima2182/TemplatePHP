@@ -34,18 +34,33 @@ class BaseClientController extends BaseController
         $this->links = $categories;
     }
 
-    protected function loadHeader($data): string
+    /**
+     * 공통 header 부분 출력 기능
+     * @param array $data
+     * @param array $initData
+     * @return string
+     */
+    protected function loadHeader(array $data, array $initData = []): string
     {
-        return view('client/header', parent::loadDataForHeader($data, [
+        $initData = array_merge($initData, [
             'links' => $this->links
-        ]));
+        ]);
+        return view('client/header', parent::loadDataForHeader($data, $initData));
     }
 
+    /**
+     * 공통 footer 부분 출력 기능
+     * @return string
+     */
     protected function loadFooter(): string
     {
         return view('client/footer');
     }
 
+    /**
+     * body 출력 시에 공통적으로 load 될 데이터 호출 기능
+     * @return array
+     */
     protected function getViewData(): array
     {
         return array_merge(parent::getViewData(), [
