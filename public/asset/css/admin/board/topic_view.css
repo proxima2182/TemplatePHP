@@ -2,6 +2,22 @@
     padding-bottom: 60px;
 }
 
+.topic-wrap .row.user {
+    width: 100%;
+    padding: 0 5px;
+}
+
+.topic-wrap .row.user a {
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+}
+
+.topic-wrap .row.user a * {
+    font-size: 18px;
+    vertical-align: middle;
+}
+
 .topic-wrap .row .column.title {
     width: 60%;
 }

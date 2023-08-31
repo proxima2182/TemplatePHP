@@ -211,10 +211,11 @@ function initializeInputPopup(input) {
  * @param data
  */
 function addInputPopupControlWrap(className, data) {
-    let controlHtml = getControlHtml ? getControlHtml(className, data) : undefined;
+    let controlHtml = getControlHtml != undefined && getControlHtml != null ? getControlHtml(className, data) : getControlHtml;
     if (typeof controlHtml == 'string' && controlHtml.length == 0) {
         return;
     }
+    if(getControlHtml == null) return;
     $(`.${className} .popup-box`).css({
         "padding-bottom": "61px",
     })

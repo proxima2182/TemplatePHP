@@ -58,7 +58,7 @@ $routes->addRedirect('/admin/board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/admin/board/$1
 $routes->get('/admin/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/topic/create', [\Views\Admin\BoardController::class, 'createTopic']);
 $routes->get('/admin/topic/([0-9]+)', [\Views\Admin\BoardController::class, 'getTopic']);
 $routes->get('/admin/topic/([0-9]+)/edit', [\Views\Admin\BoardController::class, 'editTopic']);
-$routes->get('/admin/topic/reply/([0-9]+)', [\Views\Admin\BoardController::class, 'getReply']);
+$routes->get('/admin/topic/reply/([0-9]+)', [\Views\Admin\ReplyController::class, 'index']);
 $routes->addRedirect('/admin/topic/reply', '/admin/topic/reply/1');
 
 $routes->get('/admin/location/([0-9]+)', [\Views\Admin\LocationController::class, 'index']);

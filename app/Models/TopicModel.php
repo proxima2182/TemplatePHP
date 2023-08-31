@@ -37,8 +37,10 @@ class TopicModel extends BaseModel
      */
     public function get($condition = null, $limit = null): array
     {
-        $query = "SELECT topic.*, image_file.id AS image_id 
-                FROM topic LEFT JOIN image_file ON image_file.topic_id = topic.id AND image_file.priority = 1";
+        $query = "SELECT topic.*, image_file.id AS image_id, user.name AS user_name
+                FROM topic
+                LEFT JOIN image_file ON image_file.topic_id = topic.id AND image_file.priority = 1
+                INNER JOIN user ON user.id = topic.user_id";
         $values = [];
         if ($condition) {
             $set = $this->getConditionSet($condition);

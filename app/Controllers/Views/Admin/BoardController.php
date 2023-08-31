@@ -42,7 +42,7 @@ class BoardController extends BaseAdminController
             ]);
         } catch (Exception $e) {
             //todo(log)
-            //TODO show error page
+            $this->handleException($e);
         }
         return parent::loadHeader([
                 'css' => [
@@ -77,7 +77,7 @@ class BoardController extends BaseAdminController
             ]);
         } catch (Exception $e) {
             //todo(log)
-            //TODO show 404 page
+            $this->handleException($e);
         }
         return parent::loadHeader([
                 'css' => [
@@ -105,8 +105,7 @@ class BoardController extends BaseAdminController
             $data['reply'] = $result;
         } catch (Exception $e) {
             //todo(log)
-            //TODO show 404 page
-            return '';
+            $this->handleException($e);
         }
 
         return parent::loadHeader([
@@ -132,7 +131,7 @@ class BoardController extends BaseAdminController
             ]);
         } catch (Exception $e) {
             //todo(log)
-            //TODO show 404 page
+            $this->handleException($e);
         }
         return parent::loadHeader([
                 'css' => [
@@ -159,7 +158,7 @@ class BoardController extends BaseAdminController
             ]);
         } catch (Exception $e) {
             //todo(log)
-            //TODO show 404 page
+            $this->handleException($e);
         }
         return parent::loadHeader([
                 'css' => [
@@ -175,43 +174,15 @@ class BoardController extends BaseAdminController
             . parent::loadFooter();
     }
 
-    function getReply($page = 1): string
-    {
-        $page = Utils::toInt($page);
-        $data = $this->getViewData();
-        try {
-            $result = $this->replyModel->getPaginated([
-                'per_page' => $this->per_page,
-                'page' => $page,
-            ], [
-                'is_deleted' => 0,
-            ]);
-            $data = array_merge($data, $result);
-            $data = array_merge($data, [
-                'pagination_link' => '/admin/topic/reply',
-            ]);
-        } catch (Exception $e) {
-            //todo(log)
-            //TODO show error page
-            return '';
-        }
-        return parent::loadHeader([
-                'css' => [
-                    '/common/table',
-                    '/admin/reply',
-                ],
-                'js' => [
-                    '/admin/popup_input',
-                ],
-            ])
-            . view('/admin/reply', $data)
-            . parent::loadFooter();
-    }
-
+    /**
+     * @throws Exception
+     */
     private function getTopicData($id): array
     {
         $result = [];
-        $topic = $this->topicModel->find($id);
+        $topics = $this->topicModel->get(['id' => $id, 'is_deleted' => 0]);
+        if (sizeof($topics) != 1) throw new Exception('deleted');
+        $topic = $topics[0];
         $board = $this->boardModel->find($topic['board_id']);
         $images = $this->imageFileModel->get(['topic_id' => $id]);
         $topic['images'] = $images;

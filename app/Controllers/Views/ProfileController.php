@@ -35,9 +35,8 @@ class ProfileController extends BaseClientController
             if (!$data) throw new Exception('not exist');
         } catch (Exception $e) {
             //todo(log)
-            //TODO show 404 page
+            $this->handleException($e);
         }
-
         return parent::loadHeader([
                 'css' => [
                     '/common/input',

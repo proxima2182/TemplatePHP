@@ -9,9 +9,13 @@ use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use Config\Services;
+use Exception;
+use JetBrains\PhpStorm\NoReturn;
 use Psr\Log\LoggerInterface;
 
 helper('cookie');
+
 /**
  * Class BaseController
  *
@@ -159,5 +163,34 @@ abstract class BaseController extends Controller
             'user_type' => $this->session->user_type,
             'is_admin' => $this->session->is_admin,
         ];
+    }
+
+    #[NoReturn] protected function handleException(Exception $e): void
+    {
+        switch ($e->getMessage()) {
+            case 'deleted' :
+            {
+                $response = Services::response();
+                $response->setBody(view('/error', [
+                    'code' => '410',
+                    'title' => 'Gone',
+                    'message' => 'data that you are accessing has been deleted already.',
+                ]));
+                $response->sendBody();
+                exit;
+            }
+            default :
+            {
+                $response = Services::response();
+                $response->setBody(view('/error', [
+                    'code' => '500',
+                    'title' => 'Internal Server Error',
+                    'message' => 'this request has error inside.<br/>' . $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                ]));
+                $response->sendBody();
+                exit;
+            }
+        }
     }
 }

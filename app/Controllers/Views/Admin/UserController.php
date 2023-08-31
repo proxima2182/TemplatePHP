@@ -31,7 +31,7 @@ class UserController extends BaseAdminController
             ]);
         } catch (Exception $e) {
             //todo(log)
-            //TODO show error page
+            $this->handleException($e);
         }
         return parent::loadHeader([
                 'css' => [

@@ -4,16 +4,16 @@ namespace Views\Admin;
 
 use App\Helpers\Utils;
 use Exception;
-use Models\SettingModel;
+use Models\ReplyModel;
 
-class SettingController extends BaseAdminController
+class ReplyController extends BaseAdminController
 {
-    protected SettingModel $settingModel;
+    protected ReplyModel $replyModel;
 
     public function __construct()
     {
         $this->isRestricted = true;
-        $this->settingModel = model('Models\SettingModel');
+        $this->replyModel = model('Models\ReplyModel');
     }
 
     function index($page = 1): string
@@ -21,13 +21,15 @@ class SettingController extends BaseAdminController
         $page = Utils::toInt($page);
         $data = $this->getViewData();
         try {
-            $result = $this->settingModel->getPaginated([
+            $result = $this->replyModel->getPaginated([
                 'per_page' => $this->per_page,
                 'page' => $page,
+            ], [
+                'is_deleted' => 0,
             ]);
             $data = array_merge($data, $result);
             $data = array_merge($data, [
-                'pagination_link' => '/admin/setting',
+                'pagination_link' => '/admin/topic/reply',
             ]);
         } catch (Exception $e) {
             //todo(log)
@@ -36,13 +38,14 @@ class SettingController extends BaseAdminController
         return parent::loadHeader([
                 'css' => [
                     '/common/table',
-                    '/admin/setting',
+                    '/admin/reply',
                 ],
                 'js' => [
                     '/admin/popup_input',
                 ],
             ])
-            . view('/admin/setting', $data)
+            . view('/admin/reply', $data)
             . parent::loadFooter();
     }
+
 }

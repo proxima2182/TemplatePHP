@@ -59,12 +59,13 @@
             font-size: 16px;
             font-weight: 200;
             white-space: pre-wrap;
-            line-height: normal;
+            line-height: 20px;
         }
 
         .error-wrap .text-wrap .title {
             color: #666;
             font-size: 20px;
+            line-height: normal;
             /*font-weight: 400;*/
         }
 
@@ -77,6 +78,12 @@
 
         .error-wrap .button:hover {
             background: #efefef;
+        }
+
+        .error-wrap textarea {
+            margin-top: 20px;
+            height: 200px;
+            width: 400px;
         }
     </style>
 
@@ -105,6 +112,9 @@
     <div class="text-wrap">
         <p class="title"><?= $title ?></p>
         <p class="message"><?= $message ?></p>
+        <?php if (isset($trace)) { ?>
+            <textarea class="under-line" readonly><?= $trace ?></textarea>
+        <?php } ?>
     </div>
 
     <a href="/" class="button white">go back to web page</a>

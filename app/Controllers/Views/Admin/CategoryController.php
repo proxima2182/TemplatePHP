@@ -28,8 +28,7 @@ class CategoryController extends BaseAdminController
             ]);
         } catch (Exception $e) {
             //todo(log)
-            //TODO show 404 page
-            return "";
+            $this->handleException($e);
         }
         return parent::loadHeader([
                 'css' => [
@@ -57,8 +56,7 @@ class CategoryController extends BaseAdminController
             ]);
         } catch (Exception $e) {
             //todo(log)
-            //TODO show 404 page
-            return "";
+            $this->handleException($e);
         }
         return parent::loadHeader([
                 'css' => [

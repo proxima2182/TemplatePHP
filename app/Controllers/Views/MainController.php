@@ -58,7 +58,7 @@ class MainController extends BaseClientController
             $data['topics_grid'] = $this->getTopicData('menu');
         } catch (Exception $e) {
             //todo(log)
-            //TODO show error page
+            $this->handleException($e);
         }
         // TODO 가능하면 첫 앱 실행때 체크하는 걸로 변경 필요
         $this->userModel->checkAdmin();

@@ -50,8 +50,7 @@ class BoardController extends BaseClientController
             ]);
         } catch (Exception $e) {
             //todo(log)
-            //TODO show error page
-            return '';
+            $this->handleException($e);
         }
         $css = [];
         $js = ['/library/slick/slick.min.js'];
@@ -94,10 +93,8 @@ class BoardController extends BaseClientController
             $data['reply'] = $result;
         } catch (Exception $e) {
             //todo(log)
-            //TODO show 404 page
-            return '';
+            $this->handleException($e);
         }
-
         return parent::loadHeader([
                 'css' => [
                     '/client/board/topic',
@@ -122,7 +119,7 @@ class BoardController extends BaseClientController
             ]);
         } catch (Exception $e) {
             //todo(log)
-            //TODO show 404 page
+            $this->handleException($e);
         }
         return parent::loadHeader([
                 'css' => [
@@ -149,7 +146,7 @@ class BoardController extends BaseClientController
             ]);
         } catch (Exception $e) {
             //todo(log)
-            //TODO show 404 page
+            $this->handleException($e);
         }
         return parent::loadHeader([
                 'css' => [
@@ -168,12 +165,14 @@ class BoardController extends BaseClientController
     private function getTopicData($id): array
     {
         $result = [];
-        $topic = $this->topicModel->find($id);
+        $topics = $this->topicModel->get(['id' => $id, 'is_deleted' => 0]);
+        if (sizeof($topics) != 1) throw new Exception('deleted');
+        $topic = $topics[0];
         $board = $this->boardModel->find($topic['board_id']);
-        $result['board'] = $board;
         $images = $this->imageFileModel->get(['topic_id' => $id]);
         $topic['images'] = $images;
         $result['data'] = $topic;
+        $result['board'] = $board;
         return $result;
     }
 }

@@ -131,11 +131,6 @@ input[readonly] {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    pointer-events: none;
-}
-
-textarea[readonly] {
-    pointer-events: none;
 }
 
 input[type=checkbox] {
@@ -192,6 +187,12 @@ input[type=checkbox] {
 
 .button.under-line img {
     margin-right: 2px;
+}
+
+.button.under-line span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .button.under-line:hover:after {
