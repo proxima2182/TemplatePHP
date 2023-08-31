@@ -50,7 +50,7 @@ class BoardController extends BaseAdminController
                     '/admin/board',
                 ],
                 'js' => [
-                    '/module/popup_input',
+                    '/admin/popup_input',
                 ],
             ])
             . view('/admin/board', $data)
@@ -116,7 +116,6 @@ class BoardController extends BaseAdminController
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
-                    '/module/popup_topic',
                 ],
             ])
             . view('/admin/board/topic_view', $data)
@@ -202,7 +201,7 @@ class BoardController extends BaseAdminController
                     '/admin/reply',
                 ],
                 'js' => [
-                    '/module/popup_input',
+                    '/admin/popup_input',
                 ],
             ])
             . view('/admin/reply', $data)

@@ -39,7 +39,7 @@ class LocationController extends BaseAdminController
                     '/admin/location',
                 ],
                 'js' => [
-                    '/module/popup_input',
+                    '/admin/popup_input',
                     '//dapi.kakao.com/v2/maps/sdk.js?appkey=221aa6cfc43d262a0a90ca26facc9708&libraries=services',
                     '/admin/location',
                 ],

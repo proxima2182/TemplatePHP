@@ -40,7 +40,7 @@
 </div>
 <script type="text/javascript">
     /**
-     * module/popup_input
+     * admin/popup_input
      */
     initializeInputPopup({
         getGetUrl: function (id) {

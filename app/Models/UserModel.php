@@ -27,6 +27,7 @@ class UserModel extends BaseModel
         'password',
         'name',
         'email',
+        'is_notification_agreed',
         'created_at',
         'updated_at',
     ];

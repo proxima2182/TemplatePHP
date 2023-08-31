@@ -33,7 +33,7 @@
 </div>
 <script type="text/javascript">
     /**
-     * module/popup_input 에서 delete 기능만 가져와서 사용
+     * admin/popup_input 에서 delete 기능만 가져와서 사용
      */
     initializeInputPopup({
         getDeleteUrl: function (id) {

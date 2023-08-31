@@ -39,7 +39,7 @@ class SettingController extends BaseAdminController
                     '/admin/setting',
                 ],
                 'js' => [
-                    '/module/popup_input',
+                    '/admin/popup_input',
                 ],
             ])
             . view('/admin/setting', $data)

@@ -14,7 +14,7 @@ $is_not_registration_page = !isset($is_registration_page) || ($is_registration_p
 
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css">
     <link rel="stylesheet" type="text/css" href="/asset/css/default.css">
-    <link rel="stylesheet" type="text/css" href="/asset/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/admin/style.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/admin/include.css">
     <?php
     if (isset($css)) echo $css;
@@ -24,7 +24,6 @@ $is_not_registration_page = !isset($is_registration_page) || ($is_registration_p
     <script type="text/javascript" src="/asset/js/library/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/asset/js/library/jquery/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/asset/js/module/popup.js"></script>
-    <script type="text/javascript" src="/asset/js/module/login.js"></script>
     <script type="text/javascript" src="/asset/js/admin/navigation.js"></script>
     <?php
     if (isset($js)) echo $js;

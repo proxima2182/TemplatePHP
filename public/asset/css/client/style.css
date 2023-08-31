@@ -1,0 +1,317 @@
+#container {
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.page-inner, .container-inner {
+    min-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.container-inner .inner-box {
+    padding: 40px 0 80px 0;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+    position: relative;
+}
+
+.page-title {
+    margin: 40px 20px;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+/*button style*/
+.button {
+    cursor: pointer;
+    display: inline-block;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.button:focus {
+    outline: none;
+}
+
+.button.black {
+    background: #000;
+    color: #fff;
+    border: 1px solid #000;
+}
+
+.button.black:hover {
+    background: #444;
+}
+
+.button.black.disabled {
+    background: #666;
+    border: 1px solid #666;
+    cursor: default;
+}
+
+.button.black.disabled.hover {
+    background: #666;
+}
+
+.button.white {
+    background: #ffff;
+    color: #000;
+    border: 1px solid #000;
+}
+
+.button.white:hover {
+    background: #ddd;
+}
+
+.button.white.disabled {
+    background: #bbb;
+    border: 1px solid #666;
+    cursor: default;
+}
+
+.button.white.disabled.hover {
+    background: #bbb;
+}
+
+.selector {
+    cursor: pointer;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+/*input style*/
+input, textarea {
+    resize: none;
+    padding: 0;
+    border: 1px solid #bbb;
+}
+
+textarea {
+    padding: 3px 5px;
+}
+
+input:focus, textarea:focus {
+    border: 1px solid #000;
+}
+
+input.under-line[readonly], input.under-line:focus[readonly] {
+    border: none;
+    /*border-bottom: 1px solid rgba(0, 0, 0, 0);*/
+    border-bottom: 1px solid #efefef;
+}
+
+textarea.under-line[readonly] {
+    border: none;
+    border: 1px solid #efefef;
+}
+
+input.under-line {
+    border: none;
+    border-bottom: 1px solid #bbb;
+}
+
+input.under-line:focus {
+    border-bottom: 1px solid #000;
+}
+
+input[readonly] {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+textarea[readonly] {
+    pointer-events: none;
+}
+
+input[type=checkbox] {
+    accent-color: #222;
+    margin: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.line-before:before,
+.line-after:after,
+.lines-horizontal:after,
+.lines-horizontal:before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: #ddd;
+}
+
+.line {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: #ddd;
+}
+
+.line.black {
+    background: #000;
+}
+
+.line-before.black:before,
+.line-after.black:after,
+.lines-horizontal.black:after,
+.lines-horizontal.black:before {
+    background: #000;
+}
+
+.button.under-line {
+    position: relative;
+}
+
+.control-button-wrap {
+    font-size: 0;
+    text-align: right;
+}
+
+.control-button-wrap .button.under-line {
+    height: 20px;
+    line-height: 20px;
+    margin: 5px;
+    font-weight: 200;
+}
+
+.button.under-line img {
+    margin-right: 2px;
+}
+
+.button.under-line:hover:after {
+    content: "";
+    display: inline-block;
+    height: 1px;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: -3px;
+    background: #000;
+}
+
+.control-button-wrap span {
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+.control-button-wrap * {
+    vertical-align: bottom;
+}
+
+.no-data-box {
+    width: 100%;
+    height: 300px;
+    line-height: 300px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.no-data-box:before,
+.no-data-box:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: #ddd;
+}
+
+.no-data-wrap {
+    line-height: 40px;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.no-data-wrap * {
+    vertical-align: middle;
+}
+
+.no-data-wrap span {
+    font-weight: 200;
+    font-size: 18px;
+    display: block;
+    color: #ddd;
+}
+
+/*slick 관련 default 설정*/
+/*slick 내부에서 display 가 block 인 경우는 slick height 가 비정상적으로 나온다*/
+.slick {
+    width: 100%;
+    line-height: normal;
+    margin: 0px auto;
+    position: relative;
+}
+
+.slick-list {
+    overflow: hidden;
+}
+
+.slick-item {
+    font-size: 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.slick button {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    margin-top: -20px;
+    z-index: 100;
+    text-indent: -9999px;
+    border: none;
+    background-color: #ffffff;
+    background-blend-mode: multiply;
+
+    cursor: pointer;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.slick button.slick-disabled {
+    visibility: hidden;
+}
+
+.slick button.slick-prev {
+    left: 0;
+    background: url('/asset/images/icon/button_left@2x.png') no-repeat center;
+}
+
+.slick button.slick-next {
+    right: 0;
+    background: url('/asset/images/icon/button_right@2x.png') no-repeat center;
+}
+
+.error-message-wrap {
+    text-align: center;
+    line-height: 40px;
+}
+
+.error-message-wrap * {
+    color: #dd4814;
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 10px;
+    word-break: break-word;
+}

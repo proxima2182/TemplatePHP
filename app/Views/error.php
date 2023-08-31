@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/default.css"/>
-    <link rel="stylesheet" type="text/css" href="/asset/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/admin/style.css"/>
     <style>
         body {
             text-align: center;

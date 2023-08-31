@@ -61,7 +61,7 @@ class BoardController extends BaseClientController
                 '/common/grid',
                 '/client/board/grid',
             ];
-            $js = array_merge($js, ['/module/popup_topic']);
+            $js = array_merge($js, ['/client/popup_topic']);
             $view = '/client/board/grid';
         } else if ($board['type'] == 'table') {
             $css = [
@@ -105,7 +105,7 @@ class BoardController extends BaseClientController
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
-                    '/module/popup_topic',
+                    '/client/popup_topic',
                 ],
             ])
             . view('/client/board/topic_view', $data)

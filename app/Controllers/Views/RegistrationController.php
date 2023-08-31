@@ -9,17 +9,18 @@ class RegistrationController extends BaseClientController
     public function __construct()
     {
         parent::__construct();
+        $this->isCheckLogin = true;
     }
 
     public function index(): string
     {
         $queryParams = $this->request->getGet();
         $data = [];
-        if(isset($queryParams['email']) && isset($queryParams['code'])) {
+        if (isset($queryParams['email']) && isset($queryParams['code'])) {
             $email = Utils::decodeText($queryParams['email']);
             $code = Utils::decodeText($queryParams['code']);
-            $data =[
-                'email' =>  $email,
+            $data = [
+                'email' => $email,
                 'code' => $code,
             ];
         }
@@ -33,18 +34,18 @@ class RegistrationController extends BaseClientController
                 ],
             ])
             . view('/client/registration', $data)
-            .parent::loadFooter();
+            . parent::loadFooter();
     }
 
     public function resetPassword(): string
     {
         $queryParams = $this->request->getGet();
         $data = [];
-        if(isset($queryParams['username']) && isset($queryParams['code'])) {
+        if (isset($queryParams['username']) && isset($queryParams['code'])) {
             $username = Utils::decodeText($queryParams['username']);
             $code = Utils::decodeText($queryParams['code']);
-            $data =[
-                'username' =>  $username,
+            $data = [
+                'username' => $username,
                 'code' => $code,
             ];
         }
@@ -58,6 +59,6 @@ class RegistrationController extends BaseClientController
                 ],
             ])
             . view('/client/find_password', $data)
-            .parent::loadFooter();
+            . parent::loadFooter();
     }
 }

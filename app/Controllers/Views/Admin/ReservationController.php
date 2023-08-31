@@ -20,7 +20,7 @@ class ReservationController extends BaseAdminController
                     '/admin/reservation_board',
                 ],
                 'js' => [
-                    '/module/popup_input',
+                    '/admin/popup_input',
                 ],
             ])
             . view('/admin/reservation_board', [

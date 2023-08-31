@@ -39,7 +39,7 @@ class UserController extends BaseAdminController
                     '/admin/user',
                 ],
                 'js' => [
-                    '/module/popup_input',
+                    '/admin/popup_input',
                 ],
             ])
             . view('/admin/user', $data)

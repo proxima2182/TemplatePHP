@@ -37,7 +37,7 @@ class CategoryController extends BaseAdminController
                     '/admin/category',
                 ],
                 'js' => [
-                    '/module/popup_input',
+                    '/admin/popup_input',
                     '/module/draggable',
                 ],
             ])
@@ -66,7 +66,7 @@ class CategoryController extends BaseAdminController
                     '/admin/category_local',
                 ],
                 'js' => [
-                    '/module/popup_input',
+                    '/admin/popup_input',
                     '/module/draggable',
                 ],
             ])

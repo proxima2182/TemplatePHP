@@ -1,79 +1,17 @@
-function changePassword() {
-    $('h3.title').html('Change Password')
-    const box = $('.form-box');
-    box.empty();
-    box.append(`
-    <div class="form-wrap password">
-        <div class="input-wrap">
-            <p class="input-title">Current Password</p>
-            <input type="password" name="current_password" class="under-line editable"/>
-        </div>
-        <div class="input-wrap" style="margin-top: 40px">
-            <p class="input-title">New Password</p>
-            <input type="password" name="new_password" class="under-line editable"/>
-        </div>
-        <div class="input-wrap">
-            <p class="input-title">Confirm New Password</p>
-            <input type="password" name="confirm_new_password" class="under-line editable"/>
-        </div>
-        <div class="error-message-wrap">
-        </div>
-    </div>
-    <div class="button-wrap controls">
-        <a href="javascript:refreshProfile()" class="button cancel white">Cancel</a>
-        <a href="javascript:confirmChangePassword()" class="button confirm black">Confirm</a>
-    </div>`);
-}
-
-function refreshProfile() {
-    $.ajax({
-        type: 'GET',
-        dataType: 'json',
-        url: `/api/user/get/profile`,
-        success: function (response, textStatus, request) {
-            if (!response.success) return;
-            let data = response.data;
-            $('h3.title').html('Profile')
-            const box = $('.form-box');
-            box.empty();
-            box.prepend(`
-            <div class="form-wrap profile">
-                <div class="input-wrap">
-                    <p class="input-title">Username</p>
-                    <input type="text" name="name" class="under-line" readonly value="${data.username}"/>
-                </div>
-                <div class="input-wrap">
-                    <p class="input-title">Email</p>
-                    <input type="text" name="name" class="under-line" readonly value="${data.email}"/>
-                </div>
-                <div class="input-wrap">
-                    <p class="input-title">Name</p>
-                    <input type="text" name="name" class="under-line editable" readonly value="${data.name}"/>
-                </div>
-                <div class="error-message-wrap">
-                </div>
-                <div class="button-wrap">
-                    <a href="javascript:changePassword()" class="button change-password white">Change Password</a>
-                </div>
-                <div class="button-wrap">
-                    <a href="javascript:editProfile()" class="button edit-profile black">Edit Profile</a>
-                </div>
-            </div>`)
-        },
-        error: function (response, textStatus, error) {
-        },
-    })
-}
 
 function editProfile() {
-    $('h3.title').html('Edit Profile')
+    $('.profile-container .page-title').html('Edit Profile')
     $('.form-wrap .editable').removeAttr('readonly')
     $('.form-wrap .button-wrap').remove();
     $('.form-box').append(`
     <div class="button-wrap controls">
-        <a href="javascript:refreshProfile()" class="button cancel white">Cancel</a>
+        <a href="javascript:cancel()" class="button cancel white">Cancel</a>
         <a href="javascript:confirmEditProfile()" class="button confirm black">Confirm</a>
     </div>`);
+}
+
+function cancel() {
+    history.back()
 }
 
 function confirmChangePassword() {
@@ -121,7 +59,7 @@ function confirmChangePassword() {
                 showErrors(response, textStatus, request);
                 return;
             }
-            refreshProfile();
+            history.back();
         },
         error: function (response, textStatus, error) {
             showErrors(response, textStatus, error);
@@ -143,7 +81,7 @@ function confirmEditProfile() {
                 showErrors(response, status, request);
                 return;
             }
-            refreshProfile();
+            history.back();
         },
         error: function (response, status, error) {
             showErrors(response, status, error);

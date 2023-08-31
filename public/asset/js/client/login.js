@@ -11,102 +11,73 @@
  */
 async function openPopupLogin() {
     try {
-        let request = await fetch('/asset/css/common/input.css')
-        if (!request.ok) throw request;
-        let css = await request.text()
+        let css = '';
+        {
+            let request = await fetch('/asset/css/common/input.css')
+            if (!request.ok) throw request;
+            css += await request.text()
+        }
+        {
+            let request = await fetch('/asset/css/client/login.css')
+            if (!request.ok) throw request;
+            css += await request.text()
+        }
         let className = 'popup-login';
         let style = `
         <style>
-        ${css}
-        body .${className} .popup {
-            width: 600px;
-        }
-
-        .${className} .popup-inner {
-            padding: 20px;
-        }
-
-        .${className} h3.title {
-            margin: 0 0 20px 0;
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .${className} .popup-inner {
-            overflow: hidden;
-        }
-
-        .${className} .form-wrap {
-            margin: 10px 50px;
-        }
-
-        .${className} .control-button-wrap {
-            line-height: 20px;
-            font-weight: 600;
-            margin: 0 50px;
-        }
-
-        .${className} .control-button-wrap a {
-            margin: 3px;
-        }
-
-        .${className} .control-button-wrap span {
-            font-size: 16px;
-        }
-
-        .${className} .popup-inner .button-wrap {
-            margin: 20px 0;
-        }
-
-        .${className} .popup-inner .button-wrap .button {
-            min-width: 100px;
-            padding: 10px 20px;
-            margin: 0 10px;
-        }
-        </style>`
+            ${css}
+            .${className} .popup {
+                width: 600px;
+            }
+            .${className} .popup-inner {
+                padding: 20px;
+            }
+        </style>`;
         let html = `
-        <h3 class="title">
-            Login
-        </h3>
-        <div class="form-wrap">
-            <div class="input-wrap">
-                <p class="input-title">Username</p>
-                <input type="text" name="username" class="under-line"/>
+        <div class="login-container">
+            <h3 class="title">
+                Login
+            </h3>
+            <div class="form-wrap">
+                <div class="input-wrap">
+                    <p class="input-title">Username</p>
+                    <input type="text" name="username" class="under-line"/>
+                </div>
+                <div class="input-wrap">
+                    <p class="input-title">Password</p>
+                    <input type="password" name="password" class="under-line"/>
+                </div>
             </div>
-            <div class="input-wrap">
-                <p class="input-title">Password</p>
-                <input type="password" name="password" class="under-line"/>
+            <div class="control-button-wrap">
+                <a href="/registration"
+                    class="button under-line register">
+                    <img src="/asset/images/icon/plus_circle.png"/>
+                    <span>Register</span>
+                </a>
             </div>
-        </div>
-        <div class="control-button-wrap">
-            <a href="/registration"
-                class="button under-line register">
-                <img src="/asset/images/icon/plus_circle.png"/>
-                <span>Register</span>
-            </a>
-        </div>
-        <div class="control-button-wrap">
-            <a href="/reset-password"
-                class="button under-line forgot-password">
-                <img src="/asset/images/icon/password.png"/>
-                <span>Forgot Password</span>
-            </a>
-        </div>
-        <div class="error-message-wrap">
-        </div>
-        <div class="button-wrap controls">
-            <a href="javascript:closePopup('${className}')"
-                class="button cancel white">Cancel</a>
-            <a href="javascript:login('${className}')"
-                class="button confirm black">Login</a>
+            <div class="control-button-wrap">
+                <a href="/reset-password"
+                    class="button under-line forgot-password">
+                    <img src="/asset/images/icon/password.png"/>
+                    <span>Forgot Password</span>
+                </a>
+            </div>
+            <div class="error-message-wrap">
+            </div>
+            <div class="button-wrap controls">
+                <a href="javascript:closePopup('${className}')"
+                    class="button cancel white">Cancel</a>
+                <a href="javascript:login('${className}')"
+                    class="button confirm black">Login</a>
+            </div>
         </div>`;
         openPopup({
             className: className,
             style: style,
             html: html,
-            onEnterKeydown: function() {
+            onEnterKeydown: function () {
                 let button = $(`.${className} .button.confirm`).get(0);
-                if(button) {
+                if (button) {
                     button.click();
                 }
             },

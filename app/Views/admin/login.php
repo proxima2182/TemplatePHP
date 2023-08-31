@@ -1,6 +1,17 @@
-<div class="container-inner">
+<div class="container-inner login-container">
+    <style>
+        .login-container {
+            line-height: 600px;
+        }
+
+        .login-container .inner-box {
+            width: 600px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
     <div class="inner-box">
-        <h3 class="page-title">
+        <h3 class="title">
             Login
         </h3>
         <div class="form-wrap">
@@ -30,7 +41,7 @@
         <div class="error-message-wrap">
         </div>
         <div class="button-wrap controls">
-            <a href="javascript:login('container-inner')"
+            <a href="javascript:login('login-container')"
                class="button confirm black">Login</a>
         </div>
     </div>

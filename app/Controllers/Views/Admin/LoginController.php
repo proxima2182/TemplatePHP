@@ -29,7 +29,7 @@ class LoginController extends BaseAdminController
                     '/admin/login',
                 ],
                 'js' => [
-                    '/module/login'
+                    '/admin/login'
                 ]
             ], [
                 'is_login_page' => true,
