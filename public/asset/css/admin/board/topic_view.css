@@ -2,12 +2,12 @@
     padding-bottom: 60px;
 }
 
-.topic-wrap .row.user {
+.topic-wrap .row.link {
     width: 100%;
     padding: 0 5px;
 }
 
-.topic-wrap .row.user a {
+.topic-wrap .row.link a {
     height: 30px;
     line-height: 30px;
     vertical-align: middle;

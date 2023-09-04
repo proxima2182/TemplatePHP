@@ -247,21 +247,7 @@ class TopicController extends BaseApiController
      */
     public function getReply($reply_id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-        ];
-
-        try {
-            $result = $this->replyModel->get(['id' => $reply_id]);
-            if (sizeof($result) >= 1) {
-                $response['success'] = true;
-                $response['data'] = $result[0];
-            }
-        } catch (Exception $e) {
-            //todo(log)
-            $response['message'] = $e->getMessage();
-        }
-        return $this->response->setJSON($response);
+        return $this->typicallyGet($this->replyModel, $reply_id);
     }
 
     /**

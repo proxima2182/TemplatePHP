@@ -2,16 +2,21 @@
 
 namespace API;
 
+use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
+use Exception;
+use Models\ReservationBoardModel;
+use Models\ReservationModel;
 
 class ReservationController extends BaseApiController
 {
-    protected $userModel;
+    protected ReservationBoardModel $boardModel;
+    protected ReservationModel $reservationModel;
 
     public function __construct()
     {
-        $this->db = db_connect();
-        $this->userModel = model('Models\UserModel');
+        $this->boardModel = model('Models\ReservationBoardModel');
+        $this->reservationModel = model('Models\ReservationModel');
     }
 
     /**
@@ -21,25 +26,7 @@ class ReservationController extends BaseApiController
      */
     public function getBoard($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
-        $response = [
-            'success' => true,
-            'data' => [
-                'id' => '1',
-                'code' => 'popup',
-                'alias' => '팝업',
-                'description' => '팝업 저장용',
-                'default_confirm_comment' => '팝업 저장용',
-                'created_at' => '2023-06-29 00:00:00',
-                'updated_at' => '2023-06-29 00:00:00',
-            ],
-            'message' => ""
-        ];
-        return $this->response->setJSON($response);
+        return $this->typicallyFind($this->boardModel, $id);
     }
 
     /**
@@ -48,12 +35,21 @@ class ReservationController extends BaseApiController
      */
     public function createBoard(): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
+        $data = $this->request->getPost();
+        $validationRules = [
+            'code' => [
+                'label' => 'Code',
+                'rules' => 'required|min_length[1]|regex_match[^[^0-9][a-zA-Z0-9_\-]+$]',
+                'errors' => [
+                    'regex_match' => '{field} have to start with character'
+                ],
+            ],
+            'alias' => [
+                'label' => 'Alias',
+                'rules' => 'required|min_length[1]',
+            ],
         ];
-        return $this->response->setJSON($response);
+        return $this->typicallyCreate($this->boardModel, $data, $validationRules);
     }
 
     /**
@@ -63,12 +59,8 @@ class ReservationController extends BaseApiController
      */
     public function updateBoard($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
-        return $this->response->setJSON($response);
+        $data = $this->request->getPost();
+        return $this->typicallyUpdate($this->boardModel, $id, $data);
     }
 
     /**
@@ -78,12 +70,10 @@ class ReservationController extends BaseApiController
      */
     public function deleteBoard($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
+        $body = [
+            'is_deleted' => 1,
         ];
-        return $this->response->setJSON($response);
+        return $this->typicallyUpdate($this->boardModel, $id, $body);
     }
 
     /**
@@ -93,34 +83,7 @@ class ReservationController extends BaseApiController
      */
     public function getReservation($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
-        ];
-        $response = [
-            'success' => true,
-            'data' => [
-                'id' => '1',
-                'questioner_name' => 'Lorem Ipsum',
-                'questioner_phone_number' => '010-0000-0000',
-                'reservation_board_id' => '0',
-                'reservation_board_alias' => '팝업',
-                'status' => 'confirmed',
-                'expect_date' => '2023-07-21',
-                'expect_time' => '00:00:00',
-                'expect_timedate' => '2023-07-21 00:00:00',
-                'question_comment' => '예약요청합니다',
-                'respondent_name' => 'admin',
-                'confirm_date' => '2023-07-21',
-                'confirm_time' => '00:00:00',
-                'respond_comment' => '예약되었습니다',
-                'created_at' => '2023-06-29 00:00:00',
-                'updated_at' => '2023-06-29 00:00:00',
-            ],
-            'message' => ""
-        ];
-        return $this->response->setJSON($response);
+        return $this->typicallyGet($this->reservationModel, $id);
     }
 
     /**
@@ -129,27 +92,54 @@ class ReservationController extends BaseApiController
      */
     public function requestReservation(): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
+        $data = $this->request->getPost();
+        $validationRules = [
+            'question_comment' => [
+                'label' => 'Question Comment',
+                'rules' => 'required|min_length[1]',
+            ],
         ];
-        return $this->response->setJSON($response);
+
+        $data['questioner_id'] = $this->session->user_id;
+        try {
+            if (isset($data['expected_date'])) {
+                if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $data['expected_date'])) {
+                    //todo exception
+                }
+                if (isset($data['expected_time'])) {
+                    if (!preg_match('#^[01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$#', $data['expected_time'])) {
+                        //todo exception
+                    }
+                    $data['expected_datetime'] = strtotime($data['expected_date'] . " " . $data['expected_time']);
+                } else {
+                    $data['expected_datetime'] = strtotime($data['expected_date'] . " 00:00:00");
+                }
+            } else {
+                $data['expected_datetime'] = time();
+            }
+        } catch (Exception $e) {
+        }
+
+        return $this->typicallyCreate($this->reservationModel, $data, $validationRules);
     }
 
     /**
-     * [post] /api/reservation/reject/{id}
+     * [post] /api/reservation/refuse/{id}
      * @param $id
      * @return ResponseInterface
      */
-    public function rejectReservation($id): ResponseInterface
+    public function refuseReservation($id): ResponseInterface
     {
-        $response = [
-            'success' => false,
-            'data' => [],
-            'message' => ""
+        $data = $this->request->getPost();
+        $validationRules = [
+            'respond_comment' => [
+                'label' => 'Respond Comment',
+                'rules' => 'required|min_length[1]',
+            ],
         ];
-        return $this->response->setJSON($response);
+        $data['status'] = 'refused';
+        $data['respondent_id'] = $this->session->user_id;
+        return $this->typicallyUpdate($this->reservationModel, $id, $data, $validationRules);
     }
 
     /**
@@ -161,9 +151,37 @@ class ReservationController extends BaseApiController
     {
         $response = [
             'success' => false,
-            'data' => [],
-            'message' => ""
         ];
+        $data = $this->request->getPost();
+//        $validationRules = [
+//            'respond_comment' => [
+//                'label' => 'Respond Comment',
+//                'rules' => 'required|min_length[1]',
+//            ],
+//        ];
+
+
+        $data['status'] = 'accepted';
+        $data['respondent_id'] = $this->session->user_id;
+
+        if (strlen($id) == 0) {
+            $response['message'] = "field 'id' should not be empty.";
+        } else {
+            try {
+                if ($data['use_default_comment'] == 1 || !isset($data['respond_comment'])) {
+                    $reservation = $this->reservationModel->find($id);
+                    $board = $this->boardModel->find($reservation['reservation_board_id']);
+                    if (!$board) throw new Exception('not exist');
+                    $data['respond_comment'] = $board['default_accept_comment'];
+                }
+                $this->reservationModel->update($id, $data);
+                $response['success'] = true;
+            } catch (Exception $e) {
+                //todo(log)
+                ServerLogger::log($e);
+                $response['message'] = $e->getMessage();
+            }
+        }
         return $this->response->setJSON($response);
     }
 }

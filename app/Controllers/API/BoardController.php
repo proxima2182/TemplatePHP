@@ -28,7 +28,7 @@ class BoardController extends BaseApiController
      */
     public function getBoard($id): ResponseInterface
     {
-        return $this->typicallyGet($this->boardModel, $id);
+        return $this->typicallyFind($this->boardModel, $id);
     }
 
     /**

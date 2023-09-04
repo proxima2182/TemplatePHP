@@ -43,7 +43,7 @@ function setTimeSelectorDropdown($parent) {
         <ul>`;
 
         for (let i in values) {
-            html += `<li ${(i == 0) ? 'class = "selected"' : ''}>${pad(values[i], 2)}</li>`
+            html += `<li ${(i == 0) ? 'class = "selected"' : ''}>${values[i].padStart(2, '0')}</li>`
         }
         html += `
         </ul>
@@ -179,7 +179,7 @@ function setTimeSelectorButtons($parent) {
         <ul>`
     for (let i in hours) {
         for (let j in minutes) {
-            html += `<li>${pad(hours[i], 2)}:${pad(minutes[j], 2)}</li>`
+            html += `<li>${hours[i].padStart(2, '0')}:${minutes[j].padStart(2, '0')}</li>`
         }
     }
     `</ul>
@@ -268,7 +268,7 @@ function setDropdownAction($parent, $wrap) {
 function selectDropdownTime($parent) {
     let hour = $parent.find('.hours .selected').html();
     let minute = $parent.find('.minutes .selected').html();
-    let value = pad(hour, 2) + ':' + pad(minute, 2);
+    let value = hour.padStart(2, '0') + ':' + minute.padStart(2, '0');
 
     let $input = $parent.find('input[type=hidden]');
     if ($input != undefined) {

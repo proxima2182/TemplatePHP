@@ -143,7 +143,7 @@
             let html = ``;
             if (data['is_editable'] == 1) {
                 html += `
-                <a href="javascript:editInputPopup('${className}', ${data['id']})"
+                <a href="javascript:editInputPopup('${className}', ${data['id']});"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span>Edit</span>

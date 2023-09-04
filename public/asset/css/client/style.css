@@ -107,13 +107,17 @@ input:focus, textarea:focus {
     border: 1px solid #000;
 }
 
-input.under-line[readonly], input.under-line:focus[readonly] {
+input:focus[readonly], textarea:focus[readonly] {
+    border: 1px solid #bbb;
+}
+
+input.under-line[readonly], input.under-line:focus[readonly]{
     border: none;
     /*border-bottom: 1px solid rgba(0, 0, 0, 0);*/
     border-bottom: 1px solid #efefef;
 }
 
-textarea.under-line[readonly] {
+textarea.under-line[readonly], textarea.under-line:focus[readonly] {
     border: none;
     border: 1px solid #efefef;
 }
@@ -131,11 +135,6 @@ input[readonly] {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    pointer-events: none;
-}
-
-textarea[readonly] {
-    pointer-events: none;
 }
 
 input[type=checkbox] {
@@ -194,6 +193,12 @@ input[type=checkbox] {
     margin-right: 2px;
 }
 
+.button.under-line span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .button.under-line:hover:after {
     content: "";
     display: inline-block;
@@ -205,13 +210,23 @@ input[type=checkbox] {
     background: #000;
 }
 
+.button.out-line {
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 0 8px 0 3px;
+}
+
+.button.out-line:hover {
+    border: 1px solid #000;
+}
+
 .control-button-wrap span {
     font-size: 18px;
     vertical-align: middle;
 }
 
 .control-button-wrap * {
-    vertical-align: bottom;
+    vertical-align: middle;
 }
 
 .no-data-box {

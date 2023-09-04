@@ -107,12 +107,12 @@ function openPopup(input) {
     vertical-align: middle;
 }
 
-.${className} .popup-inner .row {
+.${className} .row {
     text-align: left;
     font-size: 0;
 }
 
-.${className} .popup-inner .row .column {
+.${className} .row .column {
     padding: 10px 5px;
     line-height: 30px;
     text-align: left;
@@ -127,7 +127,7 @@ function openPopup(input) {
     overflow: hidden;
 }
 
-.${className} .popup-inner .control-button-wrap.absolute {
+.${className} .control-button-wrap.absolute {
     line-height: 20px;
     text-align: right;
     position: absolute;
@@ -136,7 +136,7 @@ function openPopup(input) {
     bottom: 0;
     background: #fff;
 }
-.${className} .popup-inner .control-box {
+.${className} .control-box {
     padding: 10px 20px 20px 20px;
 }
 </style>
@@ -334,4 +334,99 @@ function openPopupErrors(className, response, status, requestOrError) {
             html: html,
         });
     }
+}
+
+/**
+ * user 상세 popup 을 여는 기능
+ * @param id
+ */
+async function openUserPopup(user_id) {
+    let request = await fetch('/asset/css/common/input.css')
+    if (!request.ok) throw request;
+    let css = await request.text()
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: `/api/user/get/${user_id}`,
+        success: function (response, status, request) {
+            if (!response.success)
+                return;
+            let data = response.data;
+            let className = 'popup-user-detail';
+            let style = `
+                <style>
+                ${css}
+                body .${className} .popup {
+                    width: 400px;
+                }
+                .${className} .popup-inner {
+                    padding: 20px 40px 40px 40px;
+                }
+
+                .${className} .text-wrap * {
+                    text-align: left;
+                    margin-top: 5px;
+                }
+
+                .${className} .text-wrap .title {
+                    font-size: 16px;
+                    font-weight: 400;
+                }
+
+                .${className} .text-wrap .value {
+                    padding: 0 5px;
+                    line-height: 30px;
+                    font-weight: 200;
+                    font-size: 18px;
+                    border-bottom: 1px solid #efefef;
+                }
+                </style>`
+
+            let typeSet = {
+                type: {
+                    type: 'text',
+                },
+                username: {
+                    type: 'text',
+                },
+                name: {
+                    type: 'text',
+                },
+                email: {
+                    type: 'text',
+                },
+            }
+            let keys = Object.keys(typeSet);
+            let html = ``;
+
+            for (let i in keys) {
+                let key = keys[i];
+                let name = key;
+                let set = typeSet[key];
+                if (set) {
+                    if (set['name']) {
+                        name = set['name'];
+                    } else {
+                        if (name.startsWith('is_')) {
+                            name = name.replace('is_', '');
+                        }
+                        name = name.charAt(0).toUpperCase() + name.slice(1);
+                    }
+                }
+                let value = data[key];
+                html += `
+                    <div class="text-wrap">
+                        <p class="title">${name}</p>
+                        <p class="value">${value}</p>
+                    </div>`
+            }
+            openPopup({
+                className: className,
+                style: style,
+                html: html,
+            })
+        },
+        error: function (response, status, error) {
+        },
+    });
 }

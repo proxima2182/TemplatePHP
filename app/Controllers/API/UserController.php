@@ -32,7 +32,7 @@ class UserController extends BaseApiController
             $response['message'] = 'session is expired';
             return $this->response->setJSON($response);
         } else {
-            return $this->typicallyGet($this->userModel, $this->session->user_id);
+            return $this->typicallyFind($this->userModel, $this->session->user_id);
         }
     }
 
@@ -61,7 +61,7 @@ class UserController extends BaseApiController
      */
     public function getUser($id): ResponseInterface
     {
-        return $this->typicallyGet($this->userModel, $id);
+        return $this->typicallyFind($this->userModel, $id);
     }
 
     /**

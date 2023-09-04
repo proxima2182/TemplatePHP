@@ -11,11 +11,12 @@ class BaseApiController extends BaseController
 {
     /**
      * 주어진 model 을 이용해 한 개의 table row 를 가져오는 기능
+     * - library 에서 정의 된 find 함수 이용
      * @param BaseModel $model
      * @param string $id
      * @return ResponseInterface
      */
-    protected function typicallyGet(BaseModel $model, string $id): ResponseInterface
+    protected function typicallyFind(BaseModel $model, string $id): ResponseInterface
     {
         $response = [
             'success' => false,
@@ -23,8 +24,40 @@ class BaseApiController extends BaseController
 
         try {
             $result = $model->find($id);
+            if(!$result) throw new Exception('not exist');
             $response['success'] = true;
             $response['data'] = $result;
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
+        return $this->response->setJSON($response);
+    }
+
+    /**
+     * 주어진 model 을 이용해 한 개의 table row 를 가져오는 기능
+     * - custom 된 get 함수 이용
+     * @param BaseModel $model
+     * @param string $id
+     * @return ResponseInterface
+     */
+    protected function typicallyGet(BaseModel $model, string $id, array $condition = null): ResponseInterface
+    {
+        $response = [
+            'success' => false,
+        ];
+
+        try {
+            if(!isset($condition)) {
+                $condition = [];
+            }
+            $condition['id'] = $id;
+            $result = $model->get($condition);
+            if (sizeof($result) == 0) {
+                throw new Exception("not exist");
+            }
+            $response['success'] = true;
+            $response['data'] = $result[0];
         } catch (Exception $e) {
             //todo(log)
             $response['message'] = $e->getMessage();

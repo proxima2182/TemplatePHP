@@ -35,7 +35,7 @@ class CategoryController extends BaseApiController
                 $categories[$i]['locals'] = $paths;
             }
         }
-        return $this->typicallyGet($this->categoryModel, $id);
+        return $this->typicallyFind($this->categoryModel, $id);
     }
 
     /**
@@ -45,7 +45,7 @@ class CategoryController extends BaseApiController
      */
     public function getCategory($id): ResponseInterface
     {
-        return $this->typicallyGet($this->categoryModel, $id);
+        return $this->typicallyFind($this->categoryModel, $id);
     }
 
     /**
@@ -144,7 +144,7 @@ class CategoryController extends BaseApiController
      */
     public function getCategoryLocal($id): ResponseInterface
     {
-        return $this->typicallyGet($this->categoryLocalModel, $id);
+        return $this->typicallyFind($this->categoryLocalModel, $id);
     }
 
     /**

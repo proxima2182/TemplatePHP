@@ -162,6 +162,9 @@ class BoardController extends BaseClientController
             . parent::loadFooter();
     }
 
+    /**
+     * @throws Exception
+     */
     private function getTopicData($id): array
     {
         $result = [];

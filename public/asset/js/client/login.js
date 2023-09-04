@@ -35,7 +35,7 @@ async function openPopupLogin() {
         </style>`;
         let html = `
         <div class="login-container">
-            <h3 class="title">
+            <h3 class="popup-title">
                 Login
             </h3>
             <div class="form-wrap">
@@ -87,42 +87,8 @@ async function openPopupLogin() {
     }
 }
 
-function clearErrors(className) {
-    let $wrapErrorMessage = $(`.${className} .error-message-wrap`);
-    $wrapErrorMessage.empty();
-}
-
-function showErrors(className, response, status, requestOrError) {
-    let $wrapErrorMessage = $(`.${className} .error-message-wrap`);
-    $wrapErrorMessage.empty();
-    if (status == 'success' || status >= 200 && status < 300) {
-        if (response.messages) {
-            for (let key in response.messages) {
-                let message = response.messages[key];
-                $wrapErrorMessage.append(`<div>${message}</div>`);
-            }
-        }
-        if (response.message) {
-            $wrapErrorMessage.append(`<div>${response.message}</div>`);
-        }
-    } else {
-        let message = requestOrError;
-        try {
-            let errorObject = JSON.parse(response.responseText);
-            if (errorObject.message) {
-                message = errorObject.message
-            }
-        } catch (e) {
-            // do nothing
-        }
-        if (message) {
-            $wrapErrorMessage.append(`<div>${message}</div>`);
-        }
-    }
-}
-
 function login(className) {
-    clearErrors(className);
+    clearErrorsByClassName(className);
 
     let data = parseInputToData($(`.${className} .form-wrap input`))
 
@@ -133,13 +99,13 @@ function login(className) {
         url: `/api/user/login`,
         success: function (response, status, request) {
             if (!response.success) {
-                showErrors(className, response, status, request);
+                showErrorsByClassName(className, response, status, request);
                 return;
             }
             location.reload();
         },
         error: function (response, status, error) {
-            showErrors(className, response, status, error);
+            showErrorsByClassName(className, response, status, error);
         },
     });
 }

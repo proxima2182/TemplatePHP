@@ -134,8 +134,8 @@ function fromDataToHtml(key, data, typeSet) {
 
     switch (type) {
         case 'checkbox': {
-            let option = `${checkClasses()} ${isReadOnly ? `readonly` : ``} 
-            ${value ? `readonly` : ``} ${value && value == 1 ? 'checked' : ''}`
+            let option = `${checkClasses()} ${isReadOnly ? `disabled` : ``}
+             ${value && value == 1 ? 'checked' : ''}`
             return `
                 <div class="input-wrap inline">
                     <p class="input-title">${name}</p>
@@ -211,7 +211,7 @@ function initializeInputPopup(input) {
  * @param data
  */
 function addInputPopupControlWrap(className, data) {
-    let controlHtml = getControlHtml != undefined && getControlHtml != null ? getControlHtml(className, data) : getControlHtml;
+    let controlHtml = getControlHtml !== undefined && getControlHtml !== null ? getControlHtml(className, data) : getControlHtml;
     if (typeof controlHtml == 'string' && controlHtml.length == 0) {
         return;
     }
@@ -231,7 +231,7 @@ function addInputPopupControlWrap(className, data) {
         $(`.${className} .popup-inner`).append(`
         <div class="control-button-wrap absolute line-before">
             <div class="control-box">
-                <a href="javascript:editInputPopup('${className}',${data['id']})"
+                <a href="javascript:editInputPopup('${className}', ${data['id']});"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span>Edit</span>

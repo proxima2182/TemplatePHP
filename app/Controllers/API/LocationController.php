@@ -49,7 +49,7 @@ class LocationController extends BaseApiController
      */
     public function getLocation($id): ResponseInterface
     {
-        return $this->typicallyGet($this->locationModel, $id);
+        return $this->typicallyFind($this->locationModel, $id);
     }
 
     /**

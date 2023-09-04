@@ -21,7 +21,7 @@ class SettingController extends BaseApiController
      */
     public function getSetting($id): ResponseInterface
     {
-        return $this->typicallyGet($this->settingModel, $id);
+        return $this->typicallyFind($this->settingModel, $id);
     }
 
     /**

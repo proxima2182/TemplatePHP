@@ -18,17 +18,6 @@ String.prototype.toRawString = function () {
     return this.replace(/(\&\#10\;)/g, '\n')
 }
 
-/**
- * 시간 format에 맞도록 width에 맞게 0을 채우는 기능
- * @param n
- * @param width
- * @returns {string}
- */
-function pad(n, width) {
-    n = n + '';
-    return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
-}
-
 function hash() {
     return Math.random().toString(36).substr(2, 11)
 }
@@ -43,13 +32,15 @@ function parseInputToData($inputs) {
         let $input = $inputs.eq(i);
         if ($input.length > 0) {
             let domElement = $input[0]
-            if (domElement.tagName == 'textarea') {
-                data[domElement.name] = domElement.value.toRawString();
-            }
-            if (domElement.type == 'checkbox') {
-                data[domElement.name] = domElement.checked ? 1 : 0;
-            } else {
-                data[domElement.name] = $input.val();
+            if(domElement.name) {
+                if (domElement.tagName == 'textarea') {
+                    data[domElement.name] = domElement.value.toRawString();
+                }
+                if (domElement.type == 'checkbox') {
+                    data[domElement.name] = domElement.checked ? 1 : 0;
+                } else {
+                    data[domElement.name] = $input.val();
+                }
             }
         }
     }
@@ -70,6 +61,41 @@ function getCookie(cookie_name) {
         // 앞과 뒤의 공백 제거하기
         if (x == cookie_name) {
             return y;
+        }
+    }
+}
+
+
+function clearErrorsByClassName(className) {
+    let $wrapErrorMessage = $(`.${className} .error-message-wrap`);
+    $wrapErrorMessage.empty();
+}
+
+function showErrorsByClassName(className, response, status, requestOrError) {
+    let $wrapErrorMessage = $(`.${className} .error-message-wrap`);
+    $wrapErrorMessage.empty();
+    if (status == 'success' || status >= 200 && status < 300) {
+        if (response.messages) {
+            for (let key in response.messages) {
+                let message = response.messages[key];
+                $wrapErrorMessage.append(`<div>${message}</div>`);
+            }
+        }
+        if (response.message) {
+            $wrapErrorMessage.append(`<div>${response.message}</div>`);
+        }
+    } else {
+        let message = requestOrError;
+        try {
+            let errorObject = JSON.parse(response.responseText);
+            if (errorObject.message) {
+                message = errorObject.message
+            }
+        } catch (e) {
+            // do nothing
+        }
+        if (message) {
+            $wrapErrorMessage.append(`<div>${message}</div>`);
         }
     }
 }

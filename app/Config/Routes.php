@@ -77,6 +77,7 @@ $routes->get('/admin/reservation-board/([0-9]+)', [\Views\Admin\ReservationContr
 $routes->addRedirect('/admin/reservation-board', '/admin/reservation-board/1');
 $routes->get('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)/([0-9]+)', [\Views\Admin\ReservationController::class, 'getBoard']);
 $routes->addRedirect('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/admin/reservation-board/$1/1');
+$routes->get('/admin/reservation-board/calendar/([a-zA-Z][a-zA-Z0-9\-\_]*)/([0-9]+)', [\Views\Admin\ReservationController::class, 'getCalendar']);
 $routes->get('/admin/reservation/([0-9]+)', [\Views\Admin\ReservationController::class, 'getReservation']);
 
 
@@ -148,7 +149,7 @@ $routes->delete('/api/reservation-board/delete/([0-9]+)', [\API\ReservationContr
 
 $routes->get('/api/reservation/get/([0-9]+)', [\API\ReservationController::class, 'getReservation']);
 $routes->post('/api/reservation/request', [\API\ReservationController::class, 'requestReservation']);
-$routes->post('/api/reservation/reject/([0-9]+)', [\API\ReservationController::class, 'rejectReservation']);
+$routes->post('/api/reservation/refuse/([0-9]+)', [\API\ReservationController::class, 'refuseReservation']);
 $routes->post('/api/reservation/accept/([0-9]+)', [\API\ReservationController::class, 'acceptReservation']);
 
 //$routes->post('/api/email/send', [\API\EmailController::class, 'send']);

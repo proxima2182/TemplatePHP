@@ -4,8 +4,8 @@
             <?= $board['alias'] ?>
         </h3>
         <div class="topic-wrap">
-            <div class="row user">
-                <a href="javascript:openUserPopup(<?=$data['user_id']?>);" class="button under-line">
+            <div class="row user link">
+                <a href="javascript:openUserPopup(<?=$data['user_id']?>);" class="button out-line">
                     <img src="/asset/images/icon/user.png"/>
                     <span><?=$data['user_name']?></span>
                 </a>
@@ -113,101 +113,6 @@ if ($board['is_reply'] == 1) {
             },
             error: function (response, status, error) {
                 console.log(error)
-            },
-        });
-    }
-
-    /**
-     * user 상세 popup 을 여는 기능
-     * @param id
-     */
-    async function openUserPopup(user_id) {
-        let request = await fetch('/asset/css/common/input.css')
-        if (!request.ok) throw request;
-        let css = await request.text()
-        $.ajax({
-            type: 'GET',
-            dataType: 'json',
-            url: `/api/user/get/${user_id}`,
-            success: function (response, status, request) {
-                if (!response.success)
-                    return;
-                let data = response.data;
-                let className = 'popup-user-detail';
-                let style = `
-                <style>
-                ${css}
-                body .${className} .popup {
-                    width: 400px;
-                }
-                .${className} .popup-inner {
-                    padding: 20px 40px 40px 40px;
-                }
-
-                .${className} .text-wrap * {
-                    text-align: left;
-                    margin-top: 5px;
-                }
-
-                .${className} .text-wrap .title {
-                    font-size: 16px;
-                    font-weight: 400;
-                }
-
-                .${className} .text-wrap .value {
-                    padding: 0 5px;
-                    line-height: 30px;
-                    font-weight: 200;
-                    font-size: 18px;
-                    border-bottom: 1px solid #efefef;
-                }
-                </style>`
-
-                let typeSet = {
-                    type: {
-                        type: 'text',
-                    },
-                    username: {
-                        type: 'text',
-                    },
-                    name: {
-                        type: 'text',
-                    },
-                    email: {
-                        type: 'text',
-                    },
-                }
-                let keys = Object.keys(typeSet);
-                let html = ``;
-
-                for (let i in keys) {
-                    let key = keys[i];
-                    let name = key;
-                    let set = typeSet[key];
-                    if (set) {
-                        if (set['name']) {
-                            name = set['name'];
-                        } else {
-                            if (name.startsWith('is_')) {
-                                name = name.replace('is_', '');
-                            }
-                            name = name.charAt(0).toUpperCase() + name.slice(1);
-                        }
-                    }
-                    let value = data[key];
-                    html += `
-                    <div class="text-wrap">
-                        <p class="title">${name}</p>
-                        <p class="value">${value}</p>
-                    </div>`
-                }
-                openPopup({
-                    className: className,
-                    style: style,
-                    html: html,
-                })
-            },
-            error: function (response, status, error) {
             },
         });
     }
