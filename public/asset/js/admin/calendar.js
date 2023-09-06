@@ -348,9 +348,6 @@ jQuery.prototype.initCalendar = function (option) {
         <ul class="following"></ul>
     </div>`
     $parent.append(html);
-    $parent.attr({
-        now: dateStandard.getTime(),
-    })
 
     // nav 에서 이전, 이후 탐색 버튼 설정
     let $prev = $parent.find('.calendar-button.prev');
@@ -358,20 +355,16 @@ jQuery.prototype.initCalendar = function (option) {
     $prev.click(function () {
         let rawTime = $parent.attr('now') && $parent.attr('now').length > 0 ? Number($parent.attr('now')) : undefined;
         let date = new Date(rawTime);
+        date.setDate(1);
         date.setMonth(date.getMonth() - 1);
         drawCalendarView($parent, date);
-        $parent.attr({
-            now: date.getTime(),
-        })
     })
     $next.click(function () {
         let rawTime = $parent.attr('now') && $parent.attr('now').length > 0 ? Number($parent.attr('now')) : undefined;
         let date = new Date(rawTime);
+        date.setDate(1);
         date.setMonth(date.getMonth() + 1);
         drawCalendarView($parent, date);
-        $parent.attr({
-            now: date.getTime(),
-        })
     })
     // 해당 년, 월에 따라 날짜 그리기
     drawCalendarView($parent, dateStandard);
@@ -464,6 +457,9 @@ function selectCalendarCell($parent, $cell, year, month, isStyled = true) {
  * @param date
  */
 function drawCalendarView($parent, date) {
+    $parent.attr({
+        now: date.getTime(),
+    })
     let optionString = $parent.attr('option');
     let option;
     if (optionString) {
@@ -509,6 +505,14 @@ function drawCalendarView($parent, date) {
     // 달력의 총 row 개수
     let rows = parseInt((dateFirstOfMonth.getDay() + numberOfDays) / 7);
     if ((dateFirstOfMonth.getDay() + numberOfDays) % 7 != 0) rows += 1;
+
+    // 기준 날짜의 어제 (option 에서 이전 날짜 선택을 제한하고자 하는 경우 어제 날짜를 알 필요가 있음)
+    let dateYesterday = new Date(dateStandard);
+    dateYesterday.setDate(dateStandard.getDate() - 1);
+    let dateCompare = dateYesterday;
+    if(option.limitStandard) {
+        dateCompare = dateStandard;
+    }
 
     let $prev = $parent.find('.calendar-button.prev');
     let $next = $parent.find('.calendar-button.next');
@@ -584,7 +588,7 @@ function drawCalendarView($parent, date) {
                     }
                 }
             }
-            if ((option.limitPrevious && hasDateStandard && i <= dateStandard.getDate() - 1) || // 이전날짜 제한중인 경우
+            if ((option.limitPrevious && hasDateStandard && i <= dateCompare.getDate() - 1) || // 이전날짜 제한중인 경우
                 (dateEnd && hasDateEnd && i >= dateEnd.getDate() - 1) // 마지막 날짜로 제한중인 경우
             ) {  // 이전날짜 제한중인 경우
                 // 선택 불가 처리
@@ -616,10 +620,6 @@ function drawCalendarView($parent, date) {
     $ulDisabledPrevious.empty();
     $ulDisabledFollowing.empty();
 
-    // 기준 날짜의 어제 (option 에서 이전 날짜 선택을 제한하고자 하는 경우 어제 날짜를 알 필요가 있음)
-    let dateYesterday = new Date(dateStandard);
-    dateYesterday.setDate(dateStandard.getDate() - 1);
-
     // 시작날짜 기준
     function getRow(first, now) {
         let rows = parseInt((first.getDay() + now.getDate()) / 7);
@@ -631,8 +631,7 @@ function drawCalendarView($parent, date) {
     if (option.limitPrevious) {
         let numberRowPreviousDisabled = rows;
         if (hasDateStandard) {
-            let rowStandard = getRow(dateFirstOfMonth, dateStandard);
-            numberRowPreviousDisabled = rowStandard
+            numberRowPreviousDisabled = getRow(dateFirstOfMonth, dateCompare);
         } else if (dateYesterday.getFullYear() == year && dateYesterday.getMonth() < month ||
             dateYesterday.getFullYear() < year) {
             numberRowPreviousDisabled = 0;
@@ -650,11 +649,11 @@ function drawCalendarView($parent, date) {
             }
             if (hasDateStandard) {
                 if (i == numberRowPreviousDisabled - 1) {
-                    count -= (7 - dateStandard.getDay() - 1);
+                    count -= (7 - dateCompare.getDay() - 1);
                 }
             } else {
                 if (rows == numberRowPreviousDisabled && i == numberRowPreviousDisabled - 1) {
-                    count -= (7 - dateStandard.getDay() - 1)
+                    count -= (7 - dateEnd.getDay() - 1);
                 }
             }
 
