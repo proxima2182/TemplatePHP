@@ -27,8 +27,24 @@ $is_admin_page = isset($is_admin) && $is_admin;
     $(document).ready(function () {
         $(`.container-inner .calendar`).initCalendar({
             cellSize: 140,
-            style: 'square',
-            limit: 'none', // none | month | year
+            style: 'circle',
+            standardDate : '2023-10-10',
+            endDate: '2023-10-09',
+            limitPrevious: false,
+            limitStandard: true,
+            limitedDayOfWeek : ['mon'],
+            textSize: 14,
+            selectedStyle : true,
+            colors : {
+                today : '#',
+                selected : '#',
+                text_sunday : '#',
+                text_saturday : '#',
+            },
+            onDataSelected: function($parent, date) {
+            },
+            onRefreshed : function($parent, year, month) {
+            },
         })
     })
 </script>
