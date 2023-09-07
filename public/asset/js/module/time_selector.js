@@ -142,6 +142,16 @@ function setTimeSelectorDropdown($parent) {
 }
 
 function setTimeSelectorButtons($parent) {
+    let optionString = $parent.attr('option');
+    let option;
+    if (optionString) {
+        try {
+            option = JSON.parse(optionString);
+        } catch (e) {
+            // do nothing
+        }
+    }
+
     const rand = Math.random().toString(36).substr(2, 11);
     let className = `time-selector-${rand}`;
     $parent.addClass(className);
@@ -179,7 +189,13 @@ function setTimeSelectorButtons($parent) {
         <ul>`
     for (let i in hours) {
         for (let j in minutes) {
-            html += `<li>${hours[i].padStart(2, '0')}:${minutes[j].padStart(2, '0')}</li>`
+            let value = `${hours[i].padStart(2, '0')}:${minutes[j].padStart(2, '0')}`;
+            if (option.selectedTime == value) {
+                html += `<li class="selected">${value}</li>`
+                $parent.append(`<input type="hidden" name="time" value="${value}"/>`)
+            } else {
+                html += `<li>${value}</li>`
+            }
         }
     }
     `</ul>
@@ -199,12 +215,32 @@ function setTimeSelectorButtons($parent) {
         if ($input != undefined) {
             $input.remove();
         }
-        $parent.append('<input type="hidden" name="time" value="' + this.innerHTML + '"/>')
+        $parent.append(`<input type="hidden" name="time" value="${this.innerHTML}"/>`)
     })
 }
 
 jQuery.prototype.initTimeSelector = function (option) {
     const $parent = this;
+    let selectedTime = null;
+    if (option && option.selectedTime) {
+        try {
+            let times = option.selectedTime.split(":");
+            if(times.length >= 2) {
+                selectedTime = `${times[0]}:${times[1]}`
+            }
+        } catch (e) {
+        }
+    }
+
+    let savingOptions = {};
+    savingOptions.selectedTime = selectedTime;
+    try {
+        $parent.attr({
+            option: JSON.stringify(savingOptions),
+        })
+    } catch (e) {
+        // do nothing
+    }
     setTimeSelectorButtons($parent)
 }
 

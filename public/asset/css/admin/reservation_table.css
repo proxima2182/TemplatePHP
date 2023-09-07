@@ -7,9 +7,17 @@
 }
 
 .table-wrap .column.expect-date {
-    width: 30%;
+    width: 15%;
 }
 
 .table-wrap .column.expect-time {
-    width: 30%;
+    width: 15%;
+}
+
+.table-wrap .column.confirm-date {
+    width: 15%;
+}
+
+.table-wrap .column.confirm-time {
+    width: 15%;
 }

@@ -114,7 +114,7 @@ class ReservationController extends BaseAdminController
                     '/admin/reservation_calendar',
                 ],
                 'js' => [
-                    '/admin/calendar',
+                    '/module/calendar',
                     '/admin/reservation',
                 ],
             ])

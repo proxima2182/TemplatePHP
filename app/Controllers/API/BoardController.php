@@ -97,22 +97,19 @@ class BoardController extends BaseApiController
         ];
         try {
             $board = $this->boardModel->findByCode($code);
-            if ($board) {
-                if ($board['type'] == 'static') {
-                    $result = $this->topicModel->get([
-                        'board_id' => $board['id'],
-                        'is_deleted' => 0,
-                    ]);
-                    foreach ($result as $index => $item) {
-                        $result[$index]['images'] = $this->imageFileModel->get(['topic_id' => $item['id']]);
-                    }
-                    $response['success'] = true;
-                    $response['array'] = $result;
-                } else {
-                    $response['message'] = 'unavailable data access';
+            if (!$board) throw new Exception('not exist');
+            if ($board['type'] == 'static') {
+                $result = $this->topicModel->get([
+                    'board_id' => $board['id'],
+                    'is_deleted' => 0,
+                ]);
+                foreach ($result as $index => $item) {
+                    $result[$index]['images'] = $this->imageFileModel->get(['topic_id' => $item['id']]);
                 }
+                $response['success'] = true;
+                $response['array'] = $result;
             } else {
-                $response['message'] = 'not exist';
+                $response['message'] = 'unavailable data access';
             }
         } catch (Exception $e) {
             //todo(log)

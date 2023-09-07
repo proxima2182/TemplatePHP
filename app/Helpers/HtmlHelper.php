@@ -47,4 +47,18 @@ final class HtmlHelper
     {
         return str_replace('\n', '&#10;', $string);
     }
+
+    public static function checkArray($array): bool
+    {
+        if (!isset($array) || sizeof($array) == 0) {
+            echo '<div class="no-data-box">
+                    <div class="no-data-wrap">
+                        <img src="/asset/images/icon/empty_folder.png">
+                        <span>No data available.</span>
+                    </div>
+                </div>';
+            return false;
+        }
+        return true;
+    }
 }

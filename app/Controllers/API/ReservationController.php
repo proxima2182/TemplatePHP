@@ -5,18 +5,23 @@ namespace API;
 use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
+use Models\BaseModel;
 use Models\ReservationBoardModel;
+use Models\ReservationDateFragmentModel;
 use Models\ReservationModel;
 
 class ReservationController extends BaseApiController
 {
     protected ReservationBoardModel $boardModel;
     protected ReservationModel $reservationModel;
+    protected ReservationDateFragmentModel $reservationDateFragmentModel;
 
     public function __construct()
     {
+        $this->db = db_connect();
         $this->boardModel = model('Models\ReservationBoardModel');
         $this->reservationModel = model('Models\ReservationModel');
+        $this->reservationDateFragmentModel = model('Models\ReservationDateFragmentModel');
     }
 
     /**
@@ -77,6 +82,80 @@ class ReservationController extends BaseApiController
     }
 
     /**
+     * [post] /api/reservation/get/monthly
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function getMonthlyReservation($code): ResponseInterface
+    {
+        $data = $this->request->getPost();
+        $validationRules = [
+            'year' => [
+                'label' => 'Year',
+                'rules' => 'required|min_length[4]',
+            ],
+            'month' => [
+                'label' => 'Month',
+                'rules' => 'required|min_length[1]',
+            ],
+        ];
+
+        $response = [
+            'success' => false,
+        ];
+
+        if ($validationRules != null && !$this->validate($validationRules)) {
+            $response['messages'] = $this->validator->getErrors();
+        } else {
+            try {
+                $board = $this->boardModel->findByCode($code);
+                if (!$board) throw new Exception('not exist');
+
+                $array = [];
+                if (!isset($data['day'])) {
+                    $fragments = $this->reservationDateFragmentModel->get(['year' => $data['year'], 'month' => (int)$data['month']]);
+                    if (sizeof($fragments) == 0) {
+                        $array = [];
+                    } else {
+                        $fragment = $fragments[0];
+                        $array = BaseModel::transaction($this->db, [
+                            "SELECT * FROM reservation WHERE reservation_board_id = " . $board['id'] .
+                            " AND fragment_id = " . $fragment['id'] .
+                            " ORDER BY datetime, id DESC",
+                        ]);
+                    }
+                } else {
+                    $time = new \DateTime();
+                    $time->setDate($data['year'], $data['month'], $data['day']);
+                    $date = date("Y-m-d", $time->getTimestamp());
+                    $array = BaseModel::transaction($this->db, [
+                        "SELECT reservation.*, questioner.name AS questioner_name FROM reservation" .
+                        " LEFT JOIN user AS questioner ON questioner.id = reservation.questioner_id" .
+                        " WHERE reservation_board_id = " . $board['id'] .
+                        " AND date = '" . $date . "'" .
+                        " ORDER BY datetime, id DESC",
+                    ]);
+                }
+                $result = [];
+                foreach ($array as $index => $item) {
+                    $time = strtotime($item['datetime']);
+                    $day = (int)date('d', $time);
+                    if (!isset($result[$day])) $result[$day] = [];
+                    $result[$day][] = $item;
+                }
+                $response['data'] = [
+                    'array' => $result
+                ];
+                $response['success'] = true;
+            } catch (Exception $e) {
+                //todo(log)
+                $response['message'] = $e->getMessage();
+            }
+        }
+        return $this->response->setJSON($response);
+    }
+
+    /**
      * [get] /api/reservation/get/{id}
      * @param $id
      * @return ResponseInterface
@@ -100,27 +179,46 @@ class ReservationController extends BaseApiController
             ],
         ];
 
-        $data['questioner_id'] = $this->session->user_id;
-        try {
-            if (isset($data['expected_date'])) {
-                if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $data['expected_date'])) {
-                    //todo exception
-                }
-                if (isset($data['expected_time'])) {
-                    if (!preg_match('#^[01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$#', $data['expected_time'])) {
-                        //todo exception
-                    }
-                    $data['expected_datetime'] = strtotime($data['expected_date'] . " " . $data['expected_time']);
-                } else {
-                    $data['expected_datetime'] = strtotime($data['expected_date'] . " 00:00:00");
-                }
-            } else {
-                $data['expected_datetime'] = time();
-            }
-        } catch (Exception $e) {
+        if (!isset($data['expect_date']) && isset($data['date'])) {
+            $data['expect_date'] = $data['date'];
+        }
+        if (!isset($data['expect_time']) && isset($data['time'])) {
+            $data['expect_time'] = $data['time'];
         }
 
-        return $this->typicallyCreate($this->reservationModel, $data, $validationRules);
+        $data['questioner_id'] = $this->session->user_id;
+        $time = $this->getTime($data['expect_date'] ?? null, $data['expect_time'] ?? null);
+
+        $response = [
+            'success' => false,
+        ];
+
+        if ($validationRules != null && !$this->validate($validationRules)) {
+            $response['messages'] = $this->validator->getErrors();
+        } else {
+            try {
+                $data['datetime'] = date("Y-m-d H:i:s", $time);
+                $data['date'] = date("Y-m-d", $time);
+
+                // add fragment
+                $year = date("Y", $time);
+                $month = date("m", $time);
+
+                $data['fragment_id'] = $this->getFragmentId($year, $month);
+
+                $result = $this->reservationModel->insert($data);
+                if (!$result) {
+                    $response['messages'] = $this->reservationModel->errors();
+                } else {
+                    $response['success'] = true;
+                }
+            } catch (Exception $e) {
+                //todo(log)
+                $response['message'] = $e->getMessage();
+            }
+        }
+
+        return $this->response->setJSON($response);
     }
 
     /**
@@ -153,12 +251,15 @@ class ReservationController extends BaseApiController
             'success' => false,
         ];
         $data = $this->request->getPost();
-//        $validationRules = [
-//            'respond_comment' => [
-//                'label' => 'Respond Comment',
-//                'rules' => 'required|min_length[1]',
-//            ],
-//        ];
+
+        if (!isset($data['confirm_date']) && isset($data['date'])) {
+            $data['confirm_date'] = $data['date'];
+        }
+        if (!isset($data['confirm_time']) && isset($data['time'])) {
+            $data['confirm_time'] = $data['time'];
+        }
+
+        $time = $this->getTime($data['confirm_date'] ?? null, $data['confirm_time'] ?? null);
 
 
         $data['status'] = 'accepted';
@@ -168,6 +269,15 @@ class ReservationController extends BaseApiController
             $response['message'] = "field 'id' should not be empty.";
         } else {
             try {
+                $data['datetime'] = date("Y-m-d H:i:s", $time);
+                $data['date'] = date("Y-m-d", $time);
+
+                // add fragment
+                $year = date("Y", $time);
+                $month = date("m", $time);
+
+                $data['fragment_id'] = $this->getFragmentId($year, $month);
+
                 if ($data['use_default_comment'] == 1 || !isset($data['respond_comment'])) {
                     $reservation = $this->reservationModel->find($id);
                     $board = $this->boardModel->find($reservation['reservation_board_id']);
@@ -183,5 +293,44 @@ class ReservationController extends BaseApiController
             }
         }
         return $this->response->setJSON($response);
+    }
+
+    private function getTime($date, $time): int
+    {
+        $result = time();
+        try {
+            if (isset($date)) {
+                if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $date)) {
+                    //todo exception
+                }
+                if (isset($time)) {
+                    if (!preg_match('/^(2[0-3]|[01][0-9]):[0-5][0-9]$/', $time)) {
+                        //todo exception
+                    }
+                    $result = strtotime($date . " " . $time);
+                } else {
+                    $result = strtotime($date . " 00:00:00");
+                }
+            }
+        } catch (Exception $e) {
+        }
+        return $result;
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    private function getFragmentId($year, $month)
+    {
+        $fragments = $this->reservationDateFragmentModel->get(['year' => $year, 'month' => $month]);
+        if (sizeof($fragments) == 0) {
+            return $this->reservationDateFragmentModel->insert([
+                'year' => $year,
+                'month' => $month,
+            ]);
+        } else {
+            $fragment = $fragments[0];
+            return $fragment['id'];
+        }
     }
 }

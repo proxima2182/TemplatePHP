@@ -64,7 +64,6 @@ function openReservationBoardPopup(id, is_time_select = 1) {
             }
             let hasDate = data['expect_date'] && data['expect_date'].length > 0;
             let hasTime = data['expect_time'] && data['expect_time'].length > 0;
-            console.log(data)
             if (hasDate || hasTime) {
                 html += `
                     <div class="time-box line-after">
@@ -94,7 +93,7 @@ function openReservationBoardPopup(id, is_time_select = 1) {
                             </div>
                         </div>`
                 }
-                if (data['status'] == 'confirmed') {
+                if (data['status'] == 'accepted') {
                     let hasDate = data['confirm_date'] && data['confirm_date'].length > 0;
                     let hasTime = data['confirm_time'] && data['confirm_time'].length > 0;
                     if (hasDate || hasTime) {
@@ -104,7 +103,7 @@ function openReservationBoardPopup(id, is_time_select = 1) {
                                     <img src="/asset/images/icon/time.png"/>
                                     <span>${hasDate ? data['confirm_date'] : ''}${hasDate && hasTime ? ' ' : ''}${hasTime ? data['confirm_time'] : ''}</span>
                                 </div>
-                            <div>`
+                            </div>`
                     }
                 }
                 if (data['respond_comment'] && data['respond_comment'].length > 0) {
@@ -114,21 +113,32 @@ function openReservationBoardPopup(id, is_time_select = 1) {
                     </div>`
                 }
             } else {
+                let parameterString = '';
+                if (hasDate) {
+                    parameterString += `, '${data['expect_date']}'`
+                } else {
+                    parameterString += `, null`
+                }
+                if (hasTime) {
+                    parameterString += `, '${data['expect_time']}'`
+                } else {
+                    parameterString += `, null`
+                }
                 html += `
-                    <div class="control-button-wrap absolute line-before">
-                        <div class="control-box">
-                            <a href="javascript:openReservationPopupRefuse(${data['id']});"
-                                class="button under-line refuse">
-                                <img src="/asset/images/icon/cancel.png"/>
-                                <span>Refuse</span>
-                            </a>
-                            <a href="javascript:openReservationPopupAccept(${data['id']}, ${is_time_select})"
-                                class="button under-line accept">
-                                <img src="/asset/images/icon/check.png"/>
-                                <span>Accept</span>
-                            </a>
-                        </div>
-                    </div>`;
+                <div class="control-button-wrap absolute line-before">
+                    <div class="control-box">
+                        <a href="javascript:openReservationPopupRefuse(${data['id']});"
+                            class="button under-line refuse">
+                            <img src="/asset/images/icon/cancel.png"/>
+                            <span>Refuse</span>
+                        </a>
+                        <a href="javascript:openReservationPopupAccept(${data['id']}, ${is_time_select}${parameterString})"
+                            class="button under-line accept">
+                            <img src="/asset/images/icon/check.png"/>
+                            <span>Accept</span>
+                        </a>
+                    </div>
+                </div>`;
             }
             openPopup({
                 className: className,
@@ -209,7 +219,7 @@ function openReservationPopupRefuse(id) {
     })
 }
 
-function openReservationPopupAccept(id, is_time_select = 1) {
+function openReservationPopupAccept(id, is_time_select = 1, expect_date = null, expect_time = null) {
     let className = 'popup-reservation-accept';
     let style = `
     <style>
@@ -300,8 +310,14 @@ function openReservationPopupAccept(id, is_time_select = 1) {
         callback: function () {
             $(`.${className} .calendar`).initCalendar({
                 cellSize: 60,
+                selectedDate: expect_date ?? null,
+                standardDate: expect_date ?? null,
+                limitStandard: false,
+                limitPrevious: false,
             })
-            $(`.${className} .time-selector`).initTimeSelector()
+            $(`.${className} .time-selector`).initTimeSelector({
+                selectedTime: expect_time ?? null,
+            })
         },
     })
 }
@@ -420,6 +436,10 @@ function confirmReservationRequest(className) {
 
 function confirmReservationAccept(className, id) {
     let data = parseInputToData($(`.${className} input, .${className} textarea`))
+
+    data['confirm_date'] = data['date'];
+    data['confirm_time'] = data['time'];
+
     $.ajax({
         type: 'POST',
         data: data,

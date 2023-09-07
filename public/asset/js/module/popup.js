@@ -83,6 +83,10 @@ function openPopup(input) {
     padding: 20px 20px 40px 20px;
 }
 
+.${className} .popup-inner-wrap {
+    overflow: hidden;
+}
+
 .${className} .popup .interface {
     height: 40px;
     line-height: 40px;
@@ -149,7 +153,9 @@ ${style ?? ''}
         </div>
         <div class="popup-box">
             <div class="popup-inner">
+                <div class="popup-inner-wrap">
             ${html ?? ''}
+                </div>
             </div>
         </div>
     </div>

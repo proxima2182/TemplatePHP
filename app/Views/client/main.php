@@ -174,14 +174,7 @@ $sliderImages = [
                         <?= $topics_table['board']['alias'] ?>
                     </h3>
                     <div class="table-box">
-                        <?php if (!isset($topics_table['array']) || sizeof($topics_table['array']) == 0) { ?>
-                            <div class="no-data-box">
-                                <div class="no-data-wrap">
-                                    <img src="/asset/images/icon/empty_folder.png">
-                                    <span>No data available.</span>
-                                </div>
-                            </div>
-                        <?php } else {
+                        <?php if (\App\Helpers\HtmlHelper::checkArray($topics_table['array'])) {
                             $array = $topics_table['array']; ?>
                             <div class="table-wrap">
                                 <div class="row-title">
@@ -222,14 +215,7 @@ $sliderImages = [
                         <?= $topics_grid['board']['alias'] ?>
                     </h3>
                     <div class="slider-box">
-                        <?php if (!isset($topics_grid['array']) || sizeof($topics_grid['array']) == 0) { ?>
-                            <div class="no-data-box">
-                                <div class="no-data-wrap">
-                                    <img src="/asset/images/icon/empty_folder.png">
-                                    <span>No data available.</span>
-                                </div>
-                            </div>
-                        <?php } else {
+                        <?php if (\App\Helpers\HtmlHelper::checkArray($topics_grid['array'])) {
                             $array = $topics_grid['array']; ?>
                             <div class="slick slider-wrap">
                                 <?php foreach ($array as $index => $item) { ?>

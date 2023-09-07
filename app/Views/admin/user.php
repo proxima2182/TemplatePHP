@@ -5,6 +5,7 @@
         </h3>
         <div class="table-box">
             <div class="table-wrap">
+                <?php if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
                 <div class="row-title">
                     <div class="row">
                         <span class="column type">Type</span>
@@ -27,6 +28,7 @@
                         </li>
                     <?php } ?>
                 </ul>
+                <?php } ?>
             </div>
         </div>
 

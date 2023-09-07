@@ -9,10 +9,12 @@ namespace Models;
  * reservation_board_id INT             FK(reservation_board)
  * questioner_id        INT             FK(user)
  * respondent_id        INT             FK(user)
+ * fragment_id          INT             FK(reservation_date_fragment)
  * status               VARCHAR(20)     requested | accepted | refused
  * expect_date          DATE
  * expect_time          TIME
- * expect_timedate      DATETIME
+ * datetime             DATETIME
+ * date                 VARCHAR(10)
  * question_comment     TEXT
  * confirm_date         DATE
  * confirm_time         TIME
@@ -31,10 +33,12 @@ class ReservationModel extends BaseModel
         'reservation_board_id',
         'questioner_id',
         'respondent_id',
+        'fragment_id',
         'status',
         'expect_date',
         'expect_time',
-        'expect_timedate',
+        'datetime',
+        'date',
         'question_comment',
         'confirm_date',
         'confirm_time',

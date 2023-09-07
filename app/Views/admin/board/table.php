@@ -14,14 +14,7 @@
                         </a>
                     </div>
                 <?php }
-                if (!isset($array) || sizeof($array) == 0) { ?>
-                    <div class="no-data-box">
-                        <div class="no-data-wrap">
-                            <img src="/asset/images/icon/empty_folder.png">
-                            <span>No data available.</span>
-                        </div>
-                    </div>
-                <?php } else { ?>
+                if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
                 <div class="row-title">
                     <div class="row">
                         <span class="column title">Title</span>
@@ -39,8 +32,8 @@
                         </li>
                     <?php } ?>
                 </ul>
+                <?php } ?>
             </div>
-            <?php } ?>
         </div>
 
         <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>

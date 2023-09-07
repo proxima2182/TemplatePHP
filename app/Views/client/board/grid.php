@@ -13,6 +13,7 @@
                     </a>
                 </div>
             <?php }
+            if (\App\Helpers\HtmlHelper::checkArray($array)) {
             $index = 0;
             foreach ($array as $index => $item) { ?>
                 <div class="grid-item button" onclick="openTopicPopup(<?= $item['id'] ?>)">
@@ -26,7 +27,8 @@
                         <span class="content"><?= $item['content'] ?></span>
                     </div>
                 </div>
-            <?php } ?>
+            <?php }
+            }?>
         </div>
 
         <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>

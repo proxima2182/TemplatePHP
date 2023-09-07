@@ -28,52 +28,62 @@ jQuery.prototype.initCalendar = function (option) {
     let cellSize = 60;
     let dateStandard = new Date();
     let standardDate = dateStandard.toFormatString();
+    let selectedDate = null;
     let styleType = 'circle';
     let language = 'en';
-    let limitPrevious = false;
-    let limitStandard = false;
+    let limitPrevious = true;
+    let limitStandard = true;
     let endDate = null;
     let limitedDayOfWeek = [];
     let textSize = 14;
     let selectedStyle = true;
 
-    let savingOptions = {};
-
-    styleType = option.style ?? styleType;
-    if (option.standardDate) {
-        try {
-            dateStandard = new Date(option.standardDate);
-            standardDate = dateStandard.toFormatString();
-        } catch (e) {
+    if(option) {
+        styleType = option.style ?? styleType;
+        if (option.standardDate) {
+            try {
+                dateStandard = new Date(option.standardDate);
+                standardDate = dateStandard.toFormatString();
+            } catch (e) {
+            }
         }
-    }
-    cellSize = option.cellSize ?? (cellSize < 60 ? 60 : cellSize);
-    language = option.lang ?? language;
-    limitPrevious = option.limitPrevious ?? limitPrevious;
-    limitStandard = option.limitStandard ?? limitStandard;
-    if (option.endDate) {
-        try {
-            let date = new Date(option.endDate);
-            endDate = date.toFormatString();
-        } catch (e) {
+        cellSize = option.cellSize ?? (cellSize < 60 ? 60 : cellSize);
+        language = option.lang ?? language;
+        limitPrevious = option.limitPrevious ?? limitPrevious;
+        limitStandard = option.limitStandard ?? limitStandard;
+        if (option.endDate) {
+            try {
+                let date = new Date(option.endDate);
+                endDate = date.toFormatString();
+            } catch (e) {
+            }
         }
-    }
-    limitedDayOfWeek = option.limitedDayOfWeek ?? limitedDayOfWeek;
-    textSize = option.textSize ?? textSize;
-    selectedStyle = option.selectedStyle ?? selectedStyle;
+        if (option.selectedDate) {
+            try {
+                let date = new Date(option.selectedDate);
+                selectedDate = date.toFormatString();
+            } catch (e) {
+            }
+        }
+        limitedDayOfWeek = option.limitedDayOfWeek ?? limitedDayOfWeek;
+        textSize = option.textSize ?? textSize;
+        selectedStyle = option.selectedStyle ?? selectedStyle;
 
-    // function allocation
-    $parent.onDateSelected = option.onDateSelected
-    $parent.onLoaded = option.onLoaded
-    $parent.onRefreshed = option.onRefreshed
+        // function allocation
+        $parent.onDateSelected = option.onDateSelected
+        $parent.onLoaded = option.onLoaded
+        $parent.onRefreshed = option.onRefreshed
+    }
     $parent.getSelectedDate = function () {
         let $input = $parent.find('input[type=hidden]');
         return $input.val();
     }
 
     // rebinding
+    let savingOptions = {};
     savingOptions.style = styleType;
     savingOptions.standardDate = standardDate;
+    savingOptions.selectedDate = selectedDate;
     savingOptions.cellSize = cellSize;
     savingOptions.lang = language;
     savingOptions.limitPrevious = limitPrevious;
@@ -82,7 +92,6 @@ jQuery.prototype.initCalendar = function (option) {
     savingOptions.limitedDayOfWeek = limitedDayOfWeek;
     savingOptions.textSize = textSize;
     savingOptions.selectedStyle = selectedStyle;
-    $parent.addClass(styleType);
     try {
         $parent.attr({
             option: JSON.stringify(savingOptions),
@@ -90,6 +99,7 @@ jQuery.prototype.initCalendar = function (option) {
     } catch (e) {
         // do nothing
     }
+    $parent.addClass(styleType);
     let borderWidth = Math.floor(cellSize / 40);
 
     let dayOfWeek = {};
@@ -384,6 +394,15 @@ jQuery.prototype.refreshCalendar = function () {
     drawCalendarView($parent, date);
 }
 
+jQuery.prototype.getCell = function (day) {
+    const $parent = this;
+    if (typeof day == 'string') {
+        day = parseInt(day)
+    }
+    if (typeof day != 'number') return null;
+    return $parent.find(`.day-${day}`);
+}
+
 function setCalendarDefaultStyle($view) {
     $view.css({
         '-webkit-touch-callout': 'none',
@@ -447,7 +466,7 @@ function selectCalendarCell($parent, $cell, year, month, isStyled = true) {
         }
     }
     if ($parent && $parent.onDateSelected && typeof $parent.onDateSelected == 'function') {
-        $parent.onDateSelected($parent, value);
+        $parent.onDateSelected($parent, value, year, month, day);
     }
 }
 
@@ -493,6 +512,12 @@ function drawCalendarView($parent, date) {
     let year = date.getFullYear();
     let month = date.getMonth();
     let hasDateStandard = (year == dateStandard.getFullYear() && month == dateStandard.getMonth());
+    let dateSelected = null;
+    let hasDateSelected = false;
+    if(option.selectedDate) {
+        dateSelected = new Date(option.selectedDate)
+        hasDateSelected = (year == dateSelected.getFullYear() && month == dateSelected.getMonth());
+    }
     $year[0].innerHTML = year;
     $month[0].innerHTML = months[month];
 
@@ -510,7 +535,7 @@ function drawCalendarView($parent, date) {
     let dateYesterday = new Date(dateStandard);
     dateYesterday.setDate(dateStandard.getDate() - 1);
     let dateCompare = dateYesterday;
-    if(option.limitStandard) {
+    if (option.limitStandard) {
         dateCompare = dateStandard;
     }
 
@@ -564,10 +589,14 @@ function drawCalendarView($parent, date) {
         $cells.append($cell);
     }
     for (let i = 0; i < numberOfDays; i++, days++) {
-        let $cell = $(`<li id="day-${(i + 1)}"><span class="calendar-number-wrap"></span></li>`);
+        let $cell = $(`<li class="day-${(i + 1)}"><span class="calendar-number-wrap"></span></li>`);
         $cell.find(`.calendar-number-wrap`).append(`<span class="calendar-number">${(i + 1)}</span>`)
         if (hasDateStandard && i == dateStandard.getDate() - 1) {
             $cell.addClass('standard');
+        }
+        if (hasDateSelected && i == dateSelected.getDate() - 1) {
+            $cell.addClass('selected')
+            $parent.append('<input type="hidden" name="date" value="' + dateSelected.toFormatString() + '">')
         }
 
         if (days % 7 == 0) {
@@ -596,7 +625,7 @@ function drawCalendarView($parent, date) {
             } else {
                 setCalendarStyle($cell);
                 $cell.click(function () {
-                    selectCalendarCell($parent, $(this), year, month, option.selectedStyle);
+                    selectCalendarCell($parent, $(this), year, month + 1, option.selectedStyle);
                 })
             }
         }
@@ -611,7 +640,7 @@ function drawCalendarView($parent, date) {
         $cells.append($cell);
     }
 
-    let isCircleStyle =  option.style == 'circle';
+    let isCircleStyle = option.style == 'circle';
     let cellHeight = isCircleStyle ? (cellWidth - 20) : cellWidth;
     let cellStandardY = isCircleStyle ? 10 : 0;
 
@@ -707,6 +736,6 @@ function drawCalendarView($parent, date) {
         }
     }
     if ($parent && $parent.onRefreshed && typeof $parent.onRefreshed == 'function') {
-        $parent.onRefreshed($parent, year, month);
+        $parent.onRefreshed($parent, year, month + 1);
     }
 }

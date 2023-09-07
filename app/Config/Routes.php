@@ -77,7 +77,7 @@ $routes->get('/admin/reservation-board/([0-9]+)', [\Views\Admin\ReservationContr
 $routes->addRedirect('/admin/reservation-board', '/admin/reservation-board/1');
 $routes->get('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)/([0-9]+)', [\Views\Admin\ReservationController::class, 'getBoard']);
 $routes->addRedirect('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/admin/reservation-board/$1/1');
-$routes->get('/admin/reservation-board/calendar/([a-zA-Z][a-zA-Z0-9\-\_]*)/([0-9]+)', [\Views\Admin\ReservationController::class, 'getCalendar']);
+$routes->get('/admin/reservation-board/calendar/([a-zA-Z][a-zA-Z0-9\-\_]*)', [\Views\Admin\ReservationController::class, 'getCalendar']);
 $routes->get('/admin/reservation/([0-9]+)', [\Views\Admin\ReservationController::class, 'getReservation']);
 
 
@@ -147,6 +147,7 @@ $routes->post('/api/reservation-board/create', [\API\ReservationController::clas
 $routes->post('/api/reservation-board/update/([0-9]+)', [\API\ReservationController::class, 'updateBoard']);
 $routes->delete('/api/reservation-board/delete/([0-9]+)', [\API\ReservationController::class, 'deleteBoard']);
 
+$routes->post('/api/reservation-board/reservation/get/([a-zA-Z][a-zA-Z0-9\-\_]*)', [\API\ReservationController::class, 'getMonthlyReservation']);
 $routes->get('/api/reservation/get/([0-9]+)', [\API\ReservationController::class, 'getReservation']);
 $routes->post('/api/reservation/request', [\API\ReservationController::class, 'requestReservation']);
 $routes->post('/api/reservation/refuse/([0-9]+)', [\API\ReservationController::class, 'refuseReservation']);

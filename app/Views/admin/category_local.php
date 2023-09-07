@@ -16,7 +16,8 @@
                             <span>Create</span>
                         </a>
                     </div>
-                <?php } ?>
+                <?php }
+                if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
                 <div class="row-title">
                     <div class="row">
                         <span class="column name">Name</span>
@@ -34,6 +35,7 @@
                         </li>
                     <?php } ?>
                 </ul>
+                <?php } ?>
             </div>
         </div>
     </div>

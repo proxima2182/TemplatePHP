@@ -1,7 +1,5 @@
 <?php
 
-use App\Helpers\Utils;
-
 ?>
 <div class="container-inner">
     <div class="inner-box">
@@ -11,14 +9,15 @@ use App\Helpers\Utils;
         <div class="table-box">
             <div class="table-wrap">
                 <?php if ($is_login) { ?>
-                <div class="control-button-wrap">
-                    <a href="javascript:openInputPopupCreate();"
-                       class="button under-line create">
-                        <img src="/asset/images/icon/plus.png"/>
-                        <span>Create</span>
-                    </a>
-                </div>
-                <?php } ?>
+                    <div class="control-button-wrap">
+                        <a href="javascript:openInputPopupCreate();"
+                           class="button under-line create">
+                            <img src="/asset/images/icon/plus.png"/>
+                            <span>Create</span>
+                        </a>
+                    </div>
+                <?php }
+                if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
                 <div class="row-title">
                     <div class="row">
                         <span class="column code">Code</span>
@@ -37,8 +36,7 @@ use App\Helpers\Utils;
                                 <span class="column code"><?= $item['code'] ?></span>
                                 <span class="column name"><?= $item['name'] ?></span>
                                 <span class="column path">
-                                <?= Utils::isNotEmpty('path', $item) ?
-                                    $item['path'] :
+                                <?= $item['path'] ??
                                     '<img src="/asset/images/icon/none.png"/>' ?>
                                 </span>
                                 <span class="column main-only">
@@ -59,6 +57,7 @@ use App\Helpers\Utils;
                         </li>
                     <?php } ?>
                 </ul>
+                <?php } ?>
             </div>
         </div>
     </div>

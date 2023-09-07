@@ -1,7 +1,5 @@
 <?php
 
-use App\Helpers\Utils;
-
 $is_admin_page = isset($is_admin) && $is_admin;
 ?>
 <div class="container-inner">
@@ -19,13 +17,16 @@ $is_admin_page = isset($is_admin) && $is_admin;
                             <span>Reserve</span>
                         </a>
                     </div>
-                <?php } ?>
+                <?php }
+                if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
                 <div class="row-title">
                     <div class="row">
                         <span class="column questioner">Questioner</span>
                         <span class="column status">Status</span>
                         <span class="column expect-date">Expect Date</span>
                         <span class="column expect-time">Expect Time</span>
+                        <span class="column confirm-date">Confirm Date</span>
+                        <span class="column confirm-time">Confirm Time</span>
                     </div>
                 </div>
                 <ul>
@@ -36,19 +37,26 @@ $is_admin_page = isset($is_admin) && $is_admin;
                                 <span class="column questioner"><?= $item['questioner_name'] ?></span>
                                 <span class="column status"><?= $item['status'] ?></span>
                                 <span class="column expect-date">
-                                <?= Utils::isNotEmpty('expect_date', $item) ?
-                                    $item['expect_date'] :
+                                <?= $item['expect_date'] ??
                                     '<img src="/asset/images/icon/none.png"/>' ?>
                                 </span>
                                 <span class="column expect-time">
-                                <?= Utils::isNotEmpty('expect_time', $item) ?
-                                    $item['expect_time'] :
+                                <?= $item['expect_time'] ??
+                                    '<img src="/asset/images/icon/none.png"/>' ?>
+                                </span>
+                                <span class="column confirm-date">
+                                <?= $item['confirm_date'] ??
+                                    '<img src="/asset/images/icon/none.png"/>' ?>
+                                </span>
+                                <span class="column confirm-time">
+                                <?= $item['confirm_time'] ??
                                     '<img src="/asset/images/icon/none.png"/>' ?>
                                 </span>
                             </a>
                         </li>
                     <?php } ?>
                 </ul>
+                <?php } ?>
             </div>
         </div>
 

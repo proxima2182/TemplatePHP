@@ -18,11 +18,6 @@ class Utils
         return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
     }
 
-    static function isNotEmpty(string $key, array $object): bool
-    {
-        return isset($object[$key]) && $object[$key] != null;
-    }
-
     static function toInt($value): int
     {
         if (gettype($value) == 'string') {

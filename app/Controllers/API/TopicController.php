@@ -48,7 +48,11 @@ class TopicController extends BaseApiController
         return $this->response->setJSON($response);
     }
 
-    public function createTopic()
+    /**
+     * [post] /api/topic/create
+     * @return ResponseInterface
+     */
+    public function createTopic(): ResponseInterface
     {
         $data = $this->request->getPost();
         $validationRules = [
