@@ -117,6 +117,17 @@ class TopicController extends BaseApiController
             ],
         ];
 
+        try {
+            $result = $this->topicModel->find($id);
+            $this->checkSelfAccess($result['user_id'], true);
+        } catch (Exception $e) {
+            $response = [
+                'success'=>false,
+                'message' => $e->getMessage(),
+            ];
+            return $this->response->setJSON($response);
+        }
+
         return $this->typicallyUpdate($this->topicModel, $id, $data, $validationRules, function ($model, $data) use ($id) {
             $queries = [];
             $selector_query = '';
@@ -148,6 +159,17 @@ class TopicController extends BaseApiController
      */
     public function deleteTopic($id): ResponseInterface
     {
+        try {
+            $result = $this->topicModel->find($id);
+            $this->checkSelfAccess($result['user_id'], true);
+        } catch (Exception $e) {
+            $response = [
+                'success'=>false,
+                'message' => $e->getMessage(),
+            ];
+            return $this->response->setJSON($response);
+        }
+
         return $this->typicallyUpdate($this->topicModel, $id, [
             'is_deleted' => 1
         ]);
@@ -291,6 +313,16 @@ class TopicController extends BaseApiController
      */
     public function deleteReply($id): ResponseInterface
     {
+        try {
+            $result = $this->replyModel->find($id);
+            $this->checkSelfAccess($result['user_id'], true);
+        } catch (Exception $e) {
+            $response = [
+                'success'=>false,
+                'message' => $e->getMessage(),
+            ];
+            return $this->response->setJSON($response);
+        }
         return $this->typicallyUpdate($this->replyModel, $id, [
             'is_deleted' => 1
         ]);

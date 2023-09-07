@@ -58,6 +58,7 @@ class LocationController extends BaseApiController
      */
     public function createLocation(): ResponseInterface
     {
+        $this->checkAdmin();
         $data = $this->request->getPost();
         $validationRules = [
             'address' => [
@@ -83,6 +84,7 @@ class LocationController extends BaseApiController
      */
     public function updateLocation($id): ResponseInterface
     {
+        $this->checkAdmin();
         $data = $this->request->getPost();
         return $this->typicallyUpdate($this->locationModel, $id, $data);
     }
@@ -94,6 +96,7 @@ class LocationController extends BaseApiController
      */
     public function deleteLocation($id): ResponseInterface
     {
+        $this->checkAdmin();
         return $this->typicallyDelete($this->locationModel, $id);
     }
 }

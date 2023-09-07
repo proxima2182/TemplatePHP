@@ -1,3 +1,11 @@
+.table-wrap li .button.row-button {
+    padding-right: 50px;
+}
+
+.table-wrap .row-title .row {
+    padding-right: 50px;
+}
+
 .table-wrap .column.code {
     width: 20%;
 }

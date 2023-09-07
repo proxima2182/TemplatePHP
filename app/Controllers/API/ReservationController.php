@@ -40,6 +40,7 @@ class ReservationController extends BaseApiController
      */
     public function createBoard(): ResponseInterface
     {
+        $this->checkAdmin();
         $data = $this->request->getPost();
         $validationRules = [
             'code' => [
@@ -64,6 +65,7 @@ class ReservationController extends BaseApiController
      */
     public function updateBoard($id): ResponseInterface
     {
+        $this->checkAdmin();
         $data = $this->request->getPost();
         return $this->typicallyUpdate($this->boardModel, $id, $data);
     }
@@ -75,6 +77,7 @@ class ReservationController extends BaseApiController
      */
     public function deleteBoard($id): ResponseInterface
     {
+        $this->checkAdmin();
         $body = [
             'is_deleted' => 1,
         ];
@@ -228,6 +231,7 @@ class ReservationController extends BaseApiController
      */
     public function refuseReservation($id): ResponseInterface
     {
+        $this->checkAdmin();
         $data = $this->request->getPost();
         $validationRules = [
             'respond_comment' => [
@@ -247,6 +251,7 @@ class ReservationController extends BaseApiController
      */
     public function acceptReservation($id): ResponseInterface
     {
+        $this->checkAdmin();
         $response = [
             'success' => false,
         ];

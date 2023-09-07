@@ -15,34 +15,39 @@
                     </div>
                 <?php }
                 if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
-                <div class="row-title">
-                    <div class="row">
-                        <span class="column code">Code</span>
-                        <span class="column alias">Alias</span>
-                        <span class="column time-select">Time Select</span>
-                        <span class="column public">Public</span>
+                    <div class="row-title">
+                        <div class="row">
+                            <span class="column code">Code</span>
+                            <span class="column alias">Alias</span>
+                            <span class="column time-select">Time Select</span>
+                            <span class="column public">Public</span>
+                        </div>
                     </div>
-                </div>
-                <ul>
-                    <?php foreach ($array as $index => $item) { ?>
-                        <li class="row">
-                            <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
-                                <span class="column code"><?= $item['code'] ?></span>
-                                <span class="column alias"><?= $item['alias'] ?></span>
-                                <span class="column time-select">
-                                    <img src="/asset/images/icon/<?= $item['is_time_select'] == 0 ? 'none.png' : 'check.png' ?>"/>
+                    <ul>
+                        <?php foreach ($array as $index => $item) { ?>
+                            <li class="row">
+                                <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
+                                    <span class="column code"><?= $item['code'] ?></span>
+                                    <span class="column alias"><?= $item['alias'] ?></span>
+                                    <span class="column time-select">
+                                    <img
+                                        src="/asset/images/icon/<?= $item['is_time_select'] == 0 ? 'none.png' : 'check.png' ?>"/>
                                 </span>
-                                <span class="column public">
+                                    <span class="column public">
                                     <img
                                         src="/asset/images/icon/<?= $item['is_public'] == 0 ? 'none.png' : 'check.png' ?>"/>
                                 </span>
-                            </a>
-                            <a href="/admin/reservation-board/<?= $item['code'] ?>" class="button detail">
-                                <img src="/asset/images/icon/detail@2x.png"/>
-                            </a>
-                        </li>
-                    <?php } ?>
-                </ul>
+                                </a>
+                                <a href="/admin/reservation-board/<?= $item['code'] ?>" class="button detail">
+                                    <img src="/asset/images/icon/detail@2x.png"/>
+                                </a>
+                                <a href="/admin/reservation-board/calendar/<?= $item['code'] ?>"
+                                   class="button calendar">
+                                    <img src="/asset/images/icon/calendar@2x.png"/>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
                 <?php } ?>
             </div>
         </div>

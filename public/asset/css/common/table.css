@@ -2,7 +2,7 @@ body .table-box {
     min-height: 600px;
 }
 
-body .table-wrap {
+.table-wrap {
     width: 1200px;
     padding: 0 40px;
     box-sizing: border-box;
@@ -11,18 +11,18 @@ body .table-wrap {
     line-height: normal;
 }
 
-body .table-wrap .row {
+.table-wrap .row {
     text-align: left;
     background: #fff;
 }
 
-body .table-wrap .row a {
+.table-wrap .row a {
     width: 100%;
     padding: 0 15px;
     box-sizing: border-box;
 }
 
-body .table-wrap .row .column {
+.table-wrap .row .column {
     padding: 8px 10px;
     line-height: 30px;
     text-align: left;
@@ -36,20 +36,20 @@ body .table-wrap .row .column {
     overflow: hidden;
 }
 
-body .table-wrap .row .column img {
+.table-wrap .row .column img {
     vertical-align: middle;
 }
 
-body .table-wrap .row-title .row {
+.table-wrap .row-title .row {
     padding: 0 15px;
 }
 
-body .table-wrap .row-title .row .column {
+.table-wrap .row-title .row .column {
     font-weight: 400;
 }
 
 /*테이블 내의 라인*/
-body .table-wrap li:after, body .table-wrap .row-title:after {
+.table-wrap li:after, .table-wrap .row-title:after {
     content: "";
     display: block;
     width: 100%;
@@ -57,15 +57,15 @@ body .table-wrap li:after, body .table-wrap .row-title:after {
     background: #ddd;
 }
 
-body .table-wrap .row-title:after {
+.table-wrap .row-title:after {
     background: #000;
 }
 
-body .table-wrap li .button.row-button {
+.table-wrap li .button.row-button {
     position: relative;
 }
 
-body .table-wrap li .button.row-button:hover:after {
+.table-wrap li .button.row-button:hover:after {
     content: "";
     display: block;
     background: rgba(200, 200, 200, 0.1);

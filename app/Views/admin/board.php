@@ -74,7 +74,7 @@
                     type: 'text',
                 },
             };
-            if (data['type'] == 'static') {
+            if (data && data['type'] == 'static') {
                 typeSet = {
                     ...typeSet,
                     type: {

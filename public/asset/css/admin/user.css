@@ -16,4 +16,5 @@
 
 .table-wrap .column.created-at {
     width: 20%;
+    text-align: right;
 }

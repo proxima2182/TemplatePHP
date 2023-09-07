@@ -30,6 +30,7 @@ class SettingController extends BaseApiController
      */
     public function createSetting(): ResponseInterface
     {
+        $this->checkAdmin();
         $data = $this->request->getPost();
         $validationRules = [
             'code' => [
@@ -54,6 +55,7 @@ class SettingController extends BaseApiController
      */
     public function updateSetting($id): ResponseInterface
     {
+        $this->checkAdmin();
         $data = $this->request->getPost();
         return $this->typicallyUpdate($this->settingModel, $id, $data);
     }
@@ -65,6 +67,7 @@ class SettingController extends BaseApiController
      */
     public function deleteSetting($id): ResponseInterface
     {
+        $this->checkAdmin();
         return $this->typicallyDelete($this->settingModel, $id);
     }
 }

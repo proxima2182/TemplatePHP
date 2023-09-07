@@ -116,7 +116,7 @@ function openPopup(input) {
     font-size: 0;
 }
 
-.${className} .row .column {
+.${className} .column {
     padding: 10px 5px;
     line-height: 30px;
     text-align: left;

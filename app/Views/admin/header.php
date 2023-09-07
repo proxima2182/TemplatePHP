@@ -24,6 +24,7 @@ $is_not_registration_page = !isset($is_registration_page) || ($is_registration_p
     <script type="text/javascript" src="/asset/js/library/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/asset/js/library/jquery/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/asset/js/module/popup.js"></script>
+    <script type="text/javascript" src="/asset/js/admin/login.js"></script>
     <script type="text/javascript" src="/asset/js/admin/navigation.js"></script>
     <?php
     if (isset($js)) echo $js;

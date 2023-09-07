@@ -4,6 +4,7 @@ namespace API;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use Config\Services;
 use Exception;
 use Models\BaseModel;
 
@@ -24,7 +25,7 @@ class BaseApiController extends BaseController
 
         try {
             $result = $model->find($id);
-            if(!$result) throw new Exception('not exist');
+            if (!$result) throw new Exception('not exist');
             $response['success'] = true;
             $response['data'] = $result;
         } catch (Exception $e) {
@@ -48,7 +49,7 @@ class BaseApiController extends BaseController
         ];
 
         try {
-            if(!isset($condition)) {
+            if (!isset($condition)) {
                 $condition = [];
             }
             $condition['id'] = $id;
@@ -70,7 +71,7 @@ class BaseApiController extends BaseController
      * @param BaseModel $model
      * @param array $data
      * @param array|null $validationRules
-     * @param $doAdditionalCheck            // Validation Rules 외에 체크가 필요한 부분을 위해 추가
+     * @param $doAdditionalCheck // Validation Rules 외에 체크가 필요한 부분을 위해 추가
      * @return ResponseInterface
      */
     protected function typicallyCreate(BaseModel $model, array $data, array $validationRules = null, $doAdditionalCheck = null): ResponseInterface
@@ -158,5 +159,31 @@ class BaseApiController extends BaseController
             }
         }
         return $this->response->setJSON($response);
+    }
+
+    protected function checkAdmin(): void
+    {
+        if (!$this->session->is_admin) {
+            $response = Services::response();
+            $response->setJSON([
+                'success' => false,
+                'message' => 'action is not allowed',
+            ]);
+            $response->sendBody();
+            exit;
+        }
+    }
+
+    protected function checkSelfAccess(string $user_id, bool $skip_for_admin = false): void
+    {
+        if ((!$skip_for_admin || !$this->session->is_admin) && $this->session->user_id != $user_id) {
+            $response = Services::response();
+            $response->setJSON([
+                'success' => false,
+                'message' => 'action is not allowed',
+            ]);
+            $response->sendBody();
+            exit;
+        }
     }
 }

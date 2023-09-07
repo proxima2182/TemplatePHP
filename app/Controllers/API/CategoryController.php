@@ -54,6 +54,7 @@ class CategoryController extends BaseApiController
      */
     public function createCategory(): ResponseInterface
     {
+        $this->checkAdmin();
         $data = $this->request->getPost();
         $validationRules = [
             'code' => [
@@ -83,6 +84,7 @@ class CategoryController extends BaseApiController
      */
     public function updateCategory($id): ResponseInterface
     {
+        $this->checkAdmin();
         $data = $this->request->getPost();
         return $this->typicallyUpdate($this->categoryModel, $id, $data);
     }
@@ -94,6 +96,7 @@ class CategoryController extends BaseApiController
      */
     public function deleteCategory($id): ResponseInterface
     {
+        $this->checkAdmin();
         $response = [
             'success' => false,
         ];
@@ -123,6 +126,7 @@ class CategoryController extends BaseApiController
      */
     public function exchangeCategoryPriority($from, $to): ResponseInterface
     {
+        $this->checkAdmin();
         $response = [
             'success' => false,
         ];
@@ -153,6 +157,7 @@ class CategoryController extends BaseApiController
      */
     public function createCategoryLocal(): ResponseInterface
     {
+        $this->checkAdmin();
         $data = $this->request->getPost();
 
         try {
@@ -197,6 +202,7 @@ class CategoryController extends BaseApiController
      */
     public function updateCategoryLocal($id): ResponseInterface
     {
+        $this->checkAdmin();
         $data = $this->request->getPost();
         return $this->typicallyUpdate($this->categoryLocalModel, $id, $data);
     }
@@ -208,6 +214,7 @@ class CategoryController extends BaseApiController
      */
     public function deleteCategoryLocal($id): ResponseInterface
     {
+        $this->checkAdmin();
         return $this->typicallyDelete($this->categoryLocalModel, $id);
     }
 
@@ -219,6 +226,7 @@ class CategoryController extends BaseApiController
      */
     public function exchangeCategoryLocalPriority($from, $to): ResponseInterface
     {
+        $this->checkAdmin();
         $response = [
             'success' => false,
         ];
