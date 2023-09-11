@@ -337,7 +337,7 @@ class UserController extends BaseApiController
                 }
                 $this->session->set([
                     'username' => $user['username'],
-                    'name' => strlen($user['name']) == 0 ? $user['username'] : $user['name'],
+                    'user_name' => strlen($user['name']) == 0 ? $user['username'] : $user['name'],
                     'user_id' => $user['id'],
                     'user_type' => $user['type'],
                     'is_login' => true,
@@ -362,12 +362,12 @@ class UserController extends BaseApiController
             'success' => true,
         ];
         $this->session->set([
-            'username' => '',
-            'name' => '',
-            'user_id' => -1,
-            'user_type' => '',
-            'is_login' => false,
-            'is_admin' => false,
+            'username' => null,
+            'user_name' => null,
+            'user_id' => null,
+            'user_type' => null,
+            'is_login' => null,
+            'is_admin' => null,
         ]);
         return $this->response->setJSON($response);
     }

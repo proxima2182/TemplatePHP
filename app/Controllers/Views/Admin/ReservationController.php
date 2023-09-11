@@ -115,6 +115,7 @@ class ReservationController extends BaseAdminController
                 ],
                 'js' => [
                     '/module/calendar',
+                    '/module/time_selector',
                     '/admin/reservation',
                 ],
             ])
@@ -150,7 +151,7 @@ class ReservationController extends BaseAdminController
         $reservations = $this->reservationModel->get(['id' => $id]);
         if (sizeof($reservations) != 1) throw new Exception('deleted');
         $reservation = $reservations[0];
-        $board = $this->boardModel->find($topic['reservation_board_id']);
+        $board = $this->boardModel->find($reservation['reservation_board_id']);
         $result['data'] = $reservation;
         $result['board'] = $board;
         return $result;

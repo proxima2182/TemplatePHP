@@ -53,7 +53,7 @@ class ReservationModel extends BaseModel
      */
     public function get($condition = null, $limit = null): array
     {
-        $query = "SELECT reservation.*, questioner.name AS questioner_name, respondent.name AS respondent_name
+        $query = "SELECT reservation.*, questioner.name AS questioner_name, questioner.email AS questioner_email, respondent.name AS respondent_name
                 FROM reservation
                 LEFT JOIN user AS questioner ON questioner.id = reservation.questioner_id
                 LEFT JOIN user AS respondent ON respondent.id = reservation.respondent_id";

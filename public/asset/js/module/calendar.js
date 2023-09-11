@@ -7,10 +7,7 @@ Date.prototype.toFormatString = function () {
     let year = this.getFullYear();
     let month = this.getMonth() + 1;
     let day = this.getDate();
-    let hour = this.getHours();
-    let minute = this.getMinutes();
-    let second = this.getSeconds();
-    return `${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
+    return `${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
 }
 
 const calendarWeekKeys = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -38,7 +35,7 @@ jQuery.prototype.initCalendar = function (option) {
     let textSize = 14;
     let selectedStyle = true;
 
-    if(option) {
+    if (option) {
         styleType = option.style ?? styleType;
         if (option.standardDate) {
             try {
@@ -174,8 +171,7 @@ jQuery.prototype.initCalendar = function (option) {
     
         .calendar.${className}.circle .date li.standard .calendar-number-wrap {
             font-weight: bold;
-            /*background: #efefef;*/
-            box-shadow: 0 0 0 ${borderWidth}px #efefef inset; 
+            background: #efefef;
             -webkit-border-radius: 50%;
             -moz-border-radius: 50%;
             border-radius: 50%;
@@ -514,7 +510,7 @@ function drawCalendarView($parent, date) {
     let hasDateStandard = (year == dateStandard.getFullYear() && month == dateStandard.getMonth());
     let dateSelected = null;
     let hasDateSelected = false;
-    if(option.selectedDate) {
+    if (option.selectedDate) {
         dateSelected = new Date(option.selectedDate)
         hasDateSelected = (year == dateSelected.getFullYear() && month == dateSelected.getMonth());
     }

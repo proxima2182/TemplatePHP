@@ -1,3 +1,23 @@
+.table-wrap .ball {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #000;
+    display: inline-block;
+}
+
+.table-wrap .ball.requested {
+    background: #ddbd2b;
+}
+
+.table-wrap .ball.accepted {
+    background: #2ea400;
+}
+
+.table-wrap .ball.refused {
+    background: #ba2b14;
+}
+
 .table-wrap .column.questioner {
     width: 20%;
 }

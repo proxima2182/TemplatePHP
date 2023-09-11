@@ -10,7 +10,7 @@ use Models\ReservationBoardModel;
 use Models\ReservationDateFragmentModel;
 use Models\ReservationModel;
 
-class ReservationController extends BaseApiController
+class ReservationController extends EmailController
 {
     protected ReservationBoardModel $boardModel;
     protected ReservationModel $reservationModel;
@@ -22,6 +22,7 @@ class ReservationController extends BaseApiController
         $this->boardModel = model('Models\ReservationBoardModel');
         $this->reservationModel = model('Models\ReservationModel');
         $this->reservationDateFragmentModel = model('Models\ReservationDateFragmentModel');
+        $this->userModel = model('Models\UserModel');
     }
 
     /**
@@ -128,9 +129,9 @@ class ReservationController extends BaseApiController
                         ]);
                     }
                 } else {
-                    $time = new \DateTime();
-                    $time->setDate($data['year'], $data['month'], $data['day']);
-                    $date = date("Y-m-d", $time->getTimestamp());
+                    $timeRaw = new \DateTime();
+                    $timeRaw->setDate($data['year'], $data['month'], $data['day']);
+                    $date = date("Y-m-d", $timeRaw->getTimestamp());
                     $array = BaseModel::transaction($this->db, [
                         "SELECT reservation.*, questioner.name AS questioner_name FROM reservation" .
                         " LEFT JOIN user AS questioner ON questioner.id = reservation.questioner_id" .
@@ -141,8 +142,8 @@ class ReservationController extends BaseApiController
                 }
                 $result = [];
                 foreach ($array as $index => $item) {
-                    $time = strtotime($item['datetime']);
-                    $day = (int)date('d', $time);
+                    $timeRaw = strtotime($item['datetime']);
+                    $day = (int)date('d', $timeRaw);
                     if (!isset($result[$day])) $result[$day] = [];
                     $result[$day][] = $item;
                 }
@@ -188,9 +189,11 @@ class ReservationController extends BaseApiController
         if (!isset($data['expect_time']) && isset($data['time'])) {
             $data['expect_time'] = $data['time'];
         }
+        $data['expect_date'] = $data['expect_date'] ?? null;
+        $data['expect_time'] = $data['expect_time'] ?? null;
+        $timeRaw = $this->getTimeRaw($data['expect_date'], $data['expect_time']);
 
         $data['questioner_id'] = $this->session->user_id;
-        $time = $this->getTime($data['expect_date'] ?? null, $data['expect_time'] ?? null);
 
         $response = [
             'success' => false,
@@ -200,12 +203,12 @@ class ReservationController extends BaseApiController
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
-                $data['datetime'] = date("Y-m-d H:i:s", $time);
-                $data['date'] = date("Y-m-d", $time);
+                $data['datetime'] = date("Y-m-d H:i:s", $timeRaw);
+                $data['date'] = date("Y-m-d", $timeRaw);
 
                 // add fragment
-                $year = date("Y", $time);
-                $month = date("m", $time);
+                $year = date("Y", $timeRaw);
+                $month = date("m", $timeRaw);
 
                 $data['fragment_id'] = $this->getFragmentId($year, $month);
 
@@ -215,8 +218,26 @@ class ReservationController extends BaseApiController
                 } else {
                     $response['success'] = true;
                 }
+
+                $adminUsers = $this->userModel->get(['type' => 'admin']);
+                $reservations = $this->reservationModel->get(['id' => $result]);
+                if (sizeof($reservations) > 0 && sizeof($adminUsers) > 0) {
+                    $reservation = $reservations[0];
+                    $adminUser = $adminUsers[0];
+                    $memberUsers = $this->userModel->get(['type' => 'member']);
+                    $copies = [];
+                    foreach ($memberUsers as $memberUser) {
+                        $copies[] = $memberUser['email'];
+                    }
+                    $this->sendMessage(array_merge([
+                        'email' => $adminUser['email'],
+                        'copies' => $copies,
+                        'title' => 'New Reservation',
+                    ], $reservation));
+                }
             } catch (Exception $e) {
                 //todo(log)
+                ServerLogger::log($e);
                 $response['message'] = $e->getMessage();
             }
         }
@@ -241,7 +262,18 @@ class ReservationController extends BaseApiController
         ];
         $data['status'] = 'refused';
         $data['respondent_id'] = $this->session->user_id;
-        return $this->typicallyUpdate($this->reservationModel, $id, $data, $validationRules);
+        return $this->typicallyUpdate($this->reservationModel, $id, $data, $validationRules, function ($model, $data) use ($id) {
+            $reservations = $model->get(['id' => $id]);
+            if (sizeof($reservations) > 0) {
+                $reservation = $reservations[0];
+                if (isset($reservation['questioner_email']) && strlen($reservation['questioner_email']) > 0) {
+                    $this->sendMessage(array_merge([
+                        'email' => $reservation['questioner_email'],
+                        'title' => 'Reservation Refused',
+                    ], $reservation));
+                }
+            }
+        });
     }
 
     /**
@@ -263,23 +295,23 @@ class ReservationController extends BaseApiController
         if (!isset($data['confirm_time']) && isset($data['time'])) {
             $data['confirm_time'] = $data['time'];
         }
+        $data['confirm_date'] = $data['confirm_date'] ?? null;
+        $data['confirm_time'] = $data['confirm_time'] ?? null;
+        $timeRaw = $this->getTimeRaw($data['confirm_date'], $data['confirm_time']);
 
-        $time = $this->getTime($data['confirm_date'] ?? null, $data['confirm_time'] ?? null);
-
-
-        $data['status'] = 'accepted';
         $data['respondent_id'] = $this->session->user_id;
+        $data['status'] = 'accepted';
 
         if (strlen($id) == 0) {
             $response['message'] = "field 'id' should not be empty.";
         } else {
             try {
-                $data['datetime'] = date("Y-m-d H:i:s", $time);
-                $data['date'] = date("Y-m-d", $time);
+                $data['datetime'] = date("Y-m-d H:i:s", $timeRaw);
+                $data['date'] = date("Y-m-d", $timeRaw);
 
                 // add fragment
-                $year = date("Y", $time);
-                $month = date("m", $time);
+                $year = date("Y", $timeRaw);
+                $month = date("m", $timeRaw);
 
                 $data['fragment_id'] = $this->getFragmentId($year, $month);
 
@@ -290,6 +322,17 @@ class ReservationController extends BaseApiController
                     $data['respond_comment'] = $board['default_accept_comment'];
                 }
                 $this->reservationModel->update($id, $data);
+
+                $reservations = $this->reservationModel->get(['id' => $id]);
+                if (sizeof($reservations) > 0) {
+                    $reservation = $reservations[0];
+                    if (isset($reservation['questioner_email']) && strlen($reservation['questioner_email']) > 0) {
+                        $this->sendMessage(array_merge([
+                            'email' => $reservation['questioner_email'],
+                            'title' => 'Reservation Accepted',
+                        ], $reservation));
+                    }
+                }
                 $response['success'] = true;
             } catch (Exception $e) {
                 //todo(log)
@@ -300,7 +343,24 @@ class ReservationController extends BaseApiController
         return $this->response->setJSON($response);
     }
 
-    private function getTime($date, $time): int
+    /**
+     * @throws \ReflectionException
+     */
+    private function getFragmentId($year, $month)
+    {
+        $fragments = $this->reservationDateFragmentModel->get(['year' => $year, 'month' => $month]);
+        if (sizeof($fragments) == 0) {
+            return $this->reservationDateFragmentModel->insert([
+                'year' => $year,
+                'month' => $month,
+            ]);
+        } else {
+            $fragment = $fragments[0];
+            return $fragment['id'];
+        }
+    }
+
+    protected function getTimeRaw($date, $time): int
     {
         $result = time();
         try {
@@ -320,22 +380,5 @@ class ReservationController extends BaseApiController
         } catch (Exception $e) {
         }
         return $result;
-    }
-
-    /**
-     * @throws \ReflectionException
-     */
-    private function getFragmentId($year, $month)
-    {
-        $fragments = $this->reservationDateFragmentModel->get(['year' => $year, 'month' => $month]);
-        if (sizeof($fragments) == 0) {
-            return $this->reservationDateFragmentModel->insert([
-                'year' => $year,
-                'month' => $month,
-            ]);
-        } else {
-            $fragment = $fragments[0];
-            return $fragment['id'];
-        }
     }
 }

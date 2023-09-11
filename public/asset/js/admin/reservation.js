@@ -48,6 +48,7 @@ function openReservationBoardPopup(id, is_time_select = 1) {
                     min-height: 100px;
                     font-size: 18px;
                     text-align: left;
+                    white-space: pre-wrap;
                 }
                 </style>`
             let html = ``
@@ -184,6 +185,7 @@ function openReservationPopupRefuse(id) {
             padding: 10px;
             font-size: 18px;
             font-weight: 200;
+            white-space: pre-wrap;
         }
 
         .${className} .popup-inner .button-wrap {
@@ -236,10 +238,10 @@ function openReservationPopupAccept(id, is_time_select = 1, expect_date = null, 
 
     .${className} .comment {
         width: 100%;
-        min-height: 100px;
         padding: 10px 20px;
         font-size: 18px;
         font-weight: 200;
+        white-space: pre-wrap;
     }
 
     .${className} .title {
@@ -270,7 +272,9 @@ function openReservationPopupAccept(id, is_time_select = 1, expect_date = null, 
         Accept
     </h3>
     <div class="form-wrap">`
+    let minHeight = 150;
     if (is_time_select == 1) {
+        minHeight = 100;
         html += `
             <div class= "calendar-wrap">
                 <p class="title">Select Date</p>
@@ -287,7 +291,7 @@ function openReservationPopupAccept(id, is_time_select = 1, expect_date = null, 
             <label for="use_default_comment" class="input-title selector">Use default comment</label>
         </div>
         <div class="input-wrap line-before">
-            <textarea placeholder="Comment" name="respond_comment" class="comment" readonly></textarea>
+            <textarea placeholder="Comment" name="respond_comment" class="comment" readonly style="min-height: ${minHeight}px"></textarea>
         </div>
     </div>
     <div class="control-button-wrap absolute line-before">
@@ -338,10 +342,11 @@ function openReservationPopupRequest(board_id, is_time_select = 1) {
 
     .${className} .comment {
         width: 100%;
-        min-height: 100px;
         padding: 10px 20px;
         font-size: 18px;
         font-weight: 200;
+        white-space: pre-wrap;
+        white-space: pre-wrap;
     }
 
     .${className} .title {
@@ -362,7 +367,9 @@ function openReservationPopupRequest(board_id, is_time_select = 1) {
         Request
     </h3>
     <div class="form-wrap">`
+    let minHeight = 150;
     if (is_time_select == 1) {
+        minHeight = 100;
         html += `
         <div class= "calendar-wrap">
             <p class="title">Select Date</p>
@@ -375,7 +382,7 @@ function openReservationPopupRequest(board_id, is_time_select = 1) {
     }
     html += `
         <div class="input-wrap line-before">
-            <textarea placeholder="Comment" name="question_comment" class="comment"></textarea>
+            <textarea placeholder="Comment" name="question_comment" class="comment" style="min-height: ${minHeight}px"></textarea>
         </div>
         <input hidden type="text" name="reservation_board_id" class="editable" value="${board_id}"/>
         <input hidden type="text" name="questioner_id" class="editable" value="${getCookie('user_id')}"/>
@@ -439,6 +446,9 @@ function confirmReservationAccept(className, id) {
 
     data['confirm_date'] = data['date'];
     data['confirm_time'] = data['time'];
+
+    delete data['date'];
+    delete data['time'];
 
     $.ajax({
         type: 'POST',

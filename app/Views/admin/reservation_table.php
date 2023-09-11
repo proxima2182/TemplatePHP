@@ -35,7 +35,10 @@ $is_admin_page = isset($is_admin) && $is_admin;
                             <a href="javascript:openReservationBoardPopup(<?= $item['id'] ?>, <?= $board['is_time_select'] ?>);"
                                class="button row-button">
                                 <span class="column questioner"><?= $item['questioner_name'] ?></span>
-                                <span class="column status"><?= $item['status'] ?></span>
+                                <span class="column status">
+                                    <span class="ball <?= $item['status']?>"></span>
+                                    <span><?= $item['status'] ?></span>
+                                </span>
                                 <span class="column expect-date">
                                 <?= $item['expect_date'] ??
                                     '<img src="/asset/images/icon/none.png"/>' ?>

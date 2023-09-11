@@ -19,52 +19,38 @@ class EmailController extends BaseApiController
         $this->userModel = model('Models\UserModel');
     }
 
-    private function getSimpleTextStyle(string $title, string $content): string
-    {
-        return '
-        <div style="text-align: center; background: #eee;">
-            <div style="text-align: center; width: 800px; margin: 40px auto; display: inline-block; background: #fff; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
-                <h2 class="title" style="
-                    font-size: 20px;
-                    font-weight: 600;
-                    color: #000;
-                    margin: 20px">
-                    ' . $title . '
-                </h2>
-                <div class="divider" style="background: #000; height: 1px;"></div>
-                <div class="text-wrap" style="
-                    min-height: 200px;
-                    margin: 15px;
-                    padding: 5px;
-                    color: #000;
-                    font-size: 18px;
-                    font-weight: 200;
-                    text-align: left;">
-                    ' . $content . '
-                </div>
-            </div>
-        </div>';
-    }
-
-    private function getVerificationStyle(string $type, string $title, string $code, array $data): string
+    /**
+     * mail 이 style tag 를 지원하지 않는 경우가 많으므로 inline-style 로 지정해야함
+     * @param string $type
+     * @param string $title
+     * @param array $data
+     * @return string
+     */
+    private function getVerificationStyle(string $type, string $title, array $data): string
     {
         $result = '
-        <div style="text-align: center; background: #eee;">
-            <div style="text-align: center; width: 700px; margin: 100px auto; display: inline-block; background: #fff; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
+        <div class="email-container" style="text-align: center; background: #eee;">
+            <div class="email-wrap" style="
+                text-align: center;
+                width: 700px;
+                margin: 100px auto;
+                display: inline-block;
+                background: #fff;
+                box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
                 <h2 class="title" style="
                     font-size: 20px;
                     font-weight: 600;
                     color: #000;
-                    margin: 20px">
+                    margin: 20px;">
                     ' . $title . '
                 </h2>
                 <div class="divider" style="background: #000; height: 1px;"></div>
-                <div class="code-wrap" style="
+                <div class="code-box" style="
                     line-height: 150px;
                     margin: 15px;
                     padding: 5px;
                     font-size: 0;">
-                    <span style="
+                    <span class="code-wrap" style="
                         padding: 5px 20px;
                         line-height: normal;
                         background: #222;
@@ -76,7 +62,7 @@ class EmailController extends BaseApiController
                             font-weight: 600;
                             margin-left: 0.4em;
                             letter-spacing: 0.4em;">
-                            ' . $code . '
+                            ' . $data['code'] . '
                         </span>
                     </span>
                 </div>';
@@ -103,6 +89,7 @@ class EmailController extends BaseApiController
                 <div class="text-wrap" style="
                     margin-bottom: 30px;
                     font-size: 18px;
+                    color: #000;
                     text-align: center;">
                     Or click <a href="' . $link . '" style="color: #000;">here</a> to verify.
                 </div>';
@@ -114,36 +101,133 @@ class EmailController extends BaseApiController
     }
 
     /**
-     * @param $address
-     * @param $title
-     * @param $content
-     * @return ResponseInterface
+     * mail 이 style tag 를 지원하지 않는 경우가 많으므로 inline-style 로 지정해야함
+     * 이미지 추가를 위해서는 cid 방식으로 넣어야 gmail 에서 올바른 이미지가 출력됨
+     * @param $service
+     * @param string $title
+     * @param array $data
+     * @return string
      */
-    private function send($address, $title, $content): ResponseInterface
+    private function getMessageStyle($service, string $title, array $data): string
     {
-        $response = [
-            'success' => false,
-        ];
-        try {
-            if (strlen($address) == 0) {
-                throw new Exception('address should not be empty.');
+        $result = '
+        <div class="email-container" style="text-align: center; background: #eee;">
+            <div class="email-box" style="
+                text-align: center;
+                width: 640px;
+                padding: 20px;
+                margin: 100px auto;
+                display: inline-block;
+                background: #fff;
+                box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
+                <div class="email-wrap" style="width: 100%;">
+                    <h2 class="title" style="
+                        font-size: 20px;
+                        font-weight: 600;
+                        color: #000;
+                        margin: 20px;">' . $title . '</h2>
+                    <div class="divider" style="background: #000; height: 1px;"></div>';
+
+        $CID = [];
+        $addContents = function ($contents) use ($service, &$CID) {
+            $resourcePaths = [
+                'time' => ROOTPATH . 'public/asset/images/icon/time.png',
+                'user' => ROOTPATH . 'public/asset/images/icon/user.png'
+            ];
+            $html = '<div class="text-wrap" style="line-height: normal; min-height: 250px; text-align: left;">';
+            $datetime = '';
+            if (isset($contents['date'])) {
+                $datetime = $contents['date'] . (isset($contents['time']) ? ' ' . $contents['time'] : '');
             }
-            $email = \Config\Services::email();
-            $email->setFrom($email->fromEmail, $email->fromName);
-            $email->setTo($address);
-            $email->setSubject($title);
-            $email->setMessage($content);
-            if ($email->send()) {
-                $response['success'] = true;
-            } else {
-//                ServerLogger::log($email->printDebugger());
-                $response['message'] = 'fail to send email.';
+            if (strlen($datetime) > 0) {
+                $path = $resourcePaths['time'];
+                if (!isset($CID[$path])) {
+                    $service->attach($path);
+                    $CID[$path] = $service->setAttachmentCID($path);
+                }
+                $html .= '
+                        <div class="text-row" style="line-height: 40px; margin: 5px 10px;">
+                            <img src="cid:' . $CID[$path] . '" style="vertical-align: middle;"/>
+                            <span class="text" style="vertical-align: middle; font-size: 18px; color: #000;">' . $datetime . '</span>
+                        </div>
+                        <div class="divider gray" style="background: #eee;  height: 1px;"></div>';
             }
-        } catch (Exception $e) {
-            //todo(log)
-            $response['message'] = $e->getMessage();
+            if (isset($contents['user_name'])) {
+                $path = $resourcePaths['user'];
+                if (!isset($CID[$path])) {
+                    $service->attach($path);
+                    $CID[$path] = $service->setAttachmentCID($path);
+                }
+                $html .= '
+                        <div class="text-row" style="line-height: 40px; margin: 5px 10px;">
+                            <img src="cid:' . $CID[$path] . '" style="vertical-align: middle;"/>
+                            <span class="text" style="vertical-align: middle; font-size: 18px; color: #000;">' . $contents['user_name'] . '</span>
+                        </div>
+                        <div class="divider gray" style="background: #eee;  height: 1px;"></div>';
+            }
+            $html .= '
+                        <div class="text-row content" style="
+                            margin: 10px 20px;
+                            line-height: normal;">
+                            <span class="text" style="white-space: pre-wrap; font-size: 18px; color: #000;">' . $contents['content'] . '</span>
+                        </div>
+                    </div>';
+            return $html;
+        };
+
+
+        if (!isset($data['expect_date'])) {
+            $timeRaw = strtotime($data['created_at']);
+            $data['expect_date'] = date("Y-m-d", $timeRaw);
+            $data['expect_time'] = date("H:i:s", $timeRaw);
         }
-        return $this->response->setJSON($response);
+
+        $result .= $addContents([
+            'date' => $data['expect_date'] ?? null,
+            'time' => $data['expect_time'] ?? null,
+            'user_name' => $data['questioner_name'],
+            'content' => $data['question_comment'],
+        ]);
+
+        if ($data['status'] != 'requested') {
+            $result .= $addContents([
+                'date' => $data['confirm_date'] ?? null,
+                'time' => $data['confirm_time'] ?? null,
+                'user_name' => $data['respondent_name'],
+                'content' => $data['respond_comment'],
+            ]);
+        }
+
+        $result .= '
+                </div>
+            </div>
+        </div>';
+        return $result;
+    }
+
+    /**
+     * @param string $address
+     * @param string $title
+     * @param array $copies
+     * @throws Exception
+     */
+    private function initService(string $address, string $title, array $copies = []): \CodeIgniter\Email\Email
+    {
+        if (strlen($address) == 0) {
+            throw new Exception('address should not be empty.');
+        }
+        $email = \Config\Services::email();
+        $email->setFrom($email->fromEmail, $email->fromName);
+        $email->setTo($address);
+        if (sizeof($copies)) {
+            $copyString = '';
+            foreach ($copies as $copy) {
+                $copyString .= $copy . ',';
+            }
+            $email->setCC($copyString);
+        }
+        $email->setSubject($title);
+        return $email;
     }
 
     public function sendVerificationCode($type = ''): ResponseInterface
@@ -217,16 +301,21 @@ class EmailController extends BaseApiController
                         break;
                 }
                 $data['code'] = $code;
-                $email_content = $this->getVerificationStyle($type, $title, $code, $data);
+                $email_content = $this->getVerificationStyle($type, $title, $data);
 
-                $data['code'] = $code;
                 if (!$this->verificationCodeModel->insert([
                     'email' => $email_address,
                     'code' => $code,
                 ])) {
                     $response['messages'] = $this->verificationCodeModel->errors();
                 } else {
-                    return $this->send($email_address, $email_title, $email_content);
+                    $service = $this->initService($email_address, $email_title);
+                    $service->setMessage($email_content);
+                    if (!$service->send()) {
+//                  ServerLogger::log($email->printDebugger());
+                        throw new Exception('fail to send email.');
+                    }
+                    $response['success'] = true;
                 }
             } catch (Exception $e) {
                 $response['message'] = $e->getMessage();
@@ -234,5 +323,23 @@ class EmailController extends BaseApiController
             }
         }
         return $this->response->setJSON($response);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function sendMessage($data): void
+    {
+        $email_address = $data['email'];
+        $email_title = '[' . \Config\Services::email()->fromName . '] ' . $data['title'];
+
+        $copies = $data['copies'] ?? [];
+        $service = $this->initService($email_address, $email_title, $copies);
+        $email_content = $this->getMessageStyle($service, $data['title'], $data);
+        $service->setMessage($email_content);
+        if (!$service->send()) {
+//            ServerLogger::log($email->printDebugger());
+            throw new Exception('fail to send email.');
+        }
     }
 }
