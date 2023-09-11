@@ -13,11 +13,11 @@ function sendVerificationCode(isAdmin = 0) {
         'is_admin': isAdmin,
     }
 
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: `/api/email/send/verification-code/reset-password`,
         data: data,
         dataType: 'json',
-        url: `/api/email/send/verification-code/reset-password`,
         success: function (response, status, request) {
             if (!response.success) {
                 showErrors(response, status, request);
@@ -149,11 +149,11 @@ function resendVerificationCode(isAdmin = 0) {
     let $inputCode = $('#container .form-wrap input[name=code]');
     $inputCode.val('');
 
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: `/api/email/send/verification-code/reset-password`,
         data: data,
         dataType: 'json',
-        url: `/api/email/send/verification-code/reset-password`,
         success: function (response, status, request) {
             if (!response.success) {
                 showErrors(response, status, request);
@@ -178,11 +178,11 @@ function confirmVerificationCode(isAdmin = 0) {
         'code': $inputCode.val(),
     }
 
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: `/api/user/reset-password/verify`,
         data: data,
         dataType: 'json',
-        url: `/api/user/reset-password/verify`,
         success: function (response, status, request) {
             if (!response.success) {
                 showErrors(response, status, request);
@@ -245,11 +245,11 @@ function confirmChangePassword(isAdmin = 0) {
         $wrapErrorMessage.append(`<p>please check two fields for password is same.</p>`)
     }
 
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: `/api/user/reset-password/confirm`,
         data: data,
         dataType: 'json',
-        url: `/api/user/reset-password/confirm`,
         success: function (response, status, request) {
             if (!response.success) {
                 showErrors(response, status, request);

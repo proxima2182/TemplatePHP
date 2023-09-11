@@ -99,3 +99,38 @@ function showErrorsByClassName(className, response, status, requestOrError) {
         }
     }
 }
+
+async function apiRequest(input) {
+    let timeoutId = setTimeout(function () {
+        $(`.loading-wrap`).css({
+            display : 'block'
+        })
+    }, 200);
+    await $.ajax({
+        type: input.type,
+        data: input.data,
+        dataType: input.dataType,
+        url: input.url,
+        processData: input.processData,
+        contentType: input.contentType,
+        cache: input.cache,
+        success: function (response, status, request) {
+            clearTimeout(timeoutId);
+            if(input.success && typeof input.success == 'function') {
+                input.success(response, status, request);
+            }
+            $(`.loading-wrap`).css({
+                display : 'none'
+            })
+        },
+        error: function (response, status, error) {
+            clearTimeout(timeoutId);
+            if(input.error && typeof input.error == 'function') {
+                input.error(response, status, error);
+            }
+            $(`.loading-wrap`).css({
+                display : 'none'
+            })
+        },
+    });
+}

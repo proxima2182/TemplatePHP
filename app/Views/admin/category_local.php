@@ -88,10 +88,10 @@
             let fromValue = from.getElementsByTagName("input")[0].value;
             let toValue = to.getElementsByTagName("input")[0].value;
             let isSuccess = false;
-            await $.ajax({
+            await apiRequest({
                 type: 'GET',
-                dataType: 'json',
                 url: `/api/category/local/exchange-priority/${fromValue}/${toValue}`,
+                dataType: 'json',
                 success: function (response, status, request) {
                     if (!response.success) return;
                     isSuccess = true;

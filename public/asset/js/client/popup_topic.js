@@ -1,8 +1,8 @@
 function openTopicPopup(id) {
-    $.ajax({
+    apiRequest({
         type: 'GET',
-        dataType: 'json',
         url: `/api/topic/get/${id}`,
+        dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) return;
             let data = response.data;
@@ -198,10 +198,10 @@ function openTopicPopupDelete(id) {
 }
 
 function confirmDeleteTopic(id) {
-    $.ajax({
+    apiRequest({
         type: 'DELETE',
-        dataType: 'json',
         url: `/api/topic/delete/${id}`,
+        dataType: 'json',
         success: function (response, status, request) {
             //TODO refresh
         },

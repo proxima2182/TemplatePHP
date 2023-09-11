@@ -350,10 +350,10 @@ async function openUserPopup(user_id) {
     let request = await fetch('/asset/css/common/input.css')
     if (!request.ok) throw request;
     let css = await request.text()
-    $.ajax({
+    apiRequest({
         type: 'GET',
-        dataType: 'json',
         url: `/api/user/get/${user_id}`,
+        dataType: 'json',
         success: function (response, status, request) {
             if (!response.success)
                 return;

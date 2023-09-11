@@ -2,10 +2,10 @@
  * @param id
  */
 function openReservationBoardPopup(id, is_time_select = 1) {
-    $.ajax({
+    apiRequest({
         type: 'GET',
-        dataType: 'json',
         url: `/api/reservation/get/${id}`,
+        dataType: 'json',
         success: function (response, status, request) {
             if (!response.success)
                 return;
@@ -423,11 +423,11 @@ function confirmReservationRequest(className) {
     delete data['date'];
     delete data['time'];
 
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: `/api/reservation/request`,
         data: data,
         dataType: 'json',
-        url: `/api/reservation/request`,
         success: function (response, status, request) {
             if (!response.success) {
                 openPopupErrors('popup-error', response, status, request);
@@ -450,11 +450,11 @@ function confirmReservationAccept(className, id) {
     delete data['date'];
     delete data['time'];
 
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: `/api/reservation/accept/${id}`,
         data: data,
         dataType: 'json',
-        url: `/api/reservation/accept/${id}`,
         success: function (response, status, request) {
             if (!response.success) {
                 openPopupErrors('popup-error', response, status, request);
@@ -474,11 +474,11 @@ function confirmReservationAccept(className, id) {
  */
 function confirmReservationRefuse(className, id) {
     let data = parseInputToData($(`.${className} input, .${className} textarea`))
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: `/api/reservation/refuse/${id}`,
         data: data,
         dataType: 'json',
-        url: `/api/reservation/refuse/${id}`,
         success: function (response, status, request) {
             if (!response.success) {
                 openPopupErrors('popup-error', response, status, request);

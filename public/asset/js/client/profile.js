@@ -49,11 +49,11 @@ function confirmChangePassword() {
         $wrapErrorMessage.append(`<p>please check two fields for password is same.</p>`)
     }
 
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: `/api/user/password-change`,
         dataType: 'json',
         data: data,
-        url: `/api/user/password-change`,
         success: function (response, textStatus, request) {
             if (!response.success) {
                 showErrors(response, textStatus, request);
@@ -71,11 +71,11 @@ function confirmEditProfile() {
     clearErrors();
     let data = parseInputToData($(`#container .form-wrap .editable`))
 
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: `/api/user/update/profile`,
         data: data,
         dataType: 'json',
-        url: `/api/user/update/profile`,
         success: function (response, status, request) {
             if (!response.success) {
                 showErrors(response, status, request);

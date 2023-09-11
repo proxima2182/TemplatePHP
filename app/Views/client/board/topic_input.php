@@ -86,11 +86,11 @@ $identifier = $shortid->generate();
 
         data['images'] = image_file_ids;
 
-        $.ajax({
+        apiRequest({
             type: 'POST',
+            url: `/api/topic/update/${id}`,
             data: data,
             dataType: 'json',
-            url: `/api/topic/update/${id}`,
             success: function (response, status, request) {
                 if (!response.success) {
                     openPopupErrors('popup-error', response, status, request);
@@ -109,7 +109,7 @@ $identifier = $shortid->generate();
 
         data['images'] = image_file_ids;
 
-        $.ajax({
+        apiRequest({
             type: 'POST',
             url: `/api/topic/create`,
             data: data,
@@ -132,7 +132,7 @@ $identifier = $shortid->generate();
         if (index < 0) return;
         $('.slider-wrap .slick').slick('slickRemove', index + 1);
         image_file_ids.splice(index, 1);
-        // $.ajax({
+        // apiRequest({
         //     type: 'DELETE',
         //     url: `/api/image-file/delete/${id}`,
         //     dataType: 'json',
@@ -153,7 +153,7 @@ $identifier = $shortid->generate();
             form.append("file", file);
         }
 
-        $.ajax({
+        apiRequest({
             type: 'POST',
             url: `/api/image-file/upload/${identifier}`,
             data: form,
@@ -226,7 +226,7 @@ $identifier = $shortid->generate();
     })
 
     window.onbeforeunload = function () {
-        $.ajax({
+        apiRequest({
             type: 'POST',
             url: `/api/image-file/refresh/<?= $identifier ?>`,
             dataType: 'json',

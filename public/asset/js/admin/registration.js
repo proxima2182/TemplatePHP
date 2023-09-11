@@ -19,11 +19,11 @@ function sendVerificationCode(isAdmin = 0) {
         'is_admin': isAdmin,
     }
 
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: `/api/email/send/verification-code`,
         data: data,
         dataType: 'json',
-        url: `/api/email/send/verification-code`,
         success: function (response, status, request) {
             if (!response.success) {
                 showErrors(response, status, request);
@@ -154,11 +154,11 @@ function resendVerificationCode() {
     let $inputCode = $('#container .form-wrap input[name=code]');
     $inputCode.val('');
 
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: `/api/email/send/verification-code`,
         data: data,
         dataType: 'json',
-        url: `/api/email/send/verification-code`,
         success: function (response, status, request) {
             if (!response.success) {
                 showErrors(response, status, request);
@@ -183,11 +183,11 @@ function confirmVerificationCode(isAdmin = 0) {
         'code': $inputCode.val(),
     }
 
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: `/api/user/registration/verify`,
         data: data,
         dataType: 'json',
-        url: `/api/user/registration/verify`,
         success: function (response, status, request) {
             if (!response.success) {
                 showErrors(response, status, request);
@@ -258,11 +258,11 @@ function confirmRegistration(isAdmin = 0) {
         $wrapErrorMessage.append(`<p>please check two fields for password is same.</p>`)
     }
 
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: `/api/user/registration/register`,
         data: data,
         dataType: 'json',
-        url: `/api/user/registration/register`,
         success: function (response, status, request) {
             if (!response.success) {
                 showErrors(response, status, request);

@@ -178,10 +178,10 @@ $(document).ready(function () {
                 let total = parseInt(element.getAttribute('total'));
                 let total_page = parseInt(element.getAttribute('total-page'));
                 if (page >= total_page) return;
-                $.ajax({
+                apiRequest({
                     type: 'GET',
-                    dataType: 'json',
                     url: `/api/location/get/all?page=${page + 1}&per-page=${per_page}`,
+                    dataType: 'json',
                     success: function (response, status, request) {
                         if (!response.success) return;
                         let data = response.data
@@ -234,10 +234,10 @@ function closePagePopup(className) {
  * page 용 popup 체크 기능
  */
 function checkPagePopup() {
-    $.ajax({
+    apiRequest({
         type: 'GET',
-        dataType: 'json',
         url: `/api/board/topic/get/popup`,
+        dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) return;
             let array = response.array;

@@ -92,11 +92,11 @@ function login(className) {
 
     let data = parseInputToData($(`.${className} .form-wrap input`))
 
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: `/api/user/login`,
         data: data,
         dataType: 'json',
-        url: `/api/user/login`,
         success: function (response, status, request) {
             if (!response.success) {
                 showErrorsByClassName(className, response, status, request);
@@ -112,10 +112,10 @@ function login(className) {
 
 
 function logout() {
-    $.ajax({
+    apiRequest({
         type: 'POST',
-        dataType: 'json',
         url: `/api/user/logout`,
+        dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) return;
             location.reload();

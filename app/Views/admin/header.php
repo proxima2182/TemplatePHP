@@ -33,6 +33,9 @@ $is_not_registration_page = !isset($is_registration_page) || ($is_registration_p
 </head>
 
 <body>
+<div class="loading-wrap">
+    <span class="gadget"></span>
+</div>
 <div id="wrap">
     <header id="header">
         <div class="header-inner">

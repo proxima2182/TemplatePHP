@@ -43,15 +43,15 @@ $is_admin_page = isset($is_admin) && $is_admin;
             },
             onDateSelected: async function ($parent, date, year, month, day) {
                 const is_time_select = <?=$board['id']?>;
-                $.ajax({
+                apiRequest({
                     type: 'POST',
+                    url: `/api/reservation-board/reservation/get/<?=$board['code']?>`,
                     data: {
                         year: year,
                         month: month,
                         day: day,
                     },
                     dataType: 'json',
-                    url: `/api/reservation-board/reservation/get/<?=$board['code']?>`,
                     success: function (response, status, request) {
                         if (!response.success) {
                             openPopupErrors('popup-error', response, status, request);
@@ -129,14 +129,14 @@ $is_admin_page = isset($is_admin) && $is_admin;
                 });
             },
             onRefreshed: function ($parent, year, month) {
-                $.ajax({
+                apiRequest({
                     type: 'POST',
+                    url: `/api/reservation-board/reservation/get/<?=$board['code']?>`,
                     data: {
                         year: year,
                         month: month
                     },
                     dataType: 'json',
-                    url: `/api/reservation-board/reservation/get/<?=$board['code']?>`,
                     success: function (response, status, request) {
                         if (!response.success) {
                             openPopupErrors('popup-error', response, status, request);

@@ -50,10 +50,10 @@
      * @param id
      */
     function openReplyPopup(id) {
-        $.ajax({
+        apiRequest({
             type: 'GET',
-            dataType: 'json',
             url: `/api/topic/reply/get/${id}`,
+            dataType: 'json',
             success: function (response, status, request) {
                 if (!response.success)
                     return;

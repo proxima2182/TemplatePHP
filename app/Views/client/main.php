@@ -59,6 +59,9 @@ $sliderImages = [
 </head>
 
 <body>
+<div class="loading-wrap">
+    <span class="gadget"></span>
+</div>
 <div id="container">
     <div class="section " id="page-start">
         <header id="header">

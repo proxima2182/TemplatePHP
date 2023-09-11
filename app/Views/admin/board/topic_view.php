@@ -104,10 +104,10 @@ if ($board['is_reply'] == 1) {
     }
 
     function confirmDeleteTopic(id) {
-        $.ajax({
+        apiRequest({
             type: 'DELETE',
-            dataType: 'json',
             url: `/api/topic/delete/${id}`,
+            dataType: 'json',
             success: function (response, status, request) {
                 //TODO refresh
             },

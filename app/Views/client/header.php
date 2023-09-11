@@ -32,6 +32,9 @@ if (!isset($links) && !isset($is_login)) return;
 </head>
 
 <body>
+<div class="loading-wrap">
+    <span class="gadget"></span>
+</div>
 <div id="wrap">
     <header id="header">
         <div class="header-inner">

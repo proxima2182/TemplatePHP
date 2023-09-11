@@ -261,10 +261,10 @@ async function openInputPopup(id) {
         let request = await fetch('/asset/css/common/input.css')
         if (!request.ok) throw request;
         let css = await request.text()
-        $.ajax({
+        apiRequest({
             type: 'GET',
-            dataType: 'json',
             url: getGetUrl(id),
+            dataType: 'json',
             success: function (response, status, request) {
                 if (!response.success)
                     return;
@@ -306,10 +306,10 @@ async function openInputPopup(id) {
  * @param {string}id            API 에 전달 할 id
  */
 function refreshInputPopup(id) {
-    $.ajax({
+    apiRequest({
         type: 'GET',
-        dataType: 'json',
         url: getGetUrl(id),
+        dataType: 'json',
         success: function (response, status, request) {
             if (!response.success)
                 return;
@@ -511,11 +511,11 @@ function confirmInputPopupEdit(className, id) {
     if (!getUpdateUrl) return;
     let data = parseInputToData($(`.${className} .editable`))
     $(`.${className} .error-message-wrap`).empty();
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: getUpdateUrl(id),
         data: data,
         dataType: 'json',
-        url: getUpdateUrl(id),
         success: getSuccessCallback(className),
         error: getErrorCallback(className),
     });
@@ -530,11 +530,11 @@ function confirmInputPopupCreate(className) {
     if (!getCreateUrl) return;
     let data = parseInputToData($(`.${className} .editable`))
     $(`.${className} .error-message-wrap`).empty();
-    $.ajax({
+    apiRequest({
         type: 'POST',
+        url: getCreateUrl(),
         data: data,
         dataType: 'json',
-        url: getCreateUrl(),
         success: getSuccessCallback(className),
         error: getErrorCallback(className),
     });
@@ -547,10 +547,10 @@ function confirmInputPopupCreate(className) {
  */
 function confirmInputPopupDelete(className, id) {
     if (!getDeleteUrl) return;
-    $.ajax({
+    apiRequest({
         type: 'DELETE',
-        dataType: 'json',
         url: getDeleteUrl(id),
+        dataType: 'json',
         success: getSuccessCallback(className),
         error: getErrorCallback(className),
     });

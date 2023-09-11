@@ -451,10 +451,10 @@ $end = min($end, $total_page);
      * @param page
      */
     function loadReply(topic_id, page) {
-        $.ajax({
+        apiRequest({
             type: 'GET',
-            dataType: 'json',
             url: `/api/topic/${topic_id}/get/reply?page=${page}`,
+            dataType: 'json',
             success: function (response, status, request) {
                 if (!response.success) return;
                 let data = response.data;
@@ -490,10 +490,10 @@ $end = min($end, $total_page);
      * @param callback
      */
     function loadReplyNested(reply_id, page = 1, callback = null) {
-        $.ajax({
+        apiRequest({
             type: 'GET',
-            dataType: 'json',
             url: `/api/topic/reply/${reply_id}/get/nested-reply?page=${page}`,
+            dataType: 'json',
             success: function (response, status, request) {
                 if (!response.success) return;
                 let data = response.data;
@@ -567,11 +567,11 @@ $end = min($end, $total_page);
         <?php if($is_login) { ?>
         data['user_id'] = <?=$user_id?>;
         <?php } ?>
-        $.ajax({
+        apiRequest({
             type: 'POST',
+            url: `/api/topic/${topic_id}/create/reply`,
             data: data,
             dataType: 'json',
-            url: `/api/topic/${topic_id}/create/reply`,
             success: function (response, status, request) {
                 if (!response.success) return;
                 loadReply(topic_id, 'last');
@@ -595,11 +595,11 @@ $end = min($end, $total_page);
         <?php if($is_login) { ?>
         data['user_id'] = <?=$user_id?>;
         <?php } ?>
-        $.ajax({
+        apiRequest({
             type: 'POST',
+            url: `/api/topic/reply/${reply_id}/create/nested-reply`,
             data: data,
             dataType: 'json',
-            url: `/api/topic/reply/${reply_id}/create/nested-reply`,
             success: function (response, status, request) {
                 if (!response.success) return;
                 loadReplyNested(reply_id, 'last')
