@@ -68,7 +68,10 @@ $sliderImages = [
             <div class="header-inner">
                 <div class="utill">
                     <ul class="cf">
-                        <?php if ($is_login) { ?>
+                        <?php if ($is_login) {
+                            if ($is_admin) { ?>
+                                <li><a href="/admin">Admin Page</a></li>
+                            <?php } ?>
                             <li><a href="/profile">Profile</a></li>
                             <li class="last"><a href="javascript:logout();">Logout</a></li>
                         <?php } else { ?>
@@ -189,7 +192,8 @@ $sliderImages = [
                                 <ul>
                                     <?php foreach ($array as $index => $item) { ?>
                                         <li class=" row">
-                                            <a href="javascript:openTopicPopup(<?= $item['id'] ?>);" class="button row-button">
+                                            <a href="javascript:openTopicPopup(<?= $item['id'] ?>);"
+                                               class="button row-button">
                                                 <span class="column title"><?= $item['title'] ?></span>
                                                 <span class="column created-at"><?= $item['created_at'] ?></span>
                                             </a>
@@ -222,7 +226,8 @@ $sliderImages = [
                             $array = $topics_grid['array']; ?>
                             <div class="slick slider-wrap">
                                 <?php foreach ($array as $index => $item) { ?>
-                                    <div class="slick-item grid-item button" onclick="openTopicPopup(<?= $item['id'] ?>)">
+                                    <div class="slick-item grid-item button"
+                                         onclick="openTopicPopup(<?= $item['id'] ?>)">
                                         <?php if (isset($item['image_id'])) { ?>
                                             <div class="image-wrap"
                                                  style="background: url('/image-file/<?= $item['image_id'] ?>') no-repeat center; background-size: cover; font-size: 0;">

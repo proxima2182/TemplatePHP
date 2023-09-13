@@ -6,21 +6,19 @@ use App\Helpers\Utils;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\BaseModel;
-use Models\ImageFileModel;
 use Models\ReplyModel;
 use Models\TopicModel;
 
-class TopicController extends BaseApiController
+class TopicController extends CustomFileController
 {
     protected TopicModel $topicModel;
-    protected ImageFileModel $imageFileModel;
     protected ReplyModel $replyModel;
 
     public function __construct()
     {
         $this->db = db_connect();
         $this->topicModel = model('Models\TopicModel');
-        $this->imageFileModel = model('Models\ImageFileModel');
+        $this->customFileModel = model('Models\CustomFileModel');
         $this->replyModel = model('Models\ReplyModel');
     }
 
@@ -37,7 +35,7 @@ class TopicController extends BaseApiController
 
         try {
             $result = $this->topicModel->find($id);
-            $images = $this->imageFileModel->get(['topic_id' => $id]);
+            $images = $this->customFileModel->get(['topic_id' => $id]);
             $result['images'] = $images;
             $response['success'] = true;
             $response['data'] = $result;
@@ -55,6 +53,9 @@ class TopicController extends BaseApiController
     public function createTopic(): ResponseInterface
     {
         $data = $this->request->getPost();
+        if (!isset($data['images'])) {
+            $data['images'] = [];
+        }
         $validationRules = [
             'title' => [
                 'label' => 'Title',
@@ -80,17 +81,16 @@ class TopicController extends BaseApiController
                 } else {
                     // image priority
                     $queries = [];
-                    if (isset($data['images'])) {
-                        foreach ($data['images'] as $index => $image_id) {
-                            // 이미지에 topic_id 할당하면서 priority 설정 해 준다
-                            $queries[] = "UPDATE image_file SET identifier = NULL, topic_id = '" . $inserted_row_id . "', priority = " . $index + 1
-                                . " WHERE id = '" . $image_id . "' AND identifier = '" . $data['identifier'] . "'";
-                        }
+                    foreach ($data['images'] as $index => $image_id) {
+                        // 이미지에 topic_id 할당하면서 priority 를 설정 해 준다
+                        $queries[] = "UPDATE custom_file SET identifier = NULL, topic_id = '" . $inserted_row_id . "', priority = " . $index + 1
+                            . " WHERE id = '" . $image_id . "' AND identifier = '" . $data['identifier'] . "'";
                     }
-                    BaseModel::transaction($this->db, array_merge($queries, [
-                        // 업로드 하였으나 할당되지 않은 이미지들에 대하여 정리
-                        "DELETE FROM image_file WHERE topic_id IS NULL AND identifier = '" . $data['identifier'] . "'",
-                    ]));
+                    BaseModel::transaction($this->db, $queries);
+
+                    // create 일 때는 추가되었으나 사용하지 않는 파일에 대해서만 고려하면 된다
+                    $conditionQuery = "identifier = '" . $data['identifier'] . "'";
+                    $this->handleFileDelete($conditionQuery);
                     $response['success'] = true;
                 }
             } catch (Exception $e) {
@@ -110,6 +110,9 @@ class TopicController extends BaseApiController
     public function updateTopic($id): ResponseInterface
     {
         $data = $this->request->getPost();
+        if (!isset($data['images'])) {
+            $data['images'] = [];
+        }
         $validationRules = [
             'title' => [
                 'label' => 'Title',
@@ -122,7 +125,7 @@ class TopicController extends BaseApiController
             $this->checkSelfAccess($result['user_id'], true);
         } catch (Exception $e) {
             $response = [
-                'success'=>false,
+                'success' => false,
                 'message' => $e->getMessage(),
             ];
             return $this->response->setJSON($response);
@@ -130,25 +133,27 @@ class TopicController extends BaseApiController
 
         return $this->typicallyUpdate($this->topicModel, $id, $data, $validationRules, function ($model, $data) use ($id) {
             $queries = [];
-            $selector_query = '';
+            $selectorQuery = '';
             $prefix = '';
-            if (isset($data['images'])) {
-                foreach ($data['images'] as $index => $image_id) {
-                    // 이미지에 topic_id 할당하면서 priority 설정 해 준다
-                    $queries[] = "UPDATE image_file SET identifier = NULL, topic_id = '" . $id . "', priority = " . $index + 1
-                        . " WHERE (id = '" . $image_id . "' AND topic_id = '" . $id . "') OR (id = '" . $image_id . "' AND identifier = '" . $data['identifier'] . "')";
-                    $selector_query .= $prefix . $image_id;
-                    $prefix = ',';
-                }
+            foreach ($data['images'] as $index => $image_id) {
+                // 이미지에 topic_id 할당하면서 priority 설정 해 준다
+                $queries[] = "UPDATE custom_file SET identifier = NULL, topic_id = '" . $id . "', priority = " . $index + 1
+                    . " WHERE (id = '" . $image_id . "' AND topic_id = '" . $id . "') OR (id = '" . $image_id . "' AND identifier = '" . $data['identifier'] . "')";
+                $selectorQuery .= $prefix . $image_id;
+                $prefix = ',';
             }
-            // API 를 실행해야 삭제가 완료 되도록 하기 위해 API 호출 이후에 선택되지않은 할당된 이미지를 삭제한다
-            if (sizeof($queries) > 0) {
-                $queries[] = "DELETE FROM image_file WHERE topic_id = " . $id . " AND id NOT IN(" . $selector_query . ")";
+            BaseModel::transaction($this->db, $queries);
+
+            $conditionQuery;
+            if (sizeof($data['images']) > 0) {
+                $conditionQuery = "topic_id = " . $id . " AND id NOT IN(" . $selectorQuery . ")" .
+                    " OR identifier = '" . $data['identifier'] . "'";
+            } else {
+                // images 가 없는 경우 할당된 모든 이미지를 검색해 삭제해 주면 됨
+                $conditionQuery = "topic_id = " . $id .
+                    " OR identifier = '" . $data['identifier'] . "'";
             }
-            BaseModel::transaction($this->db, array_merge($queries, [
-                // 업로드 하였으나 할당되지 않은 이미지들에 대하여 정리
-                "DELETE FROM image_file WHERE topic_id IS NULL AND identifier = '" . $data['identifier'] . "'",
-            ]));
+            $this->handleFileDelete($conditionQuery);
         });
     }
 
@@ -164,7 +169,7 @@ class TopicController extends BaseApiController
             $this->checkSelfAccess($result['user_id'], true);
         } catch (Exception $e) {
             $response = [
-                'success'=>false,
+                'success' => false,
                 'message' => $e->getMessage(),
             ];
             return $this->response->setJSON($response);
@@ -318,7 +323,7 @@ class TopicController extends BaseApiController
             $this->checkSelfAccess($result['user_id'], true);
         } catch (Exception $e) {
             $response = [
-                'success'=>false,
+                'success' => false,
                 'message' => $e->getMessage(),
             ];
             return $this->response->setJSON($response);

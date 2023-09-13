@@ -4,6 +4,12 @@
             <?= $board['alias'] ?>
         </h3>
         <div class="topic-wrap">
+            <div class="row user link">
+                <a href="javascript:openUserPopup(<?= $data['user_id'] ?>);" class="button out-line">
+                    <img src="/asset/images/icon/user.png"/>
+                    <span><?= $data['user_name'] ?></span>
+                </a>
+            </div>
             <div class="row row-title line-after black">
                 <span class="column title"><?= $data['title'] ?></span>
                 <span class="column created-at"><?= $data['created_at'] ?></span>
@@ -17,7 +23,7 @@
                         <?php foreach ($data['images'] as $index => $image) { ?>
                             <div class="slick-item button"
                                  style="background: url('/image-file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;"
-                                 onclick="openTopicImagePopup(<?= $image['id'] ?>)">
+                                 onclick="openImagePopup(<?= $image['id'] ?>)">
                                 Slider #<?= $image['id'] ?>
                             </div>
                         <?php } ?>
@@ -62,25 +68,25 @@ if ($board['is_reply'] == 1) {
     function openTopicPopupDelete(id) {
         let className = 'popup-delete';
         let style = `
-                <style>
-                body .${className} .popup {
-                    width: 500px;
-                }
+        <style>
+            body .${className} .popup {
+                width: 500px;
+            }
 
-                .${className} .popup-inner .text-wrap {
-                    padding: 20px 0;
-                }
+            .${className} .popup-inner .text-wrap {
+                padding: 20px 0;
+            }
 
-                .${className} .popup-inner .button-wrap {
-                    padding-top: 20px;
-                }
+            .${className} .popup-inner .button-wrap {
+                padding-top: 20px;
+            }
 
-                .${className} .popup-inner .button-wrap .button {
-                    min-width: 100px;
-                    padding: 10px 20px;
-                    margin: 0 10px;
-                }
-                </style>`
+            .${className} .popup-inner .button-wrap .button {
+                min-width: 100px;
+                padding: 10px 20px;
+                margin: 0 10px;
+            }
+        </style>`
         let html = `
         <div class="text-wrap">
             Are you sure to delete?

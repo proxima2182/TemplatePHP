@@ -2,13 +2,6 @@
 
 namespace Views\Admin;
 
-use App\Helpers\Utils;
-use Exception;
-use Models\BoardModel;
-use Models\ImageFileModel;
-use Models\ReplyModel;
-use Models\TopicModel;
-
 class LoginController extends BaseAdminController
 {
 
@@ -18,7 +11,7 @@ class LoginController extends BaseAdminController
 
     function index(): string
     {
-        if($this->session->is_login) {
+        if ($this->session->is_login) {
             return view('/redirect', [
                 'path' => '/admin'
             ]);

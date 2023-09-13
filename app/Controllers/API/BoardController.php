@@ -5,20 +5,20 @@ namespace API;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\BoardModel;
-use Models\ImageFileModel;
+use Models\CustomFileModel;
 use Models\TopicModel;
 
 class BoardController extends BaseApiController
 {
     protected BoardModel $boardModel;
     protected TopicModel $topicModel;
-    protected ImageFileModel $imageFileModel;
+    protected CustomFileModel $customFileModel;
 
     public function __construct()
     {
         $this->boardModel = model('Models\BoardModel');
         $this->topicModel = model('Models\TopicModel');
-        $this->imageFileModel = model('Models\ImageFileModel');
+        $this->customFileModel = model('Models\CustomFileModel');
     }
 
     /**
@@ -107,7 +107,7 @@ class BoardController extends BaseApiController
                     'is_deleted' => 0,
                 ]);
                 foreach ($result as $index => $item) {
-                    $result[$index]['images'] = $this->imageFileModel->get(['topic_id' => $item['id']]);
+                    $result[$index]['images'] = $this->customFileModel->get(['topic_id' => $item['id']]);
                 }
                 $response['success'] = true;
                 $response['array'] = $result;

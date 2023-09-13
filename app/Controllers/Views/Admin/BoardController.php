@@ -5,7 +5,7 @@ namespace Views\Admin;
 use App\Helpers\Utils;
 use Exception;
 use Models\BoardModel;
-use Models\ImageFileModel;
+use Models\CustomFileModel;
 use Models\ReplyModel;
 use Models\TopicModel;
 
@@ -13,7 +13,7 @@ class BoardController extends BaseAdminController
 {
     protected BoardModel $boardModel;
     protected TopicModel $topicModel;
-    protected ImageFileModel $imageFileModel;
+    protected CustomFileModel $customFileModel;
     protected ReplyModel $replyModel;
 
     public function __construct()
@@ -21,7 +21,7 @@ class BoardController extends BaseAdminController
         $this->isRestricted = true;
         $this->boardModel = model('Models\BoardModel');
         $this->topicModel = model('Models\TopicModel');
-        $this->imageFileModel = model('Models\ImageFileModel');
+        $this->customFileModel = model('Models\CustomFileModel');
         $this->replyModel = model('Models\ReplyModel');
     }
 
@@ -141,6 +141,7 @@ class BoardController extends BaseAdminController
                 'js' => [
                     '/library/slick/slick.min.js',
                     '/module/draggable',
+                    '/module/image_uploader',
                 ],
             ])
             . view('/admin/board/topic_input', $data)
@@ -168,6 +169,7 @@ class BoardController extends BaseAdminController
                 'js' => [
                     '/library/slick/slick.min.js',
                     '/module/draggable',
+                    '/module/image_uploader',
                 ],
             ])
             . view('/admin/board/topic_input', $data)
@@ -184,7 +186,7 @@ class BoardController extends BaseAdminController
         if (sizeof($topics) != 1) throw new Exception('deleted');
         $topic = $topics[0];
         $board = $this->boardModel->find($topic['board_id']);
-        $images = $this->imageFileModel->get(['topic_id' => $id]);
+        $images = $this->customFileModel->get(['topic_id' => $id]);
         $topic['images'] = $images;
         $result['data'] = $topic;
         $result['board'] = $board;

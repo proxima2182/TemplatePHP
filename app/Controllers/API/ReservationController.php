@@ -2,7 +2,6 @@
 
 namespace API;
 
-use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\BaseModel;
@@ -237,7 +236,6 @@ class ReservationController extends EmailController
                 }
             } catch (Exception $e) {
                 //todo(log)
-                ServerLogger::log($e);
                 $response['message'] = $e->getMessage();
             }
         }
@@ -336,7 +334,6 @@ class ReservationController extends EmailController
                 $response['success'] = true;
             } catch (Exception $e) {
                 //todo(log)
-                ServerLogger::log($e);
                 $response['message'] = $e->getMessage();
             }
         }

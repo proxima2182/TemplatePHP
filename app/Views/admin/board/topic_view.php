@@ -5,9 +5,9 @@
         </h3>
         <div class="topic-wrap">
             <div class="row user link">
-                <a href="javascript:openUserPopup(<?=$data['user_id']?>);" class="button out-line">
+                <a href="javascript:openUserPopup(<?= $data['user_id'] ?>);" class="button out-line">
                     <img src="/asset/images/icon/user.png"/>
-                    <span><?=$data['user_name']?></span>
+                    <span><?= $data['user_name'] ?></span>
                 </a>
             </div>
             <div class="row row-title line-after black">
@@ -23,7 +23,7 @@
                         <?php foreach ($data['images'] as $index => $image) { ?>
                             <div class="slick-item button"
                                  style="background: url('/image-file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;"
-                                 onclick="openTopicImagePopup(<?= $image['id'] ?>)">
+                                 onclick="openImagePopup(<?= $image['id'] ?>)">
                                 Slider #<?= $image['id'] ?>
                             </div>
                         <?php } ?>

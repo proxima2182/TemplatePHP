@@ -7,6 +7,8 @@ namespace Models;
  * -----------------------------------------
  * id               INT
  * topic_id         INT             FK(topic)
+ * type             VARCHAR(50)
+ * target           VARCHAR(50)
  * identifier       VARCHAR(7)
  * path             TEXT
  * symbolic_path    TEXT
@@ -17,13 +19,15 @@ namespace Models;
  * updated_at       DATETIME
  */
 
-class ImageFileModel extends BasePriorityModel
+class CustomFileModel extends BasePriorityModel
 {
-    protected $table = 'image_file';
+    protected $table = 'custom_file';
     protected $allowedFields = [
         'id',
-        'path',
         'topic_id',
+        'type',
+        'target',
+        'path',
         'identifier',
         'path',
         'symbolic_path',

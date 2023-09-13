@@ -18,45 +18,45 @@
                     </div>
                 <?php }
                 if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
-                <div class="row-title">
-                    <div class="row">
-                        <span class="column code">Code</span>
-                        <span class="column name">Name</span>
-                        <span class="column path">Path</span>
-                        <span class="column main-only">Main Only</span>
-                        <span class="column local">Local</span>
-                        <span class="column local-count">Local Count</span>
+                    <div class="row-title">
+                        <div class="row">
+                            <span class="column code">Code</span>
+                            <span class="column name">Name</span>
+                            <span class="column path">Path</span>
+                            <span class="column main-only">Main Only</span>
+                            <span class="column local">Local</span>
+                            <span class="column local-count">Local Count</span>
+                        </div>
                     </div>
-                </div>
-                <ul>
-                    <?php foreach ($array as $index => $item) { ?>
-                        <li class="row draggable-item" draggable="true">
-                            <input hidden type="text" value="<?= $item['id'] ?>"/>
-                            <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
-                                <span class="column code"><?= $item['code'] ?></span>
-                                <span class="column name"><?= $item['name'] ?></span>
-                                <span class="column path">
+                    <ul>
+                        <?php foreach ($array as $index => $item) { ?>
+                            <li class="row draggable-item" draggable="true">
+                                <input hidden type="text" value="<?= $item['id'] ?>"/>
+                                <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
+                                    <span class="column code"><?= $item['code'] ?></span>
+                                    <span class="column name"><?= $item['name'] ?></span>
+                                    <span class="column path">
                                 <?= $item['path'] ??
                                     '<img src="/asset/images/icon/none.png"/>' ?>
                                 </span>
-                                <span class="column main-only">
+                                    <span class="column main-only">
                                 <?= $item['is_main_only'] == 1 ?
                                     '<img src="/asset/images/icon/check.png"/>' :
                                     '<img src="/asset/images/icon/none.png"/>' ?>
                                 </span>
-                                <span class="column local">
+                                    <span class="column local">
                                 <?= $item['has_local'] == 1 ?
                                     '<img src="/asset/images/icon/check.png"/>' :
                                     '<img src="/asset/images/icon/none.png"/>' ?>
                                 </span>
-                                <span class="column local-count"><?= $item['cnt'] ?></span>
-                            </a>
-                            <a href="/admin/category/<?= $item['code'] ?>" class="button detail">
-                                <img src="/asset/images/icon/detail@2x.png"/>
-                            </a>
-                        </li>
-                    <?php } ?>
-                </ul>
+                                    <span class="column local-count"><?= $item['cnt'] ?></span>
+                                </a>
+                                <a href="/admin/category/<?= $item['code'] ?>" class="button detail">
+                                    <img src="/asset/images/icon/detail@2x.png"/>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
                 <?php } ?>
             </div>
         </div>
@@ -114,26 +114,26 @@
         deleteMessage: "If you delete this row, you will be lost related data.<br/>Are you sure to delete?",
     })
 
-    initializeDraggable({
-        onDragFinished: async function (from, to) {
-            if (from.getElementsByTagName("input").length == 0 || to.getElementsByTagName("input") == 0) return;
-            let fromValue = from.getElementsByTagName("input")[0].value;
-            let toValue = to.getElementsByTagName("input")[0].value;
-            let isSuccess = false;
-            await apiRequest({
-                type: 'GET',
-                url: `/api/category/exchange-priority/${fromValue}/${toValue}`,
-                dataType: 'json',
-                success: function (response, status, request) {
-                    console.log(response)
-                    if (!response.success) return;
-                    isSuccess = true;
-                },
-                error: function (response, status, error) {
-                },
-            });
-            return isSuccess;
-        }
+    $(document).ready(function () {
+        $(`.container-inner .table-wrap ul`).initDraggable({
+            onDragFinished: async function (from, to) {
+                if (from.getElementsByTagName("input").length == 0 || to.getElementsByTagName("input") == 0) return;
+                let fromValue = from.getElementsByTagName("input")[0].value;
+                let toValue = to.getElementsByTagName("input")[0].value;
+                let isSuccess = false;
+                await apiRequest({
+                    type: 'GET',
+                    url: `/api/category/exchange-priority/${fromValue}/${toValue}`,
+                    dataType: 'json',
+                    success: function (response, status, request) {
+                        if (!response.success) return;
+                        isSuccess = true;
+                    },
+                    error: function (response, status, error) {
+                    },
+                });
+                return isSuccess;
+            }
+        })
     })
-
 </script>

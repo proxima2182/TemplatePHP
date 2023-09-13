@@ -43,16 +43,17 @@ $is_not_registration_page = !isset($is_registration_page) || ($is_registration_p
                 <?php if ($is_not_login_page) { ?>
                     <ul class="cf">
                         <?php if ($is_login) { ?>
+                            <li><a href="/">Main Page</a></li>
                             <li><a href="/admin/profile">Profile</a></li>
                             <li class="last"><a href="javascript:logout();">Logout</a></li>
                         <?php } else {
-                            if($is_not_registration_page) { ?>
+                            if ($is_not_registration_page) { ?>
                                 <li><a href="/admin/registration">Register</a></li>
                                 <li class="last"><a href="/admin/login">Login</a></li>
-                            <?php } else {?>
+                            <?php } else { ?>
                                 <li class="last"><a href="/admin/login">Login</a></li>
-                        <?php }
-                        }?>
+                            <?php }
+                        } ?>
                     </ul>
                 <?php } ?>
             </div>

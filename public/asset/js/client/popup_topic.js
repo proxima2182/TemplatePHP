@@ -80,7 +80,7 @@ function openTopicPopup(id) {
                     html += `
                         <div class="slick-item button"
                              style="background: url('/image-file/${image['id']}') no-repeat center; background-size: cover; font-size: 0;"
-                             onclick="openTopicImagePopup(${image['id']})">
+                             onclick="openImagePopup(${image['id']})">
                             Slider #${index}
                         </div>`
                 }
@@ -138,25 +138,6 @@ function openTopicPopup(id) {
         error: function (response, status, error) {
         },
     });
-}
-
-function openTopicImagePopup(image_id) {
-    let className = 'popup-image-detail';
-    let style = `
-    <style>
-    .${className} .popup-inner .image-wrap * {
-        width: 100%;
-    }
-    </style>`
-    let html = `
-        <div class="image-wrap">
-            <img src='/image-file/${image_id}'/>
-        </div>`;
-    openPopup({
-        className: className,
-        style: style,
-        html: html,
-    })
 }
 
 function openTopicPopupDelete(id) {

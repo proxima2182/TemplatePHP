@@ -32,7 +32,7 @@ function parseInputToData($inputs) {
         let $input = $inputs.eq(i);
         if ($input.length > 0) {
             let domElement = $input[0]
-            if(domElement.name) {
+            if (domElement.name) {
                 if (domElement.tagName == 'textarea') {
                     data[domElement.name] = domElement.value.toRawString();
                 }
@@ -100,11 +100,16 @@ function showErrorsByClassName(className, response, status, requestOrError) {
     }
 }
 
+let isRequestRunning = false;
+
 async function apiRequest(input) {
+    if (isRequestRunning) return;
+    isRequestRunning = true;
     let timeoutId = setTimeout(function () {
         $(`.loading-wrap`).css({
-            display : 'block'
+            display: 'block'
         })
+        clearTimeout(timeoutId);
     }, 200);
     await $.ajax({
         type: input.type,
@@ -115,21 +120,23 @@ async function apiRequest(input) {
         contentType: input.contentType,
         cache: input.cache,
         success: function (response, status, request) {
+            isRequestRunning = false;
             clearTimeout(timeoutId);
-            if(input.success && typeof input.success == 'function') {
+            if (input.success && typeof input.success == 'function') {
                 input.success(response, status, request);
             }
             $(`.loading-wrap`).css({
-                display : 'none'
+                display: 'none'
             })
         },
         error: function (response, status, error) {
+            isRequestRunning = false;
             clearTimeout(timeoutId);
-            if(input.error && typeof input.error == 'function') {
+            if (input.error && typeof input.error == 'function') {
                 input.error(response, status, error);
             }
             $(`.loading-wrap`).css({
-                display : 'none'
+                display: 'none'
             })
         },
     });

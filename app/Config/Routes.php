@@ -67,6 +67,8 @@ $routes->addRedirect('/admin/location', '/admin/location/1');
 $routes->get('/admin/user/([0-9]+)', [\Views\Admin\UserController::class, 'index']);
 $routes->addRedirect('/admin/user', '/admin/user/1');
 
+$routes->get('/admin/graphic', [\Views\Admin\GraphicController::class, 'index']);
+
 $routes->get('/admin/setting/([0-9]+)', [\Views\Admin\SettingController::class, 'index']);
 $routes->addRedirect('/admin/setting', '/admin/setting/1');
 
@@ -84,11 +86,12 @@ $routes->get('/admin/reservation/([0-9]+)', [\Views\Admin\ReservationController:
 /**
  * API Routes
  */
-$routes->post('/api/image-file/upload', [\API\ImageFileController::class, 'upload']);
-$routes->post('/api/image-file/upload/([a-zA-Z0-9\-\_]*)', [\API\ImageFileController::class, 'upload']);
-$routes->post('/api/image-file/refresh/([a-zA-Z0-9\-\_]*)', [\API\ImageFileController::class, 'refresh']);
-$routes->delete('/api/image-file/delete/([0-9]+)', [\API\ImageFileController::class, 'delete']);
-$routes->get('/image-file/(:any)', [\API\ImageFileController::class, 'getImage']);
+$routes->post('/api/image-file/upload', [\API\CustomFileController::class, 'uploadImageFile']);
+$routes->post('/api/image-file/upload/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'uploadImageFile']);
+$routes->post('/api/image-file/refresh/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'refreshImageFile']);
+$routes->post('/api/image-file/confirm/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'confirmImageFile']);
+$routes->delete('/api/image-file/delete/([0-9]+)', [\API\CustomFileController::class, 'deleteImageFile']);
+$routes->get('/image-file/(:any)', [\API\CustomFileController::class, 'getImageFile']);
 
 $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);
 $routes->get('/api/user/get/([0-9]+)', [\API\UserController::class, 'getUser']);

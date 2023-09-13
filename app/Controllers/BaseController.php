@@ -153,10 +153,10 @@ abstract class BaseController extends Controller
     protected function getViewData(): array
     {
         // js 에서도 사용자의 기본 상태를 알기 위해 cookie 에도 매번 refresh
-        set_cookie('is_login', $this->session->is_login, httpOnly: false);
-        set_cookie('user_id', $this->session->user_id, httpOnly: false);
-        set_cookie('user_type', $this->session->user_type, httpOnly: false);
-        set_cookie('is_admin', $this->session->is_admin, httpOnly: false);
+        $this->setCookie('is_login', $this->session->is_login);
+        $this->setCookie('user_id', $this->session->user_id);
+        $this->setCookie('user_type', $this->session->user_type);
+        $this->setCookie('is_admin', $this->session->is_admin);
         return [
             'is_login' => $this->session->is_login,
             'user_id' => $this->session->user_id,
@@ -165,9 +165,40 @@ abstract class BaseController extends Controller
         ];
     }
 
+    protected function setCookie($key, $value): void
+    {
+        if ($value) {
+            set_cookie($key, $value, httpOnly: false);
+        } else {
+            set_cookie($key, '', httpOnly: false);
+        }
+    }
+
     #[NoReturn] protected function handleException(Exception $e): void
     {
         switch ($e->getMessage()) {
+            case 'bad request' :
+            {
+                $response = Services::response();
+                $response->setBody(view('/error', [
+                    'code' => '400',
+                    'title' => 'Bad Request',
+                    'message' => 'the access method is under the wrong way',
+                ]));
+                $response->sendBody();
+                exit;
+            }
+            case 'not found' :
+            {
+                $response = Services::response();
+                $response->setBody(view('/error', [
+                    'code' => '404',
+                    'title' => 'Not Found',
+                    'message' => lang('Errors.sorryCannotFind'),
+                ]));
+                $response->sendBody();
+                exit;
+            }
             case 'deleted' :
             {
                 $response = Services::response();

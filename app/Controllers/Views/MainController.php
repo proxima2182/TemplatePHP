@@ -64,8 +64,8 @@ class MainController extends BaseClientController
         $this->userModel->checkAdmin();
         $data = array_merge($data, [
             "links" => $this->links,
-            'is_login' => $this->session->is_login,
         ]);
+        $data = array_merge($data, $this->getViewData());
         return view('/client/main', $data);
     }
 

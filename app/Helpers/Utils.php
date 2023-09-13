@@ -34,7 +34,7 @@ class Utils
     {
         if (Utils::startsWith($url, "http")) {
             return "javascript:openWindow('" . $url . "')";
-        } else if (Utils::startsWith($url, "/image-file")) {
+        } else if (Utils::startsWith($url, "/file")) {
             return "/frame-view?url=" . $url;
         }
         return $url;
@@ -54,14 +54,15 @@ class Utils
         return $randomString;
     }
 
-    static function encodeText(string $value) : string
+    static function encodeText(string $value): string
     {
         $encrypted = \Config\Services::encrypter()->encrypt($value);
 //        $encrypted = utf8_encode($encrypted);
 //        $encrypted = base64_encode($encrypted);
         return bin2hex($encrypted);
     }
-    static function decodeText(string $value) : string
+
+    static function decodeText(string $value): string
     {
         $decrypted = hex2bin($value);
 //        $decrypted = base64_decode($value);

@@ -40,7 +40,10 @@ if (!isset($links) && !isset($is_login)) return;
         <div class="header-inner">
             <div class="utill">
                 <ul class="cf">
-                    <?php if ($is_login) { ?>
+                    <?php if ($is_login) {
+                        if ($is_admin) { ?>
+                            <li><a href="/admin">Admin Page</a></li>
+                        <?php } ?>
                         <li><a href="/profile">Profile</a></li>
                         <li class="last"><a href="javascript:logout();">Logout</a></li>
                     <?php } else { ?>

@@ -18,23 +18,23 @@
                     </div>
                 <?php }
                 if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
-                <div class="row-title">
-                    <div class="row">
-                        <span class="column name">Name</span>
-                        <span class="column path">Path</span>
+                    <div class="row-title">
+                        <div class="row">
+                            <span class="column name">Name</span>
+                            <span class="column path">Path</span>
+                        </div>
                     </div>
-                </div>
-                <ul>
-                    <?php foreach ($array as $index => $item) { ?>
-                        <li class="row draggable-item" draggable="true">
-                            <input hidden type="text" value="<?= $item['id'] ?>"/>
-                            <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
-                                <span class="column name"><?= $item['name'] ?></span>
-                                <span class="column path"><?= $item['path'] ?></span>
-                            </a>
-                        </li>
-                    <?php } ?>
-                </ul>
+                    <ul>
+                        <?php foreach ($array as $index => $item) { ?>
+                            <li class="row draggable-item" draggable="true">
+                                <input hidden type="text" value="<?= $item['id'] ?>"/>
+                                <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
+                                    <span class="column name"><?= $item['name'] ?></span>
+                                    <span class="column path"><?= $item['path'] ?></span>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
                 <?php } ?>
             </div>
         </div>
@@ -82,24 +82,26 @@
         },
     })
 
-    initializeDraggable({
-        onDragFinished: async function (from, to) {
-            if (from.getElementsByTagName("input").length == 0 || to.getElementsByTagName("input") == 0) return;
-            let fromValue = from.getElementsByTagName("input")[0].value;
-            let toValue = to.getElementsByTagName("input")[0].value;
-            let isSuccess = false;
-            await apiRequest({
-                type: 'GET',
-                url: `/api/category/local/exchange-priority/${fromValue}/${toValue}`,
-                dataType: 'json',
-                success: function (response, status, request) {
-                    if (!response.success) return;
-                    isSuccess = true;
-                },
-                error: function (response, status, error) {
-                },
-            });
-            return isSuccess;
-        }
-    })
+    $(document).ready(function () {
+        $(`.container-inner .table-wrap ul`).initDraggable({
+            onDragFinished: async function (from, to) {
+                if (from.getElementsByTagName("input").length == 0 || to.getElementsByTagName("input") == 0) return;
+                let fromValue = from.getElementsByTagName("input")[0].value;
+                let toValue = to.getElementsByTagName("input")[0].value;
+                let isSuccess = false;
+                await apiRequest({
+                    type: 'GET',
+                    url: `/api/category/local/exchange-priority/${fromValue}/${toValue}`,
+                    dataType: 'json',
+                    success: function (response, status, request) {
+                        if (!response.success) return;
+                        isSuccess = true;
+                    },
+                    error: function (response, status, error) {
+                    },
+                });
+                return isSuccess;
+            }
+        });
+    });
 </script>

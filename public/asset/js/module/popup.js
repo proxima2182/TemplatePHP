@@ -436,3 +436,22 @@ async function openUserPopup(user_id) {
         },
     });
 }
+
+function openImagePopup(image_id) {
+    let className = 'popup-image-detail';
+    let style = `
+    <style>
+    .${className} .popup-inner .image-wrap * {
+        width: 100%;
+    }
+    </style>`
+    let html = `
+        <div class="image-wrap">
+            <img src='/image-file/${image_id}'/>
+        </div>`;
+    openPopup({
+        className: className,
+        style: style,
+        html: html,
+    })
+}
