@@ -79,7 +79,7 @@ function openTopicPopup(id) {
                     let image = data.images[index];
                     html += `
                         <div class="slick-item button"
-                             style="background: url('/image-file/${image['id']}') no-repeat center; background-size: cover; font-size: 0;"
+                             style="background: url('/file/${image['id']}') no-repeat center; background-size: cover; font-size: 0;"
                              onclick="openImagePopup(${image['id']})">
                             Slider #${index}
                         </div>`

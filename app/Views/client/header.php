@@ -20,9 +20,8 @@ if (!isset($links) && !isset($is_login)) return;
     if (isset($css)) echo $css;
     ?>
 
-    <script type="text/javascript" src="/asset/js/default.js"></script>
     <script type="text/javascript" src="/asset/js/library/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/asset/js/library/jquery/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/asset/js/default.js"></script>
     <script type="text/javascript" src="/asset/js/module/popup.js"></script>
     <script type="text/javascript" src="/asset/js/client/login.js"></script>
     <?php

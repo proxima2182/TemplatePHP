@@ -1,14 +1,43 @@
 
+.container-inner .video-wrap {
+    font-size: 0;
+}
+
+.container-inner .video-wrap .upload-item-add,
+.container-inner .video-wrap .upload-item{
+    width: 450px;
+    height: 300px;
+    line-height: 200px;
+    text-align: center;
+    display: inline-block;
+    margin: 6px;
+    overflow: hidden;
+}
+/*.container-inner .video-wrap .upload-item {*/
+/*    line-height: 450px;*/
+/*}*/
+/*.container-inner .video-wrap .upload-item video {*/
+/*    width: 100%;*/
+/*    display: inline-block;*/
+/*    vertical-align: middle;*/
+/*}*/
+
+.container-inner .video-wrap .upload-item video {
+    width: 100%;
+    height: auto;
+}
+
+
 .container-inner .no-data-box {
     height: 314px;
     line-height: 312px;
 }
 
-.container-inner .slider-wrap {
+.container-inner .inner-box {
     width: 1125px;
 }
 
-.container-inner .slider-wrap .slider-box {
+.container-inner .slider-wrap .slick-wrap {
     padding: 20px 40px;
 }
 
@@ -29,15 +58,15 @@
     right: -40px;
 }
 
-.container-inner .slider-wrap .slick-item {
+.container-inner .uploader .upload-item {
     position: relative;
 }
 
-.container-inner .slider-wrap .slick-item.add {
+.container-inner .uploader .upload-item-add {
     border: 1px solid #fff;
 }
 
-.container-inner .slider-wrap .slick-item input[type="file"] {
+.container-inner .upload-item-add input[type="file"] {
     position: absolute;
     width: 0;
     height: 0;
@@ -46,7 +75,7 @@
     border: 0;
 }
 
-.container-inner .slider-wrap .slick-item label {
+.container-inner .upload-item-add label {
     display: inline-block;
     width: 100%;
     height: 100%;
@@ -57,7 +86,7 @@
 /*    height: 100%;*/
 /*}*/
 
-.container-inner .slider-wrap .slick-item-hover {
+.container-inner .upload-item-hover {
     display: none;
     background: rgba(0, 0, 0, 0.1);
     position: absolute;
@@ -67,11 +96,11 @@
     right: 0;
 }
 
-.container-inner .slider-wrap .slick-item:hover .slick-item-hover {
+.container-inner .upload-item:hover .upload-item-hover {
     display: inline-block;
 }
 
-.container-inner .slider-wrap .slick-item-hover .button.delete-image {
+.container-inner .upload-item-hover .button.delete-image {
     width: 30px;
     height: 30px;
     line-height: 30px;
@@ -80,7 +109,7 @@
     right: 0;
 }
 
-.container-inner .slider-wrap .slick-item-hover .button.delete-image * {
+.container-inner .upload-item-hover .button.delete-image * {
     vertical-align: middle;
 }
 

@@ -35,8 +35,8 @@ class TopicController extends CustomFileController
 
         try {
             $result = $this->topicModel->find($id);
-            $images = $this->customFileModel->get(['topic_id' => $id]);
-            $result['images'] = $images;
+            $files = $this->customFileModel->get(['topic_id' => $id]);
+            $result['files'] = $files;
             $response['success'] = true;
             $response['data'] = $result;
         } catch (Exception $e) {
@@ -53,8 +53,8 @@ class TopicController extends CustomFileController
     public function createTopic(): ResponseInterface
     {
         $data = $this->request->getPost();
-        if (!isset($data['images'])) {
-            $data['images'] = [];
+        if (!isset($data['files'])) {
+            $data['files'] = [];
         }
         $validationRules = [
             'title' => [
@@ -81,10 +81,10 @@ class TopicController extends CustomFileController
                 } else {
                     // image priority
                     $queries = [];
-                    foreach ($data['images'] as $index => $image_id) {
+                    foreach ($data['files'] as $index => $file_id) {
                         // 이미지에 topic_id 할당하면서 priority 를 설정 해 준다
                         $queries[] = "UPDATE custom_file SET identifier = NULL, topic_id = '" . $inserted_row_id . "', priority = " . $index + 1
-                            . " WHERE id = '" . $image_id . "' AND identifier = '" . $data['identifier'] . "'";
+                            . " WHERE id = '" . $file_id . "' AND identifier = '" . $data['identifier'] . "'";
                     }
                     BaseModel::transaction($this->db, $queries);
 
@@ -110,8 +110,8 @@ class TopicController extends CustomFileController
     public function updateTopic($id): ResponseInterface
     {
         $data = $this->request->getPost();
-        if (!isset($data['images'])) {
-            $data['images'] = [];
+        if (!isset($data['files'])) {
+            $data['files'] = [];
         }
         $validationRules = [
             'title' => [
@@ -135,21 +135,21 @@ class TopicController extends CustomFileController
             $queries = [];
             $selectorQuery = '';
             $prefix = '';
-            foreach ($data['images'] as $index => $image_id) {
+            foreach ($data['files'] as $index => $file_id) {
                 // 이미지에 topic_id 할당하면서 priority 설정 해 준다
                 $queries[] = "UPDATE custom_file SET identifier = NULL, topic_id = '" . $id . "', priority = " . $index + 1
-                    . " WHERE (id = '" . $image_id . "' AND topic_id = '" . $id . "') OR (id = '" . $image_id . "' AND identifier = '" . $data['identifier'] . "')";
-                $selectorQuery .= $prefix . $image_id;
+                    . " WHERE (id = '" . $file_id . "' AND topic_id = '" . $id . "') OR (id = '" . $file_id . "' AND identifier = '" . $data['identifier'] . "')";
+                $selectorQuery .= $prefix . $file_id;
                 $prefix = ',';
             }
             BaseModel::transaction($this->db, $queries);
 
             $conditionQuery;
-            if (sizeof($data['images']) > 0) {
+            if (sizeof($data['files']) > 0) {
                 $conditionQuery = "topic_id = " . $id . " AND id NOT IN(" . $selectorQuery . ")" .
                     " OR identifier = '" . $data['identifier'] . "'";
             } else {
-                // images 가 없는 경우 할당된 모든 이미지를 검색해 삭제해 주면 됨
+                // files 가 없는 경우 할당된 모든 이미지를 검색해 삭제해 주면 됨
                 $conditionQuery = "topic_id = " . $id .
                     " OR identifier = '" . $data['identifier'] . "'";
             }

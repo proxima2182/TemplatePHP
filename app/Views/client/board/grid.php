@@ -17,9 +17,9 @@
             $index = 0;
             foreach ($array as $index => $item) { ?>
                 <div class="grid-item button" onclick="openTopicPopup(<?= $item['id'] ?>)">
-                    <?php if (isset($item['image_id'])) { ?>
+                    <?php if (isset($item['file_id'])) { ?>
                         <div class="image-wrap"
-                             style="background: url('/image-file/<?= $item['image_id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+                             style="background: url('/file/<?= $item['file_id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
                         </div>
                     <?php } ?>
                     <div class="text-wrap">

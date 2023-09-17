@@ -20,7 +20,7 @@ function deleteImage(id) {
     image_file_ids.splice(index, 1);
     // apiRequest({
     //     type: 'DELETE',
-    //     url: `/api/image-file/delete/${id}`,
+    //     url: `/api/file/delete/${id}`,
     //     dataType: 'json',
     //     success: function (response, status, request) {
     //         openPopupErrors('popup-error', response, status, request);
@@ -31,7 +31,8 @@ function deleteImage(id) {
     // });
 }
 
-function onFileUpload(input, target = 'topic') {
+//todo make callback
+function onFileUpload(input, type = 'image', target = 'topic', callback) {
     if (input.files.length == 0) return;
     let form = new FormData();
     for (let i in input.files) {
@@ -43,7 +44,7 @@ function onFileUpload(input, target = 'topic') {
 
     apiRequest({
         type: 'POST',
-        url: `/api/image-file/upload/${identifier}`,
+        url: `/api/file/${type}/upload/${identifier}`,
         data: form,
         processData: false,
         contentType: false,
@@ -58,12 +59,13 @@ function onFileUpload(input, target = 'topic') {
             let image_id = data.id;
             image_file_ids.push(image_id.toString());
 
-            $('.slick.uploader').slick('slickAdd', `
-                <div class="slick-item draggable-item" draggable="true"
-                     style="background: url('/image-file/${image_id}') no-repeat center; background-size: cover; font-size: 0;">
+            if(type == 'image' && !callback) {
+                $('.slick.uploader').slick('slickAdd', `
+                <div class="slick-item draggable-item upload-item" draggable="true"
+                     style="background: url('/file/${image_id}') no-repeat center; background-size: cover; font-size: 0;">
                     Slider #${image_id}
                     <input hidden type="text" name="id" value="${image_id}">
-                    <div class="slick-item-hover">
+                    <div class="upload-item-hover">
                         <a href="javascript:deleteImage('${image_id}')"
                            class="button delete-image black">
                             <img src="/asset/images/icon/cancel_white.png"/>
@@ -71,9 +73,11 @@ function onFileUpload(input, target = 'topic') {
                     </div>
                 </div>`);
 
-            $('.slick.uploader').initDraggable({
-                onDragFinished: onDragFinished,
-            });
+                $('.slick.uploader').initDraggable({
+                    onDragFinished: onDragFinished,
+                });
+            }
+            if (callback && typeof callback == 'function') callback();
             // reset input file
             input.type = ''
             input.type = 'file'
@@ -87,11 +91,31 @@ function onFileUpload(input, target = 'topic') {
     });
 }
 
-function dropEditingImages(callback) {
+function generateDropEditingImages(type = 'image', callback) {
+    if (isEmpty(identifier)) return function() {};
+    return function() {
+        apiRequest({
+            type: 'POST',
+            url: `/api/file/${type}/refresh/${identifier}`,
+            dataType: 'json',
+            success: function (response, status, request) {
+                if (!response.success) {
+                    openPopupErrors('popup-error', response, status, request);
+                    return;
+                }
+                if (callback && typeof callback == 'function') callback();
+            },
+            error: function (response, status, error) {
+                openPopupErrors('popup-error', response, status, error);
+            },
+        });
+    }
+}
+function dropEditingImages(type = 'image', callback) {
     if (isEmpty(identifier)) return;
     apiRequest({
         type: 'POST',
-        url: `/api/image-file/refresh/${identifier}`,
+        url: `/api/file/${type}/refresh/${identifier}`,
         dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) {
@@ -106,14 +130,12 @@ function dropEditingImages(callback) {
     });
 }
 
-function confirmEditImages(callback) {
+function confirmEditImages(type = 'image', data, callback) {
     if (isEmpty(identifier)) return;
     apiRequest({
         type: 'POST',
-        url: `/api/image-file/confirm/${identifier}`,
-        data: {
-            images: image_file_ids,
-        },
+        url: `/api/file/${type}/confirm/${identifier}`,
+        data: data,
         dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) {
@@ -157,4 +179,4 @@ async function onDragFinished(from, to) {
     return true;
 };
 
-window.onbeforeunload = dropEditingImages;
+window.onbeforeunload = generateDropEditingImages('all');

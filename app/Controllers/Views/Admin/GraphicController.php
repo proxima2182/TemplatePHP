@@ -21,7 +21,11 @@ class GraphicController extends BaseAdminController
         try {
             $images = $this->customFileModel->get(['type' => 'image', 'target' => 'main']);
             $data = array_merge($data, [
-                'images' => $images,
+                'slider_images' => $images,
+            ]);
+            $videos = $this->customFileModel->get(['type' => 'video', 'target' => 'main']);
+            $data = array_merge($data, [
+                'videos' => $videos,
             ]);
         } catch (Exception $e) {
             //todo(log)

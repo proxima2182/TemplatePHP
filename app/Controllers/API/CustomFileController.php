@@ -20,37 +20,63 @@ class CustomFileController extends BaseApiController
     }
 
     /**
-     * [post] /api/image-file/upload
+     * [post] /api/file/upload
      * @param $identifier
      * @return ResponseInterface
      */
-    public function uploadImageFile($identifier = null): ResponseInterface
+    public function uploadFile($type, $identifier = null): ResponseInterface
     {
         $body = $this->request->getPost();
         $response = [
             'success' => false,
         ];
         try {
-            $validateImage = $this->validate([
-                'file' => [
-                    'uploaded[file]',
-                    'mime_in[file,image/png,image/jpg,image/jpeg,image/gif]',
-                    'max_size[file,4096]',
-                ],
-            ]);
+            $validateImage = match ($type) {
+                'image' => $this->validate([
+                    'file' => [
+                        'uploaded[file]',
+                        'mime_in[file,image/png,image/jpg,image/jpeg,image/gif]',
+                        'max_size[file,4096]',
+                    ],
+                ]),
+                default => $this->validate([
+                    'file' => [
+                        'uploaded[file]',
+                        'max_size[file,102400]',
+                    ],
+                ]),
+            };
             if ($validateImage) {
                 $shortid = ShortId::create();
-                $imageFile = $this->request->getFile('file');
-                $file_name = $imageFile->getClientName();
-                $mime_type = $imageFile->getMimeType();
+                $file = $this->request->getFile('file');
+
+//                if (!$file->isValid()) {
+//                    throw new \RuntimeException($file->getErrorString() . '(' . $file->getError() . ')');
+//                }
+                $file_name = $file->getClientName();
+                $mime_type = $file->getMimeType();
+                $width = 0;
+                $height = 0;
+                $uploadedType;
+                if (str_starts_with($mime_type, 'image')) {
+                    $uploadedType = 'image';
+                } else if (str_starts_with($mime_type, 'video')) {
+                    $uploadedType = 'video';
+                } else {
+                    throw new Exception("not allowed mime type");
+                }
+                if ($type != $uploadedType) {
+                    throw new Exception("not allowed mime type");
+                }
                 $symbolic_path = 'uploads/images/' . date("Y-m-d") . '/' . $shortid->generate();
                 $path = WRITEPATH . $symbolic_path;
                 mkdir($path, 0777, true);
-                $imageFile->move($path);
+                $file->move($path);
 
 //                // saving data as blob have data loss
-//                $data = file_get_contents($imageFile->getPath() . "/" . $imageFile->getFilename());
+//                $data = file_get_contents($file->getPath() . "/" . $file->getFilename());
                 $data = [
+                    'type' => $type,
                     'file_name' => $file_name,
                     'mime_type' => $mime_type,
                     'path' => $path,
@@ -79,7 +105,7 @@ class CustomFileController extends BaseApiController
         return $this->response->setJSON($response);
     }
 
-    public function getImageFile($id): void
+    public function getFile($id): void
     {
 //        if (($image = file_get_contents(WRITEPATH . 'uploads/' . $imageName)) === FALSE)
 //            show_404();
@@ -90,9 +116,9 @@ class CustomFileController extends BaseApiController
             $result = $this->customFileModel->find($id);
 
             if ($result) {
-                if ($result['type'] != 'image') {
-                    throw new Exception('bad request');
-                }
+//                if ($result['type'] != 'image') {
+//                    throw new Exception('bad request');
+//                }
                 $data = file_get_contents($result['path'] . "/" . $result['file_name']);
                 $this->response
                     ->setStatusCode(200)
@@ -107,7 +133,7 @@ class CustomFileController extends BaseApiController
         }
     }
 
-    public function deleteImageFile($id): ResponseInterface
+    public function deleteFile($id): ResponseInterface
     {
         $response = [
             'success' => false,
@@ -130,12 +156,12 @@ class CustomFileController extends BaseApiController
     }
 
     /**
-     * [post] /api/image-file/refresh/{identifier}
+     * [post] /api/file/refresh/{identifier}
      * 업로드 했으나 중간에 완료하지 않고 취소할 경우 호출
      * @param $identifier
      * @return ResponseInterface
      */
-    public function refreshImageFile($identifier): ResponseInterface
+    public function refreshFile($type, $identifier): ResponseInterface
     {
         $response = [
             'success' => false,
@@ -143,7 +169,7 @@ class CustomFileController extends BaseApiController
         try {
             if (strlen($identifier) == 0) throw new Exception('wrong path parameter');
             $result = BaseModel::transaction($this->db, [
-                "SELECT * FROM custom_file WHERE identifier = '" . $identifier . "'",
+                "SELECT * FROM custom_file WHERE type = '" . $type . "' AND identifier = '" . $identifier . "'",
             ]);
 //          $ids = array_column($result, 'id');
             $ids = [];
@@ -164,16 +190,16 @@ class CustomFileController extends BaseApiController
     }
 
     /**
-     * [post] /api/image-file/confirm/{identifier}
-     * 메인용 이미지에만 적용됨
+     * [post] /api/file/confirm/{identifier}
+     * 메인용 리소스에만 적용됨
      * @param $identifier
      * @return ResponseInterface
      */
-    public function confirmImageFile($identifier): ResponseInterface
+    public function confirmFile($type, $identifier): ResponseInterface
     {
         $data = $this->request->getPost();
-        if (!isset($data['images'])) {
-            $data['images'] = [];
+        if (!isset($data['files'])) {
+            $data['files'] = [];
         }
         $response = [
             'success' => false,
@@ -183,21 +209,28 @@ class CustomFileController extends BaseApiController
             $queries = [];
             $selectorQuery = '';
             $prefix = '';
-            foreach ($data['images'] as $index => $image_id) {
+            foreach ($data['files'] as $index => $file_id) {
                 // 이미지에 priority 를 설정 해 준다
+                $conditionQuery = "";
+                if ($type != 'all') {
+                    $conditionQuery = "type = '" . $type . "' AND ";
+                }
                 $queries[] = "UPDATE custom_file SET identifier = NULL, priority = " . $index + 1
-                    . " WHERE (id = '" . $image_id . "' AND type = 'image' AND target = 'main') OR (id = '" . $image_id . "' AND identifier = '" . $identifier . "')";
-                $selectorQuery .= $prefix . $image_id;
+                    . " WHERE (id = '" . $file_id . "' AND ".$conditionQuery."target = 'main') OR (id = '" . $file_id . "' AND identifier = '" . $identifier . "')";
+                $selectorQuery .= $prefix . $file_id;
                 $prefix = ',';
             }
             BaseModel::transaction($this->db, $queries);
 
-            $conditionQuery;
-            if (sizeof($data['images']) > 0) {
-                $conditionQuery = "type = 'image' AND target = 'main' AND id NOT IN(" . $selectorQuery . ")" .
+            $conditionQuery = "";
+            if ($type != 'all') {
+                $conditionQuery = "type = '" . $type . "' AND ";
+            }
+            if (sizeof($data['files']) > 0) {
+                $conditionQuery = "target = 'main' AND id NOT IN(" . $selectorQuery . ")" .
                     " OR identifier = '" . $identifier . "'";
             } else {
-                $conditionQuery = "type = 'image' AND target = 'main'" .
+                $conditionQuery .= "target = 'main'" .
                     " OR identifier = '" . $identifier . "'";
             }
             $this->handleFileDelete($conditionQuery);
@@ -224,7 +257,7 @@ class CustomFileController extends BaseApiController
             try {
                 unlink($item['path'] . '/' . $item['file_name']);
                 rmdir($item['path']);
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 //todo log
             }
         }

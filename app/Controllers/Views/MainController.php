@@ -5,6 +5,7 @@ namespace Views;
 use App\Helpers\ServerLogger;
 use Exception;
 use Models\BoardModel;
+use Models\CustomFileModel;
 use Models\LocationModel;
 use Models\TopicModel;
 use Models\UserModel;
@@ -16,6 +17,7 @@ class MainController extends BaseClientController
     protected BoardModel $boardModel;
     protected TopicModel $topicModel;
     protected LocationModel $locationModel;
+    protected CustomFileModel $customFileModel;
 
     public function __construct()
     {
@@ -24,6 +26,7 @@ class MainController extends BaseClientController
         $this->boardModel = model('Models\BoardModel');
         $this->topicModel = model('Models\TopicModel');
         $this->locationModel = model('Models\LocationModel');
+        $this->customFileModel = model('Models\CustomFileModel');
     }
 
     /**
@@ -56,6 +59,15 @@ class MainController extends BaseClientController
             $data['topics_table'] = $this->getTopicData('notice');
             // load grid view
             $data['topics_grid'] = $this->getTopicData('menu');
+
+            $images = $this->customFileModel->get(['type' => 'image', 'target' => 'main']);
+            $data = array_merge($data, [
+                'slider_images' => $images,
+            ]);
+            $videos = $this->customFileModel->get(['type' => 'video', 'target' => 'main']);
+            $data = array_merge($data, [
+                'videos' => $videos,
+            ]);
         } catch (Exception $e) {
             //todo(log)
             $this->handleException($e);

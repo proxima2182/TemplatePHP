@@ -107,7 +107,7 @@ class BoardController extends BaseApiController
                     'is_deleted' => 0,
                 ]);
                 foreach ($result as $index => $item) {
-                    $result[$index]['images'] = $this->customFileModel->get(['topic_id' => $item['id']]);
+                    $result[$index]['files'] = $this->customFileModel->get(['topic_id' => $item['id']]);
                 }
                 $response['success'] = true;
                 $response['array'] = $result;

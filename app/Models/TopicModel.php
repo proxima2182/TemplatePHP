@@ -37,7 +37,7 @@ class TopicModel extends BaseModel
      */
     public function get($condition = null, $limit = null): array
     {
-        $query = "SELECT topic.*, custom_file.id AS image_id, user.name AS user_name
+        $query = "SELECT topic.*, custom_file.id AS file_id, user.name AS user_name
                 FROM topic
                 LEFT JOIN custom_file ON custom_file.topic_id = topic.id AND custom_file.priority = 1
                 INNER JOIN user ON user.id = topic.user_id";

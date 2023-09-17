@@ -20,11 +20,11 @@
             <div class="slider-wrap">
                 <div class="slider-box">
                     <div class="slick">
-                        <?php foreach ($data['images'] as $index => $image) { ?>
+                        <?php foreach ($data['files'] as $index => $file) { ?>
                             <div class="slick-item button"
-                                 style="background: url('/image-file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;"
-                                 onclick="openImagePopup(<?= $image['id'] ?>)">
-                                Slider #<?= $image['id'] ?>
+                                 style="background: url('/file/<?= $file['id'] ?>') no-repeat center; background-size: cover; font-size: 0;"
+                                 onclick="openImagePopup(<?= $file['id'] ?>)">
+                                Slider #<?= $file['id'] ?>
                             </div>
                         <?php } ?>
                     </div>

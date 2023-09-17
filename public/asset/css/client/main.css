@@ -130,23 +130,13 @@ video background 패이지
  */
 /*TODO need to set video height automatically*/
 
+#page-intro {
+    background: #000;
+}
+
 #page-intro .page-inner {
     width: 1200px;
     position: relative;
-}
-
-#page-intro video {
-    position: absolute;
-    top: -10vh;
-    left: -40vw;
-    bottom: -10vh;
-    right: -40vw;
-    z-index: -10;
-    height: 120vh;
-    width: 180vw;
-    min-width: 1080px;
-    /*min-width: 120%;*/
-    min-height: 120vh;
 }
 
 #page-intro::after {

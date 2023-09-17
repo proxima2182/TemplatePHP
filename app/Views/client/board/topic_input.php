@@ -11,8 +11,8 @@ $identifier = $shortid->generate();
 ?>
 <script type="text/javascript">
     identifier = '<?=$identifier?>';
-    <?php if (isset($data['images'])) {
-    foreach ($data['images'] as $index => $image) { ?>
+    <?php if (isset($data['files'])) {
+    foreach ($data['files'] as $index => $image) { ?>
     image_file_ids.push('<?=$image['id']?>')
     <?php }
     }?>
@@ -39,7 +39,7 @@ $identifier = $shortid->generate();
             <div class="slider-wrap">
                 <div class="slider-box">
                     <div class="slick uploader">
-                        <div class="slick-item add"
+                        <div class="slick-item upload-item-add"
                              style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                             <label for="file" class="button"></label>
                             <input type="file" name="file" multiple id="file"
@@ -47,14 +47,14 @@ $identifier = $shortid->generate();
                                    accept="image/*"/>
                             <!--                            <a href="#" class="button"></a>-->
                         </div>
-                        <?php if (isset($data['images'])) {
-                            foreach ($data['images'] as $index => $image) { ?>
-                                <div class="slick-item draggable-item" draggable="true"
-                                     style="background: url('/image-file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
-                                    Slider #<?= $image['id'] ?>
-                                    <input hidden type="text" name="id" value="<?= $image['id'] ?>">
-                                    <div class="slick-item-hover">
-                                        <a href="javascript:deleteImage('<?= $image['id'] ?>')"
+                        <?php if (isset($data['files'])) {
+                            foreach ($data['files'] as $index => $file) { ?>
+                                <div class="slick-item draggable-item upload-item" draggable="true"
+                                     style="background: url('/file/<?= $file['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+                                    Slider #<?= $file['id'] ?>
+                                    <input hidden type="text" name="id" value="<?= $file['id'] ?>">
+                                    <div class="upload-item-hover">
+                                        <a href="javascript:deleteImage('<?= $file['id'] ?>')"
                                            class="button delete-image black">
                                             <img src="/asset/images/icon/cancel_white.png"/>
                                         </a>
@@ -76,7 +76,7 @@ $identifier = $shortid->generate();
     function confirmEditTopic(id) {
         let data = parseInputToData($(`.topic-wrap .form-wrap .editable`))
 
-        data['images'] = image_file_ids;
+        data['files'] = image_file_ids;
 
         apiRequest({
             type: 'POST',
@@ -99,7 +99,7 @@ $identifier = $shortid->generate();
     function confirmCreateTopic() {
         let data = parseInputToData($(`.topic-wrap .form-wrap .editable`))
 
-        data['images'] = image_file_ids;
+        data['files'] = image_file_ids;
 
         apiRequest({
             type: 'POST',

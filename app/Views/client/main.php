@@ -28,9 +28,8 @@ $sliderImages = [
     <link rel="stylesheet" type="text/css" href="/asset/css/common/grid.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/client/main.css"/>
 
-    <script type="text/javascript" src="/asset/js/default.js"></script>
     <script type="text/javascript" src="/asset/js/library/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/asset/js/library/jquery/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/asset/js/default.js"></script>
     <script type="text/javascript" src="/asset/js/library/fullpage/jquery.fullPage.js"></script>
     <script type="text/javascript" src="/asset/js/library/slick/slick.min.js"></script>
     <script type="text/javascript"
@@ -102,9 +101,9 @@ $sliderImages = [
         <div class="main-slider-wrap">
             <div class="slider-box">
                 <div class="slick">
-                    <?php foreach ($sliderImages as $index => $image) { ?>
+                    <?php foreach ($slider_images as $index => $image) { ?>
                         <div class="slick-item"
-                             style="background: url('<?= $image ?>') no-repeat center; background-size: cover; font-size: 0;">
+                             style="background: url('/file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
                             Slider #<?= $index ?>
                         </div>
                     <?php } ?>
@@ -126,9 +125,11 @@ $sliderImages = [
     </div>
 
     <div class="section" id="page-intro">
-        <video id="video" allow="autoplay;" muted autoplay loop>
-            <source src="/asset/video/pexels-kelly-2491284-4096x2160-24fps.mp4" type="video/mp4">
-        </video>
+        <?php foreach ($videos as $index => $item) { ?>
+            <video muted loop>
+                <source src="/file/<?= $item['id'] ?>" type="<?= $item['mime_type'] ?>">
+            </video>
+        <?php } ?>
 
         <div class="page-inner whole-page">
             <div class="text-box">
@@ -228,9 +229,9 @@ $sliderImages = [
                                 <?php foreach ($array as $index => $item) { ?>
                                     <div class="slick-item grid-item button"
                                          onclick="openTopicPopup(<?= $item['id'] ?>)">
-                                        <?php if (isset($item['image_id'])) { ?>
+                                        <?php if (isset($item['file_id'])) { ?>
                                             <div class="image-wrap"
-                                                 style="background: url('/image-file/<?= $item['image_id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+                                                 style="background: url('/file/<?= $item['file_id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
                                             </div>
                                         <?php } ?>
                                         <div class="text-wrap">

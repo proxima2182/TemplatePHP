@@ -186,8 +186,8 @@ class BoardController extends BaseAdminController
         if (sizeof($topics) != 1) throw new Exception('deleted');
         $topic = $topics[0];
         $board = $this->boardModel->find($topic['board_id']);
-        $images = $this->customFileModel->get(['topic_id' => $id]);
-        $topic['images'] = $images;
+        $files = $this->customFileModel->get(['topic_id' => $id]);
+        $topic['files'] = $files;
         $result['data'] = $topic;
         $result['board'] = $board;
         return $result;

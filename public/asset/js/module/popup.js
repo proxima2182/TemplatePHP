@@ -447,7 +447,7 @@ function openImagePopup(image_id) {
     </style>`
     let html = `
         <div class="image-wrap">
-            <img src='/image-file/${image_id}'/>
+            <img src='/file/${image_id}'/>
         </div>`;
     openPopup({
         className: className,

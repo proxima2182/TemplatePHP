@@ -134,6 +134,13 @@ $(document).ready(function () {
                     timeoutId = undefined;
                 }, 200);
             }
+        },
+        afterLoad: function (anchorLink, index) {
+            if (index == 2) {
+                if ($('#page-intro video').length > 0) {
+                    $('#page-intro video').get(0).play();
+                }
+            }
         }
     });
 
@@ -251,7 +258,7 @@ function checkPagePopup() {
                     //TODO add loop
                     for (let index in item.images) {
                         let image = item.images[index];
-                        html += `<div class="slick-item" style="background: url('/image-file/${image['id']}') no-repeat center; background-size: cover; font-size: 0;">Slider #${index}</div>`
+                        html += `<div class="slick-item" style="background: url('/file/${image['id']}') no-repeat center; background-size: cover; font-size: 0;">Slider #${index}</div>`
                     }
                     html += `
                         </div>
@@ -342,10 +349,10 @@ function resizeWindow() {
     })
 
     let $pageInners = $('.section .page-inner').not('.whole-page');
-    for(let i in $pageInners) {
+    for (let i in $pageInners) {
         let height = window.innerHeight - 110;
         let $footer = $pageInners.eq(i).parent().find('#footer')
-        if($footer.length > 0) {
+        if ($footer.length > 0) {
             height -= $footer.height();
         }
         $pageInners.eq(i).css({
@@ -353,6 +360,7 @@ function resizeWindow() {
         })
     }
     resizePagePopupWindow();
+    $(`#page-intro`).setVideoCoverStyle();
 }
 
 addEventListener("resize", (event) => {
