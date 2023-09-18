@@ -13,22 +13,22 @@
                     </a>
                 </div>
             <?php }
-            if (\App\Helpers\HtmlHelper::checkArray($array)) {
-            $index = 0;
-            foreach ($array as $index => $item) { ?>
-                <div class="grid-item button" onclick="openTopicPopup(<?= $item['id'] ?>)">
-                    <?php if (isset($item['file_id'])) { ?>
-                        <div class="image-wrap"
-                             style="background: url('/file/<?= $item['file_id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+            if (\App\Helpers\HtmlHelper::showDataEmpty($array)) {
+                $index = 0;
+                foreach ($array as $index => $item) { ?>
+                    <div class="grid-item button" onclick="openTopicPopup(<?= $item['id'] ?>)">
+                        <?php if (isset($item['file_id'])) { ?>
+                            <div class="image-wrap"
+                                 style="background: url('/file/<?= $item['file_id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+                            </div>
+                        <?php } ?>
+                        <div class="text-wrap">
+                            <span class="title"><?= $item['title'] ?></span>
+                            <span class="content"><?= $item['content'] ?></span>
                         </div>
-                    <?php } ?>
-                    <div class="text-wrap">
-                        <span class="title"><?= $item['title'] ?></span>
-                        <span class="content"><?= $item['content'] ?></span>
                     </div>
-                </div>
-            <?php }
-            }?>
+                <?php }
+            } ?>
         </div>
 
         <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>

@@ -15,15 +15,16 @@
     font-weight: 200;
 }
 
-.topic-wrap .slider-wrap .slick-item {
+
+.container-inner .uploader .upload-item {
     position: relative;
 }
 
-.topic-wrap .upload-item-add {
+.container-inner .uploader .upload-item-add {
     border: 1px solid #fff;
 }
 
-.topic-wrap .upload-item-add input[type="file"] {
+.container-inner .upload-item-add input[type="file"] {
     position: absolute;
     width: 0;
     height: 0;
@@ -32,18 +33,18 @@
     border: 0;
 }
 
-.topic-wrap .upload-item-add label {
+.container-inner .upload-item-add label {
     display: inline-block;
     width: 100%;
     height: 100%;
 }
 
-/*.topic-wrap .slider-wrap .slick-item > a {*/
+/*.container-inner .slider-wrap .slick-item > a {*/
 /*    width: 100%;*/
 /*    height: 100%;*/
 /*}*/
 
-.topic-wrap .slider-wrap .upload-item-hover {
+.container-inner .upload-item-hover {
     display: none;
     background: rgba(0, 0, 0, 0.1);
     position: absolute;
@@ -53,11 +54,11 @@
     right: 0;
 }
 
-.topic-wrap .slider-wrap .slick-item:hover .upload-item-hover {
+.container-inner .upload-item:hover .upload-item-hover {
     display: inline-block;
 }
 
-.topic-wrap .slider-wrap .upload-item-hover .button.delete-image {
+.container-inner .upload-item-hover .button.delete-image {
     width: 30px;
     height: 30px;
     line-height: 30px;
@@ -66,7 +67,7 @@
     right: 0;
 }
 
-.topic-wrap .slider-wrap .upload-item-hover .button.delete-image * {
+.container-inner .upload-item-hover .button.delete-image * {
     vertical-align: middle;
 }
 

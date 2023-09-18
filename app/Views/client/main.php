@@ -53,6 +53,14 @@ $sliderImages = [
             ?>
             setMapPoints(points)
         })
+        let video = null;
+        <?php if(isset($videos) && sizeof($videos) > 0) {
+        $video = $videos[0];?>
+        video = {
+            id: <?=$video['id']?>,
+            mime_type: '<?=$video['mime_type']?>',
+        }
+        <?php } ?>
     </script>
 
 </head>
@@ -110,14 +118,8 @@ $sliderImages = [
                 </div>
                 <div class="slider-text-wrap">
                     <div class="text-wrap">
-                        <h3 class="title">Lorem ipsum</h3>
-                        <ul class="content cf">
-                            <li><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></li>
-                            <li><p>Proin semper dolor in purus iaculis ullamcorper.</p></li>
-                            <li><p>In eu posuere sapien, id finibus libero.</p></li>
-                            <li><p>Fusce fringilla enim dolor.</p></li>
-                            <li><p>Vivamus et arcu sit amet ante gravida malesuada.</p></li>
-                        </ul>
+                        <h3 class="title"><?= $settings['main-page-01-title'] ?? '' ?></h3>
+                        <p class="content cf"><?= $settings['main-page-01-content'] ?? '' ?></p>
                     </div>
                 </div>
             </div>
@@ -125,49 +127,36 @@ $sliderImages = [
     </div>
 
     <div class="section" id="page-intro">
-        <?php foreach ($videos as $index => $item) { ?>
-            <video muted loop>
-                <source src="/file/<?= $item['id'] ?>" type="<?= $item['mime_type'] ?>">
-            </video>
-        <?php } ?>
-
         <div class="page-inner whole-page">
             <div class="text-box">
                 <div class="text-wrap">
-                    <h3 class="title">Lorem ipsum</h3>
-                    <ul class="content cf">
-                        <li><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></li>
-                        <li><p>Proin semper dolor in purus iaculis ullamcorper.</p></li>
-                        <li><p>In eu posuere sapien, id finibus libero.</p></li>
-                        <li><p>Fusce fringilla enim dolor.</p></li>
-                        <li><p>Vivamus et arcu sit amet ante gravida malesuada.</p></li>
-                    </ul>
+                    <h3 class="title"><?= $settings['main-page-02-title'] ?? '' ?></h3>
+                    <p class="content cf"><?= $settings['main-page-02-content'] ?? '' ?></p>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="section" id="page-video">
         <div class="page-inner">
             <div class="inner-box">
-                <iframe class="main-video"
-                        width="680" height="400"
-                        src="https://www.youtube.com/embed/isTo5kISXMg?rel=0&controls=0&playsinline=1"
-                        title="YouTube video player"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen>
-                </iframe>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($settings['youtube-main-video'] ?? null)) {
+                    if (str_starts_with($settings['youtube-main-video'], "http")) { ?>
+                        <iframe class="main-video"
+                                width="680" height="400"
+                                src="<?= $settings['youtube-main-video'] ?? null ?>"
+                                title="YouTube video player"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                        </iframe>
+                    <?php } else {
+                        \App\Helpers\HtmlHelper::showMessage('err_wrong_value', 'Wrong value inserted');
+                    }
+                } ?>
                 <hr>
                 <div class="text-wrap">
-                    <h3 class="page-title">Lorem ipsum</h3>
-                    <ul class="content cf">
-                        <li><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></li>
-                        <li><p>Proin semper dolor in purus iaculis ullamcorper.</p></li>
-                        <li><p>In eu posuere sapien, id finibus libero.</p></li>
-                        <li><p>Fusce fringilla enim dolor.</p></li>
-                        <li><p>Vivamus et arcu sit amet ante gravida malesuada.</p></li>
-                    </ul>
+                    <h3 class="page-title"><?= $settings['main-page-03-title'] ?? '' ?></h3>
+                    <p class="content cf"><?= $settings['main-page-03-content'] ?? '' ?></p>
                 </div>
             </div>
         </div>
@@ -181,7 +170,7 @@ $sliderImages = [
                         <?= $topics_table['board']['alias'] ?>
                     </h3>
                     <div class="table-box">
-                        <?php if (\App\Helpers\HtmlHelper::checkArray($topics_table['array'])) {
+                        <?php if (\App\Helpers\HtmlHelper::showDataEmpty($topics_table['array'])) {
                             $array = $topics_table['array']; ?>
                             <div class="table-wrap">
                                 <div class="row-title">
@@ -223,7 +212,7 @@ $sliderImages = [
                         <?= $topics_grid['board']['alias'] ?>
                     </h3>
                     <div class="slider-box">
-                        <?php if (\App\Helpers\HtmlHelper::checkArray($topics_grid['array'])) {
+                        <?php if (\App\Helpers\HtmlHelper::showDataEmpty($topics_grid['array'])) {
                             $array = $topics_grid['array']; ?>
                             <div class="slick slider-wrap">
                                 <?php foreach ($array as $index => $item) { ?>
@@ -304,17 +293,8 @@ $sliderImages = [
                         <p class="input-title">Inquiry</p>
                         <textarea class="content" rows="4" name="content"></textarea>
                     </div>
-                    <div class="text-wrap">
-                        <div class="title"></div>
-                        <div class="content">
-                            작성하신 이름과 전화번호는 상담접수 용도로만 사용됩니다.
-                            <br/>
-                            - 개인정보 수집, 이용 목적 : 상담접수
-                            <br/>
-                            - 수집하려는 개인정보 항목 : 이름, 전화번호
-                            <br/>
-                            - 개인정보의 보유 및 이용기간 : 상담 완료 후 파기
-                        </div>
+                    <div class="text-wrap agreement">
+                        <p><?= $settings['main-page-agreement'] ?? '' ?></p>
                     </div>
                     <div class="input-wrap inline agreement">
                         <span class="input-title">개인 정보 취급 방침에 동의</span>

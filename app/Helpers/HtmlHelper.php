@@ -48,17 +48,22 @@ final class HtmlHelper
         return str_replace('\n', '&#10;', $string);
     }
 
-    public static function checkArray($array): bool
+    public static function showDataEmpty($data): bool
     {
-        if (!isset($array) || sizeof($array) == 0) {
-            echo '<div class="no-data-box">
-                    <div class="no-data-wrap">
-                        <img src="/asset/images/icon/empty_folder.png">
-                        <span>No data available.</span>
-                    </div>
-                </div>';
+        if (!isset($data) || is_array($data) && sizeof($data) == 0) {
+            self::showMessage('err_empty_folder', 'No data available.');
             return false;
         }
         return true;
+    }
+
+    public static function showMessage($icon, $text): void
+    {
+        echo '<div class="no-data-box">
+                <div class="no-data-wrap">
+                    <img src="/asset/images/icon/' . $icon . '.png">
+                    <span>' . $text . '</span>
+                </div>
+            </div>';
     }
 }

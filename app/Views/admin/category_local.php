@@ -17,7 +17,7 @@
                         </a>
                     </div>
                 <?php }
-                if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
+                if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
                             <span class="column name">Name</span>

@@ -12,27 +12,27 @@
         </div>
         <div class="table-box">
             <div class="table-wrap">
-                <?php if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
-                <div class="row-title">
-                    <div class="row">
-                        <span class="column name">Name</span>
-                        <span class="column address">Address</span>
-                        <span class="column latitude">Latitude</span>
-                        <span class="column longitude">Longitude</span>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
+                    <div class="row-title">
+                        <div class="row">
+                            <span class="column name">Name</span>
+                            <span class="column address">Address</span>
+                            <span class="column latitude">Latitude</span>
+                            <span class="column longitude">Longitude</span>
+                        </div>
                     </div>
-                </div>
-                <ul>
-                    <?php foreach ($array as $index => $item) { ?>
-                        <li class="row">
-                            <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
-                                <span class="column name"><?= $item['name'] ?? '' ?></span>
-                                <span class="column address"><?= $item['address'] ?></span>
-                                <span class="column latitude"><?= $item['latitude'] ?></span>
-                                <span class="column longitude"><?= $item['longitude'] ?></span>
-                            </a>
-                        </li>
-                    <?php } ?>
-                </ul>
+                    <ul>
+                        <?php foreach ($array as $index => $item) { ?>
+                            <li class="row">
+                                <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
+                                    <span class="column name"><?= $item['name'] ?? '' ?></span>
+                                    <span class="column address"><?= $item['address'] ?></span>
+                                    <span class="column latitude"><?= $item['latitude'] ?></span>
+                                    <span class="column longitude"><?= $item['longitude'] ?></span>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
                 <?php } ?>
             </div>
         </div>

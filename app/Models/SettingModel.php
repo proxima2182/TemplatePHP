@@ -7,7 +7,7 @@ namespace Models;
  * -----------------------------------------
  * id               INT
  * code             VARCHAR(20)
- * type             VARCHAR(20)     text|bool|number
+ * type             VARCHAR(20)     text|long-text|number|bool
  * name             VARCHAR(50)
  * value            TEXT
  * created_at       DATETIME

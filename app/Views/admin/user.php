@@ -5,29 +5,29 @@
         </h3>
         <div class="table-box">
             <div class="table-wrap">
-                <?php if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
-                <div class="row-title">
-                    <div class="row">
-                        <span class="column type">Type</span>
-                        <span class="column username">Username</span>
-                        <span class="column name">Name</span>
-                        <span class="column email">Email</span>
-                        <span class="column created-at">Created At</span>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
+                    <div class="row-title">
+                        <div class="row">
+                            <span class="column type">Type</span>
+                            <span class="column username">Username</span>
+                            <span class="column name">Name</span>
+                            <span class="column email">Email</span>
+                            <span class="column created-at">Created At</span>
+                        </div>
                     </div>
-                </div>
-                <ul>
-                    <?php foreach ($array as $index => $item) { ?>
-                        <li class="row">
-                            <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
-                                <span class="column type"><?= $item['type'] ?></span>
-                                <span class="column username"><?= $item['username'] ?></span>
-                                <span class="column name"><?= $item['name'] ?></span>
-                                <span class="column email"><?= $item['email'] ?></span>
-                                <span class="column created-at"><?= $item['created_at'] ?></span>
-                            </a>
-                        </li>
-                    <?php } ?>
-                </ul>
+                    <ul>
+                        <?php foreach ($array as $index => $item) { ?>
+                            <li class="row">
+                                <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
+                                    <span class="column type"><?= $item['type'] ?></span>
+                                    <span class="column username"><?= $item['username'] ?></span>
+                                    <span class="column name"><?= $item['name'] ?></span>
+                                    <span class="column email"><?= $item['email'] ?></span>
+                                    <span class="column created-at"><?= $item['created_at'] ?></span>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
                 <?php } ?>
             </div>
         </div>

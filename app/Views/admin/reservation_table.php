@@ -18,47 +18,47 @@ $is_admin_page = isset($is_admin) && $is_admin;
                         </a>
                     </div>
                 <?php }
-                if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
-                <div class="row-title">
-                    <div class="row">
-                        <span class="column questioner">Questioner</span>
-                        <span class="column status">Status</span>
-                        <span class="column expect-date">Expect Date</span>
-                        <span class="column expect-time">Expect Time</span>
-                        <span class="column confirm-date">Confirm Date</span>
-                        <span class="column confirm-time">Confirm Time</span>
+                if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
+                    <div class="row-title">
+                        <div class="row">
+                            <span class="column questioner">Questioner</span>
+                            <span class="column status">Status</span>
+                            <span class="column expect-date">Expect Date</span>
+                            <span class="column expect-time">Expect Time</span>
+                            <span class="column confirm-date">Confirm Date</span>
+                            <span class="column confirm-time">Confirm Time</span>
+                        </div>
                     </div>
-                </div>
-                <ul>
-                    <?php foreach ($array as $index => $item) { ?>
-                        <li class="row">
-                            <a href="javascript:openReservationBoardPopup(<?= $item['id'] ?>, <?= $board['is_time_select'] ?>);"
-                               class="button row-button">
-                                <span class="column questioner"><?= $item['questioner_name'] ?></span>
-                                <span class="column status">
-                                    <span class="ball <?= $item['status']?>"></span>
+                    <ul>
+                        <?php foreach ($array as $index => $item) { ?>
+                            <li class="row">
+                                <a href="javascript:openReservationBoardPopup(<?= $item['id'] ?>, <?= $board['is_time_select'] ?>);"
+                                   class="button row-button">
+                                    <span class="column questioner"><?= $item['questioner_name'] ?></span>
+                                    <span class="column status">
+                                    <span class="ball <?= $item['status'] ?>"></span>
                                     <span><?= $item['status'] ?></span>
                                 </span>
-                                <span class="column expect-date">
+                                    <span class="column expect-date">
                                 <?= $item['expect_date'] ??
                                     '<img src="/asset/images/icon/none.png"/>' ?>
                                 </span>
-                                <span class="column expect-time">
+                                    <span class="column expect-time">
                                 <?= $item['expect_time'] ??
                                     '<img src="/asset/images/icon/none.png"/>' ?>
                                 </span>
-                                <span class="column confirm-date">
+                                    <span class="column confirm-date">
                                 <?= $item['confirm_date'] ??
                                     '<img src="/asset/images/icon/none.png"/>' ?>
                                 </span>
-                                <span class="column confirm-time">
+                                    <span class="column confirm-time">
                                 <?= $item['confirm_time'] ??
                                     '<img src="/asset/images/icon/none.png"/>' ?>
                                 </span>
-                            </a>
-                        </li>
-                    <?php } ?>
-                </ul>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
                 <?php } ?>
             </div>
         </div>

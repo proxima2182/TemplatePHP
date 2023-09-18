@@ -5,25 +5,25 @@
         </h3>
         <div class="table-box">
             <div class="table-wrap">
-                <?php if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
-                <div class="row-title">
-                    <div class="row">
-                        <span class="column code">Code</span>
-                        <span class="column name">Name</span>
-                        <span class="column value">Value</span>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
+                    <div class="row-title">
+                        <div class="row">
+                            <span class="column code">Code</span>
+                            <span class="column name">Name</span>
+                            <span class="column value">Value</span>
+                        </div>
                     </div>
-                </div>
-                <ul>
-                    <?php foreach ($array as $index => $item) { ?>
-                        <li class="row">
-                            <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
-                                <span class="column code"><?= $item['code'] ?></span>
-                                <span class="column name"><?= $item['name'] ?></span>
-                                <span class="column value"><?= $item['value'] ?></span>
-                            </a>
-                        </li>
-                    <?php } ?>
-                </ul>
+                    <ul>
+                        <?php foreach ($array as $index => $item) { ?>
+                            <li class="row">
+                                <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
+                                    <span class="column code"><?= $item['code'] ?></span>
+                                    <span class="column name"><?= $item['name'] ?></span>
+                                    <span class="column value"><?= $item['value'] ?></span>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
                 <?php } ?>
             </div>
         </div>
@@ -59,7 +59,7 @@
                     editable: false,
                 },
                 value: {
-                    type: 'text',
+                    type: data['type'],
                 },
             }
             let keys = Object.keys(typeSet);

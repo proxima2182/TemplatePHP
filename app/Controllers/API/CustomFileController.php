@@ -2,9 +2,13 @@
 
 namespace API;
 
+use CodeIgniter\HTTP\DownloadResponse;
 use CodeIgniter\HTTP\ResponseInterface;
 use Crisu83\ShortId\ShortId;
 use Exception;
+use FFMpeg\Coordinate\TimeCode;
+use FFMpeg\FFMpeg;
+use InvalidArgumentException;
 use Models\BaseModel;
 use Models\CustomFileModel;
 
@@ -20,7 +24,7 @@ class CustomFileController extends BaseApiController
     }
 
     /**
-     * [post] /api/file/upload
+     * [post] /api/file/{type}/upload
      * @param $identifier
      * @return ResponseInterface
      */
@@ -55,8 +59,6 @@ class CustomFileController extends BaseApiController
 //                }
                 $file_name = $file->getClientName();
                 $mime_type = $file->getMimeType();
-                $width = 0;
-                $height = 0;
                 $uploadedType;
                 if (str_starts_with($mime_type, 'image')) {
                     $uploadedType = 'image';
@@ -73,11 +75,36 @@ class CustomFileController extends BaseApiController
                 mkdir($path, 0777, true);
                 $file->move($path);
 
+                $width = 0;
+                $height = 0;
+                $thumb_file_name = null;
+                switch ($uploadedType) {
+                    case 'image' :
+                        $size = getimagesize($path . '/' . $file_name);
+                        $width = $size[0];
+                        $height = $size[1];
+                        break;
+                    case 'video' :
+                        $ffmpeg = FFMpeg::create();
+                        $video = $ffmpeg->open($path . '/' . $file_name);
+
+                        $thumb_file_name = 'thumb.jpg';
+                        $video->frame(TimeCode::fromSeconds(0))
+                            ->save($path . '/' . $thumb_file_name);
+                        $size = getimagesize($path . '/' . $thumb_file_name);
+                        $width = $size[0];
+                        $height = $size[1];
+                        break;
+                }
+
 //                // saving data as blob have data loss
 //                $data = file_get_contents($file->getPath() . "/" . $file->getFilename());
                 $data = [
                     'type' => $type,
                     'file_name' => $file_name,
+                    'thumb_file_name' => $thumb_file_name,
+                    'width' => $width,
+                    'height' => $height,
                     'mime_type' => $mime_type,
                     'path' => $path,
                     'symbolic_path' => $symbolic_path,
@@ -92,7 +119,8 @@ class CustomFileController extends BaseApiController
                 } else {
                     $response['success'] = true;
                     $response['data'] = [
-                        'id' => $inserted_row_id
+                        'id' => $inserted_row_id,
+                        'mime_type' => $mime_type,
                     ];
                 }
             } else {
@@ -105,13 +133,13 @@ class CustomFileController extends BaseApiController
         return $this->response->setJSON($response);
     }
 
-    public function getFile($id): void
+    /**
+     * [get] /file/{id}
+     * @param $id
+     * @return DownloadResponse|null
+     */
+    public function getFile($id): DownloadResponse|null
     {
-//        if (($image = file_get_contents(WRITEPATH . 'uploads/' . $imageName)) === FALSE)
-//            show_404();
-
-        // choose the right mime type
-
         try {
             $result = $this->customFileModel->find($id);
 
@@ -119,12 +147,14 @@ class CustomFileController extends BaseApiController
 //                if ($result['type'] != 'image') {
 //                    throw new Exception('bad request');
 //                }
-                $data = file_get_contents($result['path'] . "/" . $result['file_name']);
-                $this->response
-                    ->setStatusCode(200)
-                    ->setContentType($result['mime_type'])
-                    ->setBody($data)
-                    ->send();
+//                $data = file_get_contents($result['path'] . "/" . $result['file_name']);
+//                $this->response
+//                    ->setStatusCode(200)
+//                    ->setContentType($result['mime_type'])
+//                    ->setBody($data)
+//                    ->send();
+
+                return $this->response->download($result['path'] . "/" . $result['file_name'], null);
             } else {
                 throw new Exception('not found');
             }
@@ -133,6 +163,31 @@ class CustomFileController extends BaseApiController
         }
     }
 
+    /**
+     * [get] /file/{id}/thumbnail
+     * @param $id
+     * @return DownloadResponse|null
+     */
+    public function getFileThumbnail($id): DownloadResponse|null
+    {
+        try {
+            $result = $this->customFileModel->find($id);
+
+            if ($result && isset($result['thumb_file_name'])) {
+                return $this->response->download($result['path'] . "/" . $result['thumb_file_name'], null);
+            } else {
+                throw new Exception('not found');
+            }
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+    /**
+     * [delete] /api/file/delete/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
     public function deleteFile($id): ResponseInterface
     {
         $response = [
@@ -141,8 +196,7 @@ class CustomFileController extends BaseApiController
         try {
             $result = $this->customFileModel->find($id);
             if ($result) {
-                unlink($result['path'] . '/' . $result['file_name']);
-                rmdir($result['path']);
+                $this->removeDirectory($result['path']);
                 $this->customFileModel->delete($id);
                 $response['success'] = true;
             } else {
@@ -156,8 +210,9 @@ class CustomFileController extends BaseApiController
     }
 
     /**
-     * [post] /api/file/refresh/{identifier}
+     * [post] /api/file/{type}/refresh/{identifier}
      * 업로드 했으나 중간에 완료하지 않고 취소할 경우 호출
+     * @param $type
      * @param $identifier
      * @return ResponseInterface
      */
@@ -168,14 +223,17 @@ class CustomFileController extends BaseApiController
         ];
         try {
             if (strlen($identifier) == 0) throw new Exception('wrong path parameter');
+            $conditionQuery = "";
+            if ($type != 'all') {
+                $conditionQuery = "type = '" . $type . "' AND ";
+            }
             $result = BaseModel::transaction($this->db, [
-                "SELECT * FROM custom_file WHERE type = '" . $type . "' AND identifier = '" . $identifier . "'",
+                "SELECT * FROM custom_file WHERE " . $conditionQuery . "identifier = '" . $identifier . "'",
             ]);
 //          $ids = array_column($result, 'id');
             $ids = [];
             foreach ($result as $item) {
-                unlink($item['path'] . '/' . $item['file_name']);
-                rmdir($item['path']);
+                $this->removeDirectory($item['path']);
                 $ids[] = $item['id'];
             }
             if (sizeof($ids) > 0) {
@@ -190,8 +248,9 @@ class CustomFileController extends BaseApiController
     }
 
     /**
-     * [post] /api/file/confirm/{identifier}
+     * [post] /api/file/{type}/confirm/{identifier}
      * 메인용 리소스에만 적용됨
+     * @param $type
      * @param $identifier
      * @return ResponseInterface
      */
@@ -216,7 +275,7 @@ class CustomFileController extends BaseApiController
                     $conditionQuery = "type = '" . $type . "' AND ";
                 }
                 $queries[] = "UPDATE custom_file SET identifier = NULL, priority = " . $index + 1
-                    . " WHERE (id = '" . $file_id . "' AND ".$conditionQuery."target = 'main') OR (id = '" . $file_id . "' AND identifier = '" . $identifier . "')";
+                    . " WHERE (id = '" . $file_id . "' AND " . $conditionQuery . "target = 'main') OR (id = '" . $file_id . "' AND identifier = '" . $identifier . "')";
                 $selectorQuery .= $prefix . $file_id;
                 $prefix = ',';
             }
@@ -227,7 +286,7 @@ class CustomFileController extends BaseApiController
                 $conditionQuery = "type = '" . $type . "' AND ";
             }
             if (sizeof($data['files']) > 0) {
-                $conditionQuery = "target = 'main' AND id NOT IN(" . $selectorQuery . ")" .
+                $conditionQuery .= "target = 'main' AND id NOT IN(" . $selectorQuery . ")" .
                     " OR identifier = '" . $identifier . "'";
             } else {
                 $conditionQuery .= "target = 'main'" .
@@ -255,8 +314,7 @@ class CustomFileController extends BaseApiController
         // 파일 삭제 실행
         foreach ($files as $item) {
             try {
-                unlink($item['path'] . '/' . $item['file_name']);
-                rmdir($item['path']);
+                $this->removeDirectory($item['path']);
             } catch (Exception $e) {
                 //todo log
             }
@@ -265,5 +323,24 @@ class CustomFileController extends BaseApiController
         BaseModel::transaction($this->db, [
             "DELETE FROM custom_file WHERE " . $conditionQuery,
         ]);
+    }
+
+    private function removeDirectory(string $path): void
+    {
+        if (!is_dir($path)) {
+            throw new InvalidArgumentException("$path must be a directory");
+        }
+        if (!str_ends_with($path, '/')) {
+            $path .= '/';
+        }
+        $files = glob($path . '*', GLOB_MARK);
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                self::removeDirectory($file);
+            } else {
+                unlink($file);
+            }
+        }
+        rmdir($path);
     }
 }

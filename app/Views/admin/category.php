@@ -17,7 +17,7 @@
                         </a>
                     </div>
                 <?php }
-                if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
+                if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
                             <span class="column code">Code</span>
@@ -91,11 +91,11 @@
                     type: 'text',
                 },
                 is_main_only: {
-                    type: 'checkbox',
+                    type: 'bool',
                     name: 'Main Only'
                 },
                 has_local: {
-                    type: 'checkbox',
+                    type: 'bool',
                     name: 'Show Local'
                 },
             }

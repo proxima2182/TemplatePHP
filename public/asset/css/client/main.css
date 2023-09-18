@@ -123,6 +123,7 @@ slider 페이지
 #page-start .slider-text-wrap .text-wrap .content {
     font-size: 18px;
     font-weight: 400;
+    white-space: pre-wrap;
 }
 
 /*
@@ -180,6 +181,7 @@ video background 패이지
 #page-intro .text-wrap .content {
     font-size: 18px;
     font-weight: 400;
+    white-space: pre-wrap;
 }
 
 
@@ -205,6 +207,7 @@ youtube 패이지
 
 #page-video .text-wrap .content {
     font-size: 18px;
+    white-space: pre-wrap;
 }
 
 /*
@@ -321,6 +324,7 @@ map 패이지
 #page-map .location-list-wrap .content {
     font-size: 16px;
     color: #666;
+    white-space: pre-wrap;
 }
 
 #page-map .map-box {
@@ -400,12 +404,19 @@ submit 페이지
     font-weight: 200;
 }
 
-#page-last .form-wrap .text-wrap {
+#page-last .form-wrap .text-wrap.agreement {
     width: 600px;
     padding: 15px;
     margin-top: 15px;
     border: 1px solid #000;
+    height: 100px;
+    overflow-y: scroll;
+}
+
+#page-last .form-wrap .text-wrap * {
+    font-size: 16px;
     text-align: left;
+    white-space: pre-wrap;
 }
 
 #page-last .page-inner .button {

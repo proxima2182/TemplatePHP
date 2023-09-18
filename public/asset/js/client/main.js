@@ -143,6 +143,12 @@ $(document).ready(function () {
             }
         }
     });
+    if (video) {
+        $(`#page-intro`).prepend(`
+        <video muted loop>
+            <source src="/file/${video['id']}" type="${video['mime_type']}">
+        </video>`);
+    }
 
     resizeWindow();
 
@@ -250,15 +256,15 @@ function checkPagePopup() {
             let array = response.array;
             for (let i in array) {
                 let item = array[i]
-                if (!handleStorage.has(`main-page-popup-${item['id']}`)) {
+                if (!handleStorage.has(`main-page-popup-${item['id']}`) && item.files.length > 0) {
                     let className = `page-popup-${hash()}`;
                     let html = `
                     <div class="slider-wrap">
                         <div class="slick">`;
                     //TODO add loop
-                    for (let index in item.images) {
-                        let image = item.images[index];
-                        html += `<div class="slick-item" style="background: url('/file/${image['id']}') no-repeat center; background-size: cover; font-size: 0;">Slider #${index}</div>`
+                    for (let index in item.files) {
+                        let file = item.files[index];
+                        html += `<div class="slick-item" style="background: url('/file/${file['id']}') no-repeat center; background-size: cover; font-size: 0;">Slider #${index}</div>`
                     }
                     html += `
                         </div>

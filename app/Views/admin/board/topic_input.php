@@ -12,8 +12,8 @@ $identifier = $shortid->generate();
 <script type="text/javascript">
     identifier = '<?=$identifier?>';
     <?php if (isset($data['files'])) {
-    foreach ($data['files'] as $index => $image) { ?>
-    image_file_ids.push('<?=$image['id']?>')
+    foreach ($data['files'] as $index => $item) { ?>
+    files.push('image', '<?=$item['id']?>');
     <?php }
     }?>
 </script>
@@ -39,14 +39,6 @@ $identifier = $shortid->generate();
             <div class="slider-wrap">
                 <div class="slider-box">
                     <div class="slick uploader">
-                        <div class="slick-item upload-item-add"
-                             style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
-                            <label for="file" class="button"></label>
-                            <input type="file" name="file" multiple id="file"
-                                   onchange="onFileUpload(this);"
-                                   accept="image/*"/>
-                            <!--                            <a href="#" class="button"></a>-->
-                        </div>
                         <?php if (isset($data['files'])) {
                             foreach ($data['files'] as $index => $file) { ?>
                                 <div class="slick-item draggable-item upload-item" draggable="true"
@@ -54,7 +46,7 @@ $identifier = $shortid->generate();
                                     Slider #<?= $file['id'] ?>
                                     <input hidden type="text" name="id" value="<?= $file['id'] ?>">
                                     <div class="upload-item-hover">
-                                        <a href="javascript:deleteImage('<?= $file['id'] ?>')"
+                                        <a href="javascript:deleteImageFile('<?= $file['id'] ?>')"
                                            class="button delete-image black">
                                             <img src="/asset/images/icon/cancel_white.png"/>
                                         </a>
@@ -62,6 +54,13 @@ $identifier = $shortid->generate();
                                 </div>
                             <?php }
                         } ?>
+                        <div class="slick-item upload-item-add"
+                             style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
+                            <label for="file" class="button"></label>
+                            <input type="file" name="file" multiple id="file"
+                                   onchange="onFileUpload(this);"
+                                   accept="image/*"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -75,8 +74,7 @@ $identifier = $shortid->generate();
 <script type="text/javascript">
     function confirmEditTopic(id) {
         let data = parseInputToData($(`.topic-wrap .form-wrap .editable`))
-
-        data['files'] = image_file_ids;
+        data['files'] = files.get('image');
 
         apiRequest({
             type: 'POST',
@@ -98,8 +96,7 @@ $identifier = $shortid->generate();
 
     function confirmCreateTopic() {
         let data = parseInputToData($(`.topic-wrap .form-wrap .editable`))
-
-        data['files'] = image_file_ids;
+        data['files'] = files.get('image');
 
         apiRequest({
             type: 'POST',

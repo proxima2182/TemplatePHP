@@ -9,15 +9,14 @@ $identifier = $shortid->generate();
     identifier = '<?=$identifier?>';
     <?php if (isset($slider_images)) {
     foreach ($slider_images as $index => $item) { ?>
-    image_file_ids.push('<?=$item['id']?>')
+    files.push('image', '<?=$item['id']?>');
     <?php }
     }?>
-    let video_id = null;
-    let video_mime_type = null;
+    let video_mime_types = {};
     <?php if (isset($videos)) {
     foreach ($videos as $index => $item) { ?>
-    video_id = '<?=$item['id']?>';
-    video_mime_type = '<?=$item['mime_type']?>';
+    files.push('video', '<?=$item['id']?>');
+    video_mime_types['<?=$item['id']?>'] = '<?=$item['mime_type']?>';
     <?php }
     }?>
 </script>
@@ -30,15 +29,13 @@ $identifier = $shortid->generate();
             Video
         </h4>
         <div class="video-box">
-            <?php if (\App\Helpers\HtmlHelper::checkArray($videos)) { ?>
+            <?php if (\App\Helpers\HtmlHelper::showDataEmpty($videos ?? null)) { ?>
                 <div class="video-wrap lines-horizontal">
-                    <div class="upload-item">
-                        <?php foreach ($videos as $index => $item) { ?>
-                            <video muted loop>
-                                <source src="/file/<?= $item['id'] ?>" type="<?= $item['mime_type'] ?>">
-                            </video>
-                        <?php } ?>
-                    </div>
+                    <?php foreach ($videos as $index => $item) { ?>
+                        <div class="upload-item"
+                             style="background: url('/file/<?= $item['id'] ?>/thumbnail') no-repeat center; background-size: cover; font-size: 0;">
+                        </div>
+                    <?php } ?>
                 </div>
             <?php } ?>
         </div>
@@ -53,7 +50,7 @@ $identifier = $shortid->generate();
             Slider Images
         </h4>
         <div class="slider-box">
-            <?php if (\App\Helpers\HtmlHelper::checkArray($slider_images)) { ?>
+            <?php if (\App\Helpers\HtmlHelper::showDataEmpty($slider_images ?? null)) { ?>
                 <div class="slider-wrap lines-horizontal">
                     <div class="slick-wrap">
                         <div class="slick">
@@ -103,24 +100,17 @@ $identifier = $shortid->generate();
             <div class="slick-wrap">`;
         //todo change identifier
         html += `
-            <div class="slick uploader">
-                <div class="slick-item upload-item-add"
-                     style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
-                    <label for="file" class="button"></label>
-                    <input type="file" name="file" multiple id="file"
-                           onchange="onFileUpload(this, 'image', 'main');"
-                           accept="image/*"/>
-                </div>`;
+            <div class="slick uploader">`;
 
-        for (let i in image_file_ids) {
-            let image_id = image_file_ids[i];
+        for (let i in files.get('image')) {
+            let file_id = files.get('image')[i];
             html += `
             <div class="slick-item draggable-item upload-item" draggable="true"
-                 style="background: url('/file/${image_id}') no-repeat center; background-size: cover; font-size: 0;">
-                Slider #${image_id}
-                <input hidden type="text" name="id" value="${image_id}">
+                 style="background: url('/file/${file_id}') no-repeat center; background-size: cover; font-size: 0;">
+                Slider #${file_id}
+                <input hidden type="text" name="id" value="${file_id}">
                 <div class="upload-item-hover">
-                    <a href="javascript:deleteImage('${image_id}')"
+                    <a href="javascript:deleteImageFile('${file_id}')"
                        class="button delete-image black">
                         <img src="/asset/images/icon/cancel_white.png"/>
                     </a>
@@ -128,6 +118,13 @@ $identifier = $shortid->generate();
             </div>`;
         }
         html += `
+                <div class="slick-item upload-item-add"
+                     style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
+                    <label for="file" class="button"></label>
+                    <input type="file" name="file" multiple id="file"
+                           onchange="onFileUpload(this, 'image', 'main');"
+                           accept="image/*"/>
+                </div>
             </div>
             </div>
         </div>`;
@@ -159,22 +156,16 @@ $identifier = $shortid->generate();
     }
 
     function cancelSliderEdit() {
-        dropEditingImages('image', function () {
+        dropEditingFiles('image', function () {
             location.reload();
         });
     }
 
     function confirmSliderEdit() {
-        confirmEditImages('image', {
-            files: image_file_ids,
-        }, function () {
+        confirmEditFiles('image', function () {
             location.reload();
         });
     }
-
-    $(document).ready(function () {
-        $(`.container-inner .video-wrap .upload-item`).setVideoCoverStyle();
-    })
 
     function editVideo() {
         let $parent = $(`.container-inner .video-box`);
@@ -182,44 +173,32 @@ $identifier = $shortid->generate();
 
         let html = `<div class="video-wrap lines-horizontal">`;
         //todo change identifier
-        if (!video_id || !video_mime_type) {
+        if (files.get('video').length == 0) {
             html += `
             <div class="upload-item-add"
                  style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                 <label for="file" class="button"></label>
                 <input type="file" name="file" multiple id="file"
-                       onchange="onFileUpload(this, 'video', 'main');"
+                       onchange="onFileUpload(this, 'video', 'main', onVideoFileUploaded);"
                        accept="video/*"/>
             </div>`;
         } else {
-            html += `
-            <div class="upload-item">
-                <video muted loop>
-                    <source src="/file/${video_id}" type="${video_mime_type}">
-                </video>
-                <div class="upload-item-hover">
-                    <a href="javascript:deleteVideo('${video_id}')"
-                       class="button delete-image black">
-                        <img src="/asset/images/icon/cancel_white.png"/>
-                    </a>
-                </div>
-            </div>`
+            for (let i in files.get('video')) {
+                let file_id = files.get('video')[i];
+                html += `
+                <div class="upload-item" style="background: url('/file/${file_id}/thumbnail') no-repeat center; background-size: cover; font-size: 0;">
+                    <div class="upload-item-hover">
+                        <a href="javascript:deleteVideoFile('${file_id}')"
+                           class="button delete-image black">
+                            <img src="/asset/images/icon/cancel_white.png"/>
+                        </a>
+                    </div>
+                </div>`
+            }
         }
         html += `
         </div>`;
         $parent.append(html);
-        // $parent.find('.slick').slick({
-        //     slidesToShow: 4,
-        //     slidesToScroll: 4,
-        //     autoplay: false,
-        //     infinite: false,
-        //     draggable: false,
-        // });
-        // $parent.find('.slick').initDraggable({
-        //     onDragFinished: onDragFinished
-        // });
-        $parent.find('.upload-item').setVideoCoverStyle();
-
         let $wrapButtonControls = $(`.control-button-wrap.video`);
         $wrapButtonControls.empty();
         $wrapButtonControls.append(`
@@ -236,26 +215,38 @@ $identifier = $shortid->generate();
     }
 
     function cancelVideoEdit() {
-        dropEditingImages('video', function () {
+        dropEditingFiles('video', function () {
             location.reload();
         });
     }
 
     function confirmVideoEdit() {
-        let files = [];
-        if (video_id) {
-            files.add(video_id);
-        }
-        confirmEditImages('video', {
-            files: files,
-        }, function () {
+        confirmEditFiles('video', function () {
             location.reload();
         });
     }
 
-    function deleteVideo() {
-        video_mime_type = null;
-        video_id = null;
+    function onVideoFileUploaded(file_id, mime_type) {
+        let $parent = $(`.container-inner .video-box`);
+        $parent.empty();
+        $parent.append(`
+        <div class="video-wrap lines-horizontal">
+            <div class="upload-item" style="background: url('/file/${file_id}/thumbnail') no-repeat center; background-size: cover; font-size: 0;">
+                <div class="upload-item-hover">
+                    <a href="javascript:deleteVideoFile('${file_id}')"
+                       class="button delete-image black">
+                        <img src="/asset/images/icon/cancel_white.png"/>
+                    </a>
+                </div>
+            </div>
+        </div>`);
+    }
+
+    function deleteVideoFile(id) {
+        let type = 'video';
+        let index = files.get(type).indexOf(id);
+        if (index < 0) return;
+        files.splice(type, index);
 
         let $parent = $(`.container-inner .video-box .video-wrap`);
         $parent.empty();
@@ -265,7 +256,7 @@ $identifier = $shortid->generate();
                  style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                 <label for="file" class="button"></label>
                 <input type="file" name="file" multiple id="file"
-                       onchange="onFileUpload(this, 'video', 'main');"
+                       onchange="onFileUpload(this, 'video', 'main', onVideoFileUploaded);"
                        accept="video/*"/>
             </div>`);
 

@@ -36,10 +36,12 @@ function openTopicPopup(id) {
 
             .${className} .popup .slick button.slick-prev {
                 left: -30px;
+                background: url('/asset/images/icon/button_left.png') no-repeat center;
             }
 
             .${className} .popup .slick button.slick-next {
                 right: -30px;
+                background: url('/asset/images/icon/button_right.png') no-repeat center;
             }
 
             .${className} .popup .slider-wrap, .${className} .popup .text-wrap {
@@ -70,17 +72,17 @@ function openTopicPopup(id) {
                 <span class="column title">${data['title']}</span>
                 <span class="column created-at">${data['created_at']}</span>
             </div>`;
-            if (data.images.length > 0) {
+            if (data.files.length > 0) {
                 html += `
                 <div class="slider-wrap line-after">
                     <div class="slick">`;
                 //TODO add loop
-                for (let index in data.images) {
-                    let image = data.images[index];
+                for (let index in data.files) {
+                    let file = data.files[index];
                     html += `
-                        <div class="slick-item button"
-                             style="background: url('/file/${image['id']}') no-repeat center; background-size: cover; font-size: 0;"
-                             onclick="openImagePopup(${image['id']})">
+                        <div class="slick-item  button"
+                             style="background: url('/file/${file['id']}') no-repeat center; background-size: cover; font-size: 0;"
+                             onclick="openImagePopup(${file['id']})">
                             Slider #${index}
                         </div>`
                 }
@@ -88,7 +90,7 @@ function openTopicPopup(id) {
                     </div>
                 </div>`
             }
-            let minHeight = data.images.length == 0 ? 200 : 100;
+            let minHeight = data.files.length == 0 ? 200 : 100;
             html += `
             <div class="text-wrap" style="min-height: ${minHeight}px;">
                 <p class="content">${data['content']}</p>
@@ -124,7 +126,7 @@ function openTopicPopup(id) {
                 style: style,
                 html: html,
                 callback: function () {
-                    if (data.images.length > 0) {
+                    if (data.files.length > 0) {
                         $(`.${className} .popup .slider-wrap .slick`).slick({
                             slidesToShow: 3,
                             slidesToScroll: 1,

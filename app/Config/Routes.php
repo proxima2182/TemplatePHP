@@ -90,6 +90,7 @@ $routes->post('/api/file/(image|video)/upload/([a-zA-Z0-9\-\_]*)', [\API\CustomF
 $routes->post('/api/file/(image|video|all)/refresh/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'refreshFile']);
 $routes->post('/api/file/(image|video)/confirm/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'confirmFile']);
 $routes->delete('/api/file/delete/([0-9]+)', [\API\CustomFileController::class, 'deleteFile']);
+$routes->get('/file/(:any)/thumbnail', [\API\CustomFileController::class, 'getFileThumbnail']);
 $routes->get('/file/(:any)', [\API\CustomFileController::class, 'getFile']);
 
 $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);

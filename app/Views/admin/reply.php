@@ -5,27 +5,27 @@
         </h3>
         <div class="table-box">
             <div class="table-wrap">
-                <?php if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
-                <div class="row-title">
-                    <div class="row">
-                        <span class="column user">User</span>
-                        <span class="column content">Content</span>
-                        <span class="column board">Board</span>
-                        <span class="column created-at">Created At</span>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
+                    <div class="row-title">
+                        <div class="row">
+                            <span class="column user">User</span>
+                            <span class="column content">Content</span>
+                            <span class="column board">Board</span>
+                            <span class="column created-at">Created At</span>
+                        </div>
                     </div>
-                </div>
-                <ul>
-                    <?php foreach ($array as $index => $item) { ?>
-                        <li class="row">
-                            <a href="javascript:openReplyPopup('<?= $item['id'] ?>')" class="button row-button">
-                                <span class="column user"><?= $item['user_name'] ?></span>
-                                <span class="column content"><?= $item['content'] ?></span>
-                                <span class="column board"><?= $item['board_alias'] ?></span>
-                                <span class="column created-at"><?= $item['created_at'] ?></span>
-                            </a>
-                        </li>
-                    <?php } ?>
-                </ul>
+                    <ul>
+                        <?php foreach ($array as $index => $item) { ?>
+                            <li class="row">
+                                <a href="javascript:openReplyPopup('<?= $item['id'] ?>')" class="button row-button">
+                                    <span class="column user"><?= $item['user_name'] ?></span>
+                                    <span class="column content"><?= $item['content'] ?></span>
+                                    <span class="column board"><?= $item['board_alias'] ?></span>
+                                    <span class="column created-at"><?= $item['created_at'] ?></span>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
                 <?php } ?>
             </div>
         </div>

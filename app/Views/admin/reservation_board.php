@@ -14,7 +14,7 @@
                         </a>
                     </div>
                 <?php }
-                if (\App\Helpers\HtmlHelper::checkArray($array)) { ?>
+                if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
                             <span class="column code">Code</span>
@@ -81,14 +81,14 @@
                     type: 'text',
                 },
                 description: {
-                    type: 'textarea',
+                    type: 'long-text',
                 },
                 is_time_select: {
-                    type: 'checkbox',
+                    type: 'bool',
                     name: 'Time Select',
                 },
                 default_accept_comment: {
-                    type: 'textarea',
+                    type: 'long-text',
                     name: 'Default Accept Comment'
                 },
             }

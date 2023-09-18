@@ -133,15 +133,6 @@ function fromDataToHtml(key, data, typeSet) {
     }
 
     switch (type) {
-        case 'checkbox': {
-            let option = `${checkClasses()} ${isReadOnly ? `disabled` : ``}
-             ${value && value == 1 ? 'checked' : ''}`
-            return `
-                <div class="input-wrap inline">
-                    <p class="input-title">${name}</p>
-                    <input type="checkbox" name="${key}" ${option}/>
-                </div>`
-        }
         case 'select': {
             let option = `${checkClasses()} ${isReadOnly ? `disabled` : ``}`
             let html = `
@@ -163,7 +154,16 @@ function fromDataToHtml(key, data, typeSet) {
             </div>`
             return html;
         }
-        case 'textarea': {
+        case 'bool': {
+            let option = `${checkClasses()} ${isReadOnly ? `disabled` : ``}
+             ${value && value == 1 ? 'checked' : ''}`
+            return `
+                <div class="input-wrap inline">
+                    <p class="input-title">${name}</p>
+                    <input type="checkbox" name="${key}" ${option}/>
+                </div>`
+        }
+        case 'long-text': {
             let option = `${checkClasses(['under-line'])} ${isReadOnly ? `readonly` : ``}`
             return `
                 <div class="input-wrap inline">
@@ -215,7 +215,7 @@ function addInputPopupControlWrap(className, data) {
     if (typeof controlHtml == 'string' && controlHtml.length == 0) {
         return;
     }
-    if(getControlHtml == null) return;
+    if (getControlHtml == null) return;
     $(`.${className} .popup-box`).css({
         "padding-bottom": "61px",
     })
