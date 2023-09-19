@@ -140,7 +140,7 @@ function openPopup(input) {
     bottom: 0;
     background: #fff;
 }
-.${className} .control-box {
+.${className} .control-button-box {
     padding: 10px 20px 20px 20px;
 }
 </style>

@@ -43,6 +43,8 @@ class ReservationModel extends BaseModel
         'confirm_date',
         'confirm_time',
         'respond_comment',
+        'temp_name',
+        'temp_phone_number',
         'created_at',
         'updated_at',
     ];

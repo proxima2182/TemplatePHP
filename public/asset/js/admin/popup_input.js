@@ -41,7 +41,7 @@ function getPopupStyle(className) {
         background: #fff;
     }
     
-    .${className} .popup-inner .control-box {
+    .${className} .popup-inner .control-button-box {
         padding: 5px 20px 15px 20px;
     }
     
@@ -222,7 +222,7 @@ function addInputPopupControlWrap(className, data) {
     if (controlHtml != undefined) {
         $(`.${className} .popup-inner`).append(
             `<div class="control-button-wrap absolute line-before">
-            <div class="control-box">
+            <div class="control-button-box">
                 ${controlHtml}
             </div>
         </div>`
@@ -230,7 +230,7 @@ function addInputPopupControlWrap(className, data) {
     } else {
         $(`.${className} .popup-inner`).append(`
         <div class="control-button-wrap absolute line-before">
-            <div class="control-box">
+            <div class="control-button-box">
                 <a href="javascript:editInputPopup('${className}', ${data['id']});"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
@@ -366,7 +366,7 @@ async function openInputPopupCreate() {
         })
         $(`.${className} .popup-inner`).append(`
         <div class="control-button-wrap absolute line-before">
-            <div class="control-box">
+            <div class="control-button-box">
                 <a href="javascript:closePopup('${className}');"
                     class="button under-line cancel">
                     <img src="/asset/images/icon/cancel.png"/>
@@ -396,7 +396,7 @@ function editInputPopup(className, id) {
 
     $(`.${className} .popup-inner`).append(`
     <div class="control-button-wrap absolute line-before">
-        <div class="control-box">
+        <div class="control-button-box">
             <a href="javascript:refreshInputPopup(${id});"
                 class="button under-line cancel">
                 <img src="/asset/images/icon/cancel.png"/>

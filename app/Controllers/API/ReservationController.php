@@ -192,7 +192,9 @@ class ReservationController extends EmailController
         $data['expect_time'] = $data['expect_time'] ?? null;
         $timeRaw = $this->getTimeRaw($data['expect_date'], $data['expect_time']);
 
-        $data['questioner_id'] = $this->session->user_id;
+        if (isset($data['user_id'])) {
+            $data['questioner_id'] = $data['user_id'];
+        }
 
         $response = [
             'success' => false,
@@ -204,6 +206,10 @@ class ReservationController extends EmailController
             try {
                 $data['datetime'] = date("Y-m-d H:i:s", $timeRaw);
                 $data['date'] = date("Y-m-d", $timeRaw);
+                if($data['expect_date'] == null && $data['expect_time'] == null) {
+                    $data['expect_date'] = date("Y-m-d", $timeRaw);
+                    $data['expect_time'] = date("H:i:s", $timeRaw);
+                }
 
                 // add fragment
                 $year = date("Y", $timeRaw);

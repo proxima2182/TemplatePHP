@@ -107,10 +107,15 @@ $is_admin_page = isset($is_admin) && $is_admin;
                                 <li class="row">
                                     <a href="javascript:openReservationBoardPopup(${item['id']}, ${is_time_select});"
                                        class="button row-button">
-                                        <span class="column questioner">${item['questioner_name']}</span>
+                                        <span class="column questioner">
+                                            ${item['questioner_name'] ??
+                                            item['temp_name'] ??
+                                            '<img src="/asset/images/icon/none.png"/>'}
+                                        </span>
                                         <span class="column status">${item['status']}</span>
                                         <span class="column time">
-                                        ${item[time_field_name] ?? '<img src="/asset/images/icon/none.png"/>'}
+                                            ${item[time_field_name] ??
+                                            '<img src="/asset/images/icon/none.png"/>'}
                                         </span>
                                     </a>
                                 </li>`

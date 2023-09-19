@@ -418,3 +418,46 @@ function setMapPoints(points) {
     // map.setMinLevel(12)
     // map.setMaxLevel(13)
 }
+
+
+function requestMembership() {
+    let inputData = parseInputToData($(`#page-last .form-wrap input, #page-last .form-wrap textarea`))
+    let keys = ['name', 'phone_number', 'content'];
+    for (let i in keys) {
+        let key = keys[i];
+        if (isEmpty(inputData[key])) {
+            //todo error message
+            return;
+        }
+    }
+    apiRequest({
+        type: 'POST',
+        url: `/api/reservation/request`,
+        data: {
+            reservation_board_id: 1,
+            temp_name: inputData['name'],
+            temp_phone_number: inputData['phone_number'],
+            question_comment: inputData['content'],
+        },
+        dataType: 'json',
+        success: function (response, status, request) {
+            if (!response.success) {
+                openPopupErrors('popup-error', response, status, request);
+                return;
+            }
+            $(`#page-last .form-wrap input, #page-last .form-wrap textarea`).val('');
+        },
+        error: function (response, status, error) {
+            openPopupErrors('popup-error', response, status, error);
+        },
+    });
+}
+
+function onInputValueChanged(element) {
+    let $button = $(`#page-last .button-wrap .button`);
+    if (!element.checked) {
+        $button.addClass('disabled');
+    } else {
+        $button.removeClass('disabled');
+    }
+}

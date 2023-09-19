@@ -283,11 +283,7 @@ $sliderImages = [
                     </div>
                     <div class="input-wrap inline">
                         <p class="input-title">Phone Number</p>
-                        <input type="phone" name="phone"/>
-                    </div>
-                    <div class="input-wrap inline">
-                        <p class="input-title">Region</p>
-                        <input type="text" name="region"/>
+                        <input type="phone" name="phone_number"/>
                     </div>
                     <div class="input-wrap inline">
                         <p class="input-title">Inquiry</p>
@@ -298,10 +294,10 @@ $sliderImages = [
                     </div>
                     <div class="input-wrap inline agreement">
                         <span class="input-title">개인 정보 취급 방침에 동의</span>
-                        <input type="checkbox" name="agreement"/>
+                        <input type="checkbox" name="agreement" onchange="onInputValueChanged(this)"/>
                     </div>
-                    <div class="submit-box">
-                        <a href="javascript:requestRegister();" class="button submit black">제출</a>
+                    <div class="button-wrap">
+                        <a href="javascript:requestMembership();" class="button submit disabled black">제출</a>
                     </div>
                 </div>
             </div>

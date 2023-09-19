@@ -123,7 +123,7 @@
                     <div class="content">${data['content']}</div>
                 </div>
                 <div class="control-button-wrap absolute line-before">
-                    <div class="control-box">
+                    <div class="control-button-box">
                         <a href="javascript:openInputPopupDelete(${data['id']});"
                             class="button under-line delete">
                             <img src="/asset/images/icon/delete.png"/>

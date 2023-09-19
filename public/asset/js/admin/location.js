@@ -51,7 +51,7 @@ async function openInputPopupCreate() {
         })
         $(`.${className} .popup-inner`).append(`
         <div class="control-button-wrap absolute line-before">
-            <div class="control-box">
+            <div class="control-button-box">
                 <a href="javascript:search('${className}');"
                     class="button under-line search">
                     <img src="/asset/images/icon/search.png"/>
@@ -89,7 +89,7 @@ function editInputPopup(className, id) {
 
     $(`.${className} .popup-inner`).append(`
     <div class="control-button-wrap absolute line-before">
-        <div class="control-box">
+        <div class="control-button-box">
             <a href="javascript:search('${className}');"
                 class="button under-line search" style="display: none;">
                 <img src="/asset/images/icon/search.png"/>

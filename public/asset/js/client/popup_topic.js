@@ -36,12 +36,14 @@ function openTopicPopup(id) {
 
             .${className} .popup .slick button.slick-prev {
                 left: -30px;
-                background: url('/asset/images/icon/button_left.png') no-repeat center;
+                background: url('/asset/images/icon/button_left@2x.png') no-repeat center;
+                background-size: auto 80%;
             }
 
             .${className} .popup .slick button.slick-next {
                 right: -30px;
-                background: url('/asset/images/icon/button_right.png') no-repeat center;
+                background: url('/asset/images/icon/button_right@2x.png') no-repeat center;
+                background-size: auto 80%;
             }
 
             .${className} .popup .slider-wrap, .${className} .popup .text-wrap {
@@ -116,7 +118,7 @@ function openTopicPopup(id) {
             if (controlHtml.length > 0) {
                 html += `
                 <div class="control-button-wrap absolute line-before">
-                    <div class="control-box">
+                    <div class="control-button-box">
                     ${controlHtml}
                     </div>
                 </div>`;

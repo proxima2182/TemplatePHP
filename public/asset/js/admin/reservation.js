@@ -22,24 +22,27 @@ function openReservationBoardPopup(id, is_time_select = 1) {
                     font-weight: 400;
                 }
 
-                .${className} .row.link a {
-                    height: 30px;
+                .${className} .row.user {
+                    line-height: 30px;
+                }
+
+                .${className} .row.user a {
+                    font-size: 0;
+                }
+
+                .${className} .row.user * {
+                    font-size: 18px;
                     line-height: 30px;
                     vertical-align: middle;
                 }
 
-                .${className} .row.link a * {
-                    font-size: 18px;
-                    vertical-align: middle;
-                }
-
-                .${className} .time-wrap {
-                    margin: 10px;
+                .${className} .row-text-wrap {
+                    margin: 5px;
                     text-align: left;
-                    line-height: 20px;
+                    line-height: 25px;
                 }
 
-                .${className} .time-wrap * {
+                .${className} .row-text-wrap * {
                     vertical-align: middle;
                 }
 
@@ -54,12 +57,29 @@ function openReservationBoardPopup(id, is_time_select = 1) {
             let html = ``
             if (!isEmpty(data['questioner_name']) && !isEmpty(data['questioner_id'])) {
                 html += `
-                    <div class= "row-box line-after black">
-                        <div class="row bold user link">
-                            <a href="javascript:openUserPopup(${data['questioner_id']});" class="button out-line">
-                                <img src="/asset/images/icon/user.png"/>
-                                <span>${data['questioner_name']}</span>
-                            </a>
+                <div class= "row-box line-after black">
+                    <div class="row bold user link">
+                        <a href="javascript:openUserPopup(${data['questioner_id']});" class="button out-line">
+                            <img src="/asset/images/icon/user.png"/>
+                            <span>${data['questioner_name']}</span>
+                        </a>
+                    </div>
+                </div>`
+            } else if (!isEmpty(data['temp_name'])) {
+                html += `
+                <div class= "row-box line-after black">
+                    <div class="row bold user link">
+                        <img src="/asset/images/icon/user.png"/>
+                        <span>${data['temp_name']}</span>
+                    </div>
+                </div>`
+            }
+            if (!isEmpty(data['temp_phone_number'])) {
+                html += `
+                    <div class="line-after">
+                        <div class="row-text-wrap">
+                            <img src="/asset/images/icon/message.png"/>
+                            <span>${data['temp_phone_number']}</span>
                         </div>
                     </div>`
             }
@@ -67,8 +87,8 @@ function openReservationBoardPopup(id, is_time_select = 1) {
             let hasTime = data['expect_time'] && data['expect_time'].length > 0;
             if (hasDate || hasTime) {
                 html += `
-                    <div class="time-box line-after">
-                        <div class="time-wrap">
+                    <div class="line-after">
+                        <div class="row-text-wrap">
                             <img src="/asset/images/icon/time.png"/>
                             <span>${hasDate ? data['expect_date'] : ''}${hasDate && hasTime ? ' ' : ''}${hasTime ? data['expect_time'] : ''}</span>
                         </div>
@@ -85,7 +105,7 @@ function openReservationBoardPopup(id, is_time_select = 1) {
 
                 if (!isEmpty(data['respondent_id']) && !isEmpty(data['respondent_name'])) {
                     html += `
-                        <div class= "row-box line-after black">
+                        <div class= "row-box line-after black" style="margin-top: 20px;">
                             <div class="row bold user link">
                                 <a href="javascript:openUserPopup(${data['respondent_id']});" class="button out-line">
                                     <img src="/asset/images/icon/user.png"/>
@@ -99,8 +119,8 @@ function openReservationBoardPopup(id, is_time_select = 1) {
                     let hasTime = data['confirm_time'] && data['confirm_time'].length > 0;
                     if (hasDate || hasTime) {
                         html += `
-                            <div class="time-box line-after">
-                                <div class="time-wrap">
+                            <div class="line-after">
+                                <div class="row-text-wrap">
                                     <img src="/asset/images/icon/time.png"/>
                                     <span>${hasDate ? data['confirm_date'] : ''}${hasDate && hasTime ? ' ' : ''}${hasTime ? data['confirm_time'] : ''}</span>
                                 </div>
@@ -127,7 +147,7 @@ function openReservationBoardPopup(id, is_time_select = 1) {
                 }
                 html += `
                 <div class="control-button-wrap absolute line-before">
-                    <div class="control-box">
+                    <div class="control-button-box">
                         <a href="javascript:openReservationPopupRefuse(${data['id']});"
                             class="button under-line refuse">
                             <img src="/asset/images/icon/cancel.png"/>
@@ -295,7 +315,7 @@ function openReservationPopupAccept(id, is_time_select = 1, expect_date = null, 
         </div>
     </div>
     <div class="control-button-wrap absolute line-before">
-        <div class="control-box">
+        <div class="control-button-box">
             <a href="javascript:closePopup('${className}');"
                 class="button under-line cancel">
                 <img src="/asset/images/icon/cancel.png"/>
@@ -388,7 +408,7 @@ function openReservationPopupRequest(board_id, is_time_select = 1) {
         <input hidden type="text" name="questioner_id" class="editable" value="${getCookie('user_id')}"/>
     </div>
     <div class="control-button-wrap absolute line-before">
-        <div class="control-box">
+        <div class="control-button-box">
             <a href="javascript:closePopup('${className}');"
                 class="button under-line cancel">
                 <img src="/asset/images/icon/cancel.png"/>

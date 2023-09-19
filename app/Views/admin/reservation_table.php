@@ -34,27 +34,33 @@ $is_admin_page = isset($is_admin) && $is_admin;
                             <li class="row">
                                 <a href="javascript:openReservationBoardPopup(<?= $item['id'] ?>, <?= $board['is_time_select'] ?>);"
                                    class="button row-button">
-                                    <span class="column questioner"><?= $item['questioner_name'] ?></span>
+                                    <span class="column questioner">
+                                        <?= $item['questioner_name'] ??
+                                            $item['temp_name'] ??
+                                            '<img src="/asset/images/icon/none.png"/>' ?>
+                                    </span>
                                     <span class="column status">
-                                    <span class="ball <?= $item['status'] ?>"></span>
-                                    <span><?= $item['status'] ?></span>
-                                </span>
+                                        <span class="ball <?= $item['status'] ?>"></span>
+                                        <span>
+                                            <?= $item['status'] ?>
+                                        </span>
+                                    </span>
                                     <span class="column expect-date">
-                                <?= $item['expect_date'] ??
-                                    '<img src="/asset/images/icon/none.png"/>' ?>
-                                </span>
+                                        <?= $item['expect_date'] ??
+                                            '<img src="/asset/images/icon/none.png"/>' ?>
+                                    </span>
                                     <span class="column expect-time">
-                                <?= $item['expect_time'] ??
-                                    '<img src="/asset/images/icon/none.png"/>' ?>
-                                </span>
+                                        <?= $item['expect_time'] ??
+                                            '<img src="/asset/images/icon/none.png"/>' ?>
+                                    </span>
                                     <span class="column confirm-date">
-                                <?= $item['confirm_date'] ??
-                                    '<img src="/asset/images/icon/none.png"/>' ?>
-                                </span>
+                                        <?= $item['confirm_date'] ??
+                                            '<img src="/asset/images/icon/none.png"/>' ?>
+                                    </span>
                                     <span class="column confirm-time">
-                                <?= $item['confirm_time'] ??
-                                    '<img src="/asset/images/icon/none.png"/>' ?>
-                                </span>
+                                        <?= $item['confirm_time'] ??
+                                            '<img src="/asset/images/icon/none.png"/>' ?>
+                                    </span>
                                 </a>
                             </li>
                         <?php } ?>

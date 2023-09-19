@@ -132,9 +132,38 @@ class EmailController extends BaseApiController
         $addContents = function ($contents) use ($service, &$CID) {
             $resourcePaths = [
                 'time' => ROOTPATH . 'public/asset/images/icon/time.png',
-                'user' => ROOTPATH . 'public/asset/images/icon/user.png'
+                'user' => ROOTPATH . 'public/asset/images/icon/user.png',
+                'message' => ROOTPATH . 'public/asset/images/icon/message.png',
             ];
             $html = '<div class="text-wrap" style="line-height: normal; min-height: 250px; text-align: left;">';
+            if (isset($contents['user_name'])) {
+                $path = $resourcePaths['user'];
+                if (!isset($CID[$path])) {
+                    $service->attach($path);
+                    $CID[$path] = $service->setAttachmentCID($path);
+                }
+                $html .= '
+                        <div class="text-row" style="line-height: 40px; margin: 5px 10px;">
+                            <img src="cid:' . $CID[$path] . '" style="vertical-align: middle;"/>
+                            <span class="text" style="vertical-align: middle; font-size: 18px; color: #000;">' . $contents['user_name'] . '</span>
+                        </div>
+                        <div class="divider gray" style="background: #eee;  height: 1px;"></div>';
+            }
+
+            if(isset($contents['contact'])) {
+                $path = $resourcePaths['message'];
+                if (!isset($CID[$path])) {
+                    $service->attach($path);
+                    $CID[$path] = $service->setAttachmentCID($path);
+                }
+                $html .= '
+                        <div class="text-row" style="line-height: 40px; margin: 5px 10px;">
+                            <img src="cid:' . $CID[$path] . '" style="vertical-align: middle;"/>
+                            <span class="text" style="vertical-align: middle; font-size: 18px; color: #000;">' . $contents['contact'] . '</span>
+                        </div>
+                        <div class="divider gray" style="background: #eee;  height: 1px;"></div>';
+            }
+
             $datetime = '';
             if (isset($contents['date'])) {
                 $datetime = $contents['date'] . (isset($contents['time']) ? ' ' . $contents['time'] : '');
@@ -149,19 +178,6 @@ class EmailController extends BaseApiController
                         <div class="text-row" style="line-height: 40px; margin: 5px 10px;">
                             <img src="cid:' . $CID[$path] . '" style="vertical-align: middle;"/>
                             <span class="text" style="vertical-align: middle; font-size: 18px; color: #000;">' . $datetime . '</span>
-                        </div>
-                        <div class="divider gray" style="background: #eee;  height: 1px;"></div>';
-            }
-            if (isset($contents['user_name'])) {
-                $path = $resourcePaths['user'];
-                if (!isset($CID[$path])) {
-                    $service->attach($path);
-                    $CID[$path] = $service->setAttachmentCID($path);
-                }
-                $html .= '
-                        <div class="text-row" style="line-height: 40px; margin: 5px 10px;">
-                            <img src="cid:' . $CID[$path] . '" style="vertical-align: middle;"/>
-                            <span class="text" style="vertical-align: middle; font-size: 18px; color: #000;">' . $contents['user_name'] . '</span>
                         </div>
                         <div class="divider gray" style="background: #eee;  height: 1px;"></div>';
             }
@@ -185,7 +201,8 @@ class EmailController extends BaseApiController
         $result .= $addContents([
             'date' => $data['expect_date'] ?? null,
             'time' => $data['expect_time'] ?? null,
-            'user_name' => $data['questioner_name'],
+            'user_name' => $data['questioner_name'] ?? $data['temp_name'] ?? null,
+            'contact' =>  $data['questioner_email'] ?? $data['temp_phone_number'] ?? null,
             'content' => $data['question_comment'],
         ]);
 
