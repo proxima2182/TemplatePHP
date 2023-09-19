@@ -12,7 +12,7 @@
     position: relative;
 }
 
-.container-inner .inner-box {
+.container-inner .container-wrap {
     padding: 40px 0 80px 0;
     display: inline-block;
     vertical-align: middle;

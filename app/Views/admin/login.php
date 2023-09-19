@@ -4,13 +4,13 @@
             line-height: 600px;
         }
 
-        .login-container .inner-box {
+        .login-container .container-wrap {
             width: 600px;
             display: inline-block;
             vertical-align: middle;
         }
     </style>
-    <div class="inner-box">
+    <div class="container-wrap">
         <h3 class="title">
             Login
         </h3>

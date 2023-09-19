@@ -23,7 +23,7 @@
     padding-top: 0;
 }
 
-.section .page-inner .inner-box {
+.section .page-inner .container-wrap {
     line-height: normal;
     width: 100%;
     display: inline-block;

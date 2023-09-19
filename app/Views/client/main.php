@@ -138,7 +138,7 @@ $sliderImages = [
     </div>
     <div class="section" id="page-video">
         <div class="page-inner">
-            <div class="inner-box">
+            <div class="container-wrap">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($settings['youtube-main-video'] ?? null)) {
                     if (str_starts_with($settings['youtube-main-video'], "http")) { ?>
                         <iframe class="main-video"
@@ -165,7 +165,7 @@ $sliderImages = [
     <?php if (isset($topics_table)) { ?>
         <div class="section" id="page-notice">
             <div class="page-inner">
-                <div class="inner-box">
+                <div class="container-wrap">
                     <h3 class="page-title">
                         <?= $topics_table['board']['alias'] ?>
                     </h3>
@@ -207,7 +207,7 @@ $sliderImages = [
     <?php if (isset($topics_grid)) { ?>
         <div class="section" id="page-preview">
             <div class="page-inner">
-                <div class="inner-box">
+                <div class="container-wrap">
                     <h3 class="page-title">
                         <?= $topics_grid['board']['alias'] ?>
                     </h3>

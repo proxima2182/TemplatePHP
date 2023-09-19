@@ -21,7 +21,7 @@ $identifier = $shortid->generate();
     }?>
 </script>
 <div class="container-inner">
-    <div class="inner-box">
+    <div class="container-wrap">
         <h3 class="page-title">
             Graphic
         </h3>

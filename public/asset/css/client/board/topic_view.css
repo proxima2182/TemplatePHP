@@ -43,7 +43,7 @@
     right: 0;
 }
 
-.inner-box .line {
+.container-wrap .line {
     position: absolute;
     bottom: 0;
     left: 0;

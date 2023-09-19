@@ -2,7 +2,7 @@
 
 ?>
 <div class="container-inner">
-    <div class="inner-box">
+    <div class="container-wrap">
         <h3 class="page-title">
             Category
         </h3>

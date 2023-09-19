@@ -3,7 +3,7 @@ if (!isset($username) || !isset($name) || !isset($email)) return;
 if (!isset($sub)) $sub = 'view'
 ?>
 <div class="container-inner profile-container">
-    <div class="inner-box">
+    <div class="container-wrap">
         <?php if ($sub == 'view' || $sub == 'edit') { ?>
             <h3 class="page-title">
                 <?= $sub == 'edit' ? 'Edit Profile' : 'Profile' ?>
