@@ -23,7 +23,7 @@ $identifier = $shortid->generate();
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
-            Graphic
+            Graphic Setting
         </h3>
         <h4 class="page-sub-title">
             Video

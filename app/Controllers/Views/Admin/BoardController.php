@@ -64,13 +64,22 @@ class BoardController extends BaseAdminController
         try {
             $board = $this->boardModel->findByCode($code);
             $data['board'] = $board;
+            if($data['board']['is_public'] != 1 && !$data['is_login']) {
+                return view('/redirect', [
+                    'path' => '/admin/login'
+                ]);
+            }
+            $searchCondition = [
+                'board_id' => $board['id'],
+                'is_deleted' => 0,
+            ];
+            if ($board['is_public'] != 1 && !$data['is_admin']) {
+                $searchCondition['user_id'] = $data['user_id'];
+            }
             $result = $this->topicModel->getPaginated([
                 'per_page' => $this->per_page,
                 'page' => $page,
-            ], [
-                'board_id' => $board['id'],
-                'is_deleted' => 0,
-            ]);
+            ], $searchCondition);
             $data = array_merge($data, $result);
             $data = array_merge($data, [
                 'pagination_link' => '/admin/board/' . $code,
@@ -94,6 +103,16 @@ class BoardController extends BaseAdminController
         $data = $this->getViewData();
         try {
             $data = array_merge($data, $this->getTopicData($id));
+            if($data['board']['is_public'] != 1) {
+                if(!$data['is_login']) {
+                    return view('/redirect', [
+                        'path' => '/admin/login'
+                    ]);
+                }
+                if(!$data['is_admin'] && $data['data']['user_id'] != $data['user_id']) {
+                    throw new Exception('forbidden');
+                }
+            }
             $result = $this->replyModel->getPaginated([
                 'per_page' => 5,
                 'page' => 1,
@@ -126,6 +145,16 @@ class BoardController extends BaseAdminController
         $data = $this->getViewData();
         try {
             $data = array_merge($data, $this->getTopicData($id));
+            if($data['board']['is_public'] != 1) {
+                if(!$data['is_login']) {
+                    return view('/redirect', [
+                        'path' => '/admin/login'
+                    ]);
+                }
+                if(!$data['is_admin'] && $data['data']['user_id'] != $data['user_id']) {
+                    throw new Exception('forbidden');
+                }
+            }
             $data = array_merge($data, [
                 'type' => 'edit'
             ]);
@@ -154,6 +183,11 @@ class BoardController extends BaseAdminController
         try {
             $board = $this->boardModel->findByCode($code);
             $data['board'] = $board;
+            if($data['board']['is_public'] != 1 && !$data['is_login']) {
+                return view('/redirect', [
+                    'path' => '/admin/login'
+                ]);
+            }
             $data = array_merge($data, [
                 'type' => 'create'
             ]);

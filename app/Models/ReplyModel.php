@@ -52,7 +52,7 @@ class ReplyModel extends BaseModel
             $values = array_merge($values, $set['values']);
             $query .= " " . $set['query'];
         }
-        $query .= " ORDER BY created_at ASC";
+        $query .= " ORDER BY created_at DESC";
         if (isset($limit)) {
             $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
         }

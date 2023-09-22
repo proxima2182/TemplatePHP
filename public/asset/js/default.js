@@ -154,8 +154,6 @@ jQuery.prototype.setVideoCoverStyle = function () {
     });
     let ratioParent = $parent.width() / $parent.height();
     let ratioVideo = $video.width() / $video.height();
-    console.log("parent", $parent.width(), $parent.height())
-    console.log("video", $video.width(), $video.height())
     if (ratioParent > ratioVideo) {
         let standard = $parent.width() / ratioVideo;
         $video.css({
@@ -164,7 +162,7 @@ jQuery.prototype.setVideoCoverStyle = function () {
             'top': '50%',
             'left': 0,
             'margin-top': `-${standard / 2}px`,
-            'margin-left' : 0,
+            'margin-left': 0,
         });
     } else {
         let standard = $parent.height() * ratioVideo;
@@ -173,7 +171,7 @@ jQuery.prototype.setVideoCoverStyle = function () {
             'height': '100%',
             'top': 0,
             'left': '50%',
-            'margin-top' : 0,
+            'margin-top': 0,
             'margin-left': `-${standard / 2}px`
         });
     }

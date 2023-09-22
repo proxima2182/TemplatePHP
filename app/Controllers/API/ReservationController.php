@@ -206,7 +206,7 @@ class ReservationController extends EmailController
             try {
                 $data['datetime'] = date("Y-m-d H:i:s", $timeRaw);
                 $data['date'] = date("Y-m-d", $timeRaw);
-                if($data['expect_date'] == null && $data['expect_time'] == null) {
+                if ($data['expect_date'] == null && $data['expect_time'] == null) {
                     $data['expect_date'] = date("Y-m-d", $timeRaw);
                     $data['expect_time'] = date("H:i:s", $timeRaw);
                 }
@@ -270,7 +270,8 @@ class ReservationController extends EmailController
             $reservations = $model->get(['id' => $id]);
             if (sizeof($reservations) > 0) {
                 $reservation = $reservations[0];
-                if (isset($reservation['questioner_email']) && strlen($reservation['questioner_email']) > 0) {
+                if (isset($reservation['questioner_is_notification']) && $reservation['questioner_is_notification'] == 1 &&
+                    isset($reservation['questioner_email']) && strlen($reservation['questioner_email']) > 0) {
                     $this->sendMessage(array_merge([
                         'email' => $reservation['questioner_email'],
                         'title' => 'Reservation Refused',
@@ -330,7 +331,8 @@ class ReservationController extends EmailController
                 $reservations = $this->reservationModel->get(['id' => $id]);
                 if (sizeof($reservations) > 0) {
                     $reservation = $reservations[0];
-                    if (isset($reservation['questioner_email']) && strlen($reservation['questioner_email']) > 0) {
+                    if (isset($reservation['questioner_is_notification']) && $reservation['questioner_is_notification'] == 1 &&
+                        isset($reservation['questioner_email']) && strlen($reservation['questioner_email']) > 0) {
                         $this->sendMessage(array_merge([
                             'email' => $reservation['questioner_email'],
                             'title' => 'Reservation Accepted',

@@ -8,12 +8,14 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Config\Services;
 use Models\CategoryLocalModel;
 use Models\CategoryModel;
+use Models\SettingModel;
 use Psr\Log\LoggerInterface;
 
 class BaseClientController extends BaseController
 {
     protected CategoryModel $categoryModel;
     protected CategoryLocalModel $categoryLocalModel;
+    protected SettingModel $settingModel;
     /**
      * links for pages
      * @var string[]
@@ -30,6 +32,7 @@ class BaseClientController extends BaseController
     {
         $this->categoryModel = model('Models\CategoryModel');
         $this->categoryLocalModel = model('Models\CategoryLocalModel');
+        $this->settingModel = model('Models\SettingModel');
 
         // must be same with [\API\CategoryController - getCategoryAll()]
         $categories = $this->categoryModel->get();
@@ -97,7 +100,14 @@ class BaseClientController extends BaseController
      */
     protected function getViewData(): array
     {
+        $settings = [];
+        $settingResult = $this->settingModel->get();
+        foreach ($settingResult as $item) {
+            $settings[$item['code']] = $item['value'];
+        }
+
         return array_merge(parent::getViewData(), [
+            'settings' => $settings,
             'is_admin_page' => false,
         ]);
     }

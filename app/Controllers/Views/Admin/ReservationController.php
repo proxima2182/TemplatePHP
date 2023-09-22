@@ -94,12 +94,21 @@ class ReservationController extends BaseAdminController
         try {
             $board = $this->boardModel->findByCode($code);
             $data['board'] = $board;
+            if($data['board']['is_public'] != 1 && !$data['is_login']) {
+                return view('/redirect', [
+                    'path' => '/admin/login'
+                ]);
+            }
+            $searchCondition = [
+                'reservation_board_id' => $board['id']
+            ];
+            if ($board['is_public'] != 1 && !$data['is_admin']) {
+                $searchCondition['questioner_id'] = $data['user_id'];
+            }
             $result = $this->reservationModel->getPaginated([
                 'per_page' => $this->per_page,
                 'page' => $page,
-            ], [
-                'reservation_board_id' => $board['id'],
-            ]);
+            ], $searchCondition);
             $data = array_merge($data, $result);
             $data = array_merge($data, [
                 'pagination_link' => '/admin/reservation-board/' . $code,
@@ -121,39 +130,5 @@ class ReservationController extends BaseAdminController
             ])
             . view('/admin/reservation_calendar', $data)
             . parent::loadFooter();
-    }
-
-    function getReservation($id): string
-    {
-        $data = $this->getViewData();
-        try {
-            $data = array_merge($data, $this->getReservationData($id));
-        } catch (Exception $e) {
-            //todo(log)
-            $this->handleException($e);
-        }
-        return parent::loadHeader([
-                'css' => [
-                    '/common/table',
-                    '/admin/reservation',
-                ],
-            ])
-            . view('/admin/reservation', $data)
-            . parent::loadFooter();
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function getReservationData($id): array
-    {
-        $result = [];
-        $reservations = $this->reservationModel->get(['id' => $id]);
-        if (sizeof($reservations) != 1) throw new Exception('deleted');
-        $reservation = $reservations[0];
-        $board = $this->boardModel->find($reservation['reservation_board_id']);
-        $result['data'] = $reservation;
-        $result['board'] = $board;
-        return $result;
     }
 }

@@ -38,7 +38,7 @@ class MainController extends BaseClientController
      */
     public function index()
     {
-        $data = [];
+        $data = $this->getViewData();
         try {
             // for pagination
             $result = $this->locationModel->getPaginated([
@@ -70,15 +70,6 @@ class MainController extends BaseClientController
             $videos = $this->customFileModel->get(['type' => 'video', 'target' => 'main']);
             $data = array_merge($data, [
                 'videos' => $videos,
-            ]);
-            $settings = [];
-            $settingResult = $this->settingModel->get();
-            foreach ($settingResult as $item) {
-                $settings[$item['code']] = $item['value'];
-            }
-
-            $data = array_merge($data, [
-                'settings' => $settings,
             ]);
         } catch (Exception $e) {
             //todo(log)

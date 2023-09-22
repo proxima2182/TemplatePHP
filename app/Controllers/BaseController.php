@@ -177,6 +177,7 @@ abstract class BaseController extends Controller
     #[NoReturn] protected function handleException(Exception $e): void
     {
         switch ($e->getMessage()) {
+            case '400' :
             case 'bad request' :
             {
                 $response = Services::response();
@@ -188,6 +189,31 @@ abstract class BaseController extends Controller
                 $response->sendBody();
                 exit;
             }
+            case '401' :
+            case 'unauthorized' :
+            {
+                $response = Services::response();
+                $response->setBody(view('/error', [
+                    'code' => '401',
+                    'title' => 'Unauthorized',
+                    'message' => 'this page need authentication.',
+                ]));
+                $response->sendBody();
+                exit;
+            }
+            case '403' :
+            case 'forbidden' :
+            {
+                $response = Services::response();
+                $response->setBody(view('/error', [
+                    'code' => '403',
+                    'title' => 'Forbidden',
+                    'message' => 'this page is not allowed for your account.<br/> please check your account type is \'admin\' or \'member\'.',
+                ]));
+                $response->sendBody();
+                exit;
+            }
+            case '404' :
             case 'not found' :
             {
                 $response = Services::response();
@@ -199,6 +225,7 @@ abstract class BaseController extends Controller
                 $response->sendBody();
                 exit;
             }
+            case '410' :
             case 'deleted' :
             {
                 $response = Services::response();

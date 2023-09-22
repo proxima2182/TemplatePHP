@@ -5,7 +5,7 @@ namespace Views\Admin;
 use Exception;
 use Models\CustomFileModel;
 
-class GraphicController extends BaseAdminController
+class GraphicSettingController extends BaseAdminController
 {
     protected CustomFileModel $customFileModel;
 
@@ -33,7 +33,7 @@ class GraphicController extends BaseAdminController
         }
         return parent::loadHeader([
                 'css' => [
-                    '/admin/graphic',
+                    '/admin/graphic_setting',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
@@ -41,7 +41,7 @@ class GraphicController extends BaseAdminController
                     '/module/image_uploader',
                 ],
             ])
-            . view('/admin/graphic', $data)
+            . view('/admin/graphic_setting', $data)
             . parent::loadFooter();
     }
 }

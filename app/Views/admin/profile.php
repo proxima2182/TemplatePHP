@@ -26,8 +26,8 @@ if (!isset($sub)) $sub = 'view'
                     </div>
                     <div class="input-wrap">
                         <p class="input-title">Notification</p>
-                        <input type="checkbox" name="is_notification_agreed" class="editable"
-                               readonly <?= $is_notification_agreed == 1 ? 'checked' : '' ?>/>
+                        <input type="checkbox" name="is_notification" class="editable"
+                               disabled <?= $is_notification == 1 ? 'checked' : '' ?>/>
                     </div>
                     <div class="error-message-wrap">
                     </div>

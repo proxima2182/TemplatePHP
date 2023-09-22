@@ -101,7 +101,8 @@ body {
 .gnb > li > a:hover {
     color: #888;
 }
-.gnb > li:hover .lnb{
+
+.gnb > li:hover .lnb {
     visibility: unset;
 }
 
@@ -187,4 +188,8 @@ body {
     position: absolute;
     right: 15px;
     bottom: 0;
+}
+
+#footer .terms a {
+    color: #fff;
 }

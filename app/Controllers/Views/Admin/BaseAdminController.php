@@ -21,7 +21,7 @@ class BaseAdminController extends BaseController
         "Reservation" => "/admin/reservation-board",
         "User" => "/admin/user",
         "Location" => "/admin/location",
-        "Graphic" => "/admin/graphic",
+        "Graphic Setting" => "/admin/graphic-setting",
         "Setting" => "/admin/setting",
     ];
 

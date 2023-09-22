@@ -32,6 +32,9 @@ async function openPopupLogin() {
             .${className} .popup-inner {
                 padding: 20px;
             }
+            .${className} .login-container {
+                line-height: normal;
+            }
         </style>`;
         let html = `
         <div class="login-container">
@@ -124,3 +127,22 @@ function logout() {
         },
     });
 }
+
+$(document).ready(function() {
+    let element = $(`.login-container`).get(0);
+    if (element) {
+        element.addEventListener('keydown', function (event) {
+            switch (event.key) {
+                case 'Escape':
+                    closePopup(className);
+                    break;
+                case 'Enter':
+                    let button = $(`.login-container .button.confirm`).get(0);
+                    if (button) {
+                        button.click();
+                    }
+                    break;
+            }
+        })
+    }
+})

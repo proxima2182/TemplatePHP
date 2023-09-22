@@ -118,8 +118,8 @@ $sliderImages = [
                 </div>
                 <div class="slider-text-wrap">
                     <div class="text-wrap">
-                        <h3 class="title"><?= $settings['main-page-01-title'] ?? '' ?></h3>
-                        <p class="content cf"><?= $settings['main-page-01-content'] ?? '' ?></p>
+                        <h3 class="title"><?= $settings['main-title-01'] ?? '' ?></h3>
+                        <p class="content cf"><?= $settings['main-content-01'] ?? '' ?></p>
                     </div>
                 </div>
             </div>
@@ -130,8 +130,8 @@ $sliderImages = [
         <div class="page-inner whole-page">
             <div class="text-box">
                 <div class="text-wrap">
-                    <h3 class="title"><?= $settings['main-page-02-title'] ?? '' ?></h3>
-                    <p class="content cf"><?= $settings['main-page-02-content'] ?? '' ?></p>
+                    <h3 class="title"><?= $settings['main-title-02'] ?? '' ?></h3>
+                    <p class="content cf"><?= $settings['main-content-02'] ?? '' ?></p>
                 </div>
             </div>
         </div>
@@ -139,11 +139,11 @@ $sliderImages = [
     <div class="section" id="page-video">
         <div class="page-inner">
             <div class="container-wrap">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($settings['youtube-main-video'] ?? null)) {
-                    if (str_starts_with($settings['youtube-main-video'], "http")) { ?>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($settings['main-video-link'] ?? null)) {
+                    if (str_starts_with($settings['main-video-link'], "http")) { ?>
                         <iframe class="main-video"
                                 width="680" height="400"
-                                src="<?= $settings['youtube-main-video'] ?? null ?>"
+                                src="<?= $settings['main-video-link'] ?>"
                                 title="YouTube video player"
                                 frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -155,8 +155,8 @@ $sliderImages = [
                 } ?>
                 <hr>
                 <div class="text-wrap">
-                    <h3 class="page-title"><?= $settings['main-page-03-title'] ?? '' ?></h3>
-                    <p class="content cf"><?= $settings['main-page-03-content'] ?? '' ?></p>
+                    <h3 class="page-title"><?= $settings['main-title-03'] ?? '' ?></h3>
+                    <p class="content cf"><?= $settings['main-content-03'] ?? '' ?></p>
                 </div>
             </div>
         </div>
@@ -290,7 +290,7 @@ $sliderImages = [
                         <textarea class="content" rows="4" name="content"></textarea>
                     </div>
                     <div class="text-wrap agreement">
-                        <p><?= $settings['main-page-agreement'] ?? '' ?></p>
+                        <p><?= $settings['main-agreement'] ?? '' ?></p>
                     </div>
                     <div class="input-wrap inline agreement">
                         <span class="input-title">개인 정보 취급 방침에 동의</span>
@@ -307,12 +307,16 @@ $sliderImages = [
                 <a href="/" class="logo"><img src="/asset/images/include/logo_footer.png" alt="footer logo"></a>
                 <div class="text-wrap">
                     <ul class="cf">
-                        <li><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></li>
-                        <li><p>Mauris laoreet lacinia neque, quis maximus felis finibus id.</p></li>
+                        <?php if(isset($settings['footer-text'])) {
+                            $texts = preg_split("/\r\n|\n|\r/", $settings['footer-text']);
+                            foreach ($texts as $text) {?>
+                                <li><p><?=$text?></p></li>
+                            <?php }
+                        }?>
                     </ul>
                 </div>
                 <div class="terms">
-                    copyright 2023. Lorem Ipsum all rights reserved.
+                    copyright 2023. <a href="https://github.com/proxima2182" target="_blank">proxima2182</a> all rights reserved.
                 </div>
             </div>
         </footer>

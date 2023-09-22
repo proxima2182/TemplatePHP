@@ -2,6 +2,7 @@
 function editProfile() {
     $('.profile-container .page-title').html('Edit Profile')
     $('.form-wrap .editable').removeAttr('readonly')
+    $('.form-wrap .editable').removeAttr('disabled')
     $('.form-wrap .button-wrap').remove();
     $('.form-box').append(`
     <div class="button-wrap controls">

@@ -37,6 +37,7 @@ $routes->get('/', [\Views\MainController::class, 'index']);
 $routes->get('/frame-view', [\Views\MainController::class, 'getFrameView']);
 $routes->get('/get-session', [\Views\MainController::class, 'getSession']);
 $routes->get('/set-session', [\Views\MainController::class, 'setSession']);
+$routes->get('/login', [\Views\LoginController::class, 'index']);
 $routes->get('/profile', [\Views\ProfileController::class, 'index']);
 $routes->get('/registration', [\Views\RegistrationController::class, 'index']);
 $routes->get('/reset-password', [\Views\RegistrationController::class, 'resetPassword']);
@@ -45,6 +46,8 @@ $routes->addRedirect('/board/(:any)', '/board/(:any)/1');
 $routes->get('/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/topic/create', [\Views\BoardController::class, 'createTopic']);
 $routes->get('/topic/([0-9]+)', [\Views\BoardController::class, 'getTopic']);
 $routes->get('/topic/([0-9]+)/edit', [\Views\BoardController::class, 'editTopic']);
+$routes->get('/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)/([0-9]+)', [\Views\ReservationController::class, 'getBoard']);
+$routes->addRedirect('/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/reservation-board/$1/1');
 //admin pages
 $routes->addRedirect('/admin', '/admin/category');
 $routes->get('/admin/login', [\Views\Admin\LoginController::class, 'index']);
@@ -67,7 +70,7 @@ $routes->addRedirect('/admin/location', '/admin/location/1');
 $routes->get('/admin/user/([0-9]+)', [\Views\Admin\UserController::class, 'index']);
 $routes->addRedirect('/admin/user', '/admin/user/1');
 
-$routes->get('/admin/graphic', [\Views\Admin\GraphicController::class, 'index']);
+$routes->get('/admin/graphic-setting', [\Views\Admin\GraphicSettingController::class, 'index']);
 
 $routes->get('/admin/setting/([0-9]+)', [\Views\Admin\SettingController::class, 'index']);
 $routes->addRedirect('/admin/setting', '/admin/setting/1');
