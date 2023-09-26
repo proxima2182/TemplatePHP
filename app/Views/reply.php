@@ -12,13 +12,13 @@ $end = min($end, $total_page);
 ?>
 <style>
     .reply-wrap {
-        width: 1125px;
+        width: 100%;
         padding-bottom: 100px;
         font-size: 0;
         position: absolute;
         bottom: 0;
-        left: 50%;
-        margin-left: -562.5px;
+        left: 0;
+        right: 0;
     }
 
     .reply-wrap .row {
@@ -250,11 +250,8 @@ $end = min($end, $total_page);
                     'min-height': '250px'
                 })
             }
-            $('#container').css({
-                'padding-bottom': `${$wrapReply.outerHeight()}px`
-            })
             $('#container .container-inner').css({
-                'padding-bottom': `0`
+                'padding-bottom': `${$wrapReply.outerHeight()}px`
             })
         }
     }

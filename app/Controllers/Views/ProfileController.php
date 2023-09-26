@@ -43,7 +43,7 @@ class ProfileController extends BaseClientController
                     '/client/form',
                 ],
                 'js' => [
-                    '/client/profile',
+                    '/common/profile',
                 ],
             ])
             . view('/client/profile', $data)

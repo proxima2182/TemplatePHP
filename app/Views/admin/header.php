@@ -12,10 +12,12 @@ $is_not_registration_page = !isset($is_registration_page) || ($is_registration_p
           content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
     <title>Template</title>
 
-    <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css">
-    <link rel="stylesheet" type="text/css" href="/asset/css/default.css">
+    <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/default.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/common/animation.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/admin/style.css"/>
-    <link rel="stylesheet" type="text/css" href="/asset/css/admin/include.css">
+    <link rel="stylesheet" type="text/css" href="/asset/css/admin/include.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/common/popup.css"/>
     <?php
     if (isset($css)) echo $css;
     ?>
@@ -23,7 +25,6 @@ $is_not_registration_page = !isset($is_registration_page) || ($is_registration_p
     <script type="text/javascript" src="/asset/js/library/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/asset/js/default.js"></script>
     <script type="text/javascript" src="/asset/js/module/popup.js"></script>
-    <script type="text/javascript" src="/asset/js/admin/login.js"></script>
     <script type="text/javascript" src="/asset/js/admin/navigation.js"></script>
     <?php
     if (isset($js)) echo $js;

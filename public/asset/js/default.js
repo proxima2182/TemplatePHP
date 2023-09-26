@@ -26,27 +26,6 @@ function isEmpty(value) {
     return !value || value.length == 0
 }
 
-function parseInputToData($inputs) {
-    let data = {};
-    for (let i = 0; i < $inputs.length; ++i) {
-        let $input = $inputs.eq(i);
-        if ($input.length > 0) {
-            let domElement = $input[0]
-            if (domElement.name) {
-                if (domElement.tagName == 'textarea') {
-                    data[domElement.name] = domElement.value.toRawString();
-                }
-                if (domElement.type == 'checkbox') {
-                    data[domElement.name] = domElement.checked ? 1 : 0;
-                } else {
-                    data[domElement.name] = $input.val();
-                }
-            }
-        }
-    }
-    return data;
-}
-
 function openWindow(url) {
     window.open(url)
 }
@@ -64,7 +43,6 @@ function getCookie(cookie_name) {
         }
     }
 }
-
 
 function clearErrorsByClassName(className) {
     let $wrapErrorMessage = $(`.${className} .error-message-wrap`);
@@ -98,6 +76,27 @@ function showErrorsByClassName(className, response, status, requestOrError) {
             $wrapErrorMessage.append(`<div>${message}</div>`);
         }
     }
+}
+
+function parseInputToData($inputs) {
+    let data = {};
+    for (let i = 0; i < $inputs.length; ++i) {
+        let $input = $inputs.eq(i);
+        if ($input.length > 0) {
+            let domElement = $input[0]
+            if (domElement.name) {
+                if (domElement.tagName == 'textarea') {
+                    data[domElement.name] = domElement.value.toRawString();
+                }
+                if (domElement.type == 'checkbox') {
+                    data[domElement.name] = domElement.checked ? 1 : 0;
+                } else {
+                    data[domElement.name] = $input.val();
+                }
+            }
+        }
+    }
+    return data;
 }
 
 let isRequestRunning = false;
@@ -175,4 +174,48 @@ jQuery.prototype.setVideoCoverStyle = function () {
             'margin-left': `-${standard / 2}px`
         });
     }
+}
+
+/**
+ * 동일한 내용의 css 파일을 특정 object 하위에서만 작동하게 하기 위해 자동으로 selector 를 붙여주는 기능
+ * animation 은 내장된 css 에 따로 선언 필요
+ *
+ * 페이지 당 한 번 추가되면 좋겠지만, 다른 class 에 영향 줄 수 있고
+ * 팝업이 생성과 제거를 반복할 것이기 때문에
+ * 아예 팝업 당 고유 className을 주고 해당 class를 가진 element 내부에 추가해 생성과 소멸을 같이 할 수 있도록 함
+ * @param path
+ * @param selector
+ * @returns {Promise<string>}
+ */
+async function loadStyleFile(path, selector) {
+    if (isEmpty(path) || isEmpty(selector)) return '';
+    let request = await fetch(path)
+    if (!request.ok) throw request;
+    let css = await request.text()
+    let blocks = css.split(/(?<=})\s+/);
+    let result = '';
+    blocks.forEach((value) => {
+        if (!isEmpty(value)) {
+            if (value.startsWith("@")) {
+                result += value + "\n";
+            } else {
+                let regex = /((.|s+|\n)*)({(.|s+|\n)*})/.exec(value);
+                let indicator = regex[1];
+                let block = regex[3];
+                if (isEmpty(indicator)) {
+                    result += selector + " " + block + "\n";
+                } else {
+                    let indicators = indicator.split(",");
+                    let prefix = "";
+                    for (let i in indicators) {
+                        let indicator_text = indicators[i].replaceAll('\n', '');
+                        result += prefix + selector + " " + indicator_text;
+                        prefix = ",\n";
+                    }
+                    result += " " + block + "\n";
+                }
+            }
+        }
+    })
+    return result;
 }

@@ -22,8 +22,10 @@ $sliderImages = [
 
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/default.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/common/animation.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/client/style.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/client/include.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/common/popup.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/common/table.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/common/grid.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/client/main.css"/>
@@ -36,8 +38,8 @@ $sliderImages = [
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=221aa6cfc43d262a0a90ca26facc9708"></script>
 
     <script type="text/javascript" src="/asset/js/module/popup.js"></script>
-    <script type="text/javascript" src="/asset/js/client/popup_topic.js"></script>
-    <script type="text/javascript" src="/asset/js/client/login.js"></script>
+    <script type="text/javascript" src="/asset/js/common/topic.js"></script>
+    <script type="text/javascript" src="/asset/js/common/login.js"></script>
     <script type="text/javascript" src="/asset/js/client/main.js"></script>
     <script type="text/javascript">
         addEventListener('customMapLoad', function () {
@@ -294,7 +296,7 @@ $sliderImages = [
                     </div>
                     <div class="input-wrap inline agreement">
                         <span class="input-title">개인 정보 취급 방침에 동의</span>
-                        <input type="checkbox" name="agreement" onchange="onInputValueChanged(this)"/>
+                        <input type="checkbox" name="agreement" onchange="onMembershipInputValueChanged(this)"/>
                     </div>
                     <div class="button-wrap">
                         <a href="javascript:requestMembership();" class="button submit disabled black">제출</a>

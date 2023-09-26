@@ -1,18 +1,23 @@
 #container {
     width: 100%;
+    min-width: 1200px;
     text-align: center;
     position: relative;
 }
 
 .page-inner, .container-inner {
-    min-width: 1200px;
     margin: 0 auto;
     height: 100%;
     box-sizing: border-box;
     position: relative;
 }
 
+.container-inner {
+    width: 1120px;
+}
+
 .container-inner .container-wrap {
+    width: 100%;
     padding: 40px 0 80px 0;
     display: inline-block;
     vertical-align: middle;
@@ -47,7 +52,7 @@
 }
 
 .button.disabled {
-    pointer-events:none;
+    pointer-events: none;
 }
 
 .button:focus {

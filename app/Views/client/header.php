@@ -12,10 +12,12 @@ if (!isset($links) && !isset($is_login)) return;
           content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
     <title>Template</title>
 
-    <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css">
-    <link rel="stylesheet" type="text/css" href="/asset/css/default.css">
+    <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/default.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/common/animation.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/client/style.css"/>
-    <link rel="stylesheet" type="text/css" href="/asset/css/client/include.css">
+    <link rel="stylesheet" type="text/css" href="/asset/css/client/include.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/common/popup.css"/>
     <?php
     if (isset($css)) echo $css;
     ?>
@@ -23,7 +25,7 @@ if (!isset($links) && !isset($is_login)) return;
     <script type="text/javascript" src="/asset/js/library/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/asset/js/default.js"></script>
     <script type="text/javascript" src="/asset/js/module/popup.js"></script>
-    <script type="text/javascript" src="/asset/js/client/login.js"></script>
+    <script type="text/javascript" src="/asset/js/common/login.js"></script>
     <?php
     if (isset($js)) echo $js;
     if (isset($javascript)) echo $javascript;

@@ -80,7 +80,7 @@ class ReservationController extends BaseAdminController
                 'js' => [
                     '/module/calendar',
                     '/module/time_selector',
-                    '/admin/reservation',
+                    '/common/reservation',
                 ],
             ])
             . view('/admin/reservation_table', $data)
@@ -118,14 +118,10 @@ class ReservationController extends BaseAdminController
             $this->handleException($e);
         }
         return parent::loadHeader([
-                'css' => [
-                    '/common/table',
-                    '/admin/reservation_calendar',
-                ],
                 'js' => [
                     '/module/calendar',
                     '/module/time_selector',
-                    '/admin/reservation',
+                    '/common/reservation',
                 ],
             ])
             . view('/admin/reservation_calendar', $data)

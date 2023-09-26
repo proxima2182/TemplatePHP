@@ -1,3 +1,13 @@
+/**
+ * @file location.php
+ */
+
+/**
+ * 공통 동작 함수 생성
+ * confirm 버튼 금지 기능
+ * @param className
+ * @returns {(function(): void)|*}
+ */
 function generateBlockConfirm(className) {
     return function () {
         $(`.${className} .control-button-wrap .button.search`).css({
@@ -9,6 +19,12 @@ function generateBlockConfirm(className) {
     }
 }
 
+/**
+ * 공통 동작 함수 생성
+ * confirm 버튼 금지 해제 기능
+ * @param className
+ * @returns {(function(): void)|*}
+ */
 function generateUnblockConfirm(className) {
     return function () {
         $(`.${className} .control-button-wrap .button.search`).css({
@@ -28,13 +44,11 @@ async function openInputPopupCreate() {
     let className = 'popup-create';
     if (!getCreateUrl || !getHtml) return;
     try {
-        let request = await fetch('/asset/css/common/input.css')
-        if (!request.ok) throw request;
-        let css = await request.text()
+        let css = await loadStyleFile('/asset/css/common/input.css', "." + className);
+        css += await loadStyleFile('/asset/css/common/popup/input.css', "." + className);
         let style = `
         <style>
         ${css}
-        ${getPopupStyle(className)}
         </style>`
         let html = `
         <div class="form-wrap">
@@ -45,32 +59,31 @@ async function openInputPopupCreate() {
             className: className,
             style: style,
             html: html,
-        })
-        $(`.${className} .popup-box`).css({
-            "padding-bottom": "61px",
-        })
-        $(`.${className} .popup-inner`).append(`
-        <div class="control-button-wrap absolute line-before">
-            <div class="control-button-box">
-                <a href="javascript:search('${className}');"
-                    class="button under-line search">
-                    <img src="/asset/images/icon/search.png"/>
-                    <span>Search</span>
-                </a>
-                <a href="javascript:closePopup('${className}');"
-                    class="button under-line cancel">
-                    <img src="/asset/images/icon/cancel.png"/>
-                    <span>Cancel</span>
-                </a>
-                <a href="javascript:confirmInputPopupCreate('${className}');"
-                    class="button under-line confirm" style="display: none;">
-                    <img src="/asset/images/icon/check.png"/>
-                    <span>Confirm</span>
-                </a>
-            </div>
-        </div>`);
+        }, ($parent) => {
+            $parent.find(`.popup-box`).addClass('has-control-button');
+            $parent.find(`.popup-inner`).append(`
+            <div class="control-button-wrap absolute line-before">
+                <div class="control-button-box">
+                    <a href="javascript:search('${className}');"
+                        class="button under-line search">
+                        <img src="/asset/images/icon/search.png"/>
+                        <span>Search</span>
+                    </a>
+                    <a href="javascript:closePopup('${className}');"
+                        class="button under-line cancel">
+                        <img src="/asset/images/icon/cancel.png"/>
+                        <span>Cancel</span>
+                    </a>
+                    <a href="javascript:confirmInputPopupCreate('${className}');"
+                        class="button under-line confirm" style="display: none;">
+                        <img src="/asset/images/icon/check.png"/>
+                        <span>Confirm</span>
+                    </a>
+                </div>
+            </div>`);
 
-        $(`.${className} input[name=address]`).on("input", generateBlockConfirm(className));
+            $parent.find(`input[name=address]`).on("input", generateBlockConfirm(className));
+        })
     } catch (e) {
         // do nothing
     }
@@ -82,15 +95,16 @@ async function openInputPopupCreate() {
  * @param id
  */
 function editInputPopup(className, id) {
-    $(`.${className} .form-wrap .editable`).not(`.readonly`).removeAttr('readonly')
-    $(`.${className} .form-wrap .editable`).not(`.readonly`).removeAttr('disabled')
-    $(`.${className} .form-wrap .button-wrap`).remove();
-    $(`.${className} .popup-inner .control-button-wrap`).remove();
+    let $parent = $(`.${className}`);
+    $parent.find(`.form-wrap .editable`).not(`.readonly`).removeAttr('readonly')
+    $parent.find(`.form-wrap .editable`).not(`.readonly`).removeAttr('disabled')
+    $parent.find(`.form-wrap .button-wrap`).remove();
+    $parent.find(`.popup-inner .control-button-wrap`).remove();
 
-    $(`.${className} .popup-inner`).append(`
+    $parent.find(`.popup-inner`).append(`
     <div class="control-button-wrap absolute line-before">
         <div class="control-button-box">
-            <a href="javascript:search('${className}');"
+            <a href="javascript:searchAddress('${className}');"
                 class="button under-line search" style="display: none;">
                 <img src="/asset/images/icon/search.png"/>
                 <span>Search</span>
@@ -121,11 +135,14 @@ function editInputPopup(className, id) {
     });
 }
 
-function search(className) {
+/**
+ * 주소검색 기능
+ * @param className
+ */
+function searchAddress(className) {
     let $wrapErrorMessage = $(`.${className} .error-message-wrap`);
     $wrapErrorMessage.empty();
     let data = parseInputToData($(`.${className} .editable`))
-    console.log(data)
 
     var geocoder = new kakao.maps.services.Geocoder();
 

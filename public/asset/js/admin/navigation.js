@@ -1,6 +1,7 @@
 /**
  * @file admin 용 네비게이션 버튼 제어 스크립트
  */
+
 /**
  * navigation 관련 위치를 refresh 시키는 기능
  * 전체 경우에 대한 position 값을 적어두고 위치 변화 필요할 때마다

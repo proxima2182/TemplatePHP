@@ -1,6 +1,7 @@
 /**
- * @file 메인 페이지 동작 스크립트
+ * @file main.php
  */
+
 let timeoutId;
 let map;
 
@@ -228,7 +229,6 @@ $(document).ready(function () {
         });
     }
 
-
     checkPagePopup();
 
 });
@@ -238,8 +238,8 @@ $(document).ready(function () {
  * @param className
  */
 function closePagePopup(className) {
-    let $popupWrap = $(`.${className}`)
-    $popupWrap.remove()
+    let $parent = $(`.${className}`)
+    $parent.remove()
     resizePagePopupWindow();
 }
 
@@ -419,7 +419,9 @@ function setMapPoints(points) {
     // map.setMaxLevel(13)
 }
 
-
+/**
+ * main 페이지에서 가맹 문의 보내는 기능
+ */
 function requestMembership() {
     let inputData = parseInputToData($(`#page-last .form-wrap input, #page-last .form-wrap textarea`))
     let keys = ['name', 'phone_number', 'content'];
@@ -446,6 +448,8 @@ function requestMembership() {
                 return;
             }
             $(`#page-last .form-wrap input, #page-last .form-wrap textarea`).val('');
+            $(`#page-last .form-wrap input[type=checkbox]`).prop("checked", false);
+            $(`#page-last .button-wrap .button`).addClass('disabled');
         },
         error: function (response, status, error) {
             openPopupErrors('popup-error', response, status, error);
@@ -453,7 +457,12 @@ function requestMembership() {
     });
 }
 
-function onInputValueChanged(element) {
+/**
+ * checkbox value 변경 listener
+ * 약관 동의 시에만 예약 요청을 할 수 있도록 만들기 위한 기능
+ * @param element
+ */
+function onMembershipInputValueChanged(element) {
     let $button = $(`#page-last .button-wrap .button`);
     if (!element.checked) {
         $button.addClass('disabled');

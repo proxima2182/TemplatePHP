@@ -1,0 +1,17 @@
+.popup {
+    width: 500px;
+}
+
+.popup-inner .text-wrap {
+    padding: 20px 0;
+}
+
+.popup-inner .button-wrap {
+    padding-top: 20px;
+}
+
+.popup-inner .button-wrap .button {
+    min-width: 100px;
+    padding: 10px 20px;
+    margin: 0 10px;
+}

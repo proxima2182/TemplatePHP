@@ -15,7 +15,7 @@ class LoginController extends BaseClientController
         return parent::loadHeader([
                 'css' => [
                     '/common/input',
-                    '/client/login',
+                    '/common/login',
                 ],
             ], [
                 'is_login_page' => true,

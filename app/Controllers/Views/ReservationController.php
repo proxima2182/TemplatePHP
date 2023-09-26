@@ -57,7 +57,7 @@ class ReservationController extends BaseClientController
                 'js' => [
                     '/module/calendar',
                     '/module/time_selector',
-                    '/client/reservation',
+                    '/common/reservation',
                 ],
             ])
             . view('/client/reservation_table', $data)

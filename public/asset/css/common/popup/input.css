@@ -1,0 +1,45 @@
+.popup-inner {
+    padding: 20px;
+}
+
+.popup-inner .button-wrap {
+    margin-top: 40px;
+}
+
+.popup-inner .button-wrap .button {
+    min-width: 100px;
+    padding: 10px 20px;
+    margin: 0 10px;
+}
+
+.popup-inner .control-button-wrap.absolute {
+    line-height: 20px;
+    text-align: right;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+}
+
+.form-wrap .input-wrap.inline .input-title {
+    width: calc(30% - 15px);
+}
+
+.form-wrap .input-wrap.inline input:not([type=checkbox]), .form-wrap .input-wrap textarea {
+    width: 70%;
+}
+
+.button.float {
+    text-align: center;
+    position: absolute;
+    right: 5px;
+    top: 0;
+    font-size: 0;
+}
+
+.button.float * {
+    height: 30px;
+    width: 30px;
+    vertical-align: middle;
+}

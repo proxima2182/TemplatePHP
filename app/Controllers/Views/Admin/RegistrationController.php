@@ -34,7 +34,7 @@ class RegistrationController extends BaseAdminController
                     '/admin/form',
                 ],
                 'js' => [
-                    '/admin/registration',
+                    '/common/registration',
                 ],
             ], [
                 'is_registration_page' => true,
@@ -66,7 +66,7 @@ class RegistrationController extends BaseAdminController
                     '/admin/form',
                 ],
                 'js' => [
-                    '/admin/find_password',
+                    '/common/find_password',
                 ],
             ], [
                 'is_registration_page' => true,

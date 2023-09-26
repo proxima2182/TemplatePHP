@@ -39,7 +39,7 @@ class ProfileController extends BaseAdminController
                     '/admin/form',
                 ],
                 'js' => [
-                    '/admin/profile',
+                    '/common/profile',
                 ],
             ])
             . view('/admin/profile', $data)

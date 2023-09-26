@@ -1,0 +1,20 @@
+.popup {
+    width: 800px;
+}
+
+.table-wrap {
+    width: 100%;
+    padding: 0;
+}
+
+.column.questioner {
+    width: 30%;
+}
+
+.column.status {
+    width: 30%;
+}
+
+.column.time {
+    width: 40%;
+}

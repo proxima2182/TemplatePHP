@@ -52,34 +52,14 @@ $is_admin_page = isset($is_admin) && $is_admin;
                         day: day,
                     },
                     dataType: 'json',
-                    success: function (response, status, request) {
+                    success: async function (response, status, request) {
                         if (!response.success) {
                             openPopupErrors('popup-error', response, status, request);
                             return;
                         }
-                        let className = 'popup-reservation-list'
-                        let style = `
-                        <style>
-                        body .${className} .popup {
-                            width: 800px;
-                        }
-                        .${className} .table-wrap {
-                            width: 100%;
-                            padding: 0;
-                         }
-                        .${className} .column.questioner {
-                            width: 30%;
-                        }
-
-                        .${className} .column.status {
-                            width: 30%;
-                        }
-
-                        .${className} .column.time {
-                            width: 40%;
-                        }
-
-                        </style>`;
+                        let className = 'popup-reservation-table'
+                        let css = await loadStyleFile('/asset/css/common/table.css', "." + className);
+                        css += await loadStyleFile('/asset/css/common/popup/reservation_table.css', "." + className);
                         let data = response.data
                         let array = data.array;
                         if (!array || array.length == 0) {
@@ -109,13 +89,13 @@ $is_admin_page = isset($is_admin) && $is_admin;
                                        class="button row-button">
                                         <span class="column questioner">
                                             ${item['questioner_name'] ??
-                                            item['temp_name'] ??
-                                            '<img src="/asset/images/icon/none.png"/>'}
+                                item['temp_name'] ??
+                                '<img src="/asset/images/icon/none.png"/>'}
                                         </span>
                                         <span class="column status">${item['status']}</span>
                                         <span class="column time">
                                             ${item[time_field_name] ??
-                                            '<img src="/asset/images/icon/none.png"/>'}
+                                '<img src="/asset/images/icon/none.png"/>'}
                                         </span>
                                     </a>
                                 </li>`
@@ -124,7 +104,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
                         html += `</ul></div>`
                         openPopup({
                             className: className,
-                            style: style,
+                            style: `<style>${css}</style>`,
                             html: html
                         })
                     },

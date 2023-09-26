@@ -54,54 +54,12 @@
             type: 'GET',
             url: `/api/topic/reply/get/${id}`,
             dataType: 'json',
-            success: function (response, status, request) {
+            success: async function (response, status, request) {
                 if (!response.success)
                     return;
                 let data = response.data;
                 let className = 'popup-reply';
-                let style = `
-                <style>
-                .${className} .row .column.user {
-                    font-size: 0;
-                    width: 60%;
-                }
-
-                .${className} .row .column.link a {
-                    line-height: 30px;
-                    vertical-align: middle;
-                }
-
-                .${className} .row .column.link a * {
-                    font-size: 18px;
-                    vertical-align: middle;
-                }
-
-                .${className} .row .column.created-at {
-                    width: 40%;
-                    font-size: 16px;
-                    text-align: right;
-                }
-
-                .${className} .text-wrap .content {
-                    margin: 10px 20px;
-                    min-height: 150px;
-                    font-size: 18px;
-                    text-align: left;
-                }
-
-                .${className} .control-button-wrap.top {
-                    text-align: left;
-                }
-
-                .${className} .control-button-wrap.top a {
-                    margin: 0;
-                }
-
-                .${className} .control-button-wrap.top span{
-                    font-weight: 400;
-                    font-size: 16px;
-                }
-                </style>`
+                let css = await loadStyleFile('/asset/css/common/popup/reply.css', "." + className);
                 let html = `
                 <div class="control-button-wrap top">
                     <a href="/admin/topic/${data['topic_id']}"
@@ -133,7 +91,7 @@
                 </div>`;
                 openPopup({
                     className: className,
-                    style: style,
+                    style: `<style>${css}</style>`,
                     html: html,
                 })
             },

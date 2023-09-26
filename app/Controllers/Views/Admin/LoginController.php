@@ -21,6 +21,9 @@ class LoginController extends BaseAdminController
                     '/common/input',
                     '/admin/login',
                 ],
+                'js' => [
+                    '/common/login'
+                ]
             ], [
                 'is_login_page' => true,
             ])

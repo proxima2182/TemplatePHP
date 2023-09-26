@@ -30,7 +30,7 @@ class RegistrationController extends BaseClientController
                     '/client/form',
                 ],
                 'js' => [
-                    '/client/registration',
+                    '/common/registration',
                 ],
             ])
             . view('/client/registration', $data)
@@ -55,7 +55,7 @@ class RegistrationController extends BaseClientController
                     '/client/form',
                 ],
                 'js' => [
-                    '/client/find_password',
+                    '/common/find_password',
                 ],
             ])
             . view('/client/find_password', $data)

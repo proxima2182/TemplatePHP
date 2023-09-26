@@ -1,72 +1,11 @@
 /**
  * @file 데이터 보기/입력을 위한 popup-input 을 공통처리하기 위한 스크립트
  */
+
 const className = 'popup-input';
 let getGetUrl, getUpdateUrl, getCreateUrl, getDeleteUrl;
 let getHtml, getControlHtml;
 let deleteMessage;
-
-/**
- * 공통 style string 생성 함수
- * - popup-input 인 경우 호출
- * 페이지 당 한 번 추가되면 좋겠지만, 다른 class 에 영향 줄 수 있고
- * 팝업이 생성과 제거를 반복할 것이기 때문에
- * 아예 팝업 당 고유 className을 주고 해당 class를 가진 element 내부에 추가해
- * 생성과 소멸을 같이 할 수 있도록 함
- * @param className
- * @returns {string}
- */
-function getPopupStyle(className) {
-    return `
-    .${className} .popup-inner {
-        padding: 20px;
-    }
-    .${className} .popup-inner .button-wrap {
-        margin-top: 40px;
-    }
-    
-    .${className} .popup-inner .button-wrap .button {
-        min-width: 100px;
-        padding: 10px 20px;
-        margin: 0 10px;
-    }
-    
-    .${className} .popup-inner .control-button-wrap.absolute {
-        line-height: 20px;
-        text-align: right;
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: #fff;
-    }
-    
-    .${className} .popup-inner .control-button-box {
-        padding: 5px 20px 15px 20px;
-    }
-    
-    .${className} .form-wrap .input-wrap.inline .input-title {
-        width: calc(30% - 15px);
-    }
-    
-    .${className} .form-wrap .input-wrap.inline input:not([type=checkbox]), .${className} .form-wrap .input-wrap textarea {
-        width: 70%;
-    }
-    
-    .${className} .button.float {
-        text-align: center;
-        position: absolute;
-        right: 5px;
-        top: 0;
-        font-size: 0;
-    }
-    .${className} .button.float * {
-        height: 30px;
-        width: 30px;
-        vertical-align: middle;
-    }
-`;
-}
 
 /**
  * 데이터 입력에 따른 input 용 html form 출력 기능
@@ -212,23 +151,23 @@ function initializeInputPopup(input) {
  */
 function addInputPopupControlWrap(className, data) {
     let controlHtml = getControlHtml !== undefined && getControlHtml !== null ? getControlHtml(className, data) : getControlHtml;
+
     if (typeof controlHtml == 'string' && controlHtml.length == 0) {
         return;
     }
-    if (getControlHtml == null) return;
-    $(`.${className} .popup-box`).css({
-        "padding-bottom": "61px",
-    })
+    if (getControlHtml === null) return;
+    let $parent = $(`.${className}`);
+    $parent.find(`.popup-box`).addClass('has-control-button');
     if (controlHtml != undefined) {
-        $(`.${className} .popup-inner`).append(
-            `<div class="control-button-wrap absolute line-before">
+        $parent.find(`.popup-inner`).append(`
+        <div class="control-button-wrap absolute line-before">
             <div class="control-button-box">
                 ${controlHtml}
             </div>
         </div>`
         );
     } else {
-        $(`.${className} .popup-inner`).append(`
+        $parent.find(`.popup-inner`).append(`
         <div class="control-button-wrap absolute line-before">
             <div class="control-button-box">
                 <a href="javascript:editInputPopup('${className}', ${data['id']});"
@@ -258,21 +197,19 @@ function addInputPopupControlWrap(className, data) {
 async function openInputPopup(id) {
     if (!getGetUrl || !getHtml) return;
     try {
-        let request = await fetch('/asset/css/common/input.css')
-        if (!request.ok) throw request;
-        let css = await request.text()
         apiRequest({
             type: 'GET',
             url: getGetUrl(id),
             dataType: 'json',
-            success: function (response, status, request) {
+            success: async function (response, status, request) {
                 if (!response.success)
                     return;
                 let data = response.data;
+                let css = await loadStyleFile('/asset/css/common/input.css', "." + className);
+                css += await loadStyleFile('/asset/css/common/popup/input.css', "." + className);
                 let style = `
                 <style>
                 ${css}
-                ${getPopupStyle(className)}
                 </style>`
                 let html = `
                 <div class="form-wrap">
@@ -283,12 +220,13 @@ async function openInputPopup(id) {
                     className: className,
                     style: style,
                     html: html,
+                }, ($parent) => {
+                    addInputPopupControlWrap(className, data);
+                    let $textarea = $parent.find(`textarea`);
+                    for (let i = 0; i < $textarea.length; ++i) {
+                        resizeInputPopupTextarea($textarea.get(i));
+                    }
                 });
-                addInputPopupControlWrap(className, data);
-                let $textarea = $(`.${className} textarea`);
-                for (let i = 0; i < $textarea.length; ++i) {
-                    resizeInputPopupTextarea($textarea.get(i));
-                }
             },
             error: function (response, status, error) {
             },
@@ -314,7 +252,7 @@ function refreshInputPopup(id) {
             if (!response.success)
                 return;
             let data = response.data;
-            $(`.${className} .popup-inner`).children().remove();
+            $(`.${className} .popup-inner`).empty();
             let html = `
             <div class="form-wrap">
                 ${getHtml(data)}
@@ -343,13 +281,11 @@ async function openInputPopupCreate() {
     let className = 'popup-create';
     if (!getCreateUrl || !getHtml) return;
     try {
-        let request = await fetch('/asset/css/common/input.css')
-        if (!request.ok) throw request;
-        let css = await request.text()
+        let css = await loadStyleFile('/asset/css/common/input.css', "." + className);
+        css += await loadStyleFile('/asset/css/common/popup/input.css', "." + className);
         let style = `
         <style>
         ${css}
-        ${getPopupStyle(className)}
         </style>`
         let html = `
         <div class="form-wrap">
@@ -360,25 +296,24 @@ async function openInputPopupCreate() {
             className: className,
             style: style,
             html: html,
+        }, ($parent) => {
+            $parent.find(`.popup-box`).addClass('has-control-button');
+            $parent.find(`.popup-inner`).append(`
+            <div class="control-button-wrap absolute line-before">
+                <div class="control-button-box">
+                    <a href="javascript:closePopup('${className}');"
+                        class="button under-line cancel">
+                        <img src="/asset/images/icon/cancel.png"/>
+                        <span>Cancel</span>
+                    </a>
+                    <a href="javascript:confirmInputPopupCreate('${className}');"
+                        class="button under-line confirm">
+                        <img src="/asset/images/icon/check.png"/>
+                        <span>Confirm</span>
+                    </a>
+                </div>
+            </div>`);
         })
-        $(`.${className} .popup-box`).css({
-            "padding-bottom": "61px",
-        })
-        $(`.${className} .popup-inner`).append(`
-        <div class="control-button-wrap absolute line-before">
-            <div class="control-button-box">
-                <a href="javascript:closePopup('${className}');"
-                    class="button under-line cancel">
-                    <img src="/asset/images/icon/cancel.png"/>
-                    <span>Cancel</span>
-                </a>
-                <a href="javascript:confirmInputPopupCreate('${className}');"
-                    class="button under-line confirm">
-                    <img src="/asset/images/icon/check.png"/>
-                    <span>Confirm</span>
-                </a>
-            </div>
-        </div>`);
     } catch (e) {
         // do nothing
     }
@@ -389,12 +324,14 @@ async function openInputPopupCreate() {
  * @param {string}id
  */
 function editInputPopup(className, id) {
-    $(`.${className} .form-wrap .editable`).not(`.readonly`).removeAttr('readonly')
-    $(`.${className} .form-wrap .editable`).not(`.readonly`).removeAttr('disabled')
-    $(`.${className} .form-wrap .button-wrap`).remove();
-    $(`.${className} .popup-inner .control-button-wrap`).remove();
+    let $parent = $(`.${className}`);
+    $parent.find(`.form-wrap .editable`).not(`.readonly`).removeAttr('readonly')
+    $parent.find(`.form-wrap .editable`).not(`.readonly`).removeAttr('disabled')
+    $parent.find(`.form-wrap .button-wrap`).remove();
+    $parent.find(`.popup-inner .control-button-wrap`).remove();
 
-    $(`.${className} .popup-inner`).append(`
+    console.log("1")
+    $parent.find(`.popup-inner`).append(`
     <div class="control-button-wrap absolute line-before">
         <div class="control-button-box">
             <a href="javascript:refreshInputPopup(${id});"
@@ -409,6 +346,11 @@ function editInputPopup(className, id) {
             </a>
         </div>
     </div>`);
+
+    // popup 내부의 tab 처리
+    let $tabbable = $parent.find("input:not([type='hidden']), select, textarea, [href]");
+    let $tabbableFirst = $tabbable && $tabbable.first();
+    if ($tabbableFirst) $tabbableFirst.focus();
 }
 
 /**
@@ -417,29 +359,11 @@ function editInputPopup(className, id) {
  * @requires openPopup
  * @requires closePopup
  * @param id
+ * @returns {Promise<void>}
  */
-function openInputPopupDelete(id) {
+async function openInputPopupDelete(id) {
     let className = 'popup-delete';
-    let style = `
-    <style>
-    body .${className} .popup {
-        width: 500px;
-    }
-
-    .${className} .popup-inner .text-wrap {
-        padding: 20px 0;
-    }
-
-    .${className} .popup-inner .button-wrap {
-        margin-top: 20px;
-    }
-
-    .${className} .popup-inner .button-wrap .button {
-        min-width: 100px;
-        padding: 10px 20px;
-        margin: 0 10px;
-    }
-    </style>`
+    let css = await loadStyleFile('/asset/css/common/popup/delete.css', "." + className);
     let html = `
     <div class="text-wrap">
         ${deleteMessage ?? 'Are you sure to delete?'}
@@ -451,7 +375,7 @@ function openInputPopupDelete(id) {
     </div>`;
     openPopup({
         className: className,
-        style: style,
+        style: `<style>${css}</style>`,
         html: html,
     })
 }
@@ -561,10 +485,10 @@ function confirmInputPopupDelete(className, id) {
  * @param obj
  */
 function resizeInputPopupTextarea(obj) {
-    let maxHeight = 200;
-    obj.style.height = "1px";
-    let height = 5 + obj.scrollHeight;
-    if (height < maxHeight) {
+    let maxHeight = 80;
+    if (obj.innerHeight < maxHeight) {
+        obj.style.height = "1px";
+        let height = 5 + obj.scrollHeight;
         obj.style.height = `${height}px`;
     } else {
         obj.style.height = `${maxHeight}px`;

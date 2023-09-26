@@ -1,7 +1,6 @@
 /**
  * @file popup 용 공통 기능 스크립트
  */
-let popupTimeoutId;
 
 /**
  * popup 열기 기능
@@ -13,164 +12,38 @@ let popupTimeoutId;
  * 현재는 popup 종류가 동일한게 동시에 뜰 필요가 없지만, 필요한 경우 selector 를 class 가 아닌 id 로 바꾸어주어야한다
  * @param input
  */
-function openPopup(input) {
+function openPopup(input, callback) {
     // 각 팝업을 각각 제어하기 위해 주는 selector name
     let className = input.className;
     let style = input.style;
     let html = input.html;
     // 팝업 세팅 완료 후 수행되어져야 할 기능 callback
-    let callback = input.callback;
     let onEnterKeydown = input.onEnterKeydown;
 
     $('body').append(`
-<div class="popup-wrap ${className}">
-<style>
-@keyframes popupFadeIn {
-    from {
-        margin-top: 100px;
-        opacity: 0.5;
-    }
-
-    to {
-        margin-top: 0px;
-        opacity: 1;
-    }
-}
-
-@keyframes popupFadeOut {
-    from {
-        margin-top: 0px;
-        opacity: 1;
-    }
-
-    to {
-        margin-top: 200px;
-        opacity: 0;
-    }
-}
-
-.${className} {
-    text-align: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 15;
-}
-
-.${className} .popup {
-    width: 700px;
-    line-height: normal;
-    display: inline-block;
-    vertical-align: middle;
-    background: #fff;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    position: relative;
-    animation-duration: 0.2s;
-    animation-name: popupFadeIn;
-}
-
-.${className} .popup-box {
-    position: relative;
-}
-
-.${className} .popup-inner {
-    overflow-y: scroll;
-    max-height: 400px;
-    overflow-x: hidden;
-    padding: 20px 20px 40px 20px;
-}
-
-.${className} .popup-inner-wrap {
-    overflow: hidden;
-}
-
-.${className} .popup .interface {
-    height: 40px;
-    line-height: 40px;
-    text-align: right;
-    background: #222;
-    position: relative;
-    font-size: 0;
-}
-
-.${className} .popup .interface .button.close {
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    margin-right: 5px;
-    display: inline-block;
-    vertical-align: middle;
-    text-align: center;
-}
-
-.${className} .popup .interface .button.close *{
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.${className} .row {
-    text-align: left;
-    font-size: 0;
-}
-
-.${className} .column {
-    padding: 10px 5px;
-    line-height: 30px;
-    text-align: left;
-    box-sizing: border-box;
-    font-size: 18px;
-    font-weight: 400;
-    display: inline-block;
-    vertical-align: bottom;
-
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.${className} .control-button-wrap.absolute {
-    line-height: 20px;
-    text-align: right;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #fff;
-}
-.${className} .control-button-box {
-    padding: 10px 20px 20px 20px;
-}
-</style>
-${style ?? ''}
-    <div class="popup">
-        <div class="interface">
-            <a href="javascript:closePopup('${className}')" class="button close">
-                <img src="/asset/images/icon/cancel_white.png"/>
-            </a>
-        </div>
-        <div class="popup-box">
-            <div class="popup-inner">
-                <div class="popup-inner-wrap">
-            ${html ?? ''}
+    <div class="popup-wrap ${className}">
+        ${style ?? ''}
+        <div class="popup">
+            <div class="interface">
+                <a href="javascript:closePopup('${className}')" class="button close">
+                    <img src="/asset/images/icon/cancel_white.png"/>
+                </a>
+            </div>
+            <div class="popup-box">
+                <div class="popup-inner">
+                    <div class="popup-inner-wrap">
+                        ${html ?? ''}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>`)
+    </div>`)
     onPopupResizeWindow();
-    if (callback && typeof callback == 'function') callback();
-
-    if ($(`.${className} .control-button-wrap.absolute`).length > 0) {
-        $(`.${className} .popup-inner`).css({
-            'padding-bottom': '80px'
-        });
-    }
+    let $parent = $(`.${className}`);
+    if (callback && typeof callback == 'function') callback($parent);
 
     // popup 내부의 tab 처리
-    let $tabbable = $(`.${className}`).find("input:not([type='hidden']), select, textarea, [href]");
+    let $tabbable = $parent.find("input:not([type='hidden']), select, textarea, [href]");
     let $tabbableFirst = $tabbable && $tabbable.first();
 
     let elementBody = document.querySelector('body');
@@ -195,7 +68,7 @@ ${style ?? ''}
     $('#container').find("button, input:not([type='hidden']), select, iframe, textarea, [href], [tabindex]:not([tabindex='-1']), .slick-item").attr("tabindex", "-1"); // 레이어 바깥 영역을 스크린리더가 읽지 않게
     if ($tabbableFirst) $tabbableFirst.focus();
 
-    let element = $(`.${className}`).get(0);
+    let element = $parent.get(0);
     if (element) {
         element.addEventListener('click', function (event) {
             if (event.target.className && event.target.className.includes && event.target.className.includes("popup-wrap")) {
@@ -223,8 +96,8 @@ ${style ?? ''}
  * @param className
  */
 function closePopup(className) {
-    let $popupWrap = $(`.${className}`)
-    $popupWrap.find('.popup').css({
+    let $parent = $(`.${className}`)
+    $parent.find('.popup').css({
         'animation-duration': '0.2s',
         'animation-name': 'popupFadeOut',
     })
@@ -236,12 +109,12 @@ function closePopup(className) {
 
     $('#container').find("button, input:not([type='hidden']), select, iframe, textarea, [href], [tabindex]:not([tabindex='-1']), .slick-item").attr("tabindex", ""); // 레이어 바깥 영역을 스크린리더가 읽지 않게
 
-    popupTimeoutId = setTimeout(function () {
-        let element = $popupWrap.get(0);
+    let popupTimeoutId = setTimeout(function () {
+        let element = $parent.get(0);
         if (element) {
             element.removeEventListener('click', closePopup);
         }
-        $popupWrap.remove()
+        $parent.remove()
         clearTimeout(popupTimeoutId)
     }, 150)
 }
@@ -280,7 +153,7 @@ function onPopupScroll(event) {
 function openPopupErrors(className, response, status, requestOrError) {
     let style = `
         <style>
-        body .${className} .popup {
+        .${className} .popup {
             width: 500px;
         }
 
@@ -346,47 +219,18 @@ function openPopupErrors(className, response, status, requestOrError) {
  * user 상세 popup 을 여는 기능
  * @param id
  */
-async function openUserPopup(user_id) {
-    let request = await fetch('/asset/css/common/input.css')
-    if (!request.ok) throw request;
-    let css = await request.text()
+function openUserPopup(user_id) {
     apiRequest({
         type: 'GET',
         url: `/api/user/get/${user_id}`,
         dataType: 'json',
-        success: function (response, status, request) {
+        success: async function (response, status, request) {
             if (!response.success)
                 return;
             let data = response.data;
             let className = 'popup-user-detail';
-            let style = `
-                <style>
-                ${css}
-                body .${className} .popup {
-                    width: 400px;
-                }
-                .${className} .popup-inner {
-                    padding: 20px 40px 40px 40px;
-                }
-
-                .${className} .text-wrap * {
-                    text-align: left;
-                    margin-top: 5px;
-                }
-
-                .${className} .text-wrap .title {
-                    font-size: 16px;
-                    font-weight: 400;
-                }
-
-                .${className} .text-wrap .value {
-                    padding: 0 5px;
-                    line-height: 30px;
-                    font-weight: 200;
-                    font-size: 18px;
-                    border-bottom: 1px solid #efefef;
-                }
-                </style>`
+            let css = await loadStyleFile('/asset/css/common/input.css', "." + className);
+            css += await loadStyleFile('/asset/css/common/popup/user.css', "." + className);
 
             let typeSet = {
                 type: {
@@ -428,7 +272,7 @@ async function openUserPopup(user_id) {
             }
             openPopup({
                 className: className,
-                style: style,
+                style: `<style>${css}</style>`,
                 html: html,
             })
         },
