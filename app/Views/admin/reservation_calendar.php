@@ -92,7 +92,10 @@ $is_admin_page = isset($is_admin) && $is_admin;
                                 item['temp_name'] ??
                                 '<img src="/asset/images/icon/none.png"/>'}
                                         </span>
-                                        <span class="column status">${item['status']}</span>
+                                        <span class="column status">
+                                            <span class="badge ${item['status']}"></span>
+                                            <span>${item['status']}</span>
+                                        </span>
                                         <span class="column time">
                                             ${item[time_field_name] ??
                                 '<img src="/asset/images/icon/none.png"/>'}

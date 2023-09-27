@@ -1,3 +1,23 @@
+.badge {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #000;
+    display: inline-block;
+}
+
+.badge.requested {
+    background: #ddbd2b;
+}
+
+.badge.accepted {
+    background: #2ea400;
+}
+
+.badge.refused {
+    background: #ba2b14;
+}
+
 .popup {
     width: 800px;
 }

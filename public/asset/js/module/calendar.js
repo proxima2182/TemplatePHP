@@ -436,18 +436,6 @@ function setCalendarStyle($view, selectable = true) {
  * @param $cell
  */
 function selectCalendarCell($parent, $cell, year, month, isStyled = true) {
-    if (isStyled) {
-        let $liSelected = $parent.find('.selected');
-        if ($liSelected != undefined) {
-            $liSelected.removeClass('selected')
-        }
-        $cell.addClass('selected');
-    }
-
-    let $input = $parent.find('input[type=hidden]');
-    if ($input != undefined) {
-        $input.remove();
-    }
     let day = $cell.find('span.calendar-number')[0].innerHTML;
     let value = year.toString().padStart(4, '0') + '-' + month.toString().padStart(2, '0') + '-' + day.toString().padStart(2, '0');
     $parent.append('<input type="hidden" name="date" value="' + value + '">')
@@ -463,6 +451,19 @@ function selectCalendarCell($parent, $cell, year, month, isStyled = true) {
     }
     if ($parent && $parent.onDateSelected && typeof $parent.onDateSelected == 'function') {
         $parent.onDateSelected($parent, value, year, month, day);
+    }
+    if ($cell.hasClass('limited-day')) return;
+    if (isStyled) {
+        let $liSelected = $parent.find('.selected');
+        if ($liSelected != undefined) {
+            $liSelected.removeClass('selected')
+        }
+        $cell.addClass('selected');
+    }
+
+    let $input = $parent.find('input[type=hidden]');
+    if ($input != undefined) {
+        $input.remove();
     }
 }
 
@@ -604,15 +605,6 @@ function drawCalendarView($parent, date) {
         }
 
         function setCell() {
-            if (Array.isArray(option.limitedDayOfWeek)) {
-                for (let i in option.limitedDayOfWeek) {
-                    let idx = calendarWeekKeys.indexOf(option.limitedDayOfWeek[i]);
-                    if (idx > 0 && days % 7 == idx) {
-                        setCalendarStyle($cell, false);
-                        return;
-                    }
-                }
-            }
             if ((option.limitPrevious && hasDateStandard && i <= dateCompare.getDate() - 1) || // 이전날짜 제한중인 경우
                 (dateEnd && hasDateEnd && i >= dateEnd.getDate() - 1) // 마지막 날짜로 제한중인 경우
             ) {  // 이전날짜 제한중인 경우
@@ -623,6 +615,17 @@ function drawCalendarView($parent, date) {
                 $cell.click(function () {
                     selectCalendarCell($parent, $(this), year, month + 1, option.selectedStyle);
                 })
+            }
+            if (Array.isArray(option.limitedDayOfWeek)) {
+                for (let i in option.limitedDayOfWeek) {
+                    let idx = calendarWeekKeys.indexOf(option.limitedDayOfWeek[i]);
+                    if (idx > 0 && days % 7 == idx) {
+                        $cell.addClass('disabled')
+                        $cell.addClass('limited-day')
+                        // setCalendarStyle($cell, false);
+                        return;
+                    }
+                }
             }
         }
 
