@@ -41,13 +41,15 @@ $routes->get('/login', [\Views\LoginController::class, 'index']);
 $routes->get('/profile', [\Views\ProfileController::class, 'index']);
 $routes->get('/registration', [\Views\RegistrationController::class, 'index']);
 $routes->get('/reset-password', [\Views\RegistrationController::class, 'resetPassword']);
-$routes->get('/board/(:any)/([0-9]+)', [\Views\BoardController::class, 'getBoard']);
-$routes->addRedirect('/board/(:any)', '/board/(:any)/1');
+$routes->get('/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/([0-9]+)', [\Views\BoardController::class, 'getBoard']);
+$routes->addRedirect('/board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/board/$1/1');
 $routes->get('/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/topic/create', [\Views\BoardController::class, 'createTopic']);
 $routes->get('/topic/([0-9]+)', [\Views\BoardController::class, 'getTopic']);
 $routes->get('/topic/([0-9]+)/edit', [\Views\BoardController::class, 'editTopic']);
 $routes->get('/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)/([0-9]+)', [\Views\ReservationController::class, 'getBoard']);
 $routes->addRedirect('/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/reservation-board/$1/1');
+$routes->get('/reservation/([0-9]+)', [\Views\ReservationController::class, 'getReservation']);
+
 //admin pages
 $routes->addRedirect('/admin', '/admin/category');
 $routes->get('/admin/login', [\Views\Admin\LoginController::class, 'index']);
@@ -85,6 +87,8 @@ $routes->addRedirect('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/ad
 $routes->get('/admin/reservation-board/calendar/([a-zA-Z][a-zA-Z0-9\-\_]*)', [\Views\Admin\ReservationController::class, 'getCalendar']);
 $routes->get('/admin/reservation/([0-9]+)', [\Views\Admin\ReservationController::class, 'getReservation']);
 
+$routes->get('/file/(:any)/thumbnail', [\Views\CustomFileController::class, 'getFileThumbnail']);
+$routes->get('/file/(:any)', [\Views\CustomFileController::class, 'getFile']);
 
 /**
  * API Routes
@@ -93,8 +97,6 @@ $routes->post('/api/file/(image|video)/upload/([a-zA-Z0-9\-\_]*)', [\API\CustomF
 $routes->post('/api/file/(image|video|all)/refresh/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'refreshFile']);
 $routes->post('/api/file/(image|video)/confirm/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'confirmFile']);
 $routes->delete('/api/file/delete/([0-9]+)', [\API\CustomFileController::class, 'deleteFile']);
-$routes->get('/file/(:any)/thumbnail', [\API\CustomFileController::class, 'getFileThumbnail']);
-$routes->get('/file/(:any)', [\API\CustomFileController::class, 'getFile']);
 
 $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);
 $routes->get('/api/user/get/([0-9]+)', [\API\UserController::class, 'getUser']);
@@ -160,8 +162,8 @@ $routes->post('/api/reservation/refuse/([0-9]+)', [\API\ReservationController::c
 $routes->post('/api/reservation/accept/([0-9]+)', [\API\ReservationController::class, 'acceptReservation']);
 
 //$routes->post('/api/email/send', [\API\EmailController::class, 'send']);
-$routes->post('/api/email/send/verification-code', [\API\EmailController::class, 'sendVerificationCode']);
-$routes->post('/api/email/send/verification-code/(:any)', [\API\EmailController::class, 'sendVerificationCode']);
+$routes->post('/api/email/send/verification-code', [\API\EmailController::class, 'sendVerificationCodeMail']);
+$routes->post('/api/email/send/verification-code/(:any)', [\API\EmailController::class, 'sendVerificationCodeMail']);
 
 /*
  * --------------------------------------------------------------------

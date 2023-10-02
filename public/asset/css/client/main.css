@@ -4,11 +4,6 @@
     /*z-index: 100;*/
 }
 
-#footer {
-    position: absolute;
-    bottom: 0;
-}
-
 #container .section {
     position: relative;
     overflow: hidden;

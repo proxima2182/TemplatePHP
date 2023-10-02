@@ -314,10 +314,10 @@ class UserController extends BaseApiController
                 'label' => 'Username',
                 'rules' => 'required|min_length[5]|max_length[50]',
             ],
-//            'password' => [
-//                'label' => 'Password',
-//                'rules' => 'required|min_length[8]',
-//            ],
+            'password' => [
+                'label' => 'Password',
+                'rules' => 'required',
+            ],
         ];
 
         $response = [
@@ -372,6 +372,10 @@ class UserController extends BaseApiController
         return $this->response->setJSON($response);
     }
 
+    /**
+     * [post] /api/user/password-change
+     * @return ResponseInterface
+     */
     public function changePassword(): ResponseInterface
     {
         $data = $this->request->getPost();

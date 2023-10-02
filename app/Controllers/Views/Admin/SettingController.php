@@ -16,6 +16,11 @@ class SettingController extends BaseAdminController
         $this->settingModel = model('Models\SettingModel');
     }
 
+    /**
+     * /admin/setting/{page}
+     * @param $page
+     * @return string
+     */
     function index($page = 1): string
     {
         $page = Utils::toInt($page);

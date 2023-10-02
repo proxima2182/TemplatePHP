@@ -16,7 +16,7 @@ class ProfileController extends BaseAdminController
     }
 
     /**
-     * @throws Exception
+     * /admin/profile
      */
     public function index(): string
     {

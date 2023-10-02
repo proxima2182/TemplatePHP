@@ -18,6 +18,10 @@ class CategoryController extends BaseAdminController
         $this->categoryLocalModel = model('Models\CategoryLocalModel');
     }
 
+    /**
+     * /admin/category
+     * @return string
+     */
     function index(): string
     {
         $data = $this->getViewData();
@@ -44,6 +48,11 @@ class CategoryController extends BaseAdminController
             . parent::loadFooter();
     }
 
+    /**
+     * /admin/category/{code}
+     * @param $code
+     * @return string
+     */
     function getCategory($code): string
     {
         $data = $this->getViewData();

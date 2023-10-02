@@ -11,7 +11,7 @@ use Models\CategoryModel;
 use Models\SettingModel;
 use Psr\Log\LoggerInterface;
 
-class BaseClientController extends BaseController
+class BaseClientController extends BaseViewController
 {
     protected CategoryModel $categoryModel;
     protected CategoryLocalModel $categoryLocalModel;

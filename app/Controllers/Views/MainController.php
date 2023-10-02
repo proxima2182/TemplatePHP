@@ -33,7 +33,7 @@ class MainController extends BaseClientController
     }
 
     /**
-     * main 페이지
+     * /
      * @return string
      */
     public function index()
@@ -59,9 +59,9 @@ class MainController extends BaseClientController
 //            ];
 
             // load table view
-            $data['topics_table'] = $this->getTopicData('notice');
+            $data['topics_table'] = $this->getTopics('notice');
             // load grid view
-            $data['topics_grid'] = $this->getTopicData('menu');
+            $data['topics_grid'] = $this->getTopics('menu');
 
             $images = $this->customFileModel->get(['type' => 'image', 'target' => 'main']);
             $data = array_merge($data, [
@@ -85,6 +85,7 @@ class MainController extends BaseClientController
     }
 
     /**
+     * /frame-view
      * 이미지를 해당 페이지에 render 해 주는 페이지
      * @return string
      */
@@ -125,7 +126,12 @@ class MainController extends BaseClientController
         return view('welcome_message');
     }
 
-    private function getTopicData($code): ?array
+    /**
+     * 메인에 표시해 줄 topic 을 pagination 정보와 함께 조회하는 기능
+     * @param $code
+     * @return array|null
+     */
+    private function getTopics($code): ?array
     {
         $board = $this->boardModel->findByCode($code);
         if ($board) {

@@ -21,6 +21,7 @@ class ReservationController extends EmailController
         $this->boardModel = model('Models\ReservationBoardModel');
         $this->reservationModel = model('Models\ReservationModel');
         $this->reservationDateFragmentModel = model('Models\ReservationDateFragmentModel');
+        // inherited variable
         $this->userModel = model('Models\UserModel');
     }
 
@@ -190,7 +191,11 @@ class ReservationController extends EmailController
         }
         $data['expect_date'] = $data['expect_date'] ?? null;
         $data['expect_time'] = $data['expect_time'] ?? null;
-        $timeRaw = $this->getTimeRaw($data['expect_date'], $data['expect_time']);
+        try {
+            $timeRaw = $this->getTimeRaw($data['expect_date'], $data['expect_time']);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
 
         if (isset($data['user_id'])) {
             $data['questioner_id'] = $data['user_id'];
@@ -234,7 +239,7 @@ class ReservationController extends EmailController
                     foreach ($memberUsers as $memberUser) {
                         $copies[] = $memberUser['email'];
                     }
-                    $this->sendMessage(array_merge([
+                    $this->sendReservationMail(array_merge([
                         'email' => $adminUser['email'],
                         'copies' => $copies,
                         'title' => 'New Reservation',
@@ -272,7 +277,7 @@ class ReservationController extends EmailController
                 $reservation = $reservations[0];
                 if (isset($reservation['questioner_is_notification']) && $reservation['questioner_is_notification'] == 1 &&
                     isset($reservation['questioner_email']) && strlen($reservation['questioner_email']) > 0) {
-                    $this->sendMessage(array_merge([
+                    $this->sendReservationMail(array_merge([
                         'email' => $reservation['questioner_email'],
                         'title' => 'Reservation Refused',
                     ], $reservation));
@@ -302,7 +307,14 @@ class ReservationController extends EmailController
         }
         $data['confirm_date'] = $data['confirm_date'] ?? null;
         $data['confirm_time'] = $data['confirm_time'] ?? null;
-        $timeRaw = $this->getTimeRaw($data['confirm_date'], $data['confirm_time']);
+        try {
+            $timeRaw = $this->getTimeRaw($data['confirm_date'], $data['confirm_time']);
+        } catch (Exception $e) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => lang('Errors.wrongTimeFormat')
+            ]);
+        }
 
         $data['respondent_id'] = $this->session->user_id;
         $data['status'] = 'accepted';
@@ -333,7 +345,7 @@ class ReservationController extends EmailController
                     $reservation = $reservations[0];
                     if (isset($reservation['questioner_is_notification']) && $reservation['questioner_is_notification'] == 1 &&
                         isset($reservation['questioner_email']) && strlen($reservation['questioner_email']) > 0) {
-                        $this->sendMessage(array_merge([
+                        $this->sendReservationMail(array_merge([
                             'email' => $reservation['questioner_email'],
                             'title' => 'Reservation Accepted',
                         ], $reservation));
@@ -349,6 +361,7 @@ class ReservationController extends EmailController
     }
 
     /**
+     * 월별 구분을 위해 그룹화된 fragment 의 id 조회 기능
      * @throws \ReflectionException
      */
     private function getFragmentId($year, $month)
@@ -365,24 +378,31 @@ class ReservationController extends EmailController
         }
     }
 
+    /**
+     * date format 체크 및 시간을 raw number 로 변경하는 기능
+     * (해당 raw number 를 다시 포맷화 함)
+     * @param $date
+     * @param $time
+     * @return int
+     * @throws Exception
+     */
     protected function getTimeRaw($date, $time): int
     {
         $result = time();
-        try {
-            if (isset($date)) {
-                if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $date)) {
-                    //todo exception
-                }
-                if (isset($time)) {
-                    if (!preg_match('/^(2[0-3]|[01][0-9]):[0-5][0-9]$/', $time)) {
-                        //todo exception
-                    }
-                    $result = strtotime($date . " " . $time);
-                } else {
-                    $result = strtotime($date . " 00:00:00");
-                }
+        if (isset($date)) {
+            if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $date)) {
+                //todo exception
+                throw new Exception('wrongTimeFormat');
             }
-        } catch (Exception $e) {
+            if (isset($time)) {
+                if (!preg_match('/^(2[0-3]|[01][0-9]):[0-5][0-9]$/', $time)) {
+                    //todo exception
+                    throw new Exception('wrongTimeFormat');
+                }
+                $result = strtotime($date . " " . $time);
+            } else {
+                $result = strtotime($date . " 00:00:00");
+            }
         }
         return $result;
     }

@@ -4,6 +4,11 @@ body {
     position: relative;
 }
 
+#wrap {
+    min-height: 100vh;
+    position: relative;
+}
+
 .header-inner, .footer-inner {
     width: 1200px;
     min-width: 1200px;
@@ -130,6 +135,8 @@ body {
 }
 
 #footer {
+    position: absolute;
+    bottom: 0;
     width: 100%;
     min-width: 1070px;
     font-size: 0;

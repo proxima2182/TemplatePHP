@@ -108,7 +108,7 @@ class EmailController extends BaseApiController
      * @param array $data
      * @return string
      */
-    private function getMessageStyle($service, string $title, array $data): string
+    private function getReservationMailStyle($service, string $title, array $data): string
     {
         $result = '
         <div class="email-container" style="text-align: center; background: #eee;">
@@ -223,6 +223,7 @@ class EmailController extends BaseApiController
     }
 
     /**
+     * mail service initialize
      * @param string $address
      * @param string $title
      * @param array $copies
@@ -247,7 +248,12 @@ class EmailController extends BaseApiController
         return $email;
     }
 
-    public function sendVerificationCode($type = ''): ResponseInterface
+    /**
+     * [post] /api/email/send/verification-code/{type}
+     * @param $type
+     * @return ResponseInterface
+     */
+    public function sendVerificationCodeMail($type = ''): ResponseInterface
     {
         $data = $this->request->getPost();
         $validationRules = null;
@@ -343,16 +349,20 @@ class EmailController extends BaseApiController
     }
 
     /**
+     * reservation 데이터에 맞게 메일 전송
+     * 상속받은 다른 API 에서 호출됨
+     * @param $data
+     * @return void
      * @throws Exception
      */
-    protected function sendMessage($data): void
+    protected function sendReservationMail($data): void
     {
         $email_address = $data['email'];
         $email_title = '[' . \Config\Services::email()->fromName . '] ' . $data['title'];
 
         $copies = $data['copies'] ?? [];
         $service = $this->initService($email_address, $email_title, $copies);
-        $email_content = $this->getMessageStyle($service, $data['title'], $data);
+        $email_content = $this->getReservationMailStyle($service, $data['title'], $data);
         $service->setMessage($email_content);
         if (!$service->send()) {
 //            ServerLogger::log($email->printDebugger());

@@ -16,6 +16,11 @@ class ReplyController extends BaseAdminController
         $this->replyModel = model('Models\ReplyModel');
     }
 
+    /**
+     * /admin/topic/reply/{page}
+     * @param $page
+     * @return string
+     */
     function index($page = 1): string
     {
         $page = Utils::toInt($page);

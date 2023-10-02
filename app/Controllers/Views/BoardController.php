@@ -25,6 +25,12 @@ class BoardController extends BaseClientController
         $this->replyModel = model('Models\ReplyModel');
     }
 
+    /**
+     * /board/{code}/{index}
+     * @param $code
+     * @param $page
+     * @return string
+     */
     public function getBoard($code, $page = 1): string
     {
         $page = Utils::toInt($page);
@@ -81,6 +87,11 @@ class BoardController extends BaseClientController
             . parent::loadFooter();
     }
 
+    /**
+     * /topic/{id}
+     * @param $id
+     * @return string
+     */
     public function getTopic($id = 1): string
     {
         $data = $this->getViewData();
@@ -123,6 +134,11 @@ class BoardController extends BaseClientController
             . parent::loadFooter();
     }
 
+    /**
+     * /topic/{id}/edit
+     * @param $id
+     * @return string
+     */
     public function editTopic($id = 1): string
     {
         $data = $this->getViewData();
@@ -160,6 +176,11 @@ class BoardController extends BaseClientController
             . parent::loadFooter();
     }
 
+    /**
+     * /board/{code}/topic/create
+     * @param $code
+     * @return string
+     */
     public function createTopic($code): string
     {
         $data = $this->getViewData();
@@ -194,6 +215,7 @@ class BoardController extends BaseClientController
     }
 
     /**
+     * topic 조회시 필요한 데이터 불러오는 기능
      * @throws Exception
      */
     private function getTopicData($id): array

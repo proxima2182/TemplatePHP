@@ -54,9 +54,6 @@ body {
 
 #wrap {
     position: relative;
-}
-
-#wrap {
     margin: 60px auto;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
@@ -154,18 +151,20 @@ body {
 
 .gnb > ul > li > a {
     width: 100%;
+    height: 100%;
     padding: 0 20px;
-    line-height: normal;
-    vertical-align: middle;
-    box-sizing: border-box;
     text-align: right;
-    font-size: 16px;
-    font-weight: 400;
-    color: #000;
+    box-sizing: border-box;
     display: inline-block;
 }
 
-.gnb > ul > li > a span {
+.gnb > ul > li > a > span {
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+    line-height: normal;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .gnb > ul > li:hover {

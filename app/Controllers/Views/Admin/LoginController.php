@@ -9,6 +9,10 @@ class LoginController extends BaseAdminController
     {
     }
 
+    /**
+     * /admin/login
+     * @return string
+     */
     function index(): string
     {
         if ($this->session->is_login) {

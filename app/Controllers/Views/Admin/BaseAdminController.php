@@ -7,8 +7,9 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Config\Services;
 use Psr\Log\LoggerInterface;
+use Views\BaseViewController;
 
-class BaseAdminController extends BaseController
+class BaseAdminController extends BaseViewController
 {
     /**
      * links for pages

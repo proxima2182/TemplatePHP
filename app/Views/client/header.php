@@ -24,6 +24,7 @@ if (!isset($links) && !isset($is_login)) return;
 
     <script type="text/javascript" src="/asset/js/library/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/asset/js/default.js"></script>
+    <script type="text/javascript" src="/asset/js/client/client_default.js"></script>
     <script type="text/javascript" src="/asset/js/module/popup.js"></script>
     <script type="text/javascript" src="/asset/js/common/login.js"></script>
     <?php

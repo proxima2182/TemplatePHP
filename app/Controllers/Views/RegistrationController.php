@@ -12,6 +12,10 @@ class RegistrationController extends BaseClientController
         $this->isCheckLogin = true;
     }
 
+    /**
+     * /registration
+     * @return string
+     */
     public function index(): string
     {
         $queryParams = $this->request->getGet();
@@ -37,6 +41,10 @@ class RegistrationController extends BaseClientController
             . parent::loadFooter();
     }
 
+    /**
+     * /reset-password
+     * @return string
+     */
     public function resetPassword(): string
     {
         $queryParams = $this->request->getGet();

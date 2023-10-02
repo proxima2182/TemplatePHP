@@ -16,6 +16,11 @@ class LocationController extends BaseAdminController
         $this->locationModel = model('Models\LocationModel');
     }
 
+    /**
+     * /admin/location/{page}
+     * @param $page
+     * @return string
+     */
     function index($page = 1): string
     {
         $page = Utils::toInt($page);

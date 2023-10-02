@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use Config\Services;
 use Exception;
+use JetBrains\PhpStorm\NoReturn;
 use Models\BaseModel;
 
 class BaseApiController extends BaseController
@@ -185,5 +186,28 @@ class BaseApiController extends BaseController
             $response->sendBody();
             exit;
         }
+    }
+
+    #[NoReturn] protected function handleException(Exception $e) {
+        switch ($e->getMessage()) {
+            case 'wrongTimeFormat' :
+                $response = Services::response();
+                $response->setJSON([
+                    'success' => false,
+                    'message' => lang('Errors.wrongTimeFormat'),
+                ]);
+                $response->sendBody();
+                exit;
+            default :
+            {
+                $response = Services::response();
+                $response->setJSON([
+                    'success' => false,
+                    'message' => lang('Errors.internalServerError'),
+                ]);
+                exit;
+            }
+        }
+
     }
 }

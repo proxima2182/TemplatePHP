@@ -2,6 +2,7 @@
 
 namespace Views;
 
+use App\Helpers\ServerLogger;
 use App\Helpers\Utils;
 use Exception;
 use Models\ReservationBoardModel;
@@ -19,6 +20,12 @@ class ReservationController extends BaseClientController
         $this->reservationModel = model('Models\ReservationModel');
     }
 
+    /**
+     * /reservation-board/{code}/{page}
+     * @param $code
+     * @param $page
+     * @return string
+     */
     function getBoard($code, $page = 1): string
     {
         $page = Utils::toInt($page);
@@ -64,11 +71,26 @@ class ReservationController extends BaseClientController
             . parent::loadFooter();
     }
 
+    /**
+     * /reservation/{id}
+     * @param $id
+     * @return string
+     */
     function getReservation($id): string
     {
         $data = $this->getViewData();
         try {
             $data = array_merge($data, $this->getReservationData($id));
+            if($data['board']['is_public'] != 1) {
+                if(!$data['is_login']) {
+                    return view('/redirect', [
+                        'path' => '/login'
+                    ]);
+                }
+                if(!$data['is_admin'] && $data['data']['user_id'] != $data['user_id']) {
+                    throw new Exception('forbidden');
+                }
+            }
         } catch (Exception $e) {
             //todo(log)
             $this->handleException($e);

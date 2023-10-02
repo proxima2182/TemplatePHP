@@ -63,7 +63,7 @@ $is_not_registration_page = !isset($is_registration_page) || ($is_registration_p
                     <div class="gnb">
                         <ul class="cf">
                             <?php foreach ($links as $name => $link) { ?>
-                                <li><a href="<?= $link ?>" class="button"><?= $name ?></a></li>
+                                <li><a href="<?= $link ?>" class="button"><span><?= $name ?></span></a></li>
                             <?php } ?>
                         </ul>
                         <a href="javascript:closeNavigation()" class="button navigation close">

@@ -19,6 +19,11 @@ class ReservationController extends BaseAdminController
         $this->reservationModel = model('Models\ReservationModel');
     }
 
+    /**
+     * /admin/reservation-board/{page}
+     * @param $page
+     * @return string
+     */
     function index($page = 1): string
     {
         $page = Utils::toInt($page);
@@ -51,6 +56,12 @@ class ReservationController extends BaseAdminController
             . parent::loadFooter();
     }
 
+    /**
+     * /admin/reservation-board/{code}/{page}
+     * @param $code
+     * @param $page
+     * @return string
+     */
     function getBoard($code, $page = 1): string
     {
         $page = Utils::toInt($page);
@@ -87,9 +98,15 @@ class ReservationController extends BaseAdminController
             . parent::loadFooter();
     }
 
-    function getCalendar($code, $page = 1): string
+    /**
+     * /admin/reservation-board/calendar/{code}
+     * data 는 내부 php 파일에서 js 를 통해 rendering 되므로
+     * board 정보 만 조회해서 전달
+     * @param $code
+     * @return string
+     */
+    function getCalendar($code): string
     {
-        $page = Utils::toInt($page);
         $data = $this->getViewData();
         try {
             $board = $this->boardModel->findByCode($code);
@@ -99,20 +116,6 @@ class ReservationController extends BaseAdminController
                     'path' => '/admin/login'
                 ]);
             }
-            $searchCondition = [
-                'reservation_board_id' => $board['id']
-            ];
-            if ($board['is_public'] != 1 && !$data['is_admin']) {
-                $searchCondition['questioner_id'] = $data['user_id'];
-            }
-            $result = $this->reservationModel->getPaginated([
-                'per_page' => $this->per_page,
-                'page' => $page,
-            ], $searchCondition);
-            $data = array_merge($data, $result);
-            $data = array_merge($data, [
-                'pagination_link' => '/admin/reservation-board/' . $code,
-            ]);
         } catch (Exception $e) {
             //todo(log)
             $this->handleException($e);

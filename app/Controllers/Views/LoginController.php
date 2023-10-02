@@ -4,6 +4,10 @@ namespace Views;
 
 class LoginController extends BaseClientController
 {
+    /**
+     * /login
+     * @return string
+     */
     function index(): string
     {
         if ($this->session->is_login) {

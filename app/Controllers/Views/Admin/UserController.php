@@ -16,6 +16,11 @@ class UserController extends BaseAdminController
         $this->userModel = model('Models\UserModel');
     }
 
+    /**
+     * /admin/user/{page}
+     * @param $page
+     * @return string
+     */
     function index($page = 1): string
     {
         $page = Utils::toInt($page);

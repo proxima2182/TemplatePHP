@@ -85,6 +85,7 @@ class CustomFileController extends BaseApiController
                         $height = $size[1];
                         break;
                     case 'video' :
+                        // video load 에 시간이 너무 오래 걸려 수정 페이지에서는 thumbnail 만 보여주도록 적용
                         $ffmpeg = FFMpeg::create();
                         $video = $ffmpeg->open($path . '/' . $file_name);
 
@@ -134,57 +135,10 @@ class CustomFileController extends BaseApiController
     }
 
     /**
-     * [get] /file/{id}
-     * @param $id
-     * @return DownloadResponse|null
-     */
-    public function getFile($id): DownloadResponse|null
-    {
-        try {
-            $result = $this->customFileModel->find($id);
-
-            if ($result) {
-//                if ($result['type'] != 'image') {
-//                    throw new Exception('bad request');
-//                }
-//                $data = file_get_contents($result['path'] . "/" . $result['file_name']);
-//                $this->response
-//                    ->setStatusCode(200)
-//                    ->setContentType($result['mime_type'])
-//                    ->setBody($data)
-//                    ->send();
-
-                return $this->response->download($result['path'] . "/" . $result['file_name'], null);
-            } else {
-                throw new Exception('not found');
-            }
-        } catch (Exception $e) {
-            $this->handleException($e);
-        }
-    }
-
-    /**
-     * [get] /file/{id}/thumbnail
-     * @param $id
-     * @return DownloadResponse|null
-     */
-    public function getFileThumbnail($id): DownloadResponse|null
-    {
-        try {
-            $result = $this->customFileModel->find($id);
-
-            if ($result && isset($result['thumb_file_name'])) {
-                return $this->response->download($result['path'] . "/" . $result['thumb_file_name'], null);
-            } else {
-                throw new Exception('not found');
-            }
-        } catch (Exception $e) {
-            $this->handleException($e);
-        }
-    }
-
-    /**
+     * @deprecated
      * [delete] /api/file/delete/{id}
+     * 실질적으로 현재는 사용하지 않음
+     * (수정 완료/취소 시 일괄 처리되도록 적용)
      * @param $id
      * @return ResponseInterface
      */
@@ -250,6 +204,7 @@ class CustomFileController extends BaseApiController
     /**
      * [post] /api/file/{type}/confirm/{identifier}
      * 메인용 리소스에만 적용됨
+     * (topic 에 종속된 파일인 경우 topic 업데이트와 함께 일괄처리)
      * @param $type
      * @param $identifier
      * @return ResponseInterface
@@ -302,6 +257,9 @@ class CustomFileController extends BaseApiController
     }
 
     /**
+     * database 에서의 row 제거 및 파일 제거
+     * @param $conditionQuery
+     * @return void
      * @throws Exception
      */
     protected function handleFileDelete($conditionQuery): void
@@ -325,6 +283,11 @@ class CustomFileController extends BaseApiController
         ]);
     }
 
+    /**
+     * 해당 path directory 내부의 모든 파일 제거하는 기능
+     * @param string $path
+     * @return void
+     */
     private function removeDirectory(string $path): void
     {
         if (!is_dir($path)) {

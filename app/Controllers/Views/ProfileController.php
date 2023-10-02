@@ -16,7 +16,8 @@ class ProfileController extends BaseClientController
     }
 
     /**
-     * @throws Exception
+     * /profile
+     * @return string
      */
     public function index(): string
     {

@@ -15,6 +15,10 @@ class GraphicSettingController extends BaseAdminController
         $this->customFileModel = model('Models\CustomFileModel');
     }
 
+    /**
+     * /admin/graphic-setting
+     * @return string
+     */
     function index(): string
     {
         $data = $this->getViewData();

@@ -11,6 +11,10 @@ class RegistrationController extends BaseAdminController
         $this->isCheckLogin = true;
     }
 
+    /**
+     * /admin/registration
+     * @return string
+     */
     public function index(): string
     {
         if ($this->session->is_login) {
@@ -43,6 +47,10 @@ class RegistrationController extends BaseAdminController
             . parent::loadFooter();
     }
 
+    /**
+     * /admin/reset-password
+     * @return string
+     */
     public function resetPassword(): string
     {
         if ($this->session->is_login) {
