@@ -9,7 +9,7 @@
                     <a href="<?= $is_admin_page ? '/admin/board/' . $board['code'] . '/topic/create' : '/board/' . $board['code'] . '/topic/create' ?>"
                        class="button under-line create">
                         <img src="/asset/images/icon/plus.png"/>
-                        <span>Create</span>
+                        <span><?= lang('Service.create') ?></span>
                     </a>
                 </div>
             <?php }

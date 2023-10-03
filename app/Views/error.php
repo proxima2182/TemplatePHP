@@ -59,6 +59,7 @@
             font-size: 16px;
             font-weight: 200;
             white-space: pre-wrap;
+            word-break: break-all;
             line-height: 20px;
         }
 
@@ -110,8 +111,8 @@
         <p class="code"><?= $code ?></p>
     </div>
     <div class="text-wrap">
-        <p class="title"><?= $title ?></p>
-        <p class="message"><?= $message ?></p>
+        <div><p class="title"><?= $title ?></p></div>
+        <div><p class="message"><?= $message ?></p></div>
         <?php if (isset($trace)) { ?>
             <textarea class="under-line" readonly><?= $trace ?></textarea>
         <?php } ?>

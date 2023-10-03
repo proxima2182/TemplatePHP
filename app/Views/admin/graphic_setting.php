@@ -23,10 +23,10 @@ $identifier = $shortid->generate();
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
-            Graphic Setting
+            <?= lang('Service.graphic_setting') ?>
         </h3>
         <h4 class="page-sub-title">
-            Video
+            <?= lang('Service.video') ?>
         </h4>
         <div class="video-box">
             <?php if (\App\Helpers\HtmlHelper::showDataEmpty($videos ?? null)) { ?>
@@ -43,11 +43,11 @@ $identifier = $shortid->generate();
             <a href="javascript:editVideo();"
                class="button under-line edit">
                 <img src="/asset/images/icon/edit.png"/>
-                <span>Edit</span>
+                <span><?= lang('Service.edit') ?></span>
             </a>
         </div>
         <h4 class="page-sub-title">
-            Slider Images
+            <?= lang('Service.slider_images') ?>
         </h4>
         <div class="slider-box">
             <?php if (\App\Helpers\HtmlHelper::showDataEmpty($slider_images ?? null)) { ?>
@@ -70,7 +70,7 @@ $identifier = $shortid->generate();
             <a href="javascript:editSlider();"
                class="button under-line edit">
                 <img src="/asset/images/icon/edit.png"/>
-                <span>Edit</span>
+                <span><?= lang('Service.edit') ?></span>
             </a>
         </div>
         <!--        <div class="button-wrap">-->
@@ -79,7 +79,7 @@ $identifier = $shortid->generate();
         <!--        </div>-->
     </div>
 </div>
-
+<?= \App\Helpers\HtmlHelper::setTranslations(['message_info_drag']) ?>
 <script type="text/javascript">
     $(document).ready(function () {
         $('.slider-wrap .slick').slick({
@@ -146,13 +146,17 @@ $identifier = $shortid->generate();
             <a href="javascript:cancelSliderEdit();"
                class="button under-line cancel">
                 <img src="/asset/images/icon/cancel.png"/>
-                <span>Cancel</span>
+                <span>${lang('cancel')}</span>
             </a>
             <a href="javascript:confirmSliderEdit();"
                class="button under-line confirm">
                 <img src="/asset/images/icon/check.png"/>
-                <span>Confirm</span>
+                <span>${lang('confirm')}</span>
             </a>`)
+        $wrapButtonControls.after(`
+            <div class="info-text-wrap">
+                ${lang('message_info_drag')}
+            </div>`)
     }
 
     function cancelSliderEdit() {
@@ -205,12 +209,12 @@ $identifier = $shortid->generate();
             <a href="javascript:cancelVideoEdit();"
                class="button under-line cancel">
                 <img src="/asset/images/icon/cancel.png"/>
-                <span>Cancel</span>
+                <span>${lang('cancel')}</span>
             </a>
             <a href="javascript:confirmVideoEdit();"
                class="button under-line confirm">
                 <img src="/asset/images/icon/check.png"/>
-                <span>Confirm</span>
+                <span>${lang('confirm')}</span>
             </a>`)
     }
 

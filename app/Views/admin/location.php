@@ -1,13 +1,13 @@
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
-            Location
+            <?= lang('Service.location') ?>
         </h3>
         <div class="control-button-wrap">
             <a href="javascript:openInputPopupCreate();"
                class="button under-line create">
                 <img src="/asset/images/icon/plus.png"/>
-                <span>Create</span>
+                <span><?= lang('Service.create') ?></span>
             </a>
         </div>
         <div class="table-box">
@@ -15,10 +15,10 @@
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
-                            <span class="column name">Name</span>
-                            <span class="column address">Address</span>
-                            <span class="column latitude">Latitude</span>
-                            <span class="column longitude">Longitude</span>
+                            <span class="column name"><?= lang('Service.name') ?></span>
+                            <span class="column address"><?= lang('Service.address') ?></span>
+                            <span class="column latitude"><?= lang('Service.latitude') ?></span>
+                            <span class="column longitude"><?= lang('Service.longitude') ?></span>
                         </div>
                     </div>
                     <ul>
@@ -40,6 +40,7 @@
         <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>
+<?= \App\Helpers\HtmlHelper::setTranslations(['search']) ?>
 <script type="text/javascript">
     /**
      * admin/popup_input
@@ -61,16 +62,20 @@
             const typeSet = {
                 name: {
                     type: 'text',
+                    name: '<?=lang('Service.name')?>',
                 },
                 address: {
                     type: 'text',
+                    name: '<?=lang('Service.address')?>',
                 },
                 latitude: {
                     type: 'number',
+                    name: '<?=lang('Service.latitude')?>',
                     readonly: true,
                 },
                 longitude: {
                     type: 'number',
+                    name: '<?=lang('Service.longitude')?>',
                     readonly: true,
                 },
             }

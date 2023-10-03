@@ -31,7 +31,7 @@ $is_not_registration_page = !isset($is_registration_page) || ($is_registration_p
     if (isset($javascript)) echo $javascript;
     ?>
 </head>
-
+<?=\App\Helpers\HtmlHelper::setTranslationsAdmin()?>
 <body>
 <div class="loading-wrap">
     <span class="gadget"></span>
@@ -43,15 +43,15 @@ $is_not_registration_page = !isset($is_registration_page) || ($is_registration_p
                 <?php if ($is_not_login_page) { ?>
                     <ul class="cf">
                         <?php if ($is_login) { ?>
-                            <li><a href="/">Main Page</a></li>
-                            <li><a href="/admin/profile">Profile</a></li>
-                            <li class="last"><a href="javascript:logout();">Logout</a></li>
+                            <li><a href="/"><?= lang('Service.main_page') ?></a></li>
+                            <li><a href="/admin/profile"><?= lang('Service.profile') ?></a></li>
+                            <li class="last"><a href="javascript:logout();"><?= lang('Service.logout') ?></a></li>
                         <?php } else {
                             if ($is_not_registration_page) { ?>
-                                <li><a href="/admin/registration">Register</a></li>
-                                <li class="last"><a href="/admin/login">Login</a></li>
+                                <li><a href="/admin/registration"><?= lang('Service.register') ?></a></li>
+                                <li class="last"><a href="/admin/login"><?= lang('Service.login') ?></a></li>
                             <?php } else { ?>
-                                <li class="last"><a href="/admin/login">Login</a></li>
+                                <li class="last"><a href="/admin/login"><?= lang('Service.login') ?></a></li>
                             <?php }
                         } ?>
                     </ul>
@@ -62,8 +62,9 @@ $is_not_registration_page = !isset($is_registration_page) || ($is_registration_p
                     <?= $is_admin_navigation_closed ? ' style="left: -150px;"' : '' ?>>
                     <div class="gnb">
                         <ul class="cf">
-                            <?php foreach ($links as $name => $link) { ?>
-                                <li><a href="<?= $link ?>" class="button"><span><?= $name ?></span></a></li>
+                            <?php foreach ($links as $index => $item) { ?>
+                                <li><a href="<?= $item['link'] ?>" class="button"><span><?= $item['name'] ?></span></a>
+                                </li>
                             <?php } ?>
                         </ul>
                         <a href="javascript:closeNavigation()" class="button navigation close">

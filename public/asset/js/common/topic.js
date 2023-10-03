@@ -57,7 +57,7 @@ function openTopicPopup(id) {
                 <a href="/topic/${data['id']}/edit"
                     class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
-                    <span>Edit</span>
+                    <span>${lang('edit')}</span>
                 </a>`
             }
             if (getCookie('is_admin') == 1) {
@@ -65,7 +65,7 @@ function openTopicPopup(id) {
                 <a href="javascript:openTopicPopupDelete(${data['id']})"
                     class="button under-line delete">
                     <img src="/asset/images/icon/delete.png"/>
-                    <span>Delete</span>
+                    <span>${lang('delete')}</span>
                 </a>`
             }
             if (controlHtml.length > 0) {

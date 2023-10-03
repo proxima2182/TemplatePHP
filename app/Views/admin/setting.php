@@ -1,16 +1,16 @@
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
-            Setting
+            <?= lang('Service.setting') ?>
         </h3>
         <div class="table-box">
             <div class="table-wrap">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
-                            <span class="column code">Code</span>
-                            <span class="column name">Name</span>
-                            <span class="column value">Value</span>
+                            <span class="column code"><?= lang('Service.code') ?></span>
+                            <span class="column name"><?= lang('Service.name') ?></span>
+                            <span class="column value"><?= lang('Service.value') ?></span>
                         </div>
                     </div>
                     <ul>
@@ -52,14 +52,17 @@
             const typeSet = {
                 code: {
                     type: 'text',
+                    name: '<?=lang('Service.code')?>',
                     editable: false,
                 },
                 name: {
                     type: 'text',
+                    name: '<?=lang('Service.name')?>',
                     editable: false,
                 },
                 value: {
                     type: data['type'],
+                    name: '<?=lang('Service.value')?>',
                 },
             }
             let keys = Object.keys(typeSet);
@@ -79,14 +82,14 @@
             <a href="javascript:editInputPopup('${className}', ${data['id']});"
                class="button under-line edit">
                 <img src="/asset/images/icon/edit.png"/>
-                <span>Edit</span>
+                <span>${lang('edit')}</span>
             </a>`;
             if (data['is_deletable'] == 1) {
                 html += `
                 <a href="javascript:openInputPopupDelete(${data['id']});"
                 class="button under-line delete">
                     <img src="/asset/images/icon/delete.png"/>
-                    <span>Delete</span>
+                    <span>${lang('delete')}</span>
                 </a>`;
             }
             return html;

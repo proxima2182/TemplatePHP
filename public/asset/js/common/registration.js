@@ -42,13 +42,13 @@ function sendVerificationCode(isAdmin = 0) {
             })
             $(`#container .form-wrap .disappear-at-next-step`).remove();
             $('#container .form-wrap').prepend(`
-                <div class="info-wrap disappear-at-next-step">
-                    * please check your spam mailbox if you don't receive the mail.
+                <div class="info-text-wrap disappear-at-next-step">
+                    ${lang('message_info_mail')}
                 </div>
                 `)
             $('#container .form-wrap').append(`
                     <div class="input-wrap disappear-at-next-step">
-                        <p class="input-title">Verification Code</p>
+                        <p class="input-title">${lang('verification_code')}</p>
                         <input type="text" name="code" class="under-line"/>
                     </div>
                     <div class="timer disappear-at-next-step">
@@ -57,8 +57,8 @@ function sendVerificationCode(isAdmin = 0) {
                     <div class="error-message-wrap disappear-at-next-step">
                     </div>
                     <div class="button-wrap controls disappear-at-next-step">
-                        <a href="javascript:resendVerificationCode(${isAdmin})" class="button resend white">Resend</a>
-                        <a href="javascript:confirmVerificationCode(${isAdmin})" class="button confirm black">Confirm</a>
+                        <a href="javascript:resendVerificationCode(${isAdmin})" class="button resend white">${lang('resend')}</a>
+                        <a href="javascript:confirmVerificationCode(${isAdmin})" class="button confirm black">${lang('confirm')}</a>
                     </div>
                 `)
             startTimer();
@@ -135,26 +135,26 @@ function confirmVerificationCode(isAdmin = 0) {
             $(`#container .form-wrap .disappear-at-next-step`).remove();
             $('#container .form-wrap').append(`
             <div class="input-wrap" style="margin-top: 40px">
-                <p class="input-title">Username</p>
+                <p class="input-title">${lang('username')}</p>
                 <input type="text" name="username" class="under-line"/>
             </div>
             <div class="input-wrap">
-                <p class="input-title">Name</p>
+                <p class="input-title">${lang('name')}</p>
                 <input type="text" name="name" class="under-line"/>
             </div>
             <div class="input-wrap" style="margin-top: 40px">
-                <p class="input-title">Password</p>
+                <p class="input-title">${lang('password')}</p>
                 <input type="password" name="password" class="under-line"/>
             </div>
             <div class="input-wrap">
-                <p class="input-title">Confirm Password</p>
+                <p class="input-title">${lang('password_confirm')}</p>
                 <input type="password" name="confirm_password" class="under-line"/>
             </div>
             <div class="error-message-wrap">
             </div>`)
             $('#container .form-box').append(`
             <div class="button-wrap controls">
-                <a href="javascript:confirmRegistration(${isAdmin})" class="button confirm black">Confirm</a>
+                <a href="javascript:confirmRegistration(${isAdmin})" class="button confirm black">${lang('confirm')}</a>
             </div>`)
 
         },
@@ -172,33 +172,33 @@ function confirmVerificationCode(isAdmin = 0) {
 function confirmRegistration(isAdmin = 0) {
     clearErrors();
 
-    let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
     let data = parseInputToData($(`#container .form-wrap input`))
 
-    let validations = [
-        {
-            key: 'username',
-            name: 'Username'
-        },
-        {
-            key: 'password',
-            name: 'Password'
-        },
-        {
-            key: 'confirm_password',
-            name: 'Confirm Password'
-        },
-    ];
-
-    for(let i in validations) {
-        let validation = validations[i];
-        if(isEmpty(data[validation.key])) {
-            $wrapErrorMessage.append(`<p>${validation.name} field is empty.</p>`)
-        }
-    }
-    if (data['password'] != data['confirm_password']) {
-        $wrapErrorMessage.append(`<p>please check two fields for password is same.</p>`)
-    }
+    // let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
+    // let validations = [
+    //     {
+    //         key: 'username',
+    //         name: 'Username'
+    //     },
+    //     {
+    //         key: 'password',
+    //         name: 'Password'
+    //     },
+    //     {
+    //         key: 'confirm_password',
+    //         name: 'Confirm Password'
+    //     },
+    // ];
+    //
+    // for(let i in validations) {
+    //     let validation = validations[i];
+    //     if(isEmpty(data[validation.key])) {
+    //         $wrapErrorMessage.append(`<p>${validation.name} field is empty.</p>`)
+    //     }
+    // }
+    // if (data['password'] != data['confirm_password']) {
+    //     $wrapErrorMessage.append(`<p>please check two fields for password is same.</p>`)
+    // }
 
     apiRequest({
         type: 'POST',

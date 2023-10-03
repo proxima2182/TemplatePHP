@@ -101,12 +101,12 @@ $is_admin_page = isset($is_admin) && $is_admin;
                             <a href="javascript:openReservationPopupRefuse(<?=$data['id']?>);"
                                class="button under-line refuse">
                                 <img src="/asset/images/icon/cancel.png"/>
-                                <span>Refuse</span>
+                                <span><?=lang('Service.refuse')?></span>
                             </a>
                             <a href="javascript:openReservationPopupAccept(<?=$data['id']?>, <?= $board['is_time_select'] ?><?=$parameterString?>)"
                                class="button under-line accept">
                                 <img src="/asset/images/icon/check.png"/>
-                                <span>Accept</span>
+                                <span><?=lang('Service.accept')?></span>
                             </a>
                         </div>
                     </div>

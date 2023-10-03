@@ -1,17 +1,17 @@
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
-            Reply
+            <?= lang('Service.registration') ?>
         </h3>
         <div class="table-box">
             <div class="table-wrap">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
-                            <span class="column user">User</span>
-                            <span class="column content">Content</span>
-                            <span class="column board">Board</span>
-                            <span class="column created-at">Created At</span>
+                            <span class="column user"><?= lang('Service.user') ?></span>
+                            <span class="column content"><?= lang('Service.content') ?></span>
+                            <span class="column board"><?= lang('Service.board') ?></span>
+                            <span class="column created-at"><?= lang('Service.created_at') ?></span>
                         </div>
                     </div>
                     <ul>
@@ -85,7 +85,7 @@
                         <a href="javascript:openInputPopupDelete(${data['id']});"
                             class="button under-line delete">
                             <img src="/asset/images/icon/delete.png"/>
-                            <span>Delete</span>
+                            <span>${lang('delete')}</span>
                         </a>
                     </div>
                 </div>`;

@@ -157,7 +157,6 @@ function addInputPopupControlWrap(className, data) {
     }
     if (getControlHtml === null) return;
     let $parent = $(`.${className}`);
-    $parent.find(`.popup-box`).addClass('has-control-button');
     if (controlHtml != undefined) {
         $parent.find(`.popup-inner`).append(`
         <div class="control-button-wrap absolute line-before">
@@ -173,12 +172,12 @@ function addInputPopupControlWrap(className, data) {
                 <a href="javascript:editInputPopup('${className}', ${data['id']});"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
-                    <span>Edit</span>
+                    <span>${lang('edit')}</span>
                 </a>
                 <a href="javascript:openInputPopupDelete(${data['id']});"
                     class="button under-line delete">
                     <img src="/asset/images/icon/delete.png"/>
-                    <span>Delete</span>
+                    <span>${lang('delete')}</span>
                 </a>
             </div>
         </div>`);
@@ -304,12 +303,12 @@ async function openInputPopupCreate() {
                     <a href="javascript:closePopup('${className}');"
                         class="button under-line cancel">
                         <img src="/asset/images/icon/cancel.png"/>
-                        <span>Cancel</span>
+                        <span>${lang('cancel')}</span>
                     </a>
                     <a href="javascript:confirmInputPopupCreate('${className}');"
                         class="button under-line confirm">
                         <img src="/asset/images/icon/check.png"/>
-                        <span>Confirm</span>
+                        <span>${lang('confirm')}</span>
                     </a>
                 </div>
             </div>`);
@@ -337,12 +336,12 @@ function editInputPopup(className, id) {
             <a href="javascript:refreshInputPopup(${id});"
                 class="button under-line cancel">
                 <img src="/asset/images/icon/cancel.png"/>
-                <span>Cancel</span>
+                <span>${lang('cancel')}</span>
             </a>
             <a href="javascript:confirmInputPopupEdit('${className}', ${id});"
                 class="button under-line confirm">
                 <img src="/asset/images/icon/check.png"/>
-                <span>Confirm</span>
+                <span>${lang('confirm')}</span>
             </a>
         </div>
     </div>`);
@@ -366,12 +365,12 @@ async function openInputPopupDelete(id) {
     let css = await loadStyleFile('/asset/css/common/popup/delete.css', "." + className);
     let html = `
     <div class="text-wrap">
-        ${deleteMessage ?? 'Are you sure to delete?'}
+        ${deleteMessage ?? lang('message_popup_delete')}
     </div>
     <div class="error-message-wrap"></div>
     <div class="button-wrap controls">
-        <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
-        <a href="javascript:confirmInputPopupDelete('${className}', ${id})" class="button confirm black">Delete</a>
+        <a href="javascript:closePopup('${className}')" class="button cancel white">${lang('cancel')}</a>
+        <a href="javascript:confirmInputPopupDelete('${className}', ${id})" class="button confirm black">${lang('delete')}</a>
     </div>`;
     openPopup({
         className: className,

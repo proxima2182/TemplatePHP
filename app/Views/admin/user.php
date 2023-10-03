@@ -1,18 +1,18 @@
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
-            User
+            <?= lang('Service.user') ?>
         </h3>
         <div class="table-box">
             <div class="table-wrap">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
-                            <span class="column type">Type</span>
-                            <span class="column username">Username</span>
-                            <span class="column name">Name</span>
-                            <span class="column email">Email</span>
-                            <span class="column created-at">Created At</span>
+                            <span class="column type"><?= lang('Service.type') ?></span>
+                            <span class="column username"><?= lang('Service.username') ?></span>
+                            <span class="column name"><?= lang('Service.name') ?></span>
+                            <span class="column email"><?= lang('Service.email') ?></span>
+                            <span class="column created-at"><?= lang('Service.created_at') ?></span>
                         </div>
                     </div>
                     <ul>
@@ -58,6 +58,7 @@
                                 name: 'Admin',
                             },
                         ],
+                        name: '<?=lang('Service.type')?>',
                         editable: false,
                     },
                 };
@@ -74,7 +75,8 @@
                                 value: 'user',
                                 name: 'User',
                             },
-                        ]
+                        ],
+                        name: '<?=lang('Service.type')?>',
                     },
                 }
             }
@@ -82,17 +84,20 @@
                 ...typeSet,
                 username: {
                     type: 'text',
+                    name: '<?=lang('Service.username')?>',
                     editable: false,
                 },
                 name: {
                     type: 'text',
+                    name: '<?=lang('Service.name')?>',
                 },
                 email: {
                     type: 'text',
+                    name: '<?=lang('Service.email')?>',
                 },
                 created_at: {
                     type: 'text',
-                    name: 'Created At',
+                    name: '<?=lang('Service.created_at')?>',
                     editable: false,
                 },
             }

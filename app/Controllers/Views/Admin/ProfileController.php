@@ -11,6 +11,7 @@ class ProfileController extends BaseAdminController
 
     public function __construct()
     {
+        parent::__construct();
         $this->isRestricted = true;
         $this->userModel = model('Models\UserModel');
     }

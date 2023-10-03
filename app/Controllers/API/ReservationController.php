@@ -242,7 +242,7 @@ class ReservationController extends EmailController
                     $this->sendReservationMail(array_merge([
                         'email' => $adminUser['email'],
                         'copies' => $copies,
-                        'title' => 'New Reservation',
+                        'title' => lang('Service.reservation_new'),
                     ], $reservation));
                 }
             } catch (Exception $e) {
@@ -279,7 +279,7 @@ class ReservationController extends EmailController
                     isset($reservation['questioner_email']) && strlen($reservation['questioner_email']) > 0) {
                     $this->sendReservationMail(array_merge([
                         'email' => $reservation['questioner_email'],
-                        'title' => 'Reservation Refused',
+                        'title' => lang('Service.reservation_refuse'),
                     ], $reservation));
                 }
             }
@@ -347,7 +347,7 @@ class ReservationController extends EmailController
                         isset($reservation['questioner_email']) && strlen($reservation['questioner_email']) > 0) {
                         $this->sendReservationMail(array_merge([
                             'email' => $reservation['questioner_email'],
-                            'title' => 'Reservation Accepted',
+                            'title' => lang('Service.reservation_accept'),
                         ], $reservation));
                     }
                 }

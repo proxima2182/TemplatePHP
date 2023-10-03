@@ -32,7 +32,7 @@ if (!isset($links) && !isset($is_login)) return;
     if (isset($javascript)) echo $javascript;
     ?>
 </head>
-
+<?=\App\Helpers\HtmlHelper::setTranslationsClient()?>
 <body>
 <div class="loading-wrap">
     <span class="gadget"></span>
@@ -44,13 +44,13 @@ if (!isset($links) && !isset($is_login)) return;
                 <ul class="cf">
                     <?php if ($is_login) {
                         if ($is_admin) { ?>
-                            <li><a href="/admin">Admin Page</a></li>
+                            <li><a href="/admin"><?= lang('Service.admin_page') ?></a></li>
                         <?php } ?>
-                        <li><a href="/profile">Profile</a></li>
-                        <li class="last"><a href="javascript:logout();">Logout</a></li>
+                        <li><a href="/profile"><?= lang('Service.profile') ?></a></li>
+                        <li class="last"><a href="javascript:logout();"><?= lang('Service.logout') ?></a></li>
                     <?php } else { ?>
-                        <li><a href="/registration">Register</a></li>
-                        <li class="last"><a href="javascript:openPopupLogin();">Login</a></li>
+                        <li><a href="/registration"><?= lang('Service.register') ?></a></li>
+                        <li class="last"><a href="javascript:openPopupLogin();"><?= lang('Service.login') ?></a></li>
                     <?php } ?>
                 </ul>
             </div>

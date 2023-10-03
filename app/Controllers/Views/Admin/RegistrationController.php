@@ -8,6 +8,7 @@ class RegistrationController extends BaseAdminController
 {
     public function __construct()
     {
+        parent::__construct();
         $this->isCheckLogin = true;
     }
 
@@ -74,12 +75,12 @@ class RegistrationController extends BaseAdminController
                     '/admin/form',
                 ],
                 'js' => [
-                    '/common/find_password',
+                    '/common/reset_password',
                 ],
             ], [
                 'is_registration_page' => true,
             ])
-            . view('/admin/find_password', $data)
+            . view('/admin/reset_password', $data)
             . parent::loadFooter();
     }
 }

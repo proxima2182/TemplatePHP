@@ -4,8 +4,11 @@
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
-            Category
+            <?= lang('Service.category') ?>
         </h3>
+        <div class="info-text-wrap">
+            <?= lang('Service.message_info_drag') ?>
+        </div>
         <div class="table-box">
             <div class="table-wrap">
                 <?php if ($is_login) { ?>
@@ -13,19 +16,19 @@
                         <a href="javascript:openInputPopupCreate();"
                            class="button under-line create">
                             <img src="/asset/images/icon/plus.png"/>
-                            <span>Create</span>
+                            <span><?= lang('Service.create') ?></span>
                         </a>
                     </div>
                 <?php }
                 if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
-                            <span class="column code">Code</span>
-                            <span class="column name">Name</span>
-                            <span class="column path">Path</span>
-                            <span class="column main-only">Main Only</span>
-                            <span class="column local">Local</span>
-                            <span class="column local-count">Local Count</span>
+                            <span class="column code"><?= lang('Service.code') ?></span>
+                            <span class="column name"><?= lang('Service.name') ?></span>
+                            <span class="column path"><?= lang('Service.path') ?></span>
+                            <span class="column main-only"><?= lang('Service.main_only') ?></span>
+                            <span class="column local"><?= lang('Service.local') ?></span>
+                            <span class="column local-count"><?= lang('Service.local_count') ?></span>
                         </div>
                     </div>
                     <ul>
@@ -83,20 +86,23 @@
             const typeSet = {
                 code: {
                     type: 'text',
+                    name: '<?=lang('Service.code')?>',
                 },
                 name: {
                     type: 'text',
+                    name: '<?=lang('Service.name')?>',
                 },
                 path: {
                     type: 'text',
+                    name: '<?=lang('Service.path')?>',
                 },
                 is_main_only: {
                     type: 'bool',
-                    name: 'Main Only'
+                    name: '<?=lang('Service.main_only')?>',
                 },
                 has_local: {
                     type: 'bool',
-                    name: 'Show Local'
+                    name: '<?=lang('Service.local_show')?>',
                 },
             }
             let keys = Object.keys(typeSet);
@@ -111,7 +117,7 @@
             }
             return html;
         },
-        deleteMessage: "If you delete this row, you will be lost related data.<br/>Are you sure to delete?",
+        deleteMessage: '<?=lang('Service.message_popup_delete_topic')?>',
     })
 
     $(document).ready(function () {

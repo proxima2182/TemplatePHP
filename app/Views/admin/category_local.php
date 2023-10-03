@@ -4,8 +4,11 @@
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
-            Category Local
+            <?= lang('Service.category_local') ?>
         </h3>
+        <div class="info-text-wrap">
+            <?= lang('Service.message_info_drag') ?>
+        </div>
         <div class="table-box">
             <div class="table-wrap">
                 <?php if ($is_login) { ?>
@@ -13,15 +16,15 @@
                         <a href="javascript:openInputPopupCreate();"
                            class="button under-line create">
                             <img src="/asset/images/icon/plus.png"/>
-                            <span>Create</span>
+                            <span><?= lang('Service.create') ?></span>
                         </a>
                     </div>
                 <?php }
                 if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
-                            <span class="column name">Name</span>
-                            <span class="column path">Path</span>
+                            <span class="column name"><?= lang('Service.name') ?></span>
+                            <span class="column path"><?= lang('Service.path') ?></span>
                         </div>
                     </div>
                     <ul>
@@ -61,9 +64,11 @@
             const typeSet = {
                 name: {
                     type: 'text',
+                    name: '<?=lang('Service.name')?>',
                 },
                 path: {
                     type: 'text',
+                    name: '<?=lang('Service.path')?>',
                 },
             }
             let keys = Object.keys(typeSet);

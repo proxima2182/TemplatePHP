@@ -66,7 +66,7 @@ $sliderImages = [
     </script>
 
 </head>
-
+<?= \App\Helpers\HtmlHelper::setTranslationsClient(['message_popup_page']) ?>
 <body>
 <div class="loading-wrap">
     <span class="gadget"></span>
@@ -79,13 +79,14 @@ $sliderImages = [
                     <ul class="cf">
                         <?php if ($is_login) {
                             if ($is_admin) { ?>
-                                <li><a href="/admin">Admin Page</a></li>
+                                <li><a href="/admin"><?= lang('Service.admin_page') ?></a></li>
                             <?php } ?>
-                            <li><a href="/profile">Profile</a></li>
-                            <li class="last"><a href="javascript:logout();">Logout</a></li>
+                            <li><a href="/profile"><?= lang('Service.profile') ?></a></li>
+                            <li class="last"><a href="javascript:logout();"><?= lang('Service.logout') ?></a></li>
                         <?php } else { ?>
-                            <li><a href="/registration">Register</a></li>
-                            <li class="last"><a href="javascript:openPopupLogin();">Login</a></li>
+                            <li><a href="/registration"><?= lang('Service.register') ?></a></li>
+                            <li class="last"><a href="javascript:openPopupLogin();"><?= lang('Service.login') ?></a>
+                            </li>
                         <?php } ?>
                     </ul>
                 </div>
@@ -177,8 +178,8 @@ $sliderImages = [
                             <div class="table-wrap">
                                 <div class="row-title">
                                     <div class="row">
-                                        <span class="column title">Title</span>
-                                        <span class="column  created-at">Created At</span>
+                                        <span class="column title"><?= lang('Service.title') ?></span>
+                                        <span class="column created-at"><?= lang('Service.created_at') ?></span>
                                     </div>
                                 </div>
                                 <ul>
@@ -195,7 +196,7 @@ $sliderImages = [
                             </div>
                             <div class="button-wrap">
                                 <a href="<?= $topics_table['link'] ?>" class="button more">
-                                    <span>See More</span>
+                                    <span><?= lang('Service.see_more') ?></span>
                                     <img src="/asset/images/icon/arrow_right.png"/>
                                 </a>
                             </div>
@@ -234,7 +235,7 @@ $sliderImages = [
                             </div>
                             <div class="button-wrap">
                                 <a href="<?= $topics_grid['link'] ?>" class="button more">
-                                    <span>See More</span>
+                                    <span><?= lang('Service.see_more') ?></span>
                                     <img src="/asset/images/icon/arrow_right.png"/>
                                 </a>
                             </div>
@@ -250,7 +251,7 @@ $sliderImages = [
         <div class="section" id="page-map">
             <div class="page-inner whole-page">
                 <div class="location-list-box">
-                    <h3 class="page-title">Map Locations</h3>
+                    <h3 class="page-title"><?= lang('Service.map_location') ?></h3>
                     <div class="location-list-wrap" page="<?= $locationPagination['page'] ?>"
                          per-page="<?= $locationPagination['per-page'] ?>"
                          total="<?= $locationPagination['total'] ?>"
@@ -278,24 +279,24 @@ $sliderImages = [
         <div class="page-inner">
             <div class="form-box">
                 <div class="form-wrap">
-                    <h3 class="title">Enquiries about membership</h3>
+                    <h3 class="title"><?= lang('Service.enquiry_membership') ?></h3>
                     <div class="input-wrap inline">
-                        <p class="input-title">Name</p>
+                        <p class="input-title"><?= lang('Service.name') ?></p>
                         <input type="text" name="name"/>
                     </div>
                     <div class="input-wrap inline">
-                        <p class="input-title">Phone Number</p>
+                        <p class="input-title"><?= lang('Service.phone_number') ?></p>
                         <input type="phone" name="phone_number"/>
                     </div>
                     <div class="input-wrap inline">
-                        <p class="input-title">Inquiry</p>
+                        <p class="input-title"><?= lang('Service.inquiry') ?></p>
                         <textarea class="content" rows="4" name="content"></textarea>
                     </div>
                     <div class="text-wrap agreement">
                         <p><?= $settings['main-agreement'] ?? '' ?></p>
                     </div>
                     <div class="input-wrap inline agreement">
-                        <span class="input-title">개인 정보 취급 방침에 동의</span>
+                        <span class="input-title"><?= lang('Service.message_membership_agreement') ?></span>
                         <input type="checkbox" name="agreement" onchange="onMembershipInputValueChanged(this)"/>
                     </div>
                     <div class="button-wrap">
@@ -309,16 +310,17 @@ $sliderImages = [
                 <a href="/" class="logo"><img src="/asset/images/include/logo_footer.png" alt="footer logo"></a>
                 <div class="text-wrap">
                     <ul class="cf">
-                        <?php if(isset($settings['footer-text'])) {
+                        <?php if (isset($settings['footer-text'])) {
                             $texts = preg_split("/\r\n|\n|\r/", $settings['footer-text']);
-                            foreach ($texts as $text) {?>
-                                <li><p><?=$text?></p></li>
+                            foreach ($texts as $text) { ?>
+                                <li><p><?= $text ?></p></li>
                             <?php }
-                        }?>
+                        } ?>
                     </ul>
                 </div>
                 <div class="terms">
-                    copyright 2023. <a href="https://github.com/proxima2182" target="_blank">proxima2182</a> all rights reserved.
+                    copyright 2023. <a href="https://github.com/proxima2182" target="_blank">proxima2182</a> all rights
+                    reserved.
                 </div>
             </div>
         </footer>

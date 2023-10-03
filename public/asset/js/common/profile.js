@@ -15,8 +15,8 @@ function editProfile() {
     $('.form-wrap .button-wrap').remove();
     $('.form-box').append(`
     <div class="button-wrap controls">
-        <a href="javascript:cancelEditProfile()" class="button cancel white">Cancel</a>
-        <a href="javascript:confirmEditProfile()" class="button confirm black">Confirm</a>
+        <a href="javascript:cancelEditProfile()" class="button cancel white">${lang('cancel')}</a>
+        <a href="javascript:confirmEditProfile()" class="button confirm black">${lang('confirm')}</a>
     </div>`);
 }
 
@@ -61,37 +61,37 @@ function confirmEditProfile() {
 function confirmChangePassword() {
     clearErrors();
 
-    let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
     let data = parseInputToData($(`#container .form-wrap .editable`))
 
-    let validations = [
-        {
-            key: 'current_password',
-            name: 'Current Password'
-        },
-        {
-            key: 'new_password',
-            name: 'New Password'
-        },
-        {
-            key: 'confirm_new_password',
-            name: 'Confirm New Password'
-        },
-    ];
-
-    for (let i in validations) {
-        let validation = validations[i];
-        if (isEmpty(data[validation.key])) {
-            $wrapErrorMessage.append(`<p>${validation.name} field is empty.</p>`)
-        }
-    }
-
-    if (data['current_password'] == data['new_password']) {
-        $wrapErrorMessage.append(`<p>please enter different password with original.</p>`)
-    }
-    if (data['new_password'] != data['confirm_new_password']) {
-        $wrapErrorMessage.append(`<p>please check two fields for password is same.</p>`)
-    }
+    // let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
+    // let validations = [
+    //     {
+    //         key: 'current_password',
+    //         name: 'Current Password'
+    //     },
+    //     {
+    //         key: 'new_password',
+    //         name: 'New Password'
+    //     },
+    //     {
+    //         key: 'confirm_new_password',
+    //         name: 'Confirm New Password'
+    //     },
+    // ];
+    //
+    // for (let i in validations) {
+    //     let validation = validations[i];
+    //     if (isEmpty(data[validation.key])) {
+    //         $wrapErrorMessage.append(`<p>${validation.name} field is empty.</p>`)
+    //     }
+    // }
+    //
+    // if (data['current_password'] == data['new_password']) {
+    //     $wrapErrorMessage.append(`<p>please enter different password with original.</p>`)
+    // }
+    // if (data['new_password'] != data['confirm_new_password']) {
+    //     $wrapErrorMessage.append(`<p>please check two fields for password is same.</p>`)
+    // }
 
     apiRequest({
         type: 'POST',

@@ -1,7 +1,7 @@
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
-            Reservation Board
+            <?= lang('Service.reservation') ?>
         </h3>
         <div class="table-box">
             <div class="table-wrap">
@@ -10,17 +10,17 @@
                         <a href="javascript:openInputPopupCreate();"
                            class="button under-line create">
                             <img src="/asset/images/icon/plus.png"/>
-                            <span>Create</span>
+                            <span><?= lang('Service.create') ?></span>
                         </a>
                     </div>
                 <?php }
                 if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
-                            <span class="column code">Code</span>
-                            <span class="column alias">Alias</span>
-                            <span class="column time-select">Time Select</span>
-                            <span class="column public">Public</span>
+                            <span class="column code"><?= lang('Service.code') ?></span>
+                            <span class="column alias"><?= lang('Service.alias') ?></span>
+                            <span class="column time-select"><?= lang('Service.time_select') ?></span>
+                            <span class="column public"><?= lang('Service.public') ?></span>
                         </div>
                     </div>
                     <ul>
@@ -76,20 +76,23 @@
             const typeSet = {
                 code: {
                     type: 'text',
+                    name: '<?=lang('Service.code')?>',
                 },
                 alias: {
                     type: 'text',
+                    name: '<?=lang('Service.alias')?>',
                 },
                 description: {
                     type: 'long-text',
+                    name: '<?=lang('Service.description')?>',
                 },
                 is_time_select: {
                     type: 'bool',
-                    name: 'Time Select',
+                    name: '<?=lang('Service.time_select')?>',
                 },
                 default_accept_comment: {
                     type: 'long-text',
-                    name: 'Default Accept Comment'
+                    name: '<?=lang('Service.default_accept_comment')?>',
                 },
             }
             let keys = Object.keys(typeSet);
@@ -120,14 +123,14 @@
             <a href="javascript:editInputPopup('${className}', ${data['id']});"
                class="button under-line edit">
                 <img src="/asset/images/icon/edit.png"/>
-                <span>Edit</span>
+                <span>${lang('edit')}</span>
             </a>`;
             if (data['is_deletable'] == 1) {
                 html += `
                 <a href="javascript:openInputPopupDelete(${data['id']});"
                 class="button under-line delete">
                     <img src="/asset/images/icon/delete.png"/>
-                    <span>Delete</span>
+                    <span>${lang('delete')}</span>
                 </a>`;
             }
             return html;

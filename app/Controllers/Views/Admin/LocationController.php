@@ -12,6 +12,7 @@ class LocationController extends BaseAdminController
 
     public function __construct()
     {
+        parent::__construct();
         $this->isRestricted = true;
         $this->locationModel = model('Models\LocationModel');
     }

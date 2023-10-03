@@ -67,17 +67,17 @@ async function openInputPopupCreate() {
                     <a href="javascript:search('${className}');"
                         class="button under-line search">
                         <img src="/asset/images/icon/search.png"/>
-                        <span>Search</span>
+                        <span>${lang('search')}</span>
                     </a>
                     <a href="javascript:closePopup('${className}');"
                         class="button under-line cancel">
                         <img src="/asset/images/icon/cancel.png"/>
-                        <span>Cancel</span>
+                        <span>${lang('cancel')}</span>
                     </a>
                     <a href="javascript:confirmInputPopupCreate('${className}');"
                         class="button under-line confirm" style="display: none;">
                         <img src="/asset/images/icon/check.png"/>
-                        <span>Confirm</span>
+                        <span>${lang('confirm')}</span>
                     </a>
                 </div>
             </div>`);
@@ -107,17 +107,17 @@ function editInputPopup(className, id) {
             <a href="javascript:searchAddress('${className}');"
                 class="button under-line search" style="display: none;">
                 <img src="/asset/images/icon/search.png"/>
-                <span>Search</span>
+                <span>${lang('search')}</span>
             </a>
             <a href="javascript:refreshInputPopup(${id});"
                 class="button under-line cancel">
                 <img src="/asset/images/icon/cancel.png"/>
-                <span>Cancel</span>
+                <span>${lang('cancel')}</span>
             </a>
             <a href="javascript:confirmInputPopupEdit('${className}', ${id});"
                 class="button under-line confirm">
                 <img src="/asset/images/icon/check.png"/>
-                <span>Confirm</span>
+                <span>${lang('confirm')}</span>
             </a>
         </div>
     </div>`);

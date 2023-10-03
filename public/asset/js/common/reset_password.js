@@ -1,5 +1,5 @@
 /**
- * @file find_password.php
+ * @file reset_password.php
  */
 
 /**
@@ -37,13 +37,13 @@ function sendVerificationCode(isAdmin = 0) {
             })
             $(`#container .form-wrap .disappear-at-next-step`).remove();
             $('#container .form-wrap').prepend(`
-                <div class="info-wrap disappear-at-next-step">
-                    * please check your spam mailbox if you don't receive the mail.
+                <div class="info-text-wrap disappear-at-next-step">
+                   ${lang('message_info_mail')}
                 </div>
                 `)
             $('#container .form-wrap').append(`
                     <div class="input-wrap disappear-at-next-step">
-                        <p class="input-title">Verification Code</p>
+                        <p class="input-title">${lang('verification_code')}</p>
                         <input type="text" name="code" class="under-line"/>
                     </div>
                     <div class="timer disappear-at-next-step">
@@ -52,8 +52,8 @@ function sendVerificationCode(isAdmin = 0) {
                     <div class="error-message-wrap disappear-at-next-step">
                     </div>
                     <div class="button-wrap controls disappear-at-next-step">
-                        <a href="javascript:resendVerificationCode(${isAdmin})" class="button resend white">Resend</a>
-                        <a href="javascript:confirmVerificationCode(${isAdmin})" class="button confirm black">Confirm</a>
+                        <a href="javascript:resendVerificationCode(${isAdmin})" class="button resend white">${lang('resend')}</a>
+                        <a href="javascript:confirmVerificationCode(${isAdmin})" class="button confirm black">${lang('confirm')}</a>
                     </div>
                 `)
             startTimer();
@@ -130,18 +130,18 @@ function confirmVerificationCode(isAdmin = 0) {
             $(`#container .form-wrap .disappear-at-next-step`).remove();
             $('#container .form-wrap').append(`
             <div class="input-wrap" style="margin-top: 40px">
-                <p class="input-title">New Password</p>
+                <p class="input-title">${lang('password_new')}</p>
                 <input type="password" name="password" class="under-line editable"/>
             </div>
             <div class="input-wrap">
-                <p class="input-title">Confirm New Password</p>
+                <p class="input-title">${lang('password_confirm_new')}</p>
                 <input type="password" name="confirm_password" class="under-line editable"/>
             </div>
             <div class="error-message-wrap">
             </div>`)
             $('#container .form-box').append(`
             <div class="button-wrap controls">
-                <a href="javascript:confirmChangePassword(${isAdmin})" class="button confirm black">Confirm</a>
+                <a href="javascript:confirmChangePassword(${isAdmin})" class="button confirm black">${lang('confirm')}</a>
             </div>`)
 
         },
@@ -177,9 +177,9 @@ function confirmChangePassword(isAdmin = 0) {
         },
     ];
 
-    for(let i in validations) {
+    for (let i in validations) {
         let validation = validations[i];
-        if(isEmpty(data[validation.key])) {
+        if (isEmpty(data[validation.key])) {
             $wrapErrorMessage.append(`<p>${validation.name} field is empty.</p>`)
         }
     }
@@ -197,7 +197,7 @@ function confirmChangePassword(isAdmin = 0) {
                 showErrors(response, status, request);
                 return;
             }
-            if(!isAdmin) {
+            if (!isAdmin) {
                 window.location.assign('/');
             } else {
                 window.location.assign('/admin');
@@ -269,6 +269,7 @@ function startTimer() {
         time_string += s;
         return time_string;
     }
+
     let $timer = $('.form-box .timer')
     let time = 600;
     $timer.html(getTimeToString(time));
@@ -281,7 +282,7 @@ function startTimer() {
         }
     }, 1000);
     $timer.attr({
-        'timer_interval_id' : timer_interval_id,
+        'timer_interval_id': timer_interval_id,
     })
     let $buttonConfirm = $('#container .form-box .button-wrap .button.confirm');
     $buttonConfirm.removeClass('disabled');
@@ -299,7 +300,7 @@ function stopTimer() {
     // });
     clearInterval(timer_interval_id);
     $timer.attr({
-        'timer_interval_id' : -1,
+        'timer_interval_id': -1,
     })
 
     let $buttonConfirm = $('#container .form-box .button-wrap .button.confirm');

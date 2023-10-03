@@ -391,3 +391,10 @@ input[type=checkbox] {
     animation-iteration-count: infinite;
     animation-timing-function: linear;
 }
+
+.info-text-wrap {
+    font-size: 16px;
+    line-height: 30px;
+    color: #ff6600;
+    text-align: left;
+}

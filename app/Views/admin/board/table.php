@@ -10,28 +10,28 @@
                         <a href="<?= $is_admin_page ? '/admin/board/' . $board['code'] . '/topic/create' : '/board/' . $board['code'] . '/topic/create' ?>"
                            class="button under-line create">
                             <img src="/asset/images/icon/plus.png"/>
-                            <span>Create</span>
+                            <span><?= lang('Service.create') ?></span>
                         </a>
                     </div>
                 <?php }
                 if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
-                <div class="row-title">
-                    <div class="row">
-                        <span class="column title">Title</span>
-                        <span class="column  created-at">Created At</span>
+                    <div class="row-title">
+                        <div class="row">
+                            <span class="column title"><?= lang('Service.title') ?></span>
+                            <span class="column created-at"><?= lang('Service.created_at') ?></span>
+                        </div>
                     </div>
-                </div>
-                <ul>
-                    <?php foreach ($array as $index => $item) { ?>
-                        <li class=" row">
-                            <a href="<?= $is_admin_page ? '/admin/topic/' . $item['id'] : '/topic/' . $item['id'] ?>"
-                               class="button row-button">
-                                <span class="column title"><?= $item['title'] ?></span>
-                                <span class="column created-at"><?= $item['created_at'] ?></span>
-                            </a>
-                        </li>
-                    <?php } ?>
-                </ul>
+                    <ul>
+                        <?php foreach ($array as $index => $item) { ?>
+                            <li class=" row">
+                                <a href="<?= $is_admin_page ? '/admin/topic/' . $item['id'] : '/topic/' . $item['id'] ?>"
+                                   class="button row-button">
+                                    <span class="column title"><?= $item['title'] ?></span>
+                                    <span class="column created-at"><?= $item['created_at'] ?></span>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
                 <?php } ?>
             </div>
         </div>

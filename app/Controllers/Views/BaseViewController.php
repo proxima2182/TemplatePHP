@@ -177,7 +177,7 @@ class BaseViewController extends BaseController
                 $response->setBody(view('/error', [
                     'code' => '500',
                     'title' => 'Internal Server Error',
-                    'message' => lang('Errors.500', $e->getMessage()),
+                    'message' => lang('Errors.500', ['error_message' => $e->getMessage()]),
                     'trace' => $e->getTraceAsString(),
                 ]));
                 $response->sendBody();

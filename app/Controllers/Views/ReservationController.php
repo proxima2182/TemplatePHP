@@ -100,6 +100,11 @@ class ReservationController extends BaseClientController
                     '/common/table',
                     '/client/reservation',
                 ],
+                'js'=> [
+                    '/module/calendar',
+                    '/module/time_selector',
+                    '/common/reservation',
+                ],
             ])
             . view('/client/reservation', $data)
             . parent::loadFooter();

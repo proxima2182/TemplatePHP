@@ -2,16 +2,11 @@
 
 namespace App\Controllers;
 
-use App\Helpers\Utils;
 use CodeIgniter\Controller;
-use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
-use Config\Services;
-use Exception;
-use JetBrains\PhpStorm\NoReturn;
 use Psr\Log\LoggerInterface;
 
 helper('cookie');
@@ -74,6 +69,13 @@ abstract class BaseController extends Controller
 //        // so that it is still passed as binary to the library:
 //        $key = hex2bin($encoded);
 //        ServerLogger::log($encoded);
+    }
+
+    protected function setLanguage(): void
+    {
+        $language = \Config\Services::language();
+        $language->setLocale('ko');
+
     }
 
 }

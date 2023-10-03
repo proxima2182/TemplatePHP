@@ -12,6 +12,7 @@ class SettingController extends BaseAdminController
 
     public function __construct()
     {
+        parent::__construct();
         $this->isRestricted = true;
         $this->settingModel = model('Models\SettingModel');
     }

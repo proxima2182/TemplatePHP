@@ -271,7 +271,7 @@ function checkPagePopup() {
                     </div>
                     <div class="button-wrap">
                         <a href="javascript:closePagePopupTodayDisabled('${className}', ${item['id']})" class="button black">
-                            <span>Don't show this popup today</span>
+                            <span>${lang('message_popup_page')}</span>
                         </a>
                     </div>`
                     openPagePopup(className, null, html, function () {

@@ -12,7 +12,7 @@ let files = {
     },
     set(type, index, value) {
         this.checkEmpty(type);
-        this.ids[type][index].push(value);
+        this.ids[type][index] = value;
     },
     push(type, value) {
         this.checkEmpty(type);

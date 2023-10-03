@@ -240,7 +240,7 @@ async function openReservationPopupRequest(board_id, is_time_select = 1) {
     let css = await loadStyleFile('/asset/css/common/popup/reservation_request.css', "." + className);
     let html = `
     <h3 class="popup-title">
-        Request
+        ${lang('request')}
     </h3>
     <div class="form-wrap">`
     let minHeight = 150;
@@ -248,17 +248,17 @@ async function openReservationPopupRequest(board_id, is_time_select = 1) {
         minHeight = 100;
         html += `
         <div class= "calendar-wrap">
-            <p class="title">Select Date</p>
+            <p class="title">${lang('select_date')}</p>
             <div class= "calendar"></div>
         </div>
         <div class= "time-selector-wrap">
-            <p class="title">Select Time</p>
+            <p class="title">${lang('select_time')}</p>
             <div class= "time-selector"></div>
         </div>`;
     }
     html += `
         <div class="input-wrap line-before">
-            <textarea placeholder="Comment" name="question_comment" class="comment" style="min-height: ${minHeight}px"></textarea>
+            <textarea placeholder="${lang('request_comment')}" name="question_comment" class="comment" style="min-height: ${minHeight}px"></textarea>
         </div>
         <input hidden type="text" name="reservation_board_id" class="editable" value="${board_id}"/>
         <input hidden type="text" name="questioner_id" class="editable" value="${getCookie('user_id')}"/>
@@ -268,11 +268,11 @@ async function openReservationPopupRequest(board_id, is_time_select = 1) {
             <a href="javascript:closePopup('${className}');"
                 class="button under-line cancel">
                 <img src="/asset/images/icon/cancel.png"/>
-                <span>Cancel</span>
+                <span>${lang('cancel')}</span>
             </a>
             <a href="javascript:confirmReservationRequest('${className}')" class="button confirm">
                 <img src="/asset/images/icon/check.png"/>
-                <span>Confirm</span>
+                <span>${lang('confirm')}</span>
             </a>
         </div>
     </div>`;

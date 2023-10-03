@@ -63,10 +63,10 @@ class RegistrationController extends BaseClientController
                     '/client/form',
                 ],
                 'js' => [
-                    '/common/find_password',
+                    '/common/reset_password',
                 ],
             ])
-            . view('/client/find_password', $data)
+            . view('/client/reset_password', $data)
             . parent::loadFooter();
     }
 }

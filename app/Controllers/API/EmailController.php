@@ -15,6 +15,7 @@ class EmailController extends BaseApiController
 
     public function __construct()
     {
+        $this->setLanguage();
         $this->verificationCodeModel = model('Models\VerificationCodeModel');
         $this->userModel = model('Models\UserModel');
     }
@@ -90,9 +91,12 @@ class EmailController extends BaseApiController
                     margin-bottom: 30px;
                     font-size: 18px;
                     color: #000;
-                    text-align: center;">
-                    Or click <a href="' . $link . '" style="color: #000;">here</a> to verify.
-                </div>';
+                    text-align: center;">';
+            $linkHtml = '<a href="' . $link . '" style="color: #000;">' . lang('Service.email_here') . '</a>';
+            $result .= lang('Service.email_click_link', [
+                'link' => $linkHtml,
+            ]);
+            $result .= '</div>';
         }
         $result .= '
             </div>
@@ -150,7 +154,7 @@ class EmailController extends BaseApiController
                         <div class="divider gray" style="background: #eee;  height: 1px;"></div>';
             }
 
-            if(isset($contents['contact'])) {
+            if (isset($contents['contact'])) {
                 $path = $resourcePaths['message'];
                 if (!isset($CID[$path])) {
                     $service->attach($path);
@@ -202,7 +206,7 @@ class EmailController extends BaseApiController
             'date' => $data['expect_date'] ?? null,
             'time' => $data['expect_time'] ?? null,
             'user_name' => $data['questioner_name'] ?? $data['temp_name'] ?? null,
-            'contact' =>  $data['questioner_email'] ?? $data['temp_phone_number'] ?? null,
+            'contact' => $data['questioner_email'] ?? $data['temp_phone_number'] ?? null,
             'content' => $data['question_comment'],
         ]);
 
@@ -292,7 +296,7 @@ class EmailController extends BaseApiController
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
-                $title = 'Verification Code';
+                $title = lang('Service.verification_code');
                 $code = '00000000';
                 try {
                     $code = Utils::generateRandomString(8);
@@ -312,7 +316,7 @@ class EmailController extends BaseApiController
                         }
                         $user = $users[0];
                         $email_address = $user['email'];
-                        $email_title .= ' - Reset Password';
+                        $email_title .= ' - ' . lang('Service.password_reset');
                         break;
                     case 'registration':
                         $users = $this->userModel->get(['email' => $data['email']]);
@@ -320,7 +324,7 @@ class EmailController extends BaseApiController
                             throw new Exception('this email is already in used.');
                         }
                         $email_address = $data['email'];
-                        $email_title .= ' - Registration';
+                        $email_title .= ' - ' . lang('Service.registration');
                         break;
                 }
                 $data['code'] = $code;

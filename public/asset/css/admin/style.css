@@ -14,6 +14,7 @@
 
 .container-inner {
     width: 1120px;
+    min-height: 740px;
 }
 
 .container-inner .container-wrap {
@@ -390,4 +391,11 @@ input[type=checkbox] {
     animation-name: loading;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
+}
+
+.info-text-wrap {
+    font-size: 16px;
+    line-height: 30px;
+    color: #ff6600;
+    text-align: left;
 }

@@ -36,14 +36,14 @@
                         <a href="<?= $is_admin_page ? '/admin/topic/' . $data['id'] . '/edit' : '/topic/' . $data['id'] . '/edit' ?>"
                            class="button under-line edit">
                             <img src="/asset/images/icon/edit.png"/>
-                            <span>Edit</span>
+                            <span><?= lang('Service.edit') ?></span>
                         </a>
                     <?php } ?>
                     <?php if ($is_admin) { ?>
                         <a href="javascript:openTopicPopupDelete(<?= $data['id'] ?>)"
                            class="button under-line delete">
                             <img src="/asset/images/icon/delete.png"/>
-                            <span>Delete</span>
+                            <span><?= lang('Service.delete') ?></span>
                         </a>
                     <?php } ?>
                 </div>
@@ -53,6 +53,7 @@
     </div>
     <?php
     if ($board['is_reply'] == 1) {
+        \App\Helpers\HtmlHelper::setTranslations(['send']);
         echo \App\Helpers\HtmlHelper::getReply($data['id'], $reply);
     }
     ?>

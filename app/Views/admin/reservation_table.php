@@ -14,19 +14,19 @@ $is_admin_page = isset($is_admin) && $is_admin;
                         <a href="javascript:openReservationPopupRequest(<?= $board['id'] ?>, <?= $board['is_time_select'] ?>);"
                            class="button under-line create">
                             <img src="/asset/images/icon/plus.png"/>
-                            <span>Reserve</span>
+                            <span><?= lang('Service.reserve') ?></span>
                         </a>
                     </div>
                 <?php }
                 if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
-                            <span class="column questioner">Questioner</span>
-                            <span class="column status">Status</span>
-                            <span class="column expect-date">Expect Date</span>
-                            <span class="column expect-time">Expect Time</span>
-                            <span class="column confirm-date">Confirm Date</span>
-                            <span class="column confirm-time">Confirm Time</span>
+                            <span class="column questioner"><?= lang('Service.questioner') ?></span>
+                            <span class="column status"><?= lang('Service.status') ?></span>
+                            <span class="column expect-date"><?= lang('Service.expect_date') ?></span>
+                            <span class="column expect-time"><?= lang('Service.expect_time') ?></span>
+                            <span class="column confirm-date"><?= lang('Service.confirm_date') ?></span>
+                            <span class="column confirm-time"><?= lang('Service.confirm_time') ?></span>
                         </div>
                     </div>
                     <ul>

@@ -32,13 +32,6 @@
     color: #000;
 }
 
-.form-wrap .info-wrap {
-    font-size: 16px;
-    line-height: 30px;
-    color: #ff6600;
-    text-align: left;
-}
-
 .form-wrap .input-wrap.inline * {
     vertical-align: top;
     display: inline-block;

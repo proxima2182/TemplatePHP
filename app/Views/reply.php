@@ -191,9 +191,9 @@ $end = min($end, $total_page);
 
 <div class="reply-wrap">
     <ul class="list reply">
-<!--        --><?php //if (sizeof($array) > 0) { ?>
-<!--            <li class="line"></li>-->
-<!--        --><?php //} ?>
+        <!--        --><?php //if (sizeof($array) > 0) { ?>
+        <!--            <li class="line"></li>-->
+        <!--        --><?php //} ?>
         <?php foreach ($array as $index => $reply) { ?>
             <li id="reply-<?= $reply['id'] ?>" reply-id="<?= $reply['id'] ?>">
                 <div class="row selector line-after"
@@ -209,7 +209,7 @@ $end = min($end, $total_page);
         <div class="input-wrap reply topic-reply lines-horizontal">
             <textarea placeholder="Comment"></textarea>
             <a href="javascript:postReply(<?= $topic_id ?>)" class="button float">
-                <span>Send</span>
+                <span><?= lang('Service.send') ?></span>
                 <img src="/asset/images/icon/send.png"/>
             </a>
         </div>
@@ -460,12 +460,12 @@ $end = min($end, $total_page);
                 addReplyItems($parent, data['array'])
 
                 // 로그인 한 경우 댓글 입력창 추가
-                <?php if($is_login) {?>
+                <?php if($is_login) { ?>
                 $parent.append(`
                 <div class="input-wrap reply topic-reply lines-horizontal">
                     <textarea placeholder="Comment"></textarea>
                     <a href="javascript:postReply(${topic_id})" class="button float">
-                        <span>Send</span>
+                        <span>${lang('send')}</span>
                         <img src="/asset/images/icon/send.png"/>
                     </a>
                 </div>`)
@@ -535,7 +535,7 @@ $end = min($end, $total_page);
             <div class="input-wrap reply line-after" id=${reply_id}>
                 <textarea placeholder="Comment"></textarea>
                 <a href="javascript:postReplyNested(${reply_id})" class="button float">
-                    <span>Send</span>
+                    <span>${lang('send')}</span>
                     <img src="/asset/images/icon/send.png"/>
                 </a>
             </div>`)

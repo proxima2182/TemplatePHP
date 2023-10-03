@@ -12,6 +12,7 @@ class ReplyController extends BaseAdminController
 
     public function __construct()
     {
+        parent::__construct();
         $this->isRestricted = true;
         $this->replyModel = model('Models\ReplyModel');
     }

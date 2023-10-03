@@ -66,4 +66,49 @@ final class HtmlHelper
                 </div>
             </div>';
     }
+
+    private static function getDefaultTranslationKeys(): array
+    {
+        return [
+            //common
+            'confirm', 'cancel', 'edit', 'delete',
+            // user popup
+            'username', 'type', 'name', 'email',
+            // popup control buttons
+            'message_popup_delete',
+        ];
+    }
+
+    public static function setTranslations(array $translations = []): void
+    {
+        if (sizeof($translations) == 0) return;
+        $result = '
+        <script type="text/javascript">
+        // set common translations
+        translations = {
+            ...translations,
+            ';
+        foreach ($translations as $key) {
+            $result .= "'" . $key . "' : '" . lang('Service.' . $key) . "',\n";
+        }
+        $result .= '}
+        </script>
+        ';
+        echo $result;
+    }
+
+    public static function setTranslationsAdmin(array $translations = [])
+    {
+        $defaultTranslations = HtmlHelper::getDefaultTranslationKeys();
+        return HtmlHelper::setTranslations(array_merge($defaultTranslations, $translations));
+    }
+
+    public static function setTranslationsClient(array $translations = [])
+    {
+        $defaultTranslations = array_merge(HtmlHelper::getDefaultTranslationKeys(), [
+            // login
+            'password', 'register', 'password_forget', 'login',
+        ]);
+        return HtmlHelper::setTranslations(array_merge($defaultTranslations, $translations));
+    }
 }

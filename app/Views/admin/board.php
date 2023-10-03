@@ -1,7 +1,7 @@
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
-            Board
+            <?= lang('Service.board') ?>
         </h3>
         <div class="table-box">
             <div class="table-wrap">
@@ -10,17 +10,17 @@
                         <a href="javascript:openInputPopupCreate();"
                            class="button under-line create">
                             <img src="/asset/images/icon/plus.png"/>
-                            <span>Create</span>
+                            <span><?= lang('Service.create') ?></span>
                         </a>
                     </div>
                 <?php }
                 if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
-                            <span class="column code">Code</span>
-                            <span class="column type">Type</span>
-                            <span class="column alias">Alias</span>
-                            <span class="column public">Public</span>
+                            <span class="column code"><?= lang('Service.code') ?></span>
+                            <span class="column type"><?= lang('Service.type') ?></span>
+                            <span class="column alias"><?= lang('Service.alias') ?></span>
+                            <span class="column public"><?= lang('Service.public') ?></span>
                         </div>
                     </div>
                     <ul>
@@ -69,9 +69,11 @@
             let typeSet = {
                 code: {
                     type: 'text',
+                    name: '<?=lang('Service.code')?>',
                 },
                 alias: {
                     type: 'text',
+                    name: '<?=lang('Service.alias')?>',
                 },
             };
             if (data && data['type'] == 'static') {
@@ -85,6 +87,7 @@
                                 name: 'Static',
                             },
                         ],
+                        name: '<?=lang('Service.type')?>',
                         editable: false,
                     },
                 };
@@ -102,7 +105,8 @@
                                 value: 'table',
                                 name: 'Table',
                             },
-                        ]
+                        ],
+                        name: '<?=lang('Service.type')?>',
                     },
                 }
             }
@@ -110,12 +114,15 @@
                 ...typeSet,
                 is_reply: {
                     type: 'bool',
+                    name: '<?=lang('Service.reply')?>',
                 },
                 is_public: {
                     type: 'bool',
+                    name: '<?=lang('Service.public')?>',
                 },
                 description: {
                     type: 'long-text',
+                    name: '<?=lang('Service.description')?>',
                 },
             }
             let keys = Object.keys(typeSet);
@@ -148,7 +155,7 @@
                 <a href="javascript:editInputPopup('${className}', ${data['id']});"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
-                    <span>Edit</span>
+                    <span>${lang('edit')}</span>
                 </a>`;
             }
             if (data['is_deletable'] == 1) {
@@ -156,7 +163,7 @@
                 <a href="javascript:openInputPopupDelete(${data['id']});"
                 class="button under-line delete">
                     <img src="/asset/images/icon/delete.png"/>
-                    <span>Delete</span>
+                    <span>${lang('delete')}</span>
                 </a>`;
             }
             return html;

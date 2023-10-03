@@ -2,7 +2,6 @@
 
 namespace Views;
 
-use App\Controllers\BaseController;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Config\Services;
@@ -30,6 +29,7 @@ class BaseClientController extends BaseViewController
 
     public function __construct()
     {
+        $this->setLanguage();
         $this->categoryModel = model('Models\CategoryModel');
         $this->categoryLocalModel = model('Models\CategoryLocalModel');
         $this->settingModel = model('Models\SettingModel');

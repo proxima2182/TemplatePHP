@@ -25,11 +25,14 @@ $identifier = $shortid->generate();
         <div class="topic-wrap">
             <div class="form-wrap">
                 <div class="row row-title line-after black">
-                    <input type="text" placeholder="Title" name="title" class="column title editable"
+                    <input placeholder="<?= lang('Service.title') ?>"
+                           type="text" name="title"
+                           class="column title editable"
                            value="<?= $data['title'] ?>"/>
                 </div>
                 <div class="text-wrap line-after">
-                    <textarea placeholder="Content" name="content"
+                    <textarea placeholder="<?= lang('Service.content') ?>"
+                              name="content"
                               class="content editable"><?= $data['content'] ?></textarea>
                 </div>
                 <input hidden type="text" name="board_id" class="editable" value="<?= $board['id'] ?>"/>
@@ -64,9 +67,12 @@ $identifier = $shortid->generate();
                     </div>
                 </div>
             </div>
+            <div class="info-text-wrap">
+                <?= lang('Service.message_info_drag') ?>
+            </div>
             <div class="button-wrap">
                 <a href="<?= $type == 'create' ? 'javascript:confirmCreateTopic()' : 'javascript:confirmEditTopic(' . $data['id'] . ')' ?>"
-                   class="button confirm black">Confirm</a>
+                   class="button confirm black"><?= lang('Service.confirm') ?></a>
             </div>
         </div>
     </div>

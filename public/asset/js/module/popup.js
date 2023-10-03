@@ -42,6 +42,10 @@ function openPopup(input, callback) {
     let $parent = $(`.${className}`);
     if (callback && typeof callback == 'function') callback($parent);
 
+    if ($parent.find(`.control-button-wrap`).length > 0) {
+        $parent.find(`.popup-box`).addClass('has-control-button');
+    }
+
     // popup 내부의 tab 처리
     let $tabbable = $parent.find("input:not([type='hidden']), select, textarea, [href]");
     let $tabbableFirst = $tabbable && $tabbable.first();
@@ -235,15 +239,19 @@ function openUserPopup(user_id) {
             let typeSet = {
                 type: {
                     type: 'text',
+                    name: lang('type'),
                 },
                 username: {
                     type: 'text',
+                    name: lang('username'),
                 },
                 name: {
                     type: 'text',
+                    name: lang('name'),
                 },
                 email: {
                     type: 'text',
+                    name: lang('email'),
                 },
             }
             let keys = Object.keys(typeSet);

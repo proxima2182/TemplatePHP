@@ -219,3 +219,32 @@ async function loadStyleFile(path, selector) {
     })
     return result;
 }
+
+
+/**
+ * 로그아웃 기능
+ */
+function logout() {
+    apiRequest({
+        type: 'POST',
+        url: `/api/user/logout`,
+        dataType: 'json',
+        success: function (response, status, request) {
+            if (!response.success) return;
+            location.reload();
+        },
+        error: function (response, status, error) {
+        },
+    });
+}
+
+/**
+ * php 에서 시스템 설정에 맞는 번역 테스트 js 로 재등록, 호출하는 기능
+ * @type {{}}
+ */
+let translations = {};
+
+function lang(key) {
+    if (isEmpty(translations[key])) return key;
+    return translations[key];
+}

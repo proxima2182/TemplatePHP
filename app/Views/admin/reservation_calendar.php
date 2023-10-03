@@ -12,7 +12,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
                 <a href="javascript:openReservationPopupRequest(<?= $board['id'] ?>);"
                    class="button under-line create">
                     <img src="/asset/images/icon/plus.png"/>
-                    <span>Reserve</span>
+                    <span><?= lang('Service.reserve') ?></span>
                 </a>
             </div>
         <?php } ?>
@@ -22,7 +22,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
         </div>
     </div>
 </div>
-
+<?= \App\Helpers\HtmlHelper::setTranslations(['questioner', 'status', 'time', 'request', 'request_comment', 'select_date', 'select_time']); ?>
 <script type="text/javascript">
     $(document).ready(function () {
         $(`.container-inner .calendar`).initCalendar({
@@ -69,9 +69,9 @@ $is_admin_page = isset($is_admin) && $is_admin;
                         <div class="table-wrap">
                         <div class="row-title">
                             <div class="row">
-                                <span class="column questioner">Questioner</span>
-                                <span class="column status">Status</span>
-                                <span class="column time">Time</span>
+                                <span class="column questioner">${lang('questioner')}</span>
+                                <span class="column status">${lang('status')}</span>
+                                <span class="column time">${lang('time')}</span>
                             </div>
                         </div>
                         <ul>`
@@ -162,6 +162,5 @@ $is_admin_page = isset($is_admin) && $is_admin;
                 });
             },
         })
-
     })
 </script>

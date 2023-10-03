@@ -11,6 +11,7 @@ class GraphicSettingController extends BaseAdminController
 
     public function __construct()
     {
+        parent::__construct();
         $this->isRestricted = true;
         $this->customFileModel = model('Models\CustomFileModel');
     }

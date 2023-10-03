@@ -14,6 +14,7 @@ class ReservationController extends BaseAdminController
 
     public function __construct()
     {
+        parent::__construct();
         $this->isRestricted = true;
         $this->boardModel = model('Models\ReservationBoardModel');
         $this->reservationModel = model('Models\ReservationModel');
