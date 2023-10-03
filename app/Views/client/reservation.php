@@ -115,4 +115,9 @@ $is_admin_page = isset($is_admin) && $is_admin;
         </div>
     </div>
 </div>
-
+<?= \App\Helpers\HtmlHelper::setTranslations([
+    'request', 'request_comment', 'select_date', 'select_time',
+    'requested', 'accepted', 'refused', 'canceled', 'accept', 'refuse',
+    'request_accept', 'request_refuse',
+    'reservation_refuse_reason', 'message_popup_refuse',
+    'reservation_use_default', 'reservation_response']); ?>

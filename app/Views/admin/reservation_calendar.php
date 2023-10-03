@@ -22,7 +22,13 @@ $is_admin_page = isset($is_admin) && $is_admin;
         </div>
     </div>
 </div>
-<?= \App\Helpers\HtmlHelper::setTranslations(['questioner', 'status', 'time', 'request', 'request_comment', 'select_date', 'select_time']); ?>
+<?= \App\Helpers\HtmlHelper::setTranslations([
+    'questioner', 'status', 'time',
+    'request', 'request_comment', 'select_date', 'select_time',
+    'requested', 'accepted', 'refused', 'canceled', 'accept', 'refuse',
+    'request_accept', 'request_refuse',
+    'reservation_refuse_reason', 'message_popup_refuse',
+    'reservation_use_default', 'reservation_response']); ?>
 <script type="text/javascript">
     $(document).ready(function () {
         $(`.container-inner .calendar`).initCalendar({
@@ -42,7 +48,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
                 text_saturday: '#',
             },
             onDateSelected: async function ($parent, date, year, month, day) {
-                const is_time_select = <?=$board['id']?>;
+                const is_time_select = <?=$board['is_time_select']?>;
                 apiRequest({
                     type: 'POST',
                     url: `/api/reservation-board/reservation/get/<?=$board['code']?>`,
@@ -94,7 +100,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
                                         </span>
                                         <span class="column status">
                                             <span class="badge ${item['status']}"></span>
-                                            <span>${item['status']}</span>
+                                            <span>${lang(item['status'])}</span>
                                         </span>
                                         <span class="column time">
                                             ${item[time_field_name] ??

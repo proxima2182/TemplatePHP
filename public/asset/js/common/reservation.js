@@ -116,12 +116,12 @@ function openReservationBoardPopup(id, is_time_select = 1) {
                             <a href="javascript:openReservationPopupRefuse(${data['id']});"
                                 class="button under-line refuse">
                                 <img src="/asset/images/icon/cancel.png"/>
-                                <span>Refuse</span>
+                                <span>${lang('refuse')}</span>
                             </a>
                             <a href="javascript:openReservationPopupAccept(${data['id']}, ${is_time_select}${parameterString})"
                                 class="button under-line accept">
                                 <img src="/asset/images/icon/check.png"/>
-                                <span>Accept</span>
+                                <span>${lang('accept')}</span>
                             </a>
                         </div>
                     </div>`;
@@ -153,19 +153,19 @@ async function openReservationPopupRefuse(id) {
     let css = await loadStyleFile('/asset/css/common/popup/reservation_refuse.css', "." + className);
     let html = `
         <h3 class="popup-title">
-            Refuse
+            ${lang('request_refuse')}
         </h3>
         <div class="text-wrap">
-            Are you sure to refuse reservation?
+            ${lang('message_popup_refuse')}
         </div>
         <div class="form-wrap">
             <div class="input-wrap line-before">
-                <textarea placeholder="Reasons for refusals" name="respond_comment" class="comment"></textarea>
+                <textarea placeholder="${lang('reservation_refuse_reason')}" name="respond_comment" class="comment"></textarea>
             </div>
         </div>
         <div class="button-wrap controls">
-            <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
-            <a href="javascript:confirmReservationRefuse('${className}', ${id})" class="button confirm black">Refuse</a>
+            <a href="javascript:closePopup('${className}')" class="button cancel white">${lang('cancel')}</a>
+            <a href="javascript:confirmReservationRefuse('${className}', ${id})" class="button confirm black">${lang('refuse')}</a>
         </div>`;
     openPopup({
         className: className,
@@ -179,7 +179,7 @@ async function openReservationPopupAccept(id, is_time_select = 1, expect_date = 
     let css = await loadStyleFile('/asset/css/common/popup/reservation_accept.css', "." + className);
     let html = `
     <h3 class="popup-title">
-        Accept
+        ${lang('request_accept')}
     </h3>
     <div class="form-wrap">`
     let minHeight = 150;
@@ -187,21 +187,21 @@ async function openReservationPopupAccept(id, is_time_select = 1, expect_date = 
         minHeight = 100;
         html += `
             <div class= "calendar-wrap">
-                <p class="title">Select Date</p>
+                <p class="title">${lang('select_date')}</p>
                 <div class= "calendar"></div>
             </div>
             <div class= "time-selector-wrap">
-                <p class="title">Select Time</p>
+                <p class="title">${lang('select_time')}</p>
                 <div class= "time-selector"></div>
             </div>`;
     }
     html += `
         <div class="input-wrap checkbox">
             <input type="checkbox" id="use_default_comment" name="use_default_comment" checked onchange="onInputValueChanged(this, '${className}')"/>
-            <label for="use_default_comment" class="input-title selector">Use default comment</label>
+            <label for="use_default_comment" class="input-title selector">${lang('reservation_use_default')}</label>
         </div>
         <div class="input-wrap line-before">
-            <textarea placeholder="Comment" name="respond_comment" class="comment" readonly style="min-height: ${minHeight}px"></textarea>
+            <textarea placeholder="${lang('reservation_response')}" name="respond_comment" class="comment" readonly style="min-height: ${minHeight}px"></textarea>
         </div>
     </div>
     <div class="control-button-wrap absolute line-before">
@@ -209,11 +209,11 @@ async function openReservationPopupAccept(id, is_time_select = 1, expect_date = 
             <a href="javascript:closePopup('${className}');"
                 class="button under-line cancel">
                 <img src="/asset/images/icon/cancel.png"/>
-                <span>Cancel</span>
+                <span>${lang('cancel')}</span>
             </a>
             <a href="javascript:confirmReservationAccept('${className}', ${id})" class="button confirm">
                 <img src="/asset/images/icon/check.png"/>
-                <span>Confirm</span>
+                <span>${lang('confirm')}</span>
             </a>
         </div>
     </div>`;
