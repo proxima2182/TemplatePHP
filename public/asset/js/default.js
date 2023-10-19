@@ -248,3 +248,21 @@ function lang(key) {
     if (isEmpty(translations[key])) return key;
     return translations[key];
 }
+
+function setMobileNavigationClick(element) {
+    if(!$('body').hasClass('mobile')) return;
+    let $lnb = $(element).parent().find('.lnb');
+
+    if($lnb.length>0) {
+        if($lnb.hasClass('opened')) {
+            $lnb.removeClass('opened');
+        } else {
+            $lnb.addClass('opened')
+        }
+    }
+}
+
+function isMobile() {
+    return window.innerWidth < 1070
+}
+

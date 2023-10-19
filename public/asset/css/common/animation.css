@@ -21,3 +21,24 @@
         opacity: 0;
     }
 }
+
+@keyframes headerSlideUp {
+    from {
+        height: 100%;
+    }
+
+    to {
+        height: 60px;
+    }
+}
+
+@keyframes headerSlideDown {
+    from {
+        height: 60px;
+    }
+
+    to {
+        height: 100%;
+    }
+}
+

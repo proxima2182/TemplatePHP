@@ -60,19 +60,13 @@
     }
 }
 
-@keyframes headerSlideIn {
-    from {
-        top: 0;
-    }
-
-    to {
-        top: -60px;
-    }
-}
-
 /*
 slider 페이지
  */
+#page-start {
+    background: #222;
+}
+
 #page-start .slider-box {
     position: relative;
 }
@@ -142,7 +136,7 @@ video background 패이지
     left: 0;
     bottom: 0;
     right: 0;
-    z-index: -9;
+    z-index: 0;
     /*background: rgba(0, 0, 0, 0.3);*/
     background: rgba(0, 0, 0, 0.5);
 }
@@ -155,6 +149,7 @@ video background 패이지
     left: 0;
     bottom: 0;
     padding-top: 100px;
+    z-index: 5;
     /*background: rgba(255, 255, 255, 0.6);*/
 }
 
@@ -431,7 +426,7 @@ submit 페이지
     background: #fff;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
     position: fixed;
-    z-index: 15;
+    z-index: 50;
 }
 
 .page-popup .interface {
@@ -487,4 +482,22 @@ submit 페이지
     font-size: 16px;
     font-weight: 400;
     color: #fff;
+}
+
+@media (max-width: 1070px) {
+    #page-intro .page-inner {
+        width: 100%;
+    }
+
+    #page-notice .page-inner .table-box {
+        width: 100%;
+    }
+
+    #page-preview .page-inner .slider-box {
+        width: 100%;
+    }
+
+    #page-map .page-inner {
+        width: 100%;
+    }
 }

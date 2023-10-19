@@ -25,6 +25,7 @@ if (!isset($links) && !isset($is_login)) return;
     <script type="text/javascript" src="/asset/js/library/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/asset/js/default.js"></script>
     <script type="text/javascript" src="/asset/js/client/client_default.js"></script>
+    <script type="text/javascript" src="/asset/js/client/navigation.js"></script>
     <script type="text/javascript" src="/asset/js/module/popup.js"></script>
     <script type="text/javascript" src="/asset/js/common/login.js"></script>
     <?php
@@ -32,13 +33,22 @@ if (!isset($links) && !isset($is_login)) return;
     if (isset($javascript)) echo $javascript;
     ?>
 </head>
-<?=\App\Helpers\HtmlHelper::setTranslationsClient()?>
+<?= \App\Helpers\HtmlHelper::setTranslationsClient() ?>
 <body>
 <div class="loading-wrap">
     <span class="gadget"></span>
 </div>
 <div id="wrap">
     <header id="header">
+        <div class="mobile-utill mobile-only">
+            <a href="javascript:openNavigation()" class="button navigation menu mobile-only">
+                <span class="top" style="transform: rotate(0deg); top: 15px;"></span>
+                <span class="middle" style="opacity: 1;"></span>
+                <span class="bottom" style="transform: rotate(0deg); top: 25px;"></span>
+            </a>
+            <h1 class="logo"><a href="/"><img src="/asset/images/include/logo.png" alt="header logo"></a></h1>
+        </div>
+        <div class="line mobile-only"></div>
         <div class="header-inner">
             <div class="utill">
                 <ul class="cf">
@@ -54,13 +64,13 @@ if (!isset($links) && !isset($is_login)) return;
                     <?php } ?>
                 </ul>
             </div>
-            <h1 class="logo"><a href="/"><img src="/asset/images/include/logo.png" alt="header logo"></a></h1>
+            <h1 class="logo pc-only"><a href="/"><img src="/asset/images/include/logo.png" alt="header logo"></a></h1>
             <ul class="gnb cf">
                 <?php
                 foreach ($links as $i => $link) {
                     if ($link['is_main_only'] == 0) { ?>
                         <li>
-                            <a href="<?= Utils::parseUrl($link['path']) ?>"><?= $link['name'] ?></a>
+                            <a <?= $link['has_local'] == 1 ? "onclick=\"setMobileNavigationClick(this)\"" : "href=\"" . Utils::parseUrl($link['path']) . "\"" ?>><?= $link['name'] ?></a>
                             <ul class="lnb">
                                 <?php if ($link['has_local'] == 1) {
                                     foreach ($link['locals'] as $j => $localLink) { ?>

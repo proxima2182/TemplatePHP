@@ -51,3 +51,13 @@ input, textarea, select {
     -ms-user-select: none;
     user-select: none;
 }
+
+.unselectable {
+    pointer-events: none;
+}
+
+@media (max-width: 1070px){
+    body {
+        min-width: auto;
+    }
+}

@@ -44,7 +44,7 @@ body {
     position: relative;
 }
 
-#wrap, .header-inner, .footer-inner {
+#wrap, .header-inner, .footer-inner, .utill{
     width: 1200px;
     min-width: 1200px;
     height: 100%;
