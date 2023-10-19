@@ -84,6 +84,19 @@ class BaseModel extends Model
     }
 
     /**
+     * 조건에 맞는 entity 하나 추출한 뒤 key 의 필드의 값 얻는 기능
+     * @param array $condition
+     * @param string $key
+     * @return mixed|null
+     */
+    public function getInitialValue(array $condition, string $key)
+    {
+        $result = $this->get($condition);
+        if (sizeof($result) == 0) return null;
+        else return $result[0][$key];
+    }
+
+    /**
      * 조건에 따른 마지막 row 검색
      * @param $condition
      * @return array|null

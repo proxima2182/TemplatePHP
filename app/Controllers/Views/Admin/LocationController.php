@@ -5,16 +5,19 @@ namespace Views\Admin;
 use App\Helpers\Utils;
 use Exception;
 use Models\LocationModel;
+use Models\SettingModel;
 
 class LocationController extends BaseAdminController
 {
     protected LocationModel $locationModel;
+    protected SettingModel $settingModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->isRestricted = true;
         $this->locationModel = model('Models\LocationModel');
+        $this->settingModel = model('Models\SettingModel');
     }
 
     /**
@@ -26,6 +29,7 @@ class LocationController extends BaseAdminController
     {
         $page = Utils::toInt($page);
         $data = $this->getViewData();
+        $appKey = null;
         try {
             $result = $this->locationModel->getPaginated([
                 'per_page' => $this->per_page,
@@ -35,6 +39,9 @@ class LocationController extends BaseAdminController
             $data = array_merge($data, [
                 'pagination_link' => '/admin/location',
             ]);
+            $appKey = $this->settingModel->getInitialValue([
+                'code' => 'map-appkey',
+            ], 'value');
         } catch (Exception $e) {
             //todo(log)
             $this->handleException($e);
@@ -46,7 +53,7 @@ class LocationController extends BaseAdminController
                 ],
                 'js' => [
                     '/admin/popup_input',
-                    '//dapi.kakao.com/v2/maps/sdk.js?appkey=221aa6cfc43d262a0a90ca26facc9708&libraries=services',
+                    '//dapi.kakao.com/v2/maps/sdk.js?appkey=' . $appKey ?? 'null' . '&libraries=services',
                     '/admin/location',
                 ],
             ])

@@ -142,20 +142,24 @@ function editInputPopup(className, id) {
 function searchAddress(className) {
     let $wrapErrorMessage = $(`.${className} .error-message-wrap`);
     $wrapErrorMessage.empty();
-    let data = parseInputToData($(`.${className} .editable`))
+    try {
+        let data = parseInputToData($(`.${className} .editable`))
 
-    var geocoder = new kakao.maps.services.Geocoder();
+        var geocoder = new kakao.maps.services.Geocoder();
 
 // 주소로 좌표를 검색합니다
-    geocoder.addressSearch(data['address'], function (result, status) {
+        geocoder.addressSearch(data['address'], function (result, status) {
 
-        // 정상적으로 검색이 완료됐으면
-        if (status === kakao.maps.services.Status.OK) {
-            $(`.${className} input[name=latitude]`).val(result[0].y);
-            $(`.${className} input[name=longitude]`).val(result[0].x);
-            generateUnblockConfirm(className)();
-        } else {
-            $wrapErrorMessage.append(`<div>잘못된 주소 입니다.</div>`)
-        }
-    });
+            // 정상적으로 검색이 완료됐으면
+            if (status === kakao.maps.services.Status.OK) {
+                $(`.${className} input[name=latitude]`).val(result[0].y);
+                $(`.${className} input[name=longitude]`).val(result[0].x);
+                generateUnblockConfirm(className)();
+            } else {
+                $wrapErrorMessage.append(`<div>잘못된 주소 입니다.</div>`)
+            }
+        });
+    } catch (e) {
+        $wrapErrorMessage.append(`<div>지도 APPKEY 가 올바른 값인지 확인해주세요.</div>`)
+    }
 }

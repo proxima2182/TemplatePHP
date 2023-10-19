@@ -7,7 +7,6 @@ use Exception;
 use Models\BoardModel;
 use Models\CustomFileModel;
 use Models\LocationModel;
-use Models\SettingModel;
 use Models\TopicModel;
 use Models\UserModel;
 
@@ -19,7 +18,6 @@ class MainController extends BaseClientController
     protected TopicModel $topicModel;
     protected LocationModel $locationModel;
     protected CustomFileModel $customFileModel;
-    protected SettingModel $settingModel;
 
     public function __construct()
     {
@@ -29,7 +27,6 @@ class MainController extends BaseClientController
         $this->topicModel = model('Models\TopicModel');
         $this->locationModel = model('Models\LocationModel');
         $this->customFileModel = model('Models\CustomFileModel');
-        $this->settingModel = model('Models\SettingModel');
     }
 
     /**
