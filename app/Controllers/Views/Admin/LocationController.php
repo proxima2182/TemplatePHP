@@ -40,7 +40,7 @@ class LocationController extends BaseAdminController
                 'pagination_link' => '/admin/location',
             ]);
             $appKey = $this->settingModel->getInitialValue([
-                'code' => 'map-appkey',
+                'code' => 'kakao-map-appkey',
             ], 'value');
         } catch (Exception $e) {
             //todo(log)

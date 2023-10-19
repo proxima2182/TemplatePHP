@@ -35,7 +35,7 @@ $sliderImages = [
     <script type="text/javascript" src="/asset/js/library/fullpage/jquery.fullPage.js"></script>
     <script type="text/javascript" src="/asset/js/library/slick/slick.min.js"></script>
     <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?= $settings['map-appkey'] ?? '' ?>"></script>
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?= $settings['kakao-map-appkey'] ?? '' ?>"></script>
 
     <script type="text/javascript" src="/asset/js/client/navigation.js"></script>
     <script type="text/javascript" src="/asset/js/module/popup.js"></script>
