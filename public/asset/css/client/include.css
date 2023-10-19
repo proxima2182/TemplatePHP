@@ -9,7 +9,7 @@ body {
     position: relative;
 }
 
-.header-inner, .footer-inner, .utill {
+.header-inner, .footer-inner {
     width: 1200px;
     min-width: 1200px;
     height: 100%;
@@ -269,7 +269,7 @@ body {
 }
 
 @media (max-width: 1070px) {
-    .header-inner, .footer-inner, .utill {
+    .header-inner, .footer-inner {
         width: 100%;
         min-width: auto;
     }

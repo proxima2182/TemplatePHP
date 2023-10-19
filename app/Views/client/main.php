@@ -95,7 +95,7 @@ $sliderImages = [
                             <li class="last"><a href="javascript:logout();"><?= lang('Service.logout') ?></a></li>
                         <?php } else { ?>
                             <li><a href="/registration"><?= lang('Service.register') ?></a></li>
-                            <li class="last"><a href="javascript:openPopupLogin();"><?= lang('Service.login') ?></a>
+                            <li class="last"><a href="/login"><?= lang('Service.login') ?></a>
                             </li>
                         <?php } ?>
                     </ul>

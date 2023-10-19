@@ -2,15 +2,25 @@
  * @file admin 용 네비게이션 버튼 제어 스크립트
  */
 
+let adminNavigationTimeoutId;
 /**
  * navigation 관련 위치를 refresh 시키는 기능
  * 전체 경우에 대한 position 값을 적어두고 위치 변화 필요할 때마다
  * 해당 함수 호출
  */
 function refreshNavigationPosition() {
+    let size = isMobile() ? '200px' : '150px';
     let gnbWrap = $('.gnb-wrap');
     let gnb = $('.gnb');
 
+    gnbWrap.css({
+        'animation-duration': '',
+        'animation-name': '',
+    })
+    gnb.css({
+        'animation-duration': '',
+        'animation-name': '',
+    })
     if (gnbWrap.hasClass('fixed')) {
         // fixed
         gnbWrap.css({
@@ -19,7 +29,7 @@ function refreshNavigationPosition() {
         })
         if (gnbWrap.hasClass('closed')) {
             gnbWrap.css({
-                'left': '-150px',
+                'left': `-${size}`,
             })
         } else {
             gnbWrap.css({
@@ -34,12 +44,12 @@ function refreshNavigationPosition() {
         // absolute
         gnbWrap.css({
             'position': 'absolute',
-            'left': '-150px',
+            'left': `-${size}`,
             'top': '0',
         })
         if (gnbWrap.hasClass('closed')) {
             gnb.css({
-                'left': '150px',
+                'left': size,
                 'z-index': '-5',
             })
         } else {
@@ -100,7 +110,10 @@ function returnNavigationAbsolute() {
 function closeNavigation() {
     let gnbWrap = $('.gnb-wrap');
     let gnb = $('.gnb');
-    gnbWrap.addClass('closed')
+    if (adminNavigationTimeoutId) {
+        clearTimeout(adminNavigationTimeoutId);
+        adminNavigationTimeoutId = undefined;
+    }
     document.cookie = 'is-admin-navigation-closed=1; path=/;';
     refreshNavigationPosition();
 
@@ -108,16 +121,22 @@ function closeNavigation() {
     if (gnbWrap.hasClass('fixed')) {
         gnbWrap.css({
             'animation-duration': '0.2s',
-            'animation-name': 'gnbFixedSlideLeft',
+            'animation-name': isMobile()? 'gnbMobileFixedSlideLeft':'gnbFixedSlideLeft',
         })
     } else {
         gnb.css({
             'animation-duration': '0.2s',
-            'animation-name': 'gnbAbsoluteSlideRight',
+            'animation-name': isMobile()? 'gnbMobileAbsoluteSlideRight':'gnbAbsoluteSlideRight',
         })
     }
+    adminNavigationTimeoutId = setTimeout(function () {
+        gnbWrap.addClass('closed')
+        clearTimeout(adminNavigationTimeoutId);
+        adminNavigationTimeoutId = undefined;
+    }, 200);
 
-    // menu button animation
+
+        // menu button animation
     $('.button.menu span.middle').css({
         opacity: 1
     })
@@ -149,12 +168,12 @@ function openNavigation() {
     if (gnbWrap.hasClass('fixed')) {
         gnbWrap.css({
             'animation-duration': '0.2s',
-            'animation-name': 'gnbFixedSlideRight',
+            'animation-name': isMobile()? 'gnbMobileFixedSlideRight':'gnbFixedSlideRight',
         })
     } else {
         gnb.css({
             'animation-duration': '0.2s',
-            'animation-name': 'gnbAbsoluteSlideLeft',
+            'animation-name': isMobile()? 'gnbMobileAbsoluteSlideLeft':'gnbAbsoluteSlideLeft',
         })
     }
 
