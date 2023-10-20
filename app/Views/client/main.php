@@ -156,7 +156,6 @@ $sliderImages = [
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($settings['main-video-link'] ?? null)) {
                     if (str_starts_with($settings['main-video-link'], "http")) { ?>
                         <iframe class="main-video"
-                                width="680" height="400"
                                 src="<?= $settings['main-video-link'] ?>"
                                 title="YouTube video player"
                                 frameborder="0"

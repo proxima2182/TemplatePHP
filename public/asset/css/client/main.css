@@ -184,6 +184,8 @@ youtube 패이지
 }
 
 #page-video .main-video {
+    width: 680px;
+    height: 400px;
     display: inline-block;
 }
 
@@ -485,8 +487,17 @@ submit 페이지
 }
 
 @media (max-width: 1070px) {
+    .section .page-inner {
+        padding-top: 60px;
+    }
+
     #page-intro .page-inner {
         width: 100%;
+    }
+
+    #page-video .main-video {
+        width: 100vw;
+        height: 56vw;
     }
 
     #page-notice .page-inner .table-box {
@@ -494,7 +505,15 @@ submit 페이지
     }
 
     #page-preview .page-inner .slider-box {
-        width: 100%;
+        width: calc(100% - 80px);
+    }
+
+    #page-preview .slick button.slick-prev {
+        left: -35px;
+    }
+
+    #page-preview .slick button.slick-next {
+        right: -35px;
     }
 
     #page-map .page-inner {

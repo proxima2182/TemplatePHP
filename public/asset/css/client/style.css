@@ -295,10 +295,21 @@ input[type=checkbox] {
     overflow: hidden;
 }
 
-.slick-item {
+.slick-item, .slick-item-wrap {
     font-size: 0;
     display: inline-block;
     vertical-align: middle;
+    box-sizing: border-box;
+}
+
+/*mobile인 경우 1행에 2열 추가*/
+.slick-item-wrap {
+    margin: 5px;
+    vertical-align: top;
+}
+
+.slick-item-wrap .slick-item{
+    width: calc(100% - 10px);
 }
 
 .slick button {
