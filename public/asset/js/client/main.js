@@ -2,7 +2,6 @@
  * @file main.php
  */
 
-let mainPageHeaderTimeoutId;
 let mainPageIndex = 1, mainPageNextIndex = 2;
 let map;
 
@@ -44,7 +43,11 @@ $(document).ready(function () {
         onLeave: function (index, nextIndex, direction) {
             mainPageIndex = index;
             mainPageNextIndex = nextIndex;
-            setMainHeaderShape(index, nextIndex);
+            setMainPageHeaderShape(index, nextIndex);
+
+            if (nextIndex == 1) {
+                refreshMainStartPageContentHeight();
+            }
         },
         afterLoad: function (anchorLink, index) {
             if (index == 2) {
@@ -97,6 +100,15 @@ $(document).ready(function () {
     } catch (e) {
         // do nothing
         // prevent throwing job in middle
+        let $boxMap = $('#page-map .map-box');
+        $boxMap.empty();
+        $boxMap.append(`
+        <div class="no-data-box" style="position: absolute; top: 50%; margin-top: -150px; left: 0;">
+            <div class="no-data-wrap">
+                <img src="/asset/images/icon/err_wrong_value.png">
+                <span>Please check APPKEY value for map API.</span>
+            </div>
+        </div>`)
     }
 
     let element = $(`#page-map .list-wrap`).get(0);
@@ -260,15 +272,7 @@ function closePagePopupTodayDisabled(className, id) {
  * window resize
  */
 function resizeWindow() {
-    let header_height = $('#header').height();
-    let content_height = window.innerHeight - header_height
-    $('#page-start .main-slider-wrap').css('padding-top', header_height);
-    $('#page-start .main-slider-wrap .slick').css('height', content_height);
-    $('#page-start .main-slider-wrap .slick .slick-item').css('height', content_height);
-
-    $('#page-start .slider-text-wrap').css({
-        'line-height': `${content_height}px`,
-    })
+    refreshMainStartPageContentHeight();
 
     let $pageInners = $('.section .page-inner').not('.whole-page');
     for (let i in $pageInners) {
@@ -286,20 +290,51 @@ function resizeWindow() {
 
 
     if (isMobile() && !$('body').hasClass('mobile')) {
+        // mobile 로 전환
+        // 첫 load 때 모바일인 경우 호출됨
         $('body').addClass('mobile');
 
-        setMainPreviewSlick(true);
-        setMainHeaderShape(mainPageIndex, mainPageNextIndex, false)
+        $('#page-map .location-list-box').css({
+            'display': 'none'
+        });
+        if (map && bounds) {
+            map.setBounds(bounds, 0, 0, 0, 0);
+            map.panBy(340, 0)
+        }
+        setMainPagePreviewSlick(true);
+        setMainPageHeaderShape(mainPageIndex, mainPageNextIndex, false)
     }
     if (!isMobile() && $('body').hasClass('mobile')) {
+        // pc 로 전환
         $('body').removeClass('mobile');
 
-        setMainPreviewSlick(false);
-        setMainHeaderShape(mainPageIndex, mainPageNextIndex, false)
+        $('#page-map .location-list-box').css({
+            'animation-duration': '',
+            'animation-name': '',
+            'display': 'block'
+        });
+        if (map && bounds) {
+            map.setBounds(bounds, 0, 0, 0, 340);
+        }
+        setMainPagePreviewSlick(false);
+        setMainPageHeaderShape(mainPageIndex, mainPageNextIndex, false)
     }
 }
 
-function setMainPreviewSlick(isMobile = false) {
+function refreshMainStartPageContentHeight() {
+    let header_height = $('#header').height();
+    let content_height = window.innerHeight - header_height
+    $('#page-start .main-slider-wrap').css('padding-top', header_height);
+    $('#page-start .main-slider-wrap .slick').css('height', content_height);
+    $('#page-start .main-slider-wrap .slick .slick-item').css('height', content_height);
+    $('#page-start .slider-text-wrap .text-wrap .content').css('max-height', `${content_height - 300}px`);
+
+    $('#page-start .slider-text-wrap').css({
+        'line-height': `${content_height}px`,
+    })
+}
+
+function setMainPagePreviewSlick(isMobile = false) {
     let $slick = $('#page-preview .slick');
     if ($slick.hasClass('slick-initialized')) {
         $slick.slick("unslick");
@@ -354,12 +389,7 @@ function setMainPreviewSlick(isMobile = false) {
     }
 }
 
-function setMainHeaderShape(index, nextIndex, isAnimation = true) {
-    // 이전 다른 스타일 변경이 예약되어있다면 취소
-    if ((nextIndex == 1 || index == 1) && mainPageHeaderTimeoutId) {
-        clearTimeout(mainPageHeaderTimeoutId);
-        mainPageHeaderTimeoutId = undefined;
-    }
+function setMainPageHeaderShape(index, nextIndex, isAnimation = true) {
     let $header = $('#header');
     let $body = $('body');
     $header.css({
@@ -370,14 +400,7 @@ function setMainHeaderShape(index, nextIndex, isAnimation = true) {
     if (isMobile) {
         $header.removeClass('downsized');
     }
-    if (nextIndex == 1) {
-        let $sectionStart = $('#page-start');
-        if ($sectionStart && $header) {
-            $header.remove();
-            $header.removeClass('downsized')
-            $sectionStart.prepend($header)
-        }
-    } else if (index === 1) {
+    if (index === 1) {
         let $body = $('body')
         if ($body && $header) {
             $header.remove()
@@ -391,6 +414,13 @@ function setMainHeaderShape(index, nextIndex, isAnimation = true) {
                     'animation-name': 'headerSlideOut',
                 });
             }
+        }
+    } else if (nextIndex == 1) {
+        let $sectionStart = $('#page-start');
+        if ($sectionStart && $header) {
+            $header.remove();
+            $header.removeClass('downsized')
+            $sectionStart.prepend($header)
         }
     } else {
         if (!isMobile && !$header.hasClass('downsized')) {
@@ -442,8 +472,12 @@ function setMapPoints(points) {
         // LatLngBounds 객체에 좌표를 추가합니다
         bounds.extend(new kakao.maps.LatLng(point.latitude, point.longitude));
     }
-
-    map.setBounds(bounds, 0, 0, 0, 340);
+    map.setMaxLevel(15);
+    if (isMobile()) {
+        map.setBounds(bounds, 0, 0, 0, 0);
+    } else {
+        map.setBounds(bounds, 0, 0, 0, 340);
+    }
     // map.setLevel(map.getLevel() + 1);
     // map.setMinLevel(12)
     // map.setMaxLevel(13)
@@ -498,5 +532,42 @@ function onMembershipInputValueChanged(element) {
         $button.addClass('disabled');
     } else {
         $button.removeClass('disabled');
+    }
+}
+
+let mainPageMapTimeoutId;
+
+function clearMobileMapTimeout() {
+    if (mainPageMapTimeoutId) {
+        clearTimeout(mainPageMapTimeoutId);
+        mainPageMapTimeoutId = undefined;
+    }
+}
+
+function openMobileMapDetailList() {
+    clearMobileMapTimeout();
+    if ($('#page-map .location-list-box').css('display') == 'none') {
+        $('#page-map .location-list-box').css({
+            'animation-duration': '0.2s',
+            'animation-name': 'mainMapSlideDown',
+            'display': 'block'
+        });
+        $('#page-map .page-title-wrap .button img').attr({
+            'src': '/asset/images/icon/button_top.png'
+        })
+    } else {
+        $('#page-map .location-list-box').css({
+            'animation-duration': '0.2s',
+            'animation-name': 'mainMapSlideUp',
+        });
+        adminNavigationTimeoutId = setTimeout(function () {
+            $('#page-map .location-list-box').css({
+                'display': 'none'
+            });
+            clearMobileMapTimeout();
+        }, 200);
+        $('#page-map .page-title-wrap .button img').attr({
+            'src': '/asset/images/icon/button_bottom.png'
+        })
     }
 }

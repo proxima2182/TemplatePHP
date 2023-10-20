@@ -84,6 +84,9 @@ return [
     "phone_number" => "전화번호",
     "inquiry" => "문의",
 
+    //main
+    "show_detail" => "상세보기",
+
     //admin
     "category" => "카테고리",
     "category_local" => "하위 카테고리",

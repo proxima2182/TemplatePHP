@@ -133,7 +133,7 @@ $sliderImages = [
                 <div class="slider-text-wrap">
                     <div class="text-wrap">
                         <h3 class="title"><?= $settings['main-title-01'] ?? '' ?></h3>
-                        <p class="content cf"><?= $settings['main-content-01'] ?? '' ?></p>
+                        <p class="content"><?= $settings['main-content-01'] ?? '' ?></p>
                     </div>
                 </div>
             </div>
@@ -145,7 +145,7 @@ $sliderImages = [
             <div class="text-box">
                 <div class="text-wrap">
                     <h3 class="title"><?= $settings['main-title-02'] ?? '' ?></h3>
-                    <p class="content cf"><?= $settings['main-content-02'] ?? '' ?></p>
+                    <p class="content"><?= $settings['main-content-02'] ?? '' ?></p>
                 </div>
             </div>
         </div>
@@ -169,7 +169,7 @@ $sliderImages = [
                 <hr>
                 <div class="text-wrap">
                     <h3 class="page-title"><?= $settings['main-title-03'] ?? '' ?></h3>
-                    <p class="content cf"><?= $settings['main-content-03'] ?? '' ?></p>
+                    <p class="content"><?= $settings['main-content-03'] ?? '' ?></p>
                 </div>
             </div>
         </div>
@@ -260,8 +260,17 @@ $sliderImages = [
         $locationPagination = $locations['pagination']; ?>
         <div class="section" id="page-map">
             <div class="page-inner whole-page">
+                <div class="page-title-box mobile-only">
+                    <div class="page-title-wrap">
+                        <h3 class="page-title"><?= lang('Service.map_location') ?></h3>
+                        <a href="javascript:openMobileMapDetailList()" class="button out-line">
+                            <span><?= lang('Service.show_detail') ?></span>
+                            <img src="/asset/images/icon/button_bottom.png"/>
+                        </a>
+                    </div>
+                </div>
                 <div class="location-list-box">
-                    <h3 class="page-title"><?= lang('Service.map_location') ?></h3>
+                    <h3 class="page-title pc-only"><?= lang('Service.map_location') ?></h3>
                     <div class="location-list-wrap" page="<?= $locationPagination['page'] ?>"
                          per-page="<?= $locationPagination['per-page'] ?>"
                          total="<?= $locationPagination['total'] ?>"

@@ -231,7 +231,12 @@ input[type=checkbox] {
 .button.out-line {
     border: 1px solid #ddd;
     border-radius: 20px;
-    padding: 0 8px 0 3px;
+    padding: 0 8px;
+    line-height: normal;
+}
+
+.button.out-line span {
+    padding: 0 2px;
 }
 
 .button.out-line:hover {
@@ -302,16 +307,17 @@ input[type=checkbox] {
     box-sizing: border-box;
 }
 
-/*mobile인 경우 1행에 2열 추가*/
+/*mobile>>1행에 2열 추가*/
 .slick-item-wrap {
     margin: 5px;
     vertical-align: top;
 }
 
-.slick-item-wrap .slick-item{
+.slick-item-wrap .slick-item {
     width: calc(100% - 10px);
 }
 
+/*<<*/
 .slick button {
     width: 40px;
     height: 40px;

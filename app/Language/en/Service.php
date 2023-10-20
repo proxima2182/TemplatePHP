@@ -83,6 +83,9 @@ return [
     "phone_number" => "Phone Number",
     "inquiry" => "Inquiry",
 
+    //main
+    "show_detail" => "Show Detail",
+
     //admin
     "category" => "Category",
     "category_local" => "Category Local",
