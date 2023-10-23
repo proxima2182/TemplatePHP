@@ -403,6 +403,8 @@ submit 페이지
 }
 
 #page-last .form-wrap {
+    width: 750px;
+    box-sizing: border-box;
     display: inline-block;
     padding: 15px 45px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
@@ -410,23 +412,25 @@ submit 페이지
 
 #page-last .page-inner .input-wrap {
     margin-top: 10px;
+    font-size: 0;
 }
 
 #page-last .page-inner .input-wrap * {
     vertical-align: top;
     display: inline-block;
     line-height: 25px;
+    font-size: 16px;
 }
 
 #page-last .page-inner .input-wrap .input-title {
-    width: 150px;
+    width: calc(20% - 15px);
     text-align: right;
     margin-right: 15px;
     font-weight: 400;
 }
 
 #page-last .form-wrap input, #page-last .form-box textarea {
-    width: 400px;
+    width: 80%;
     margin: -1px;
     resize: none;
     border: 1px solid #bbb;
@@ -447,11 +451,12 @@ submit 페이지
 }
 
 #page-last .form-wrap .text-wrap.agreement {
-    width: 600px;
+    width: 100%;
+    height: 100px;
     padding: 15px;
     margin-top: 15px;
     border: 1px solid #000;
-    height: 100px;
+    box-sizing: border-box;
     overflow-y: scroll;
 }
 
@@ -479,7 +484,7 @@ submit 페이지
     background: #fff;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
     position: fixed;
-    z-index: 50;
+    z-index: 100;
 }
 
 .page-popup .interface {
@@ -590,6 +595,22 @@ submit 페이지
         right: 30px;
         bottom: 30px;
         display: none;
+    }
+
+    #page-last .page-inner .form-box {
+        width: 100%;
+    }
+    #page-last .form-wrap {
+        width: 100%;
+        box-shadow: none;
+    }
+
+    #page-last .page-inner .input-wrap .input-title {
+        width: calc(25% - 15px);
+    }
+
+    #page-last .form-wrap input, #page-last .form-box textarea {
+        width: 75%;
     }
 
 }

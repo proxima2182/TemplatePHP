@@ -75,12 +75,7 @@ $(document).ready(function () {
         accessibility: false,
     });
     if (!isMobile()) {
-        $('#page-preview .slick').slick({
-            slidesToShow: 4,
-            slidesToScroll: 1,
-            infinite: false,
-            autoplay: false,
-        });
+        setMainPagePreviewSlick(false);
     }
 
     try {
@@ -276,15 +271,23 @@ function resizeWindow() {
 
     let $pageInners = $('.section .page-inner').not('.whole-page');
     for (let i in $pageInners) {
-        let height = window.innerHeight - 110;
+
+        let paddingTop = $pageInners.eq(i).css('padding-top') ?? '0';
+        paddingTop = paddingTop.replaceAll('px', '');
+
+        let height = window.innerHeight - paddingTop;
         let $footer = $pageInners.eq(i).parent().find('#footer')
         if ($footer.length > 0) {
             height -= $footer.height();
+            $pageInners.eq(i).css({
+                'padding-bottom': `${$footer.height()}px`
+            })
         }
         $pageInners.eq(i).css({
             'line-height': `${height}px`,
         })
     }
+
     resizePagePopupWindow();
     $(`#page-intro`).setVideoCoverStyle();
 
@@ -361,7 +364,7 @@ function setMainPagePreviewSlick(isMobile = false) {
         }
         $slick.slick({
             slidesToShow: 2,
-            slidesToScroll: 1,
+            slidesToScroll: 2,
             infinite: false,
             autoplay: false,
         });
