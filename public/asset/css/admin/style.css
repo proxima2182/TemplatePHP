@@ -391,18 +391,19 @@ input[type=checkbox] {
 }
 
 .loading-wrap .gadget {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     display: inline-block;
     border: 15px solid #eee;
     border-radius: 50%;
     border-top: 15px solid #aaa;
+    box-sizing: border-box;
 
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-left: -30px;
-    margin-top: -30px;
+    margin-left: -40px;
+    margin-top: -40px;
 
     animation-duration: 1s;
     animation-name: loading;
@@ -432,6 +433,8 @@ input[type=checkbox] {
 
     .container-inner {
         width: 100%;
+        min-height: 800px;
+        padding-top: 60px;
     }
 
     .mobile-only {

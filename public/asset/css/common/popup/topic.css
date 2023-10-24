@@ -56,3 +56,13 @@
     overflow: hidden;
     display: inline-block;
 }
+
+@media (max-width: 1070px) {
+    .row .column.title {
+        width: calc(100% - 200px);
+    }
+
+    .row .column.created-at {
+        width: 200px;
+    }
+}

@@ -19,14 +19,14 @@ class RegistrationController extends BaseClientController
     public function index(): string
     {
         $queryParams = $this->request->getGet();
-        $data = [];
+        $data = $this->getViewData();
         if (isset($queryParams['email']) && isset($queryParams['code'])) {
             $email = Utils::decodeText($queryParams['email']);
             $code = Utils::decodeText($queryParams['code']);
-            $data = [
+            $data = array_merge($data, [
                 'email' => $email,
                 'code' => $code,
-            ];
+            ]);
         }
         return parent::loadHeader([
                 'css' => [
@@ -48,14 +48,14 @@ class RegistrationController extends BaseClientController
     public function resetPassword(): string
     {
         $queryParams = $this->request->getGet();
-        $data = [];
+        $data = $this->getViewData();
         if (isset($queryParams['username']) && isset($queryParams['code'])) {
             $username = Utils::decodeText($queryParams['username']);
             $code = Utils::decodeText($queryParams['code']);
-            $data = [
+            $data = array_merge($data, [
                 'username' => $username,
                 'code' => $code,
-            ];
+            ]);
         }
         return parent::loadHeader([
                 'css' => [

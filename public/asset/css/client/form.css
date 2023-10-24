@@ -57,3 +57,16 @@
 .container-inner .input-wrap input[type=checkbox] {
     margin: 10px;
 }
+
+@media (max-width: 1070px) {
+    .container-inner .form-box {
+        width: 100%;
+    }
+
+    .container-inner .form-wrap {
+        width: 100%;
+        max-width: 680px;
+        padding: 40px 40px 60px 40px;
+        box-shadow: none;
+    }
+}

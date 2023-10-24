@@ -192,31 +192,55 @@ async function loadStyleFile(path, selector) {
     let request = await fetch(path)
     if (!request.ok) throw request;
     let css = await request.text()
-    let blocks = css.split(/(?<=})\s+/);
-    let result = '';
-    blocks.forEach((value) => {
-        if (!isEmpty(value)) {
-            if (value.startsWith("@")) {
-                result += value + "\n";
-            } else {
-                let regex = /((.|s+|\n)*)({(.|s+|\n)*})/.exec(value);
-                let indicator = regex[1];
-                let block = regex[3];
-                if (isEmpty(indicator)) {
-                    result += selector + " " + block + "\n";
+
+    function parseWithIndicator(css) {
+        let blocks = css.split(/(?<=})\s+/);
+        let result = '';
+        blocks.forEach((value) => {
+            if (!isEmpty(value)) {
+                if (value.startsWith("@")) {
+                    result += value + "\n";
                 } else {
-                    let indicators = indicator.split(",");
-                    let prefix = "";
-                    for (let i in indicators) {
-                        let indicator_text = indicators[i].replaceAll('\n', '');
-                        result += prefix + selector + " " + indicator_text;
-                        prefix = ",\n";
+                    {
+                        let regex = /((.|s+|\n)*)({(.|s+|\n)*})/.exec(value);
+                        let indicator = regex[1];
+                        let block = regex[3];
+                        if (isEmpty(indicator)) {
+                            result += selector + " " + block + "\n";
+                        } else {
+                            let indicators = indicator.split(",");
+                            let prefix = "";
+                            for (let i in indicators) {
+                                let indicator_text = indicators[i].replaceAll('\n', '');
+                                result += prefix + selector + " " + indicator_text;
+                                prefix = ",\n";
+                            }
+                            result += " " + block + "\n";
+                        }
                     }
-                    result += " " + block + "\n";
                 }
             }
-        }
-    })
+        })
+        return result;
+    }
+
+    let mediaResult = '';
+    {
+        let regex;
+        do {
+            try {
+                regex = /(@media[^{]+\{([\s\S]+?})\s*})/.exec(css);
+                if (regex) {
+                    css = css.replace(regex[0], "");
+                    mediaResult += regex[0].replace(regex[2], "\n" + parseWithIndicator(regex[2])) + "\n";
+                }
+            } catch (e) {
+                regex = null;
+            }
+        } while (regex)
+    }
+    let result = parseWithIndicator(css);
+    result += mediaResult;
     return result;
 }
 
@@ -249,16 +273,26 @@ function lang(key) {
     return translations[key];
 }
 
-function setMobileNavigationClick(element) {
-    if(!$('body').hasClass('mobile')) return;
+function clickClientNavigation(element, link) {
+    if (!isMobile()) {
+        window.location.href = link;
+        closeNavigation(false);
+        return;
+    }
     let $lnb = $(element).parent().find('.lnb');
 
-    if($lnb.length>0) {
-        if($lnb.hasClass('opened')) {
+    console.log(element.classList.contains('gnb-menu'))
+    console.log($lnb.length > 0 && $lnb.children().length > 0)
+    if (element.classList.contains('gnb-menu') &&
+        $lnb.length > 0 && $lnb.children().length > 0) {
+        if ($lnb.hasClass('opened')) {
             $lnb.removeClass('opened');
         } else {
             $lnb.addClass('opened')
         }
+    } else {
+        window.location.href = link;
+        closeNavigation(false);
     }
 }
 

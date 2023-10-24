@@ -105,12 +105,18 @@ $sliderImages = [
                 <ul class="gnb cf">
                     <?php foreach ($links as $i => $link) { ?>
                         <li>
-                            <a <?= $link['has_local'] == 1 ? "onclick=\"setMobileNavigationClick(this)\"" : "href=\"" . Utils::parseUrl($link['path']) . "\"" ?>><?= $link['name'] ?></a>
+                            <a <?= "onclick=\"clickClientNavigation(this, '" . Utils::parseUrl($link['path']) . "')\"" ?>
+                                class="button gnb-menu">
+                                <?= $link['name'] ?>
+                            </a>
                             <ul class="lnb">
                                 <?php if ($link['has_local'] == 1) {
                                     foreach ($link['locals'] as $j => $localLink) { ?>
                                         <li>
-                                            <a href="<?= Utils::parseUrl($localLink['path']) ?>"><?= $localLink['name'] ?></a>
+                                            <a <?= "onclick=\"clickClientNavigation(this, '" . Utils::parseUrl($link['path']) . "')\"" ?>
+                                                class="button lnb-menu">
+                                                <?= $localLink['name'] ?>
+                                            </a>
                                         </li>
                                     <?php }
                                 } ?>

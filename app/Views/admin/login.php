@@ -9,6 +9,12 @@
             display: inline-block;
             vertical-align: middle;
         }
+
+        @media (max-width: 1070px) {
+            .login-container .container-wrap {
+                width: 100%;
+            }
+        }
     </style>
     <div class="container-wrap">
         <h3 class="title">

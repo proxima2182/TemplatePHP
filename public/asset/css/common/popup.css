@@ -101,3 +101,9 @@
 .popup-wrap .control-button-box {
     padding: 10px 20px 10px 20px;
 }
+
+@media (max-width: 1070px) {
+    .popup-wrap .popup {
+        width: 100%;
+    }
+}
