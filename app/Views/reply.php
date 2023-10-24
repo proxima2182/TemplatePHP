@@ -187,6 +187,20 @@ $end = min($end, $total_page);
     .reply-wrap .list.reply .button.float {
         right: 10px;
     }
+
+    @media (max-width: 1070px) {
+        .reply-wrap .row .column.user {
+            width: 100px;
+        }
+
+        .reply-wrap .row .column.content {
+            width: calc(100% - 100px);
+        }
+
+        .reply-wrap .row .column.created-at {
+            display: none;
+        }
+    }
 </style>
 
 <div class="reply-wrap">

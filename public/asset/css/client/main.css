@@ -243,11 +243,11 @@ notice 페이지
 }
 
 #page-notice .page-inner .table-wrap .column.title {
-    width: 60%;
+    width: calc(100% - 180px);
 }
 
 #page-notice .page-inner .table-wrap .column.created-at {
-    width: 40%;
+    width: 180px;
     text-align: right;
 }
 

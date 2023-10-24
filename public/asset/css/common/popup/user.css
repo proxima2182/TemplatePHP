@@ -1,6 +1,7 @@
 .popup {
     width: 400px;
 }
+
 .popup-inner {
     padding: 20px 40px 40px 40px;
 }
@@ -21,4 +22,11 @@
     font-weight: 200;
     font-size: 18px;
     border-bottom: 1px solid #efefef;
+}
+
+
+@media (max-width: 1070px) {
+    .popup {
+        width: calc(100% - 40px);
+    }
 }

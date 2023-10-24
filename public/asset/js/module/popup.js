@@ -174,6 +174,12 @@ function openPopupErrors(className, response, status, requestOrError) {
             padding: 10px 20px;
             margin: 0 10px;
         }
+        
+        @media (max-width: 1070px) {
+            .${className} .popup {
+                width: calc(100% - 20px);
+            }
+        }
         </style>`
     let hasMessage = false;
     let html = `

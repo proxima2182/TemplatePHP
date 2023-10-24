@@ -41,3 +41,29 @@
 .table-wrap .column.confirm-time {
     width: 15%;
 }
+
+@media (max-width: 1070px) {
+    .table-wrap .column.questioner {
+        width: 30%;
+    }
+
+    .table-wrap .column.status {
+        width: 40%;
+    }
+
+    .table-wrap .column.expect-date {
+        display: none;
+    }
+
+    .table-wrap .column.expect-time {
+        display: none;
+    }
+
+    .table-wrap .column.confirm-date {
+        width: 30%;
+    }
+
+    .table-wrap .column.confirm-time {
+        display: none;
+    }
+}

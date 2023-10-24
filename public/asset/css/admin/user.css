@@ -18,3 +18,25 @@
     width: 20%;
     text-align: right;
 }
+
+@media (max-width: 1070px) {
+    .table-wrap .column.type {
+        width: 20%;
+    }
+
+    .table-wrap .column.username {
+        width: 40%;
+    }
+
+    .table-wrap .column.name {
+        width: 40%;
+    }
+
+    .table-wrap .column.email {
+        display: none;
+    }
+
+    .table-wrap .column.created-at {
+        display: none;
+    }
+}

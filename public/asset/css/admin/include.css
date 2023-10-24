@@ -346,6 +346,7 @@ body {
 
     #wrap {
         margin: 0;
+        box-shadow: none;
     }
 
     #header {

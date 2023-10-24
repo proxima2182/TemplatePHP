@@ -13,3 +13,21 @@
 .table-wrap .column.longitude {
     width: 15%;
 }
+
+@media (max-width: 1070px) {
+    .table-wrap .column.name {
+        width: 30%;
+    }
+
+    .table-wrap .column.address {
+        width: 70%;
+    }
+
+    .table-wrap .column.latitude {
+        display: none;
+    }
+
+    .table-wrap .column.longitude {
+        display: none;
+    }
+}

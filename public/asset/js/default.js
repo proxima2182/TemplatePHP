@@ -274,6 +274,7 @@ function lang(key) {
 }
 
 function clickClientNavigation(element, link) {
+    //todo 모바일인지 구분하는 더 나은 방법이 있는지 고민 필요
     if (!isMobile()) {
         window.location.href = link;
         closeNavigation(false);

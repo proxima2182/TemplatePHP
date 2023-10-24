@@ -1,27 +1,7 @@
-.table-wrap .column.code {
-    width: 20%;
-}
-
 .table-wrap .column.name {
-    width: 20%;
+    width: 30%;
 }
 
-.table-wrap .column.category-default-name {
-    width: 20%;
-}
-
-.table-wrap .column.category_default_path {
-    width: 60%;
-}
-
-.table-wrap .row {
-    position: relative;
-}
-
-.table-wrap .button.detail {
-    width: 40px;
-    position: absolute;
-    right: 10px;
-    top: 5px;
-    padding: 0;
+.table-wrap .column.path {
+    width: 70%;
 }

@@ -3,7 +3,7 @@
 }
 
 .table-wrap .column.content {
-    width: 50%;
+    width: calc(68% - 180px);
 }
 
 .table-wrap .column.board {
@@ -11,7 +11,7 @@
 }
 
 .table-wrap .column.created-at {
-    width: 18%;
+    width: 180px;
     text-align: right;
     /*padding-right: 90px;*/
 }
@@ -33,4 +33,22 @@
 
 .table-wrap .button.topic {
     right: 50px;
+}
+
+@media (max-width: 1070px) {
+    .table-wrap .column.user {
+        width: 30%;
+    }
+
+    .table-wrap .column.content {
+        width: 70%;
+    }
+
+    .table-wrap .column.board {
+        display: none;
+    }
+
+    .table-wrap .column.created-at {
+        display: none;
+    }
 }

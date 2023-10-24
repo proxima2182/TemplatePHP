@@ -19,11 +19,11 @@
 }
 
 .topic-wrap .row .column.title {
-    width: 60%;
+    width: calc(100% - 180px);
 }
 
 .topic-wrap .row .column.created-at {
-    width: 40%;
+    width: 180px;
     font-size: 16px;
     text-align: right;
 }

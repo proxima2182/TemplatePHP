@@ -15,11 +15,11 @@
 }
 
 .table-wrap .column.alias {
-    width: 45%;
+    width: calc(60% - 80px);
 }
 
 .table-wrap .column.public {
-    width: 15%;
+    width: 80px;
 }
 
 .table-wrap .row {
@@ -32,4 +32,18 @@
     right: 10px;
     top: 5px;
     padding: 0;
+}
+
+@media (max-width: 1070px) {
+    .table-wrap .column.code {
+        width: 30%;
+    }
+
+    .table-wrap .column.type {
+        display: none;
+    }
+
+    .table-wrap .column.alias {
+        width: calc(70% - 80px);
+    }
 }

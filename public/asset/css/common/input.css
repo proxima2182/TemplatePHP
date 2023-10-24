@@ -9,12 +9,15 @@
     line-height: 30px;
     font-size: 18px;
 }
+
 .form-wrap .input-wrap .input-title {
     width: 100%;
     text-align: left;
     font-size: 16px;
     font-weight: 400;
+    word-break: keep-all;
 }
+
 .form-wrap .input-wrap input:not([type=checkbox]),
 .form-wrap .input-wrap textarea {
     width: 100%;

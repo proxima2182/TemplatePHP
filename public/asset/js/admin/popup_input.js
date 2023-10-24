@@ -484,6 +484,7 @@ function confirmInputPopupDelete(className, id) {
  * @param obj
  */
 function resizeInputPopupTextarea(obj) {
+    //todo check in mobile
     let maxHeight = 80;
     if (obj.innerHeight < maxHeight) {
         obj.style.height = "1px";

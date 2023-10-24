@@ -41,3 +41,21 @@
     top: 5px;
     padding: 0;
 }
+
+@media (max-width: 1070px) {
+    .table-wrap .column.code {
+        width: 30%;
+    }
+
+    .table-wrap .column.alias {
+        width: 70%;
+    }
+
+    .table-wrap .column.time-select {
+        display: none;
+    }
+
+    .table-wrap .column.public {
+        display: none;
+    }
+}

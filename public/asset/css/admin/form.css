@@ -50,9 +50,23 @@
     min-width: 100px;
     padding: 10px 20px;
     margin: 0 10px;
+    font-size: 16px;
 }
 
 /*for lines class*/
 .container-inner .input-wrap input[type=checkbox] {
     margin: 10px;
+}
+
+@media (max-width: 1070px) {
+    .container-inner .form-box {
+        width: 100%;
+    }
+
+    .container-inner .form-wrap {
+        width: 100%;
+        max-width: 680px;
+        padding: 40px 40px 60px 40px;
+        box-shadow: none;
+    }
 }

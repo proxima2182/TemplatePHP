@@ -9,3 +9,19 @@
 .grid-wrap .grid-item {
     margin-bottom: 20px;
 }
+
+@media (max-width: 1070px) {
+    .grid-wrap {
+        width: calc(100% - 20px);
+    }
+
+    .grid-item {
+        width: calc(50% - 10px);
+        height: 60vw;
+        margin: 5px;
+    }
+
+    .grid-wrap .grid-item {
+        margin-bottom: 10px;
+    }
+}

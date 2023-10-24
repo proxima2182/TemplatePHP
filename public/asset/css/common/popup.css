@@ -104,6 +104,11 @@
 
 @media (max-width: 1070px) {
     .popup-wrap .popup {
-        width: 100%;
+        width: calc(100% - 20px);
+        max-height: calc(100vh - 20px);
+    }
+
+    .popup-wrap .popup-box.has-control-button .popup-inner {
+        padding: 20px 10px;
     }
 }

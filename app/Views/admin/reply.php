@@ -1,7 +1,7 @@
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
-            <?= lang('Service.registration') ?>
+            <?= lang('Service.reply') ?>
         </h3>
         <div class="table-box">
             <div class="table-wrap">

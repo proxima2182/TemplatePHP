@@ -1,6 +1,6 @@
 .row .column.user {
+    width: calc(100% - 160px);
     font-size: 0;
-    width: 60%;
 }
 
 .row .column.link a {
@@ -14,7 +14,7 @@
 }
 
 .row .column.created-at {
-    width: 40%;
+    width: 160px;
     font-size: 16px;
     text-align: right;
 }
