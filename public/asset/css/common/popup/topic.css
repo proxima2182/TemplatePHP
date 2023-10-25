@@ -57,7 +57,7 @@
     display: inline-block;
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 840px) {
     .row .column.title {
         width: calc(100% - 200px);
     }

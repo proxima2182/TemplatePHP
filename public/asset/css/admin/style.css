@@ -426,7 +426,7 @@ input[type=checkbox] {
     display: inline-block !important;
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 840px) {
     #container {
         min-width: auto;
     }

@@ -19,7 +19,7 @@
     text-align: right;
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 840px) {
     .table-wrap .column.type {
         width: 20%;
     }

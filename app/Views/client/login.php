@@ -10,7 +10,7 @@
             vertical-align: middle;
         }
 
-        @media (max-width: 1070px) {
+        @media (max-width: 840px) {
             .login-container .container-wrap {
                 width: 100%;
             }

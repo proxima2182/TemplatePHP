@@ -542,7 +542,7 @@ submit 페이지
     color: #fff;
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 840px) {
     .section .page-inner {
         padding-top: 60px;
     }

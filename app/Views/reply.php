@@ -188,7 +188,7 @@ $end = min($end, $total_page);
         right: 10px;
     }
 
-    @media (max-width: 1070px) {
+    @media (max-width: 840px) {
         .reply-wrap .row .column.user {
             width: 100px;
         }

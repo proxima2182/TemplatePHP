@@ -58,11 +58,3 @@
     }
     ?>
 </div>
-<script type="text/javascript">
-    $('.slider-wrap .slick').slick({
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        autoplay: false,
-        infinite: false,
-    })
-</script>

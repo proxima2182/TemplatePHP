@@ -58,7 +58,7 @@
     margin: 10px;
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 840px) {
     .container-inner .form-box {
         width: 100%;
     }

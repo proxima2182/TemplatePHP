@@ -102,7 +102,7 @@
     padding: 10px 20px 10px 20px;
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 840px) {
     .popup-wrap .popup {
         width: calc(100% - 20px);
         max-height: calc(100vh - 20px);

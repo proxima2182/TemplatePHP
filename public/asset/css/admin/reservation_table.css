@@ -42,7 +42,7 @@
     width: 15%;
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 840px) {
     .table-wrap .column.questioner {
         width: 30%;
     }

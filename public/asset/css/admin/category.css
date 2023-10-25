@@ -47,7 +47,7 @@
     border: 3px dotted #666;
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 840px) {
     .table-wrap .column.code {
         width: 30%;
     }

@@ -258,7 +258,7 @@ body {
     color: #fff;
 }
 
-@media (min-width: 1070px) {
+@media (min-width: 840px) {
     .gnb > li:hover > a {
         color: #888;
     }
@@ -268,7 +268,7 @@ body {
     }
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 840px) {
     .header-inner, .footer-inner {
         width: 100%;
         min-width: auto;

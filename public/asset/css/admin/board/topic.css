@@ -50,3 +50,39 @@
 .topic-wrap .slider-wrap .slick button.slick-next {
     right: -40px;
 }
+
+@media (max-width: 840px) {
+    .slick {
+        max-width: 600px
+    }
+
+    .slick button {
+        border-radius: 50%;
+        /*box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);*/
+    }
+
+    .topic-wrap .slider-wrap .slider-box {
+        padding: 10px;
+    }
+
+    .topic-wrap .slider-wrap .slick-item {
+        margin: 5px;
+    }
+
+    .topic-wrap .slider-wrap .slick button.slick-prev {
+        left: -10px;
+        background-size: 30%;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .topic-wrap .slider-wrap .slick button.slick-next {
+        right: -10px;
+        background-size: 30%;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .topic-wrap .slider-wrap .slick-item {
+        height: 50vw;
+        max-height: 250px;
+    }
+}

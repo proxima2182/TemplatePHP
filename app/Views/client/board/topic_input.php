@@ -17,7 +17,7 @@ $identifier = $shortid->generate();
     <?php }
     }?>
 </script>
-<div class="container-inner">
+<div class="container-inner topic-input-container">
     <div class="container-wrap">
         <h3 class="page-title">
             <?= $board['alias'] ?>

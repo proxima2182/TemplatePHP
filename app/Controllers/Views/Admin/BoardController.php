@@ -151,6 +151,7 @@ class BoardController extends BaseAdminController
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
+                    '/common/topic',
                     '/common/topic_view',
                 ],
             ])
@@ -194,6 +195,7 @@ class BoardController extends BaseAdminController
                     '/library/slick/slick.min.js',
                     '/module/draggable',
                     '/module/image_uploader',
+                    '/common/topic',
                 ],
             ])
             . view('/admin/board/topic_input', $data)
@@ -232,6 +234,7 @@ class BoardController extends BaseAdminController
                     '/library/slick/slick.min.js',
                     '/module/draggable',
                     '/module/image_uploader',
+                    '/common/topic',
                 ],
             ])
             . view('/admin/board/topic_input', $data)

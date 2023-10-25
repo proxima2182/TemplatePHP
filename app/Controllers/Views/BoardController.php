@@ -127,6 +127,7 @@ class BoardController extends BaseClientController
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
+                    '/common/topic',
                     '/common/topic_view',
                 ],
             ])
@@ -170,6 +171,7 @@ class BoardController extends BaseClientController
                     '/library/slick/slick.min.js',
                     '/module/draggable',
                     '/module/image_uploader',
+                    '/common/topic',
                 ],
             ])
             . view('/client/board/topic_input', $data)
@@ -208,6 +210,7 @@ class BoardController extends BaseClientController
                     '/library/slick/slick.min.js',
                     '/module/draggable',
                     '/module/image_uploader',
+                    '/common/topic',
                 ],
             ])
             . view('/client/board/topic_input', $data)

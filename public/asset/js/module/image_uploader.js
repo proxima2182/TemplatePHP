@@ -25,13 +25,6 @@ let files = {
 };
 
 $(document).ready(function () {
-    $('.slick.uploader').slick({
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        autoplay: false,
-        infinite: false,
-        draggable: false,
-    });
     $('.slick.uploader').initDraggable({
         onDragFinished: onDragFinished,
     });

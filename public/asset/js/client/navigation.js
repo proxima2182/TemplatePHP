@@ -57,7 +57,7 @@ function openNavigation() {
 }
 
 addEventListener("resize", (event) => {
-    if (window.innerWidth > 1070) {
+    if (window.innerWidth > 840) {
         $('#header').css({
             'bottom': '',
             'height': '',

@@ -35,7 +35,7 @@
     right: 50px;
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 840px) {
     .table-wrap .column.user {
         width: 30%;
     }

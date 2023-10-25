@@ -175,7 +175,7 @@ function openPopupErrors(className, response, status, requestOrError) {
             margin: 0 10px;
         }
         
-        @media (max-width: 1070px) {
+        @media (max-width: 840px) {
             .${className} .popup {
                 width: calc(100% - 20px);
             }
