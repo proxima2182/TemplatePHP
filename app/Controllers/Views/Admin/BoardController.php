@@ -151,7 +151,7 @@ class BoardController extends BaseAdminController
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
-                    '/common/topic',
+                    '/common/topic_view',
                 ],
             ])
             . view('/admin/board/topic_view', $data)

@@ -39,7 +39,7 @@ $sliderImages = [
 
     <script type="text/javascript" src="/asset/js/client/navigation.js"></script>
     <script type="text/javascript" src="/asset/js/module/popup.js"></script>
-    <script type="text/javascript" src="/asset/js/common/topic.js"></script>
+    <script type="text/javascript" src="/asset/js/common/topic_view.js"></script>
     <script type="text/javascript" src="/asset/js/common/login.js"></script>
     <script type="text/javascript" src="/asset/js/client/main.js"></script>
     <script type="text/javascript">

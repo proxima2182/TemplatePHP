@@ -70,7 +70,7 @@ class BoardController extends BaseClientController
                 '/common/grid',
                 '/client/board/grid',
             ];
-            $js = array_merge($js, ['/common/topic']);
+            $js = array_merge($js, ['/common/topic_view']);
             $view = '/client/board/grid';
         } else if ($board['type'] == 'table') {
             $css = [
@@ -127,7 +127,7 @@ class BoardController extends BaseClientController
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
-                    '/common/topic',
+                    '/common/topic_view',
                 ],
             ])
             . view('/client/board/topic_view', $data)
