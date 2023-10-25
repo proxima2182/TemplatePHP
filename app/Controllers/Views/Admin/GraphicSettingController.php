@@ -44,6 +44,7 @@ class GraphicSettingController extends BaseAdminController
                     '/library/slick/slick.min.js',
                     '/module/draggable',
                     '/module/image_uploader',
+                    '/admin/graphic_setting',
                 ],
             ])
             . view('/admin/graphic_setting', $data)

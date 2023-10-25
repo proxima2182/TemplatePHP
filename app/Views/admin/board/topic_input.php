@@ -39,8 +39,8 @@ $identifier = $shortid->generate();
                 <input hidden type="text" name="identifier" class="editable" value="<?= $identifier ?>"/>
                 <input hidden type="text" name="user_id" class="editable" value="<?= $user_id ?>">
             </div>
-            <div class="slider-wrap">
-                <div class="slider-box">
+            <div class="slider-box">
+                <div class="slider-wrap">
                     <div class="slick uploader">
                         <?php if (isset($data['files'])) {
                             foreach ($data['files'] as $index => $file) { ?>

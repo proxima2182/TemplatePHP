@@ -17,8 +17,8 @@
             <div class="text-wrap line-after">
                 <div class="content"><?= $data['content'] ?></div>
             </div>
-            <div class="slider-wrap">
-                <div class="slider-box">
+            <div class="slider-box">
+                <div class="slider-wrap">
                     <div class="slick">
                         <?php foreach ($data['files'] as $index => $file) { ?>
                             <div class="slick-item button"
