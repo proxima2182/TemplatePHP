@@ -20,6 +20,10 @@ const calendarWeekKeys = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 jQuery.prototype.initCalendar = function (option) {
     let $parent = this;
     if ($parent.length == 0) return;
+    $parent.empty();
+    $parent.css({
+        width: '100%',
+    })
 
     // initialize options
     let cellSize = 60;
@@ -76,12 +80,39 @@ jQuery.prototype.initCalendar = function (option) {
         return $input.val();
     }
 
+    let dayOfWeek = {};
+    switch (language) {
+        case 'ko' :
+            dayOfWeek = {
+                'mon': '월',
+                'tue': '화',
+                'wed': '수',
+                'thu': '목',
+                'fri': '금',
+                'sat': '토',
+                'sun': '일',
+            };
+    }
+    const rand = Math.random().toString(36).substr(2, 11);
+    let className = `calendar-view-${rand}`;
+    let NumberPosition = 5;
+    $parent.addClass(className);
+    let cellMargin = 10;
+    if ($parent.width() != 0 && $parent.width() < cellSize * 7) {
+        cellSize = Math.floor($parent.width() / 7 * 100) / 100;
+        cellMargin = Math.floor(cellSize/20);
+        NumberPosition = Math.floor(cellSize / 10);
+    }
+    let innerCellSize = cellSize - cellMargin * 2;
+    let innerCellSizeHalf = innerCellSize / 2;
+
     // rebinding
     let savingOptions = {};
     savingOptions.style = styleType;
     savingOptions.standardDate = standardDate;
     savingOptions.selectedDate = selectedDate;
     savingOptions.cellSize = cellSize;
+    savingOptions.cellMargin = cellMargin;
     savingOptions.lang = language;
     savingOptions.limitPrevious = limitPrevious;
     savingOptions.limitStandard = limitStandard;
@@ -99,22 +130,6 @@ jQuery.prototype.initCalendar = function (option) {
     $parent.addClass(styleType);
     let borderWidth = Math.floor(cellSize / 40);
 
-    let dayOfWeek = {};
-    switch (language) {
-        case 'ko' :
-            dayOfWeek = {
-                'mon': '월',
-                'tue': '화',
-                'wed': '수',
-                'thu': '목',
-                'fri': '금',
-                'sat': '토',
-                'sun': '일',
-            };
-    }
-    const rand = Math.random().toString(36).substr(2, 11);
-    let className = `calendar-view-${rand}`;
-    $parent.addClass(className);
     $parent.css({
         'width': `${cellSize * 7}px`,
         'position': 'relative',
@@ -122,8 +137,6 @@ jQuery.prototype.initCalendar = function (option) {
         'vertical-align': 'middle',
     })
 
-    let innerCellSize = cellSize - 20
-    let innerCellSizeHalf = innerCellSize / 2
     getOptionStyle = function () {
         let disabledColor = '#dedede';
         return `
@@ -144,9 +157,10 @@ jQuery.prototype.initCalendar = function (option) {
             height: ${cellSize}px;
             font-weight: 400;
             position: relative;
+            overflow: hidden;
         }
     
-        .calendar.${className} .date li .calendar-number-wrap {
+        .calendar.${className} .date li .calendar-inner-cell {
             width: ${innerCellSize}px;
             height: ${innerCellSize}px;
             line-height: ${innerCellSize}px;
@@ -164,12 +178,12 @@ jQuery.prototype.initCalendar = function (option) {
     
         .calendar.${className}.square .date li .calendar-number {
             position: absolute;
-            top: 5px;
-            left: 5px;
+            top: ${NumberPosition}px;
+            left: ${NumberPosition}px;
             line-height: normal;
         }
     
-        .calendar.${className}.circle .date li.standard .calendar-number-wrap {
+        .calendar.${className}.circle .date li.standard .calendar-inner-cell {
             font-weight: bold;
             background: #efefef;
             -webkit-border-radius: 50%;
@@ -182,7 +196,7 @@ jQuery.prototype.initCalendar = function (option) {
             background: #efefef;
         }
     
-        .calendar.${className}.circle .date li.selected .calendar-number-wrap {
+        .calendar.${className}.circle .date li.selected .calendar-inner-cell {
             box-shadow: 0 0 0 ${borderWidth}px #222 inset; 
             font-weight: bold;
             -webkit-border-radius: 50%;
@@ -194,7 +208,7 @@ jQuery.prototype.initCalendar = function (option) {
             box-shadow: 0 0 0 ${borderWidth}px #222 inset; 
         }
 
-        .calendar.${className}.circle .disabled .calendar-number-wrap{
+        .calendar.${className}.circle .disabled .calendar-inner-cell{
             border-radius: ${innerCellSizeHalf}px;
             background: ${disabledColor};
         }
@@ -242,7 +256,7 @@ jQuery.prototype.initCalendar = function (option) {
         }
     
         .calendar.${className} .nav .calendar-button * {
-            vertical - align: middle;
+            vertical-align: middle;
         }
     
         .calendar.${className} .nav .calendar-button.prev {
@@ -284,7 +298,6 @@ jQuery.prototype.initCalendar = function (option) {
         .calendar.${className}.circle .calendar-disabled li {
             width: 100%;
             height: ${innerCellSize}px;
-            margin: 10px 0;
             border-radius: ${innerCellSizeHalf}px;
             background: ${disabledColor};
         }        
@@ -586,8 +599,8 @@ function drawCalendarView($parent, date) {
         $cells.append($cell);
     }
     for (let i = 0; i < numberOfDays; i++, days++) {
-        let $cell = $(`<li class="day-${(i + 1)}"><span class="calendar-number-wrap"></span></li>`);
-        $cell.find(`.calendar-number-wrap`).append(`<span class="calendar-number">${(i + 1)}</span>`)
+        let $cell = $(`<li class="day-${(i + 1)}"><span class="calendar-inner-cell"></span></li>`);
+        $cell.find(`.calendar-inner-cell`).append(`<span class="calendar-number">${(i + 1)}</span>`)
         if (hasDateStandard && i == dateStandard.getDate() - 1) {
             $cell.addClass('standard');
         }
@@ -640,8 +653,8 @@ function drawCalendarView($parent, date) {
     }
 
     let isCircleStyle = option.style == 'circle';
-    let cellHeight = isCircleStyle ? (cellWidth - 20) : cellWidth;
-    let cellStandardY = isCircleStyle ? 10 : 0;
+    let cellHeight = isCircleStyle ? (cellWidth - option.cellMargin * 2) : cellWidth;
+    let cellMargin = isCircleStyle ? option.cellMargin : 0;
 
     let $ulDisabledPrevious = $parent.find('.calendar-disabled .previous');
     let $ulDisabledFollowing = $parent.find('.calendar-disabled .following');
@@ -674,6 +687,13 @@ function drawCalendarView($parent, date) {
             if (i == 0) {
                 count -= dateFirstOfMonth.getDay();
                 left += dateFirstOfMonth.getDay();
+                $row.css({
+                    'margin-top': cellMargin + 'px',
+                })
+            } else {
+                $row.css({
+                    'margin-top': cellMargin * 2 + 'px',
+                })
             }
             if (hasDateStandard) {
                 if (i == numberRowPreviousDisabled - 1) {
@@ -712,9 +732,13 @@ function drawCalendarView($parent, date) {
             if (i == 0) {
                 count -= dateEnd.getDay();
                 left += dateEnd.getDay()
-                let marginTop = cellStandardY + cellWidth * (numberRowLimited - 1);
+                let marginTop = cellMargin + cellWidth * (numberRowLimited - 1);
                 $row.css({
                     'margin-top': marginTop + 'px',
+                })
+            } else {
+                $row.css({
+                    'margin-top': cellMargin * 2 + 'px',
                 })
             }
             if (i == loop_count - 1) {

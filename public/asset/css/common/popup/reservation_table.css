@@ -38,3 +38,9 @@
 .column.time {
     width: 40%;
 }
+
+@media (max-width: 840px) {
+    .popup {
+        width: calc(100% - 20px);
+    }
+}

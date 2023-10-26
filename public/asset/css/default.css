@@ -48,6 +48,9 @@ input, textarea, select {
 }
 
 * {
+    /*disable mobile click event*/
+    -webkit-tap-highlight-color: transparent;
+    /*disable drag event*/
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;

@@ -2,6 +2,26 @@
 
 $is_admin_page = isset($is_admin) && $is_admin;
 ?>
+<style>
+    .date > li:not(.disabled):not(.standard):after {
+        content: "";
+        height: 30%;
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(rgba(255, 255, 255, 0), #fff 80%);
+        z-index: 2;
+    }
+
+    @media (max-width: 840px) {
+        .calendar-wrap {
+            width: 100%;
+            max-width: 800px;
+        }
+    }
+</style>
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
@@ -30,7 +50,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
     'reservation_refuse_reason', 'message_popup_refuse',
     'reservation_use_default', 'reservation_response']); ?>
 <script type="text/javascript">
-    $(document).ready(function () {
+    function initCalendar() {
         $(`.container-inner .calendar`).initCalendar({
             cellSize: 140,
             style: 'square',
@@ -138,9 +158,21 @@ $is_admin_page = isset($is_admin) && $is_admin;
                         }
                         let data = response.data
                         let array = data.array;
+                        let $cellFirstDay = $parent.getCell(1);
+                        let $spanNumber = $cellFirstDay.find('.calendar-number');
                         for (let day in array) {
                             let items = array[day];
-                            let contents = $('<div style="line-height: normal; font-weight: 200; padding: 5px 0 10px 20px; overflow: hidden; text-align: left"></div>');
+                            let $cellDay = $parent.getCell(day);
+                            let $spanNumber = $cellDay.find('.calendar-number');
+                            let top = 5;
+                            let left = 20;
+                            let badgeMargin = 5;
+                            if ($spanNumber) {
+                                badgeMargin = ($spanNumber.height() - 10) / 2;
+                                top = $spanNumber.position().top;
+                                left = $spanNumber.width() + $spanNumber.position().left * 2;
+                            }
+                            let contents = $(`<div style="line-height: normal; font-weight: 200; padding: ${top}px 0 0 ${left}px; overflow: hidden; text-align: left"></div>`);
                             for (let i in items) {
                                 let item = items[i];
                                 let color = "#000";
@@ -155,11 +187,9 @@ $is_admin_page = isset($is_admin) && $is_admin;
                                         color = '#ba2b14';
                                         break;
                                 }
-                                // contents.append(`<p style="margin-top: 5px; padding: 3px; font-size : 14px; color: #eee; background: ${color}; border-radius: 15px;
-                                //     text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${item['question_comment']}</p>`);
-                                contents.append(`<span style="width: 10px; height: 10px; margin: 5px 2px; display: inline-block; background: ${color}; border-radius: 50%;"></span>`);
+                                contents.append(`<span style="width: 10px; height: 10px; margin: ${badgeMargin}px 2px; display: inline-block; background: ${color}; border-radius: 50%;"></span>`);
                             }
-                            $parent.getCell(day).find('.calendar-number-wrap').append(contents);
+                            $cellDay.find('.calendar-inner-cell').append(contents);
                         }
                     },
                     error: function (response, status, error) {
@@ -168,5 +198,45 @@ $is_admin_page = isset($is_admin) && $is_admin;
                 });
             },
         })
+    }
+
+    $(document).ready(function () {
+        if (isMobile()) {
+            resizeWindow();
+        } else {
+            initCalendar();
+        }
     })
+
+    let reservationCalendarTimeoutId = -1;
+    addEventListener("resize", (event) => {
+        if (reservationCalendarTimeoutId != -1)
+            clearTimeout(reservationCalendarTimeoutId);
+        if(isMobile()) {
+            reservationCalendarTimeoutId = setTimeout(function () {
+                resizeWindow();
+                clearTimeout(reservationCalendarTimeoutId);
+            }, 500);
+        } else {
+            resizeWindow();
+        }
+    });
+
+    /**
+     * window resize
+     */
+    function resizeWindow() {
+        if (isMobile() && !$('body').hasClass('mobile')) {
+            // mobile 로 전환
+            // 첫 load 때 모바일인 경우 호출됨
+            $('body').addClass('mobile');
+            initCalendar();
+        }
+        if (!isMobile() && $('body').hasClass('mobile')) {
+            // pc 로 전환
+            $('body').removeClass('mobile');
+            initCalendar();
+        }
+    }
+
 </script>
