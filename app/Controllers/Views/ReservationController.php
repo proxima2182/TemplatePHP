@@ -50,7 +50,7 @@ class ReservationController extends BaseClientController
             ], $searchCondition);
             $data = array_merge($data, $result);
             $data = array_merge($data, [
-                'pagination_link' => '/reservation/' . $code,
+                'pagination_link' => '/reservation-board/' . $code,
             ]);
         } catch (Exception $e) {
             //todo(log)
