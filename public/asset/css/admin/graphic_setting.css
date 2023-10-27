@@ -120,6 +120,14 @@
 }
 
 @media (max-width: 840px) {
+    .container-inner .video-wrap .upload-item-add,
+    .container-inner .video-wrap .upload-item {
+        width: calc(100% - 20px);
+        margin: 10px;
+        box-sizing: border-box;
+    }
+
+
     .slick {
         max-width: 600px
     }

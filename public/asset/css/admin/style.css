@@ -388,6 +388,7 @@ input[type=checkbox] {
     z-index: 500;
     font-size: 0;
     display: none;
+    touch-action: none;
 }
 
 .loading-wrap .gadget {

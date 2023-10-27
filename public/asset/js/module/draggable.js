@@ -3,6 +3,7 @@
  */
 let dragged = null;
 let dropped = null;
+let $draggableItems = [];
 
 /**
  * drag 시작 handler
@@ -37,7 +38,7 @@ function handleDragEnd(event) {
  * @param event
  * @returns {Promise<function(*): boolean>}
  */
- function handleDrop(parentElement) {
+function handleDrop(parentElement) {
     return async function (event) {
         $(event.currentTarget).removeClass('active')
         let e = (event.originalEvent || event);
@@ -80,20 +81,91 @@ function handleDragOver(event) {
     e.preventDefault();
 }
 
+function handleTouchStart(event) {
+    if (dropped) return;
+    dragged = this;
+    dragged.style.opacity = '0.5'
+    let target = event.originalEvent.targetTouches[0];
+}
+
+function handleTouchMove(event) {
+    if (!dragged) return;
+    event.preventDefault();
+}
+
+function handleTouchEnd(parentElement) {
+    return async function (event) {
+        if (dropped) return;
+        dragged.style.opacity = ''
+
+        let touchPoint = event.originalEvent.changedTouches[0];
+        let touchX = touchPoint.clientX;
+        let touchY = touchPoint.clientY;
+        for (let i = 0; i < $draggableItems.length; ++i) {
+            let item = $draggableItems.eq(i);
+            if (item.attr('draggable-index') != dragged.getAttribute('draggable-index')) {
+                let offset = item.offset();
+                offset = {
+                    ...offset,
+                    right: offset.left + item.width(),
+                    bottom: offset.top + item.height(),
+                }
+                offset.top -= window.scrollY;
+                offset.bottom -= window.scrollY;
+                offset.right -= window.scrollX;
+                offset.left -= window.scrollX;
+                if (offset.left < touchX && offset.right > touchX &&
+                    offset.top < touchY && offset.bottom > touchY) {
+
+                    dropped = item.get(0);
+                    // callback (onDragFinished) 가 비동기 작업일 경우
+                    // e.dataTransfer.getData 에서 값이 바르게 전달이 안되므로
+                    // 이벤트 발생 시 미리 변수에 값을 담아둔다
+                    let transferredData = dragged.innerHTML;
+                    let isExchanged;
+
+                    if (parentElement.onDragFinished && typeof parentElement.onDragFinished == 'function') {
+                        isExchanged = await parentElement.onDragFinished(dragged, dropped)
+                    } else {
+                        isExchanged = true;
+                    }
+                    if (isExchanged) {
+                        dragged.innerHTML = dropped.innerHTML;
+                        dropped.innerHTML = transferredData;
+                    }
+                    dropped = null;
+                    dragged = null;
+                    return;
+                }
+            }
+        }
+        dragged = null;
+    }
+}
 
 jQuery.prototype.initDraggable = async function (input) {
     this.onDragFinished = input.onDragFinished;
-    let items = this.find('.draggable-item');
-    items.unbind('dragstart')
-    items.unbind('dragend')
-    items.unbind('dragover')
-    items.unbind('drop')
-    items.bind('dragstart', handleDragStart);
-    items.bind('dragend', handleDragEnd);
-    items.bind('dragover', handleDragOver);
-    items.bind('drop',  handleDrop(this));
-    items.css({
-        cursor: 'grab'
+    $draggableItems = this.find('.draggable-item');
+    for (let i = 0; i < $draggableItems.length; ++i) {
+        $draggableItems.eq(i).attr({
+            'draggable-index': i
+        });
+    }
+    $draggableItems.unbind('dragstart')
+    $draggableItems.unbind('dragend')
+    $draggableItems.unbind('dragover')
+    $draggableItems.unbind('drop')
+    $draggableItems.unbind('touchstart')
+    $draggableItems.unbind('touchmove')
+    $draggableItems.unbind('touchend')
+    $draggableItems.bind('dragstart', handleDragStart);
+    $draggableItems.bind('dragend', handleDragEnd);
+    $draggableItems.bind('dragover', handleDragOver);
+    $draggableItems.bind('drop', handleDrop(this));
+    $draggableItems.bind('touchstart', handleTouchStart);
+    $draggableItems.bind('touchmove', handleTouchMove);
+    $draggableItems.bind('touchend', handleTouchEnd(this));
+    $draggableItems.css({
+        'cursor': 'grab',
     })
 }
-
