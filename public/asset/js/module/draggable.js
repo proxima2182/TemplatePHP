@@ -3,6 +3,7 @@
  */
 let dragged = null;
 let dropped = null;
+let $handle = null;
 let $draggableItems = [];
 
 /**
@@ -82,21 +83,47 @@ function handleDragOver(event) {
 }
 
 function handleTouchStart(event) {
+    $('.draggable-handle').remove();
     if (dropped) return;
     dragged = this;
-    dragged.style.opacity = '0.5'
-    let target = event.originalEvent.targetTouches[0];
+    let targetPoint = event.originalEvent.targetTouches[0];
+    $handle = $(this.cloneNode(true));
+
+    let bounds = dragged.getBoundingClientRect();
+    let offsetX = targetPoint.clientX - bounds.x;
+    let offsetY = targetPoint.clientY - bounds.y;
+    $handle.addClass('draggable-handle')
+    $handle.attr({
+        'offset-x': offsetX,
+        'offset-y': offsetY,
+    })
+    $handle.css({
+        position: 'fixed',
+        width: bounds + 'px',
+        left: (targetPoint.clientX - offsetX) + 'px',
+        top: (targetPoint.clientY - offsetY) + 'px',
+        opacity: '0.5'
+    })
+    $(this).parent().append($handle)
 }
 
 function handleTouchMove(event) {
     if (!dragged) return;
+    if ($handle) {
+        let targetPoint = event.originalEvent.targetTouches[0];
+        $handle.css({
+            left: (targetPoint.clientX - $handle.attr('offset-x')) + 'px',
+            top: (targetPoint.clientY - $handle.attr('offset-y')) + 'px',
+        })
+    }
     event.preventDefault();
 }
 
 function handleTouchEnd(parentElement) {
     return async function (event) {
+        $('.draggable-handle').remove();
         if (dropped) return;
-        dragged.style.opacity = ''
+        if ($handle) $handle.remove()
 
         let touchPoint = event.originalEvent.changedTouches[0];
         let touchX = touchPoint.clientX;
