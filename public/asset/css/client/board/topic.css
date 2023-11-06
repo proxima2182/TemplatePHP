@@ -51,6 +51,14 @@
     right: -40px;
 }
 
+@media (hover: none) {
+    /* hover 불가능한 경우 */
+    .container-inner .upload-item .upload-item-hover {
+        display: inline-block;
+        position: static;
+    }
+}
+
 @media (max-width: 840px) {
     .slick {
         max-width: 600px

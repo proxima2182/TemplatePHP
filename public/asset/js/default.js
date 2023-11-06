@@ -300,4 +300,3 @@ function clickClientNavigation(element, link) {
 function isMobile() {
     return window.innerWidth < 840
 }
-

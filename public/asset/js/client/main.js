@@ -339,57 +339,11 @@ function refreshMainStartPageContentHeight() {
 
 function setMainPagePreviewSlick(isMobile = false) {
     let $slick = $('#page-preview .slick');
-    if ($slick.hasClass('slick-initialized')) {
-        $slick.slick("unslick");
-    }
 
-    if (isMobile) {
-        // 모바일 뷰
-        // 한 행에 두개의 열을 가지도록 children 조정
-        let $children = $slick.children();
-        $slick.empty();
-        let height = (window.innerHeight - 300) / 2;
-
-        function getChild(i) {
-            let ch = $children.get(i);
-            ch.style.height = `${height}px`;
-            return ch;
-        }
-
-        for (let i = 0; i < Math.ceil($children.length / 2); ++i) {
-            let div = $('<div class="slick-item-wrap"></div>');
-            div.append(getChild(i * 2))
-            if (i * 2 + 1 < $children.length) div.append(getChild(i * 2 + 1));
-            $slick.append(div)
-        }
-        $slick.slick({
-            slidesToShow: 2,
-            slidesToScroll: 2,
-            infinite: false,
-            autoplay: false,
-        });
-    } else {
-        // PC 뷰
-        // 한 행에 두개의 열을 가지도록 children 이 조정된 경우 원복
-        // 아닌 경우 그대로 slick 실행
-        let $children = $slick.find('.slick-item-wrap');
-        if ($children.length > 0) {
-            $slick.empty();
-        }
-        for (let i = 0; i < $children.length; ++i) {
-            let chs = $($children.get(i)).children();
-            chs.css({
-                'height': ''
-            })
-            $slick.append(chs);
-        }
-        $slick.slick({
-            slidesToShow: 4,
-            slidesToScroll: 1,
-            infinite: false,
-            autoplay: false,
-        });
-    }
+    $slick.setCustomSlick(isMobile, {
+        infinite: false,
+        autoplay: false,
+    });
 }
 
 function setMainPageHeaderShape(index, nextIndex, isAnimation = true) {

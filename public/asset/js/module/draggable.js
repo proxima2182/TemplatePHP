@@ -1,9 +1,9 @@
 /**
  * @file "draggable" 클래스를 추가하여 상호간에 자리교환이 가능하도록 하는 기능 스크립트
  */
-let dragged = null;
-let dropped = null;
-let $handle = null;
+let draggableDragged = null;
+let draggableDropped = null;
+let $draggableHandle = null;
 let $draggableItems = [];
 
 /**
@@ -12,8 +12,8 @@ let $draggableItems = [];
  */
 function handleDragStart(event) {
     // wait for async function in drop handler
-    if (dropped) return;
-    dragged = this;
+    if (draggableDropped) return;
+    draggableDragged = this;
 
     let e = (event.originalEvent || event);
     e.dataTransfer.effectAllowed = 'move';
@@ -23,13 +23,13 @@ function handleDragStart(event) {
 
 /**
  * drag 종료 handler
- * drop 이 안일어 나는 경우 전역변수 dragged 를 null 로 만들기 위해 추가
+ * drop 이 안일어 나는 경우 전역변수 draggableDragged 를 null 로 만들기 위해 추가
  * @param event
  */
 function handleDragEnd(event) {
     // wait for async function in drop handler
-    if (dropped) return;
-    dragged = null;
+    if (draggableDropped) return;
+    draggableDragged = null;
 }
 
 /**
@@ -45,8 +45,8 @@ function handleDrop(parentElement) {
         let e = (event.originalEvent || event);
         e.preventDefault();
 
-        if (dragged !== this) {
-            dropped = this;
+        if (draggableDragged !== this) {
+            draggableDropped = this;
             // callback (onDragFinished) 가 비동기 작업일 경우
             // e.dataTransfer.getData 에서 값이 바르게 전달이 안되므로
             // 이벤트 발생 시 미리 변수에 값을 담아둔다
@@ -54,16 +54,16 @@ function handleDrop(parentElement) {
             let isExchanged;
 
             if (parentElement.onDragFinished && typeof parentElement.onDragFinished == 'function') {
-                isExchanged = await parentElement.onDragFinished(dragged, dropped)
+                isExchanged = await parentElement.onDragFinished(draggableDragged, draggableDropped)
             } else {
                 isExchanged = true;
             }
             if (isExchanged) {
-                dragged.innerHTML = this.innerHTML;
-                dropped.innerHTML = transferredData;
+                draggableDragged.innerHTML = this.innerHTML;
+                draggableDropped.innerHTML = transferredData;
             }
-            dropped = null;
-            dragged = null;
+            draggableDropped = null;
+            draggableDragged = null;
         }
 
         return false;
@@ -82,91 +82,99 @@ function handleDragOver(event) {
     e.preventDefault();
 }
 
-function handleTouchStart(event) {
-    $('.draggable-handle').remove();
-    if (dropped) return;
-    dragged = this;
-    let targetPoint = event.originalEvent.targetTouches[0];
-    $handle = $(this.cloneNode(true));
+function handleTouchStart(parentElement) {
+    return function (event) {
+        if (this == event.currentTarget
+            && event.target.parentElement.tagName != 'A' //exception
+        ) {
+            $('.draggable-handle').remove();
+            if (draggableDropped) return;
+            draggableDragged = this;
+            let targetPoint = event.originalEvent.targetTouches[0];
+            $draggableHandle = $(this.cloneNode(true));
 
-    let bounds = dragged.getBoundingClientRect();
-    let offsetX = targetPoint.clientX - bounds.x;
-    let offsetY = targetPoint.clientY - bounds.y;
-    $handle.addClass('draggable-handle')
-    $handle.attr({
-        'offset-x': offsetX,
-        'offset-y': offsetY,
-    })
-    $handle.css({
-        position: 'fixed',
-        width: bounds + 'px',
-        left: (targetPoint.clientX - offsetX) + 'px',
-        top: (targetPoint.clientY - offsetY) + 'px',
-        opacity: '0.5'
-    })
-    $(this).parent().append($handle)
+            let bounds = draggableDragged.getBoundingClientRect();
+            let offsetX = targetPoint.clientX - bounds.x;
+            let offsetY = targetPoint.clientY - bounds.y;
+            $draggableHandle.addClass('draggable-handle')
+            $draggableHandle.attr({
+                'offset-x': offsetX, 'offset-y': offsetY,
+            })
+            $draggableHandle.css({
+                position: 'fixed',
+                width: bounds.width + 'px',
+                left: (targetPoint.clientX - offsetX) + 'px',
+                top: (targetPoint.clientY - offsetY) + 'px',
+                opacity: '0.5'
+            })
+            $(parentElement).append($draggableHandle)
+            let e = (event.originalEvent || event);
+            e.preventDefault();
+        }
+    }
 }
 
 function handleTouchMove(event) {
-    if (!dragged) return;
-    if ($handle) {
+    if (!draggableDragged) return;
+    if ($draggableHandle) {
         let targetPoint = event.originalEvent.targetTouches[0];
-        $handle.css({
-            left: (targetPoint.clientX - $handle.attr('offset-x')) + 'px',
-            top: (targetPoint.clientY - $handle.attr('offset-y')) + 'px',
+        $draggableHandle.css({
+            left: (targetPoint.clientX - $draggableHandle.attr('offset-x')) + 'px',
+            top: (targetPoint.clientY - $draggableHandle.attr('offset-y')) + 'px',
         })
     }
-    event.preventDefault();
+    let e = (event.originalEvent || event);
+    e.preventDefault();
+    e.stopPropagation();
 }
 
 function handleTouchEnd(parentElement) {
     return async function (event) {
         $('.draggable-handle').remove();
-        if (dropped) return;
-        if ($handle) $handle.remove()
+        if (draggableDropped) return;
+        if ($draggableHandle) $draggableHandle.remove()
+        $draggableHandle = null;
+        if (!draggableDragged) return;
 
         let touchPoint = event.originalEvent.changedTouches[0];
         let touchX = touchPoint.clientX;
         let touchY = touchPoint.clientY;
         for (let i = 0; i < $draggableItems.length; ++i) {
             let item = $draggableItems.eq(i);
-            if (item.attr('draggable-index') != dragged.getAttribute('draggable-index')) {
+            if (item.attr('draggable-index') != draggableDragged.getAttribute('draggable-index')) {
                 let offset = item.offset();
                 offset = {
-                    ...offset,
-                    right: offset.left + item.width(),
-                    bottom: offset.top + item.height(),
+                    ...offset, right: offset.left + item.width(), bottom: offset.top + item.height(),
                 }
                 offset.top -= window.scrollY;
                 offset.bottom -= window.scrollY;
                 offset.right -= window.scrollX;
                 offset.left -= window.scrollX;
-                if (offset.left < touchX && offset.right > touchX &&
-                    offset.top < touchY && offset.bottom > touchY) {
+                if (offset.left < touchX && offset.right > touchX && offset.top < touchY && offset.bottom > touchY) {
 
-                    dropped = item.get(0);
+                    draggableDropped = item.get(0);
                     // callback (onDragFinished) 가 비동기 작업일 경우
                     // e.dataTransfer.getData 에서 값이 바르게 전달이 안되므로
                     // 이벤트 발생 시 미리 변수에 값을 담아둔다
-                    let transferredData = dragged.innerHTML;
+                    let transferredData = draggableDragged.innerHTML;
                     let isExchanged;
 
                     if (parentElement.onDragFinished && typeof parentElement.onDragFinished == 'function') {
-                        isExchanged = await parentElement.onDragFinished(dragged, dropped)
+                        isExchanged = await parentElement.onDragFinished(draggableDragged, draggableDropped)
                     } else {
                         isExchanged = true;
                     }
                     if (isExchanged) {
-                        dragged.innerHTML = dropped.innerHTML;
-                        dropped.innerHTML = transferredData;
+                        draggableDragged.innerHTML = draggableDropped.innerHTML;
+                        draggableDropped.innerHTML = transferredData;
                     }
-                    dropped = null;
-                    dragged = null;
+                    draggableDropped = null;
+                    draggableDragged = null;
                     return;
                 }
             }
         }
-        dragged = null;
+        draggableDragged = null;
     }
 }
 
@@ -175,7 +183,8 @@ jQuery.prototype.initDraggable = async function (input) {
     $draggableItems = this.find('.draggable-item');
     for (let i = 0; i < $draggableItems.length; ++i) {
         $draggableItems.eq(i).attr({
-            'draggable-index': i
+            'draggable-index': i,
+            // 'draggable': true,
         });
     }
     $draggableItems.unbind('dragstart')
@@ -189,7 +198,7 @@ jQuery.prototype.initDraggable = async function (input) {
     $draggableItems.bind('dragend', handleDragEnd);
     $draggableItems.bind('dragover', handleDragOver);
     $draggableItems.bind('drop', handleDrop(this));
-    $draggableItems.bind('touchstart', handleTouchStart);
+    $draggableItems.bind('touchstart', handleTouchStart(this));
     $draggableItems.bind('touchmove', handleTouchMove);
     $draggableItems.bind('touchend', handleTouchEnd(this));
     $draggableItems.css({

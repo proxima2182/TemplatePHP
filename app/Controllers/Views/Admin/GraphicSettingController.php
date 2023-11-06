@@ -42,6 +42,7 @@ class GraphicSettingController extends BaseAdminController
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
+                    '/module/slick_custom',
                     '/module/draggable',
                     '/module/image_uploader',
                     '/admin/graphic_setting',

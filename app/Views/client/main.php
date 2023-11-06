@@ -37,6 +37,7 @@ $sliderImages = [
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?= $settings['kakao-map-appkey'] ?? '' ?>"></script>
 
+    <script type="text/javascript" src="/asset/js/module/slick_custom.js"></script>
     <script type="text/javascript" src="/asset/js/client/navigation.js"></script>
     <script type="text/javascript" src="/asset/js/module/popup.js"></script>
     <script type="text/javascript" src="/asset/js/common/topic_view.js"></script>

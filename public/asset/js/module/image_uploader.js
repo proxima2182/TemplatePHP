@@ -34,7 +34,8 @@ function deleteImageFile(id) {
     let type = 'image';
     let index = files.get(type).indexOf(id);
     if (index < 0) return;
-    $('.slick.uploader').slick('slickRemove', index);
+    let $slick = $('.slick.uploader');
+    $slick.removeCustomSlickItem(index)
     files.splice(type, index);
     // apiRequest({
     //     type: 'DELETE',
@@ -79,9 +80,9 @@ function onFileUpload(element, type = 'image', target = 'topic', callback) {
             files.push(type, file_id.toString());
 
             if (type == 'image' && !callback) {
-                let $uploader = $('.slick.uploader');
-                let index = $uploader.find('.slick-track').children().length - 1;
-                $uploader.slick('slickAdd', `
+                let $slick = $('.slick.uploader');
+                let index = $slick.attr('total') - 1;
+                $slick.addCustomSlickItem(index, `
                     <div class="slick-item draggable-item upload-item" draggable="true"
                          style="background: url('/file/${file_id}') no-repeat center; background-size: cover; font-size: 0;">
                         Slider #${file_id}
@@ -92,10 +93,9 @@ function onFileUpload(element, type = 'image', target = 'topic', callback) {
                                 <img src="/asset/images/icon/cancel_white.png"/>
                             </a>
                         </div>
-                    </div>`, index, 'addBefore');
-                $uploader.slick('slickGoTo', index + 1);
+                    </div>`);
 
-                $uploader.initDraggable({
+                $slick.initDraggable({
                     onDragFinished: onDragFinished,
                 });
             }

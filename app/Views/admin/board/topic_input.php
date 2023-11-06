@@ -78,6 +78,22 @@ $identifier = $shortid->generate();
     </div>
 </div>
 <script type="text/javascript">
+
+    //override
+    function setSlick(isMobile = false) {
+        let $slick = $('.slider-wrap .slick');
+
+        $slick.setCustomSlick(isMobile, {
+            infinite: false,
+            autoplay: false,
+            draggable: false,
+            swipe: false,
+        });
+        $slick.initDraggable({
+            onDragFinished: onDragFinished,
+        });
+    }
+
     function confirmEditTopic(id) {
         let data = parseInputToData($(`.topic-wrap .form-wrap .editable`))
         data['files'] = files.get('image');
