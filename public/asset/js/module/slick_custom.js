@@ -1,55 +1,63 @@
-const mobileSlickPageSize = 2;
-const pcSlickPageSize = 4;
+/**
+ * @file slick 용 mobile/PC 레이아웃 전환 스크립트
+ */
+const mobileSlickPageRowSize = 2;
+const mobileSlickSlotSize = 2;
+const pcSlickSlotSize = 4;
 
+/**
+ * slick item 배열을 얻는 기능
+ * @param $slick
+ * @returns []
+ */
 function getCustomSlickChildren($slick) {
-    let $children;
+    let $resultArray = [];
     let isMobile = $slick.hasClass('mobile');
     if (isMobile) {
-        $children = [];
         let $wraps = $slick.find('.slick-item-wrap');
-        let firstArray = [];
-        let secondArray = [];
         for (let i = 0; i < $wraps.length; ++i) {
-            let $chs = $($wraps.get(i)).children();
-            if (i % mobileSlickPageSize == 0 && i != 0) {
-                $children = $children.concat(firstArray);
-                $children = $children.concat(secondArray);
-                firstArray = [];
-                secondArray = [];
-            }
-            for (let j = 0; j < $chs.length; ++j) {
-                if (j % 2 == 0) {
-                    firstArray.push($chs[j])
-                } else {
-                    secondArray.push($chs[j])
-                }
+            let $childrenArray = $wraps.eq(i).children();
+            for (let j = 0; j < $childrenArray.length; ++j) {
+                $resultArray.push($childrenArray[j])
             }
         }
-        $children = $children.concat(firstArray);
-        $children = $children.concat(secondArray);
     } else {
-        $children = $slick.find('.slick-item');
+        $resultArray = $slick.find('.slick-item');
     }
-    return $children;
+    return $resultArray;
 }
 
-jQuery.prototype.moveCustomSlickOffset = function (index) {
+/**
+ * item index를 입력받으면 해당 item이 보이도록 slickGoTo 호출해 주는 기능
+ * @param offset
+ */
+jQuery.prototype.moveCustomSlickOffset = function (offset) {
+    // 몇 번째 item 인지 offset 으로 입력받음
     let $slick = this;
 
-    if (index < 0) index = 0;
-
     let isMobile = $slick.hasClass('mobile');
+    let slotSize;
     if (isMobile) {
-        $slick.slick('slickSetOption', 'speed', 0);
-        $slick.slick('slickGoTo', index % mobileSlickPageSize + Math.floor(index / mobileSlickPageSize / 2) * mobileSlickPageSize + 1, false);
-        $slick.slick('slickSetOption', 'speed', 300);
+        offset = Math.floor(offset / mobileSlickPageRowSize)
+        slotSize = mobileSlickSlotSize;
     } else {
-        $slick.slick('slickSetOption', 'speed', 0);
-        $slick.slick('slickGoTo', index + 1, false);
-        $slick.slick('slickSetOption', 'speed', 300);
+        offset = offset
+        slotSize = pcSlickSlotSize;
     }
+    // slickGoTo는 보이는 구간의 첫 offset 을 전달해 줘야 하므로 slotSize를 빼줌
+    offset = offset - slotSize + 1;
+    if (offset < 0) offset = 0;
+    $slick.slick('slickSetOption', 'speed', 0);
+    // 0부터 시작 하지 않고 1부터 시작하기 때문에 +1 해줌
+    $slick.slick('slickGoTo', offset + 1, false);
+    $slick.slick('slickSetOption', 'speed', 300);
 }
 
+/**
+ * slick 에 item 추가
+ * @param index
+ * @param html
+ */
 jQuery.prototype.addCustomSlickItem = function (index, html) {
     let $slick = this;
 
@@ -58,6 +66,9 @@ jQuery.prototype.addCustomSlickItem = function (index, html) {
     $result = $result.concat($children.slice(0, index));
     $result = $result.concat([html]);
     $result = $result.concat($children.slice(index));
+    if ($slick.hasClass('slick-initialized')) {
+        $slick.slick("unslick");
+    }
     $slick.empty();
     $slick.append($result);
 
@@ -70,13 +81,15 @@ jQuery.prototype.addCustomSlickItem = function (index, html) {
             // do nothing
         }
     }
-    if ($slick.hasClass('slick-initialized')) {
-        $slick.slick("unslick");
-    }
-    $slick.setCustomSlick(isMobile(), option)
+    let isMobile = $slick.hasClass('mobile');
+    $slick.setCustomSlick(isMobile, option)
     $slick.moveCustomSlickOffset(index + 1);
 }
 
+/**
+ * slick 에 아이템 제거
+ * @param index
+ */
 jQuery.prototype.removeCustomSlickItem = function (index) {
     let $slick = this;
 
@@ -101,10 +114,17 @@ jQuery.prototype.removeCustomSlickItem = function (index) {
             // do nothing
         }
     }
-    $slick.setCustomSlick(isMobile(), option)
+    let isMobile = $slick.hasClass('mobile');
+    $slick.setCustomSlick(isMobile, option)
     $slick.moveCustomSlickOffset(index - 1);
 }
 
+/**
+ * slick 설정
+ * mobile/PC 환경에 따라 레이아웃 설정
+ * @param isMobile
+ * @param option
+ */
 jQuery.prototype.setCustomSlick = function (isMobile = false, option = {}) {
     let $slick = this;
     if (!option) option = {};
@@ -122,9 +142,7 @@ jQuery.prototype.setCustomSlick = function (isMobile = false, option = {}) {
         // 한 행에 두개의 열을 가지도록 children 조정
         $slick.addClass('mobile');
         let $children = $slick.find('.slick-item');
-
-        console.log($children)
-
+        let total = $children.length;
         let $resultArray = [];
         let height = (window.innerHeight - 300) / 2;
 
@@ -135,19 +153,15 @@ jQuery.prototype.setCustomSlick = function (isMobile = false, option = {}) {
             return ch.cloneNode(true);
         }
 
-        let slotCount = mobileSlickPageSize * 2;
-        let slotPage = Math.floor($children.length / slotCount);
-        let slotIndex = $children.length % slotCount;
-        let totalIndex = slotPage * mobileSlickPageSize + (slotIndex > 0 ? 1 : 0) * mobileSlickPageSize;
-        for (let i = 0; i < totalIndex; ++i) {
-            let page = Math.floor(i / mobileSlickPageSize);
+        let totalSlotIndex = Math.ceil($children.length / mobileSlickPageRowSize);
+        for (let i = 0; i < totalSlotIndex; ++i) {
             let itemArray = [];
-            if (i + mobileSlickPageSize * page < $children.length) {
-                let itemIndex = i + mobileSlickPageSize * page;
+            let itemIndex = i * mobileSlickPageRowSize;
+            if (itemIndex < $children.length) {
                 itemArray.push(getChild(itemIndex));
             }
-            if (i + mobileSlickPageSize * (page + 1) < $children.length) {
-                let itemIndex = i + mobileSlickPageSize * (page + 1);
+            itemIndex = i * 2 + 1;
+            if (itemIndex < $children.length) {
                 itemArray.push(getChild(itemIndex));
             }
             $resultArray.push(itemArray);
@@ -164,46 +178,28 @@ jQuery.prototype.setCustomSlick = function (isMobile = false, option = {}) {
             $slick.append($div);
         }
         $slick.attr({
-            'total': $children.length
+            'total': total
         })
         $slick.slick({
             ...option,
-            slidesToShow: mobileSlickPageSize,
-            slidesToScroll: 2,
+            slidesToShow: mobileSlickSlotSize,
+            slidesToScroll: 1,
         });
     } else {
         // PC 뷰
         // 한 행에 두개의 열을 가지도록 children 이 조정된 경우 원복
         // 아닌 경우 그대로 slick 실행
         $slick.removeClass('mobile');
-
         let $children = $slick.find('.slick-item-wrap');
         if ($children.length > 0) {
             let $resultArray = [];
-            let firstArray = [];
-            let secondArray = [];
             for (let i = 0; i < $children.length; ++i) {
-                let $chs = $($children.get(i)).children();
-                $chs.css({
+                let $childrenArray = $($children.get(i)).children();
+                $childrenArray.css({
                     'height': ''
                 })
-                if (i % mobileSlickPageSize == 0 && i != 0) {
-                    $resultArray = $resultArray.concat(firstArray);
-                    $resultArray = $resultArray.concat(secondArray);
-                    firstArray = [];
-                    secondArray = [];
-                }
-                for (let j = 0; j < $chs.length; ++j) {
-                    if (j % 2 == 0) {
-                        firstArray.push($chs[j])
-                    } else {
-                        secondArray.push($chs[j])
-                    }
-                }
+                $resultArray = $resultArray.concat($childrenArray);
             }
-
-            $resultArray = $resultArray.concat(firstArray);
-            $resultArray = $resultArray.concat(secondArray);
 
             if ($slick.hasClass('slick-initialized')) {
                 $slick.slick("unslick");
@@ -216,7 +212,7 @@ jQuery.prototype.setCustomSlick = function (isMobile = false, option = {}) {
         })
         $slick.slick({
             ...option,
-            slidesToShow: pcSlickPageSize,
+            slidesToShow: pcSlickSlotSize,
             slidesToScroll: 1,
         });
     }

@@ -82,8 +82,8 @@ function onFileUpload(element, type = 'image', target = 'topic', callback) {
             if (type == 'image' && !callback) {
                 let $slick = $('.slick.uploader');
                 let index = $slick.attr('total') - 1;
-                $slick.addCustomSlickItem(index, `
-                    <div class="slick-item draggable-item upload-item" draggable="true"
+                $slick.addCustomSlickItem(index,
+                `<div class="slick-item draggable-item upload-item" draggable="true"
                          style="background: url('/file/${file_id}') no-repeat center; background-size: cover; font-size: 0;">
                         Slider #${file_id}
                         <input hidden type="text" name="id" value="${file_id}">

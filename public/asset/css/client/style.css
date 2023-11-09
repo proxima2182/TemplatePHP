@@ -309,7 +309,6 @@ input[type=checkbox] {
 
 /*mobile>>1행에 2열 추가*/
 .slick-item-wrap {
-    margin: 5px;
     vertical-align: top;
 }
 
