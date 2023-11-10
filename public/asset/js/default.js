@@ -277,13 +277,10 @@ function clickClientNavigation(element, link) {
     //todo 모바일인지 구분하는 더 나은 방법이 있는지 고민 필요
     if (!isMobile()) {
         window.location.href = link;
-        closeNavigation(false);
         return;
     }
     let $lnb = $(element).parent().find('.lnb');
 
-    console.log(element.classList.contains('gnb-menu'))
-    console.log($lnb.length > 0 && $lnb.children().length > 0)
     if (element.classList.contains('gnb-menu') &&
         $lnb.length > 0 && $lnb.children().length > 0) {
         if ($lnb.hasClass('opened')) {

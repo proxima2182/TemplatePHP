@@ -227,7 +227,7 @@ class UserController extends BaseApiController
             try {
                 $users = $this->userModel->get(['username' => $data['username']]);
                 if (sizeof($users) == 0) {
-                    throw new Exception('user is not exist');
+                    throw new Exception('user does not exist');
                 }
                 if (sizeof($users) > 2) {
                     //todo error
@@ -286,7 +286,7 @@ class UserController extends BaseApiController
                 }
                 $users = $this->userModel->get(['username' => $data['username']]);
                 if (sizeof($users) == 0) {
-                    throw new Exception('user is not exist');
+                    throw new Exception('user does not exist');
                 }
                 if (sizeof($users) > 2) {
                     //todo error

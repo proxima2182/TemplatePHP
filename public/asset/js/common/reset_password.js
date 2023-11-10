@@ -306,3 +306,20 @@ function stopTimer() {
     let $buttonConfirm = $('#container .form-box .button-wrap .button.confirm');
     $buttonConfirm.addClass('disabled');
 }
+
+$(document).ready(function () {
+    // enter 및 esc 키 처리
+    let element = $(`.form-container`).get(0);
+    if (element) {
+        element.addEventListener('keydown', function (event) {
+            switch (event.key) {
+                case 'Enter':
+                    let button = $(`.form-container .button.confirm`).get(0);
+                    if (button) {
+                        button.click();
+                    }
+                    break;
+            }
+        })
+    }
+})

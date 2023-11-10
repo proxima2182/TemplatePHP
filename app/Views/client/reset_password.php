@@ -1,4 +1,4 @@
-<div class="container-inner">
+<div class="container-inner form-container">
     <div class="container-wrap">
         <h3 class="page-title">
             <?= lang('Service.password_reset') ?>

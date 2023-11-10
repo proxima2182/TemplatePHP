@@ -5,6 +5,7 @@ namespace API;
 use App\Helpers\Utils;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
+use Models\SettingModel;
 use Models\UserModel;
 use Models\VerificationCodeModel;
 
@@ -12,12 +13,14 @@ class EmailController extends BaseApiController
 {
     protected VerificationCodeModel $verificationCodeModel;
     protected UserModel $userModel;
+    protected SettingModel $settingModel;
 
     public function __construct()
     {
         $this->setLanguage();
         $this->verificationCodeModel = model('Models\VerificationCodeModel');
         $this->userModel = model('Models\UserModel');
+        $this->settingModel = model('Models\SettingModel');
     }
 
     /**
@@ -238,7 +241,32 @@ class EmailController extends BaseApiController
         if (strlen($address) == 0) {
             throw new Exception('address should not be empty.');
         }
+
+        $configPasswordKey = $this->settingModel->getInitialValue([
+            'code' => 'gmail-password-key',
+        ], 'value');;
+        $configAddress = $this->settingModel->getInitialValue([
+            'code' => 'gmail-address',
+        ], 'value');;
+        if (!isset($configPasswordKey) || strlen($configPasswordKey) == 0) {
+            throw new Exception('configuration for mail password key is needed');
+        }
+        if (!isset($configAddress) || strlen($configAddress) == 0) {
+            throw new Exception('configuration for mail address is needed');
+        }
+        $config = [
+            'fromEmail' => $configAddress,
+            'fromName' => 'localhost',
+            'protocol' => 'smtp',
+            'SMTPHost' => 'smtp.googlemail.com',
+            'SMTPUser' => $configAddress,
+            'SMTPPass' => $configPasswordKey,
+            'SMTPPort' => '587',
+            'mailType' => 'html',
+        ];
+
         $email = \Config\Services::email();
+        $email->initialize($config);
         $email->setFrom($email->fromEmail, $email->fromName);
         $email->setTo($address);
         if (sizeof($copies)) {
@@ -309,7 +337,7 @@ class EmailController extends BaseApiController
                     case 'reset-password':
                         $users = $this->userModel->get(['username' => $data['username']]);
                         if (sizeof($users) == 0) {
-                            throw new Exception('user is not exist');
+                            throw new Exception('user does not exist');
                         }
                         if (sizeof($users) > 2) {
                             //todo error
