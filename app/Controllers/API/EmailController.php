@@ -71,12 +71,13 @@ class EmailController extends BaseApiController
                     </span>
                 </div>';
         $link = null;
+        $baseURL = $_ENV['app.baseURL'];
         switch ($type) {
             case 'registration':
-                $link = $this->host . ($data['is_admin'] == 1 ? '/admin' : '') . '/registration';
+                $link = $baseURL . ($data['is_admin'] == 1 ? '/admin' : '') . '/registration';
                 break;
             case 'reset-password':
-                $link = $this->host . ($data['is_admin'] == 1 ? '/admin' : '') . '/reset-password';
+                $link = $baseURL . ($data['is_admin'] == 1 ? '/admin' : '') . '/reset-password';
                 break;
         }
         if (isset($link)) {

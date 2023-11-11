@@ -45,8 +45,6 @@ abstract class BaseController extends Controller
      */
     protected $session;
 
-    protected string $host = 'http://localhost:8080';
-
     /**
      * Constructor.
      */
