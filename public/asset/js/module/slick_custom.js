@@ -173,7 +173,7 @@ jQuery.prototype.setCustomSlick = function (isMobile = false, slickOption = {}, 
         }
         $slick.empty();
         for (let i in $resultArray) {
-            let $div = $('<div class="slick-item-wrap" draggable="true"></div>');
+            let $div = $(`<div class="slick-item-wrap" ${$slick.hasClass('uploader') ? 'draggable="true"' : ''}></div>`);
             for (let j in $resultArray[i]) {
                 $div.append($resultArray[i][j])
             }

@@ -1,14 +1,13 @@
-// override onResolutionChanged from default.js
-onResolutionChanged = (isMobile = false) => {
-    closePopup();
+$(document).ready(function () {
     let $slick = $('.slider-wrap .slick');
-
-    $slick.setCustomSlick(isMobile, {
-        infinite: false,
-        autoplay: false,
-        draggable: false,
-    });
-}
+    $slick.setOnResolutionChanged((event) => {
+        $slick.setCustomSlick(event.detail.isMobile, {
+            infinite: false,
+            autoplay: false,
+            draggable: false,
+        });
+    })
+});
 
 function editSlider() {
     let $parent = $(`.container-inner .slider-box`);

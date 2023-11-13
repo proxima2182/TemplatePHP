@@ -150,6 +150,40 @@ $(document).ready(function () {
         });
     }
 
+    let $slick = $('#page-preview .slick');
+    $slick.setOnResolutionChanged((event) => {
+        let isMobile = event.detail.isMobile;
+
+        $slick.setCustomSlick(isMobile, {
+            infinite: false,
+            autoplay: false,
+        });
+
+        setMainPageHeaderShape(mainPageIndex, mainPageNextIndex, isMobile)
+
+        if (isMobile) {
+            // mobile 로 전환
+            // 첫 load 때 모바일인 경우 호출됨
+            $('#page-map .location-list-box').css({
+                'display': 'none'
+            });
+            if (map && bounds) {
+                map.setBounds(bounds, 0, 0, 0, 0);
+                map.panBy(340, 0)
+            }
+        } else {
+            // pc 로 전환
+            $('#page-map .location-list-box').css({
+                'animation-duration': '',
+                'animation-name': '',
+                'display': 'block'
+            });
+            if (map && bounds) {
+                map.setBounds(bounds, 0, 0, 0, 340);
+            }
+        }
+    })
+
     checkPagePopup();
 });
 
@@ -287,40 +321,6 @@ function resizeWindow() {
 
     resizePagePopupWindow();
     $(`#page-intro`).setVideoCoverStyle();
-}
-
-// override onResolutionChanged from default.js
-onResolutionChanged = (isMobile = false) => {
-    closePopup();
-    let $slick = $('#page-preview .slick');
-
-    $slick.setCustomSlick(isMobile, {
-        infinite: false,
-        autoplay: false,
-    });
-    setMainPageHeaderShape(mainPageIndex, mainPageNextIndex, isMobile)
-
-    if (isMobile) {
-        // mobile 로 전환
-        // 첫 load 때 모바일인 경우 호출됨
-        $('#page-map .location-list-box').css({
-            'display': 'none'
-        });
-        if (map && bounds) {
-            map.setBounds(bounds, 0, 0, 0, 0);
-            map.panBy(340, 0)
-        }
-    } else {
-        // pc 로 전환
-        $('#page-map .location-list-box').css({
-            'animation-duration': '',
-            'animation-name': '',
-            'display': 'block'
-        });
-        if (map && bounds) {
-            map.setBounds(bounds, 0, 0, 0, 340);
-        }
-    }
 }
 
 function refreshMainStartPageContentHeight() {

@@ -184,8 +184,14 @@ jQuery.prototype.initDraggable = async function (input) {
     for (let i = 0; i < $draggableItems.length; ++i) {
         $draggableItems.eq(i).attr({
             'draggable-index': i,
-            // 'draggable': true,
         });
+        $draggableItems.eq(i).parent().unbind('dragstart')
+        $draggableItems.eq(i).parent().bind('dragstart', (event) => {
+            if(!$(event.target).hasClass('draggable-item')) {
+                let e = (event.originalEvent || event);
+                e.preventDefault();
+            }
+        })
     }
     $draggableItems.unbind('dragstart')
     $draggableItems.unbind('dragend')

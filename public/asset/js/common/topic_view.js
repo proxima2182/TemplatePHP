@@ -84,12 +84,14 @@ function openTopicPopup(id) {
                 if (data.files.length > 0) {
                     let $slick = $parent.find(`.popup .slider-wrap .slick`)
 
-                    $slick.setCustomSlick(isMobile(), {
-                        autoplay: false,
-                        infinite: false,
-                    }, {
-                        isPopup : true,
-                    });
+                    $slick.setOnResolutionChanged((event) => {
+                        $slick.setCustomSlick(event.detail.isMobile, {
+                            autoplay: false,
+                            infinite: false,
+                        }, {
+                            isPopup : true,
+                        });
+                    })
                 }
             })
         },
