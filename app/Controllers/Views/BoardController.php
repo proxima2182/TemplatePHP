@@ -38,7 +38,7 @@ class BoardController extends BaseClientController
         try {
             $board = $this->boardModel->findByCode($code);
             $data['board'] = $board;
-            if($data['board']['is_public'] != 1 && !$data['is_login']) {
+            if ($data['board']['is_public'] != 1 && !$data['is_login']) {
                 return view('/redirect', [
                     'path' => '/login'
                 ]);
@@ -70,7 +70,10 @@ class BoardController extends BaseClientController
                 '/common/grid',
                 '/client/board/grid',
             ];
-            $js = array_merge($js, ['/common/topic_view']);
+            $js = array_merge($js, [
+                '/common/topic_view',
+                '/module/slick_custom',
+            ]);
             $view = '/client/board/grid';
         } else if ($board['type'] == 'table') {
             $css = [
@@ -97,13 +100,13 @@ class BoardController extends BaseClientController
         $data = $this->getViewData();
         try {
             $data = array_merge($data, $this->getTopicData($id));
-            if($data['board']['is_public'] != 1) {
-                if(!$data['is_login']) {
+            if ($data['board']['is_public'] != 1) {
+                if (!$data['is_login']) {
                     return view('/redirect', [
                         'path' => '/login'
                     ]);
                 }
-                if(!$data['is_admin'] && $data['data']['user_id'] != $data['user_id']) {
+                if (!$data['is_admin'] && $data['data']['user_id'] != $data['user_id']) {
                     throw new Exception('forbidden');
                 }
             }
@@ -146,13 +149,13 @@ class BoardController extends BaseClientController
         $data = $this->getViewData();
         try {
             $data = array_merge($data, $this->getTopicData($id));
-            if($data['board']['is_public'] != 1) {
-                if(!$data['is_login']) {
+            if ($data['board']['is_public'] != 1) {
+                if (!$data['is_login']) {
                     return view('/redirect', [
                         'path' => '/login'
                     ]);
                 }
-                if(!$data['is_admin'] && $data['data']['user_id'] != $data['user_id']) {
+                if (!$data['is_admin'] && $data['data']['user_id'] != $data['user_id']) {
                     throw new Exception('forbidden');
                 }
             }
@@ -191,7 +194,7 @@ class BoardController extends BaseClientController
         try {
             $board = $this->boardModel->findByCode($code);
             $data['board'] = $board;
-            if($data['board']['is_public'] != 1 && !$data['is_login']) {
+            if ($data['board']['is_public'] != 1 && !$data['is_login']) {
                 return view('/redirect', [
                     'path' => '/login'
                 ]);

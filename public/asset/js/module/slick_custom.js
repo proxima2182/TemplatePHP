@@ -47,10 +47,10 @@ jQuery.prototype.moveCustomSlickOffset = function (offset) {
     // slickGoTo는 보이는 구간의 첫 offset 을 전달해 줘야 하므로 slotSize를 빼줌
     offset = offset - slotSize + 1;
     if (offset < 0) offset = 0;
-    $slick.slick('slickSetOption', 'speed', 0);
+    $slick.slick('slickSetslickOption', 'speed', 0);
     // 0부터 시작 하지 않고 1부터 시작하기 때문에 +1 해줌
     $slick.slick('slickGoTo', offset + 1, false);
-    $slick.slick('slickSetOption', 'speed', 300);
+    $slick.slick('slickSetslickOption', 'speed', 300);
 }
 
 /**
@@ -72,17 +72,17 @@ jQuery.prototype.addCustomSlickItem = function (index, html) {
     $slick.empty();
     $slick.append($result);
 
-    let optionString = $slick.attr('option');
-    let option;
-    if (optionString) {
+    let slickOptionString = $slick.attr('slickOption');
+    let slickOption;
+    if (slickOptionString) {
         try {
-            option = JSON.parse(optionString);
+            slickOption = JSON.parse(slickOptionString);
         } catch (e) {
             // do nothing
         }
     }
     let isMobile = $slick.hasClass('mobile');
-    $slick.setCustomSlick(isMobile, option)
+    $slick.setCustomSlick(isMobile, slickOption)
     $slick.moveCustomSlickOffset(index + 1);
 }
 
@@ -105,17 +105,17 @@ jQuery.prototype.removeCustomSlickItem = function (index) {
     $slick.empty();
     $slick.append($result);
 
-    let optionString = $slick.attr('option');
-    let option;
-    if (optionString) {
+    let slickOptionString = $slick.attr('slickOption');
+    let slickOption;
+    if (slickOptionString) {
         try {
-            option = JSON.parse(optionString);
+            slickOption = JSON.parse(slickOptionString);
         } catch (e) {
             // do nothing
         }
     }
     let isMobile = $slick.hasClass('mobile');
-    $slick.setCustomSlick(isMobile, option)
+    $slick.setCustomSlick(isMobile, slickOption)
     $slick.moveCustomSlickOffset(index - 1);
 }
 
@@ -123,15 +123,15 @@ jQuery.prototype.removeCustomSlickItem = function (index) {
  * slick 설정
  * mobile/PC 환경에 따라 레이아웃 설정
  * @param isMobile
- * @param option
+ * @param slickOption
  */
-jQuery.prototype.setCustomSlick = function (isMobile = false, option = {}) {
+jQuery.prototype.setCustomSlick = function (isMobile = false, slickOption = {}, customOption = {}) {
     let $slick = this;
-    if (!option) option = {};
+    if (!slickOption) slickOption = {};
 
     try {
         $slick.attr({
-            'option': JSON.stringify(option)
+            'slickOption': JSON.stringify(slickOption)
         })
     } catch (e) {
         // do nothing
@@ -148,7 +148,9 @@ jQuery.prototype.setCustomSlick = function (isMobile = false, option = {}) {
 
         function getChild(i) {
             let ch = $children.get(i);
-            ch.style.height = `${height}px`;
+            if (customOption && !customOption.isPopup) {
+                ch.style.height = `${height}px`;
+            }
             ch.style.width = ``;
             return ch.cloneNode(true);
         }
@@ -181,7 +183,7 @@ jQuery.prototype.setCustomSlick = function (isMobile = false, option = {}) {
             'total': total
         })
         $slick.slick({
-            ...option,
+            ...slickOption,
             slidesToShow: mobileSlickSlotSize,
             slidesToScroll: 1,
         });
@@ -211,7 +213,7 @@ jQuery.prototype.setCustomSlick = function (isMobile = false, option = {}) {
             'total': $slick.children().length
         })
         $slick.slick({
-            ...option,
+            ...slickOption,
             slidesToShow: pcSlickSlotSize,
             slidesToScroll: 1,
         });

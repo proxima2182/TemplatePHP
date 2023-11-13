@@ -100,11 +100,17 @@ function openPopup(input, callback) {
  * @param className
  */
 function closePopup(className) {
-    let $parent = $(`.${className}`)
-    $parent.find('.popup').css({
-        'animation-duration': '0.2s',
-        'animation-name': 'popupFadeOut',
-    })
+    let $parent;
+    if(!className) {
+        $parent = $(`.popup-wrap`);
+    } else {
+        $parent = $(`.${className}`)
+        $parent.find('.popup').css({
+            'animation-duration': '0.2s',
+            'animation-name': 'popupFadeOut',
+        })
+    }
+
     removeEventListener('resize', onPopupResizeWindow);
 
     // popup 내부의 tab 처리를 위해 설정했던 것 되돌림

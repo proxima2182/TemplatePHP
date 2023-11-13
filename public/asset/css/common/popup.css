@@ -6,10 +6,10 @@
     bottom: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.3);
-    z-index: 15;
+    z-index: 105;
 }
 
-.popup-wrap .popup {
+.popup {
     width: 700px;
     line-height: normal;
     display: inline-block;
@@ -103,7 +103,7 @@
 }
 
 @media (max-width: 840px) {
-    .popup-wrap .popup {
+    .popup {
         width: calc(100% - 20px);
         max-height: calc(100vh - 20px);
     }

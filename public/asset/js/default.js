@@ -294,6 +294,55 @@ function clickClientNavigation(element, link) {
     }
 }
 
+/**
+ * mobile resolution 체크
+ * 추후 기준너비 바꿀 때 한곳에서 관리하고자 추가
+ * @returns {boolean}
+ */
 function isMobile() {
     return window.innerWidth < 840
+}
+
+/**
+ * mobile resolution trigger 확인 기능
+ */
+$(document).ready(function () {
+    resizeWindowInDefault();
+    if (!isMobile()) {
+        onResolutionChanged(false);
+    }
+});
+
+/**
+ * mobile resolution trigger 확인 기능
+ * resize event listener 등록
+ */
+addEventListener("resize", (event) => {
+    resizeWindowInDefault();
+});
+
+/**
+ * mobile resolution trigger 확인 기능
+ * override 용 함수 명시
+ * todo override 하는 방식이 아니라 event trigger 형식으로 바꿔 다른 js 스크립트에서도 호출가능하도록 변경 필요
+ */
+let onResolutionChanged = (isMobile = false) => {
+}
+
+/**
+ * mobile resolution trigger 확인 기능
+ * 해당 함수를 1번만 호출하기 위해 body 에 class 를 설정하여 체크 후 호출
+ */
+function resizeWindowInDefault() {
+    if (isMobile() && !$('body').hasClass('mobile')) {
+        // mobile 로 전환
+        // 첫 load 때 모바일인 경우 호출됨
+        $('body').addClass('mobile');
+        onResolutionChanged(true);
+    }
+    if (!isMobile() && $('body').hasClass('mobile')) {
+        // pc 로 전환
+        $('body').removeClass('mobile');
+        onResolutionChanged(false);
+    }
 }

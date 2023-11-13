@@ -8,6 +8,10 @@
     text-align: right;
 }
 
+.popup {
+    width: 900px;
+}
+
 .popup .slider-wrap {
     text-align: center;
     position: relative;
@@ -15,6 +19,7 @@
 
 .popup .slider-wrap .slick-item {
     height: 200px;
+    margin: 5px;
     display: inline-block;
 }
 
@@ -40,7 +45,7 @@
 }
 
 .popup .slider-wrap .slick {
-    width: 600px;
+    width: calc(100% - 60px);
     margin-bottom: 20px;
 }
 
@@ -58,11 +63,19 @@
 }
 
 @media (max-width: 840px) {
+    .popup {
+        width: calc(100% - 20px);
+    }
+
     .row .column.title {
         width: calc(100% - 200px);
     }
 
     .row .column.created-at {
         width: 200px;
+    }
+
+    .popup .slider-wrap .slick-item {
+        height: 35vw;
     }
 }

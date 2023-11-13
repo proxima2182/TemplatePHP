@@ -78,9 +78,9 @@ $identifier = $shortid->generate();
     </div>
 </div>
 <script type="text/javascript">
-
-    //override
-    function setSlick(isMobile = false) {
+    // override onResolutionChanged from default.js
+    onResolutionChanged = (isMobile = false) => {
+        closePopup();
         let $slick = $('.slider-wrap .slick');
 
         $slick.setCustomSlick(isMobile, {

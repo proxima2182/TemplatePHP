@@ -75,6 +75,8 @@
 
     .topic-wrap .slider-wrap .slick-item {
         margin: 5px;
+        height: 50vw;
+        max-height: 250px;
     }
 
     .topic-wrap .slider-wrap .slick button.slick-prev {
@@ -87,10 +89,5 @@
         right: -10px;
         background-size: 30%;
         background-color: rgba(255, 255, 255, 0.8);
-    }
-
-    .topic-wrap .slider-wrap .slick-item {
-        height: 50vw;
-        max-height: 250px;
     }
 }

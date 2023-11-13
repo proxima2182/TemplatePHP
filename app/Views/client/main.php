@@ -172,8 +172,10 @@ $sliderImages = [
                     <?php } else {
                         \App\Helpers\HtmlHelper::showMessage('err_wrong_value', 'Wrong value inserted');
                     }
+                }
+                if (isset($settings['main-title-03']) || isset($settings['main-content-03'])) {
+                    echo '<hr>';
                 } ?>
-                <hr>
                 <div class="text-wrap">
                     <h3 class="page-title"><?= $settings['main-title-03'] ?? '' ?></h3>
                     <p class="content"><?= $settings['main-content-03'] ?? '' ?></p>

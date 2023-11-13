@@ -74,9 +74,6 @@ $(document).ready(function () {
         autoplaySpeed: 2000,
         accessibility: false,
     });
-    if (!isMobile()) {
-        setMainPagePreviewSlick(false);
-    }
 
     try {
         let container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
@@ -290,13 +287,22 @@ function resizeWindow() {
 
     resizePagePopupWindow();
     $(`#page-intro`).setVideoCoverStyle();
+}
 
+// override onResolutionChanged from default.js
+onResolutionChanged = (isMobile = false) => {
+    closePopup();
+    let $slick = $('#page-preview .slick');
 
-    if (isMobile() && !$('body').hasClass('mobile')) {
+    $slick.setCustomSlick(isMobile, {
+        infinite: false,
+        autoplay: false,
+    });
+    setMainPageHeaderShape(mainPageIndex, mainPageNextIndex, isMobile)
+
+    if (isMobile) {
         // mobile 로 전환
         // 첫 load 때 모바일인 경우 호출됨
-        $('body').addClass('mobile');
-
         $('#page-map .location-list-box').css({
             'display': 'none'
         });
@@ -304,13 +310,8 @@ function resizeWindow() {
             map.setBounds(bounds, 0, 0, 0, 0);
             map.panBy(340, 0)
         }
-        setMainPagePreviewSlick(true);
-        setMainPageHeaderShape(mainPageIndex, mainPageNextIndex, false)
-    }
-    if (!isMobile() && $('body').hasClass('mobile')) {
+    } else {
         // pc 로 전환
-        $('body').removeClass('mobile');
-
         $('#page-map .location-list-box').css({
             'animation-duration': '',
             'animation-name': '',
@@ -319,8 +320,6 @@ function resizeWindow() {
         if (map && bounds) {
             map.setBounds(bounds, 0, 0, 0, 340);
         }
-        setMainPagePreviewSlick(false);
-        setMainPageHeaderShape(mainPageIndex, mainPageNextIndex, false)
     }
 }
 
@@ -335,15 +334,6 @@ function refreshMainStartPageContentHeight() {
     $('#page-start .slider-text-wrap').css({
         'line-height': `${content_height}px`,
     })
-}
-
-function setMainPagePreviewSlick(isMobile = false) {
-    let $slick = $('#page-preview .slick');
-
-    $slick.setCustomSlick(isMobile, {
-        infinite: false,
-        autoplay: false,
-    });
 }
 
 function setMainPageHeaderShape(index, nextIndex, isAnimation = true) {

@@ -82,11 +82,13 @@ function openTopicPopup(id) {
                 html: html,
             }, ($parent) => {
                 if (data.files.length > 0) {
-                    $parent.find(`.popup .slider-wrap .slick`).slick({
-                        slidesToShow: 3,
-                        slidesToScroll: 1,
+                    let $slick = $parent.find(`.popup .slider-wrap .slick`)
+
+                    $slick.setCustomSlick(isMobile(), {
                         autoplay: false,
                         infinite: false,
+                    }, {
+                        isPopup : true,
                     });
                 }
             })
