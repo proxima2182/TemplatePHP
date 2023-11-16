@@ -8,12 +8,10 @@ use Models\BoardModel;
 use Models\CustomFileModel;
 use Models\LocationModel;
 use Models\TopicModel;
-use Models\UserModel;
 
 class MainController extends BaseClientController
 {
 
-    protected UserModel $userModel;
     protected BoardModel $boardModel;
     protected TopicModel $topicModel;
     protected LocationModel $locationModel;
@@ -22,7 +20,6 @@ class MainController extends BaseClientController
     public function __construct()
     {
         parent::__construct();
-        $this->userModel = model('Models\UserModel');
         $this->boardModel = model('Models\BoardModel');
         $this->topicModel = model('Models\TopicModel');
         $this->locationModel = model('Models\LocationModel');
@@ -72,8 +69,6 @@ class MainController extends BaseClientController
             //todo(log)
             $this->handleException($e);
         }
-        // TODO 가능하면 첫 앱 실행때 체크하는 걸로 변경 필요
-        $this->userModel->checkAdmin();
         $data = array_merge($data, [
             "links" => $this->links,
         ]);

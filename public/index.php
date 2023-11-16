@@ -65,3 +65,11 @@ $app->setContext($context);
  */
 
 $app->run();
+
+
+/*
+ * initialize for database
+ */
+model('Models\BoardModel')->initialize();
+model('Models\UserModel')->initialize();
+model('Models\SettingModel')->initialize();

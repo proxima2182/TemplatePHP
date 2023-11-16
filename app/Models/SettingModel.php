@@ -26,4 +26,23 @@ class SettingModel extends BaseModel
         'created_at',
         'updated_at',
     ];
+
+    public function initialize(): void
+    {
+        $this->createIfNotExist(['code' => 'kakao-map-appkey'], [
+            "code" => "kakao-map-appkey",
+            "type" => "text",
+            "name" => "카카오 맵 APPKEY",
+        ]);
+        $this->createIfNotExist(['code' => 'gmail-password-key'], [
+            "code" => "gmail-password-key",
+            "type" => "text",
+            "name" => "메일 송신용 지메일 비밀번호 키",
+        ]);
+        $this->createIfNotExist(['code' => 'gmail-address'], [
+            "code" => "gmail-address",
+            "type" => "text",
+            "name" => "메일 송신용 지메일 메일주소",
+        ]);
+    }
 }

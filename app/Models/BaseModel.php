@@ -162,6 +162,17 @@ class BaseModel extends Model
 //        ];
 //    }
 
+    protected function createIfNotExist($condition, $data) {
+        $result = $this->builder()->getWhere($condition)->getResultArray();
+        if (count($result) == 0) {
+            try {
+                $this->insert($data);
+            } catch (\ReflectionException $e) {
+                //todo(log)
+            }
+        }
+    }
+
     protected function getConditionSet($data): array
     {
         $prefix = "";

@@ -34,4 +34,35 @@ class BoardModel extends BaseModel
         'created_at',
         'updated_at',
     ];
+
+    public function initialize(): void
+    {
+        $this->createIfNotExist(['code' => 'popup'], [
+            "code" => "popup",
+            "type" => "static",
+            "alias" => "팝업",
+            "description" => "글을 작성하시면 메인 페이지에서 팝업으로 나타납니다. 글자는 표시되지 않습니다.",
+            "is_editable" => "0",
+            "is_reply" => "0",
+            "is_deletable" => "0",
+        ]);
+        $this->createIfNotExist(['code' => 'menu'], [
+            "code" => "menu",
+            "type" => "grid",
+            "alias" => "메뉴",
+            "description" => "메뉴 및 메인 표시용 게시판",
+            "is_editable" => "0",
+            "is_reply" => "0",
+            "is_deletable" => "0",
+        ]);
+        $this->createIfNotExist(['code' => 'notice'], [
+            "code" => "notice",
+            "type" => "table",
+            "alias" => "공지사항",
+            "description" => "공지사항 및 메인 표시용 게시판",
+            "is_editable" => "0",
+            "is_reply" => "0",
+            "is_deletable" => "0",
+        ]);
+    }
 }

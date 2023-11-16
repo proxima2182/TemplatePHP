@@ -32,7 +32,7 @@ class UserModel extends BaseModel
         'updated_at',
     ];
 
-    public function checkAdmin()
+    public function initialize(): void
     {
         $result = $this->builder()->getWhere(["username" => "admin"])->getResultArray();
         if (count($result) == 0) {
