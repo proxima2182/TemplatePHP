@@ -47,7 +47,12 @@ function editSlider() {
         </div>
     </div>`;
     $parent.append(html);
-    setSlick(isMobile())
+    let $slick = $('.slider-wrap .slick');
+    $slick.setCustomSlick(isMobile(), {
+        infinite: false,
+        autoplay: false,
+        draggable: false,
+    });
     $parent.find('.slick').initDraggable({
         onDragFinished: onDragFinished
     });
