@@ -2,7 +2,6 @@
 
 namespace API;
 
-use CodeIgniter\HTTP\DownloadResponse;
 use CodeIgniter\HTTP\ResponseInterface;
 use Crisu83\ShortId\ShortId;
 use Exception;
@@ -35,7 +34,7 @@ class CustomFileController extends BaseApiController
             'success' => false,
         ];
         try {
-            $validateImage = match ($type) {
+            $validationRules = match ($type) {
                 'image' => $this->validate([
                     'file' => [
                         'uploaded[file]',
@@ -50,7 +49,7 @@ class CustomFileController extends BaseApiController
                     ],
                 ]),
             };
-            if ($validateImage) {
+            if ($validationRules) {
                 $shortid = ShortId::create();
                 $file = $this->request->getFile('file');
 
