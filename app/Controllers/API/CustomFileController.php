@@ -88,7 +88,10 @@ class CustomFileController extends BaseApiController
                         break;
                     case 'video' :
                         // video load 에 시간이 너무 오래 걸려 수정 페이지에서는 thumbnail 만 보여주도록 적용
-                        $ffmpeg = FFMpeg::create();
+                        $ffmpeg = $_ENV['CI_ENVIRONMENT'] == 'development' ? FFMpeg::create() : FFMpeg::create([
+                            'ffmpeg.binaries' => '/usr/bin/ffmpeg',
+                            'ffprobe.binaries' => '/usr/bin/ffprobe'
+                        ]);
                         $video = $ffmpeg->open($path . '/' . $file_name);
 
                         $thumb_file_name = 'thumb.jpg';
