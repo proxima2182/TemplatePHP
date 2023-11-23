@@ -36,21 +36,30 @@ class CustomFileController extends BaseApiController
             'success' => false,
         ];
         try {
-            $validationRules = match ($type) {
-                'image' => $this->validate([
+            if($type == 'image') {
+                $this->validate([
                     'file' => [
                         'uploaded[file]',
                         'mime_in[file,image/png,image/jpg,image/jpeg,image/gif]',
                         'max_size[file,4096]',
                     ],
-                ]),
+                ]);
+            }
+//            $validationRules = match ($type) {
+//                'image' => $this->validate([
+//                    'file' => [
+//                        'uploaded[file]',
+//                        'mime_in[file,image/png,image/jpg,image/jpeg,image/gif]',
+//                        'max_size[file,4096]',
+//                    ],
+//                ]),
 //                default => $this->validate([
 //                    'file' => [
 //                        'uploaded[file]',
 //                        'max_size[file,102400]',
 //                    ],
 //                ]),
-            };
+//            };
 //            if ($validationRules) {
                 $shortid = ShortId::create();
                 $file = $this->request->getFile('file');
