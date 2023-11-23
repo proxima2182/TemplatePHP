@@ -2,6 +2,7 @@
 
 namespace API;
 
+use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 use Crisu83\ShortId\ShortId;
 use Exception;
@@ -68,8 +69,9 @@ class CustomFileController extends BaseApiController
 //                    throw new \RuntimeException($file->getErrorString() . '(' . $file->getError() . ')');
 //                }
                 $file_name = $file->getClientName();
-                $mime_type = $file->getMimeType();
+                $mime_type = $file->getClientMimeType();
                 $uploadedType;
+                ServerLogger::log($file->getPath());
                 $this->logger->critical($mime_type);
                 if (str_starts_with($mime_type, 'image')) {
                     $uploadedType = 'image';
