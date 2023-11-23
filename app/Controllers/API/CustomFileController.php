@@ -71,6 +71,7 @@ class CustomFileController extends BaseApiController
                 $file_name = $file->getClientName();
                 $mime_type = $file->getClientMimeType();
                 $uploadedType;
+                $this->logger->critical($file->getSize());
                 $this->logger->critical($file->getErrorString() . '(' . $file->getError() . ')');
                 $this->logger->critical($file->getPath());
                 $this->logger->critical($mime_type);
