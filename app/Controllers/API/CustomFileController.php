@@ -47,7 +47,7 @@ class CustomFileController extends BaseApiController
                 default => $this->validate([
                     'file' => [
                         'uploaded[file]',
-                        'max_size[file,102400]',
+//                        'max_size[file,102400]',
                     ],
                 ]),
             };
