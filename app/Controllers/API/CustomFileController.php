@@ -2,7 +2,6 @@
 
 namespace API;
 
-use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 use Crisu83\ShortId\ShortId;
 use Exception;
@@ -11,11 +10,9 @@ use FFMpeg\FFMpeg;
 use InvalidArgumentException;
 use Models\BaseModel;
 use Models\CustomFileModel;
-use Psr\Log\LoggerAwareTrait;
 
 class CustomFileController extends BaseApiController
 {
-    use LoggerAwareTrait;
 
     protected CustomFileModel $customFileModel;
 
@@ -37,31 +34,22 @@ class CustomFileController extends BaseApiController
             'success' => false,
         ];
         try {
-            if($type == 'image') {
-                $this->validate([
+            $validationRules = match ($type) {
+                'image' => $this->validate([
                     'file' => [
                         'uploaded[file]',
                         'mime_in[file,image/png,image/jpg,image/jpeg,image/gif]',
                         'max_size[file,4096]',
                     ],
-                ]);
-            }
-//            $validationRules = match ($type) {
-//                'image' => $this->validate([
-//                    'file' => [
-//                        'uploaded[file]',
-//                        'mime_in[file,image/png,image/jpg,image/jpeg,image/gif]',
-//                        'max_size[file,4096]',
-//                    ],
-//                ]),
-//                default => $this->validate([
-//                    'file' => [
-//                        'uploaded[file]',
-//                        'max_size[file,102400]',
-//                    ],
-//                ]),
-//            };
-//            if ($validationRules) {
+                ]),
+                default => $this->validate([
+                    'file' => [
+                        'uploaded[file]',
+                        'max_size[file,102400]',
+                    ],
+                ]),
+            };
+            if ($validationRules) {
                 $shortid = ShortId::create();
                 $file = $this->request->getFile('file');
 
@@ -70,11 +58,10 @@ class CustomFileController extends BaseApiController
 //                }
                 $file_name = $file->getClientName();
                 $mime_type = $file->getClientMimeType();
+                if (!isset($mime_type)) {
+                    throw new Exception($file->getErrorString() . '(' . $file->getError() . ')');
+                }
                 $uploadedType;
-                $this->logger->critical($file->getSize());
-                $this->logger->critical($file->getErrorString() . '(' . $file->getError() . ')');
-                $this->logger->critical($file->getPath());
-                $this->logger->critical($mime_type);
                 if (str_starts_with($mime_type, 'image')) {
                     $uploadedType = 'image';
                 } else if (str_starts_with($mime_type, 'video')) {
@@ -87,7 +74,6 @@ class CustomFileController extends BaseApiController
                 }
                 $symbolic_path = 'uploads/images/' . date("Y-m-d") . '/' . $shortid->generate();
                 $path = WRITEPATH . $symbolic_path;
-                $this->logger->critical($path);
                 mkdir($path, 0777, true);
                 $file->move($path);
 
@@ -140,9 +126,9 @@ class CustomFileController extends BaseApiController
                         'mime_type' => $mime_type,
                     ];
                 }
-//            } else {
-//                $response['messages'] = $this->validator->getErrors();
-//            }
+            } else {
+                $response['messages'] = $this->validator->getErrors();
+            }
         } catch (Exception $e) {
             //todo(log)
             $response['message'] = $e->getMessage();
