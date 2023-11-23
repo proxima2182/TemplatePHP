@@ -66,7 +66,7 @@ function onFileUpload(element, type = 'image', target = 'topic', callback) {
         url: `/api/file/${type}/upload/${identifier}`,
         data: form,
         processData: false,
-        contentType: false,
+        contentType: 'multipart/form-data',
         cache: false,
         dataType: "json",
         success: function (response, status, request) {
