@@ -70,6 +70,7 @@ class CustomFileController extends BaseApiController
                 $file_name = $file->getClientName();
                 $mime_type = $file->getMimeType();
                 $uploadedType;
+                $this->logger->info($mime_type);
                 if (str_starts_with($mime_type, 'image')) {
                     $uploadedType = 'image';
                 } else if (str_starts_with($mime_type, 'video')) {
