@@ -10,9 +10,11 @@ use FFMpeg\FFMpeg;
 use InvalidArgumentException;
 use Models\BaseModel;
 use Models\CustomFileModel;
+use Psr\Log\LoggerAwareTrait;
 
 class CustomFileController extends BaseApiController
 {
+    use LoggerAwareTrait;
 
     protected CustomFileModel $customFileModel;
 
@@ -71,6 +73,7 @@ class CustomFileController extends BaseApiController
                 }
                 $symbolic_path = 'uploads/images/' . date("Y-m-d") . '/' . $shortid->generate();
                 $path = WRITEPATH . $symbolic_path;
+                $this->logger->info($path);
                 mkdir($path, 0777, true);
                 $file->move($path);
 
@@ -134,12 +137,12 @@ class CustomFileController extends BaseApiController
     }
 
     /**
+     * @param $id
+     * @return ResponseInterface
      * @deprecated
      * [delete] /api/file/delete/{id}
      * 실질적으로 현재는 사용하지 않음
      * (수정 완료/취소 시 일괄 처리되도록 적용)
-     * @param $id
-     * @return ResponseInterface
      */
     public function deleteFile($id): ResponseInterface
     {
