@@ -70,7 +70,7 @@ class CustomFileController extends BaseApiController
                 $file_name = $file->getClientName();
                 $mime_type = $file->getMimeType();
                 $uploadedType;
-                $this->logger->info($mime_type);
+                $this->logger->critical($mime_type);
                 if (str_starts_with($mime_type, 'image')) {
                     $uploadedType = 'image';
                 } else if (str_starts_with($mime_type, 'video')) {
@@ -83,7 +83,7 @@ class CustomFileController extends BaseApiController
                 }
                 $symbolic_path = 'uploads/images/' . date("Y-m-d") . '/' . $shortid->generate();
                 $path = WRITEPATH . $symbolic_path;
-                $this->logger->info($path);
+                $this->logger->critical($path);
                 mkdir($path, 0777, true);
                 $file->move($path);
 
