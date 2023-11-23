@@ -44,14 +44,14 @@ class CustomFileController extends BaseApiController
                         'max_size[file,4096]',
                     ],
                 ]),
-                default => $this->validate([
-                    'file' => [
-                        'uploaded[file]',
+//                default => $this->validate([
+//                    'file' => [
+//                        'uploaded[file]',
 //                        'max_size[file,102400]',
-                    ],
-                ]),
+//                    ],
+//                ]),
             };
-            if ($validationRules) {
+//            if ($validationRules) {
                 $shortid = ShortId::create();
                 $file = $this->request->getFile('file');
 
@@ -126,9 +126,9 @@ class CustomFileController extends BaseApiController
                         'mime_type' => $mime_type,
                     ];
                 }
-            } else {
-                $response['messages'] = $this->validator->getErrors();
-            }
+//            } else {
+//                $response['messages'] = $this->validator->getErrors();
+//            }
         } catch (Exception $e) {
             //todo(log)
             $response['message'] = $e->getMessage();
