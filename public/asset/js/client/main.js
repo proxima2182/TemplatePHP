@@ -2,7 +2,9 @@
  * @file main.php
  */
 
-let mainPageIndex = 1, mainPageNextIndex = 2;
+// setOnResolutionChanged 가 맨 처음에 무조건 한번 불리기 때문에
+// init 값을 이미 2페이지에서 시작하듯이 설정해 준다
+let mainPageIndex = 2, mainPageNextIndex = 1;
 let map;
 
 /**
@@ -31,8 +33,8 @@ let handleStorage = {
 };
 
 $(document).ready(function () {
-    mainPageIndex = 1;
-    mainPageNextIndex = 2;
+    mainPageIndex = 2;
+    mainPageNextIndex = 1;
     let $sections = $('.section');
     let anchors = [];
     for (let i = 0; i < $sections.length; i++) {
@@ -161,6 +163,12 @@ $(document).ready(function () {
             infinite: false,
             autoplay: false,
         });
+    })
+
+    // slick item 이 없는 경우 setOnResolutionChanged 이 작동하지 않으므로
+    // slick과 연관없는 기능들은 body에 연결해준다
+    $('body').setOnResolutionChanged((event) => {
+        let isMobile = event.detail.isMobile;
 
         setMainPageHeaderShape(mainPageIndex, mainPageNextIndex, isMobile)
 
