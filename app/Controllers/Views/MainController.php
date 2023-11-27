@@ -55,7 +55,7 @@ class MainController extends BaseClientController
             // load table view
             $data['topics_table'] = $this->getTopics('notice');
             // load grid view
-            $data['topics_grid'] = $this->getTopics('menu');
+            $data['topics_grid'] = $this->getTopics('item');
 
             $images = $this->customFileModel->get(['type' => 'image', 'target' => 'main']);
             $data = array_merge($data, [

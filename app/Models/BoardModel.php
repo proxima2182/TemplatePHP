@@ -47,11 +47,11 @@ class BoardModel extends BaseModel
             "is_reply" => "0",
             "is_deletable" => "0",
         ]);
-        $this->createIfNotExist(['code' => 'menu'], [
-            "code" => "menu",
+        $this->createIfNotExist(['code' => 'item'], [
+            "code" => "item",
             "type" => "grid",
-            "alias" => "메뉴",
-            "description" => "메뉴 및 메인 표시용 게시판",
+            "alias" => "품목",
+            "description" => "품목 및 메인 표시용 게시판",
             "is_editable" => "0",
             "is_reply" => "0",
             "is_deletable" => "0",
