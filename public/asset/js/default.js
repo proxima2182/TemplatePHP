@@ -368,6 +368,8 @@ function dispatchOnDeviceResolutionChanged(isMobile = false) {
         },
     });
 
+    $resolutionChangeItems = $.grep($resolutionChangeItems, n => n == 0 || n);
+
     for (let i = 0; i < $resolutionChangeItems.length; ++i) {
         let $item = $resolutionChangeItems[i].get(0);
         if ($item) {

@@ -53,14 +53,6 @@ function editSlider() {
         autoplay: false,
         draggable: false,
     });
-    // slick element 를 지웠다 다시 등록했기 때문에 setOnResolutionChanged 를 재등록 해줘야 한다
-    $slick.setOnResolutionChanged((event) => {
-        $slick.setCustomSlick(event.detail.isMobile, {
-            infinite: false,
-            autoplay: false,
-            draggable: false,
-        });
-    })
     $parent.find('.slick').initDraggable({
         onDragFinished: onDragFinished
     });
