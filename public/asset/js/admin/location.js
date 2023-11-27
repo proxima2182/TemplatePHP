@@ -64,7 +64,7 @@ async function openInputPopupCreate() {
             $parent.find(`.popup-inner`).append(`
             <div class="control-button-wrap absolute line-before">
                 <div class="control-button-box">
-                    <a href="javascript:search('${className}');"
+                    <a href="javascript:searchAddress('${className}');"
                         class="button under-line search">
                         <img src="/asset/images/icon/search.png"/>
                         <span>${lang('search')}</span>
