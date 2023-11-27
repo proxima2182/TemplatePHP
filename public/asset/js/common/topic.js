@@ -8,8 +8,13 @@ $(document).ready(function () {
             draggable: false,
             swipe: isSwipe,
         });
-        $slick.initDraggable({
-            onDragFinished: onDragFinished,
-        });
+        try {
+            $slick.initDraggable({
+                onDragFinished: onDragFinished,
+            });
+        } catch (e) {
+            // do nothing
+            // topic view page doesn't need initDraggable
+        }
     })
 });

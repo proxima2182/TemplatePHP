@@ -173,7 +173,7 @@ body {
     top: 60px;
     bottom: 0;
     left: 0;
-    z-index: 10;
+    z-index: 100;
     overflow: hidden;
 }
 
@@ -184,7 +184,7 @@ body {
     border: 1px solid #eee;
     /*background: #eee;*/
     position: absolute;
-    z-index: 10;
+    z-index: 100;
 }
 
 .gnb > ul > li {

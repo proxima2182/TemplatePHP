@@ -41,16 +41,14 @@ jQuery.prototype.moveCustomSlickOffset = function (offset) {
         offset = Math.floor(offset / mobileSlickPageRowSize)
         slotSize = mobileSlickSlotSize;
     } else {
-        offset = offset
         slotSize = pcSlickSlotSize;
     }
     // slickGoTo는 보이는 구간의 첫 offset 을 전달해 줘야 하므로 slotSize를 빼줌
     offset = offset - slotSize + 1;
     if (offset < 0) offset = 0;
-    $slick.slick('slickSetslickOption', 'speed', 0);
-    // 0부터 시작 하지 않고 1부터 시작하기 때문에 +1 해줌
-    $slick.slick('slickGoTo', offset + 1, false);
-    $slick.slick('slickSetslickOption', 'speed', 300);
+    $slick.slick('slickSetOption', 'speed', 0);
+    $slick.slick('slickGoTo', offset, false);
+    $slick.slick('slickSetOption', 'speed', 300);
 }
 
 /**
@@ -92,6 +90,7 @@ jQuery.prototype.addCustomSlickItem = function (index, html) {
  */
 jQuery.prototype.removeCustomSlickItem = function (index) {
     let $slick = this;
+    let currentSlide = $slick.slick('slickCurrentSlide');
 
     let $children = getCustomSlickChildren($slick);
     let $result = [];
@@ -116,7 +115,10 @@ jQuery.prototype.removeCustomSlickItem = function (index) {
     }
     let isMobile = $slick.hasClass('mobile');
     $slick.setCustomSlick(isMobile, slickOption)
-    $slick.moveCustomSlickOffset(index - 1);
+    if (currentSlide > 0) {
+        $slick.moveCustomSlickOffset(index - 1);
+    }
+
 }
 
 /**
