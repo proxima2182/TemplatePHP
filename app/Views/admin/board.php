@@ -66,10 +66,12 @@
             return `/api/board/delete/${id}`
         },
         getHtml: function (data) {
+            let is_editable = data['is_editable'] == 1;
             let typeSet = {
                 code: {
                     type: 'text',
                     name: '<?=lang('Service.code')?>',
+                    editable: is_editable,
                 },
                 alias: {
                     type: 'text',
@@ -107,6 +109,7 @@
                             },
                         ],
                         name: '<?=lang('Service.type')?>',
+                        editable: is_editable,
                     },
                 }
             }
@@ -115,14 +118,17 @@
                 is_reply: {
                     type: 'bool',
                     name: '<?=lang('Service.reply')?>',
+                    editable: is_editable,
                 },
                 is_public: {
                     type: 'bool',
                     name: '<?=lang('Service.public')?>',
+                    editable: is_editable,
                 },
                 description: {
                     type: 'long-text',
                     name: '<?=lang('Service.description')?>',
+                    editable: is_editable,
                 },
             }
             let keys = Object.keys(typeSet);
@@ -150,14 +156,12 @@
         },
         getControlHtml: function (className, data) {
             let html = ``;
-            if (data['is_editable'] == 1) {
-                html += `
-                <a href="javascript:editInputPopup('${className}', ${data['id']});"
-                   class="button under-line edit">
-                    <img src="/asset/images/icon/edit.png"/>
-                    <span>${lang('edit')}</span>
-                </a>`;
-            }
+            html += `
+            <a href="javascript:editInputPopup('${className}', ${data['id']});"
+               class="button under-line edit">
+                <img src="/asset/images/icon/edit.png"/>
+                <span>${lang('edit')}</span>
+            </a>`;
             if (data['is_deletable'] == 1) {
                 html += `
                 <a href="javascript:openInputPopupDelete(${data['id']});"

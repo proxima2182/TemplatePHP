@@ -30,6 +30,7 @@ class BoardModel extends BaseModel
         'is_reply',
         'is_public',
         'is_editable',
+        'is_deletable',
         'is_deleted',
         'created_at',
         'updated_at',
