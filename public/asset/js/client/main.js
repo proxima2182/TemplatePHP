@@ -356,7 +356,7 @@ function setMainPageHeaderShape(index, nextIndex, isMobile = false) {
                 $header.addClass('downsized');
             }
             $body.prepend($header)
-            if (isAnimation && !isMobile) {
+            if (!isMobile) {
                 $header.css({
                     'animation-duration': '0.2s',
                     'animation-name': 'headerSlideOut',
