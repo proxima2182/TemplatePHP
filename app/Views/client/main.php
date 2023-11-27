@@ -139,7 +139,7 @@ $sliderImages = [
                 </div>
                 <div class="slider-text-wrap">
                     <div class="text-wrap">
-                        <h3 class="title"><?= $settings['main-title-01'] ?? '' ?></h3>
+                        <p class="title"><?= $settings['main-title-01'] ?? '' ?></p>
                         <p class="content"><?= $settings['main-content-01'] ?? '' ?></p>
                     </div>
                 </div>
@@ -151,7 +151,7 @@ $sliderImages = [
         <div class="page-inner whole-page">
             <div class="text-box">
                 <div class="text-wrap">
-                    <h3 class="title"><?= $settings['main-title-02'] ?? '' ?></h3>
+                    <p class="title"><?= $settings['main-title-02'] ?? '' ?></p>
                     <p class="content"><?= $settings['main-content-02'] ?? '' ?></p>
                 </div>
             </div>
@@ -177,7 +177,7 @@ $sliderImages = [
                     echo '<hr>';
                 } ?>
                 <div class="text-wrap">
-                    <h3 class="page-title"><?= $settings['main-title-03'] ?? '' ?></h3>
+                    <p class="page-title"><?= $settings['main-title-03'] ?? '' ?></p>
                     <p class="content"><?= $settings['main-content-03'] ?? '' ?></p>
                 </div>
             </div>

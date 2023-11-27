@@ -66,12 +66,14 @@
             return `/api/board/delete/${id}`
         },
         getHtml: function (data) {
-            let is_editable = data['is_editable'] == 1;
+            let is_editable = !data || data['is_editable'] == 1;
             let typeSet = {
                 code: {
                     type: 'text',
                     name: '<?=lang('Service.code')?>',
                     editable: is_editable,
+                    //todo : translation
+                    description: is_editable ? '* 코드는 영어로 입력해 주세요' : undefined
                 },
                 alias: {
                     type: 'text',

@@ -4,7 +4,7 @@
     font-size: 0;
 }
 
-.form-wrap .input-wrap * {
+.form-wrap .input-wrap *:not(.info-text-wrap) {
     display: block;
     line-height: 30px;
     font-size: 18px;

@@ -234,15 +234,15 @@ body {
 
 /*footer logo*/
 #footer .footer-inner .logo {
-    width: 200px;
-    /*height: 50px;*/
+    /*width: 200px;*/
+    height: 40px;
     margin-left: -10px;
     display: inline-block;
     vertical-align: middle;
 }
 
 #footer .footer-inner .logo img {
-    width: 100%;
+    height: 100%;
 }
 
 /*footer content*/

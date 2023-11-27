@@ -45,7 +45,7 @@ return [
     "alias" => "명칭",
     "public" => "공개",
     "path" => "경로",
-    "main_only" => "메인",
+    "main_only" => "메인 전용",
     "local" => "하위 항목",
     "local_show" => "하위 항목 사용",
     "local_count" => "하위 항목 수",

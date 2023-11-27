@@ -418,6 +418,13 @@ input[type=checkbox] {
     text-align: left;
 }
 
+.input-wrap .info-text-wrap {
+    text-align: right;
+    width: 100%;
+    font-size: 16px;
+    line-height: 20px;
+}
+
 .mobile-only {
     display: none !important;
 }

@@ -88,35 +88,49 @@ function fromDataToHtml(key, data, typeSet) {
                     // do nothing
                 }
             }
-            html += `
-                </select>
-            </div>`
+            html += `</select>`
+            if (set['description']) {
+                html += `<div class="info-text-wrap">${set['description']}</div>`
+            }
+            html += `</div>`
             return html;
         }
         case 'bool': {
             let option = `${checkClasses()} ${isReadOnly ? `disabled` : ``}
              ${value && value == 1 ? 'checked' : ''}`
-            return `
-                <div class="input-wrap inline">
-                    <p class="input-title">${name}</p>
-                    <input type="checkbox" name="${key}" ${option}/>
-                </div>`
+            let html = `
+            <div class="input-wrap inline">
+                <p class="input-title">${name}</p>
+                <input type="checkbox" name="${key}" ${option}/>`
+            if (set['description']) {
+                html += `<div class="info-text-wrap">${set['description']}</div>`
+            }
+            html += `</div>`
+            return html
         }
         case 'long-text': {
             let option = `${checkClasses(['under-line'])} ${isReadOnly ? `readonly` : ``}`
-            return `
+            let html = `
                 <div class="input-wrap inline">
                     <p class="input-title">${name}</p>
-                    <textarea name="${key}" onkeydown="resizeInputPopupTextarea(this)" onkeyup="resizeInputPopupTextarea(this)" ${option}>${value ? value.toTextareaString() : ''}</textarea>
-                </div>`
+                    <textarea name="${key}" onkeydown="resizeInputPopupTextarea(this)" onkeyup="resizeInputPopupTextarea(this)" ${option}>${value ? value.toTextareaString() : ''}</textarea>`
+            if (set['description']) {
+                html += `<div class="info-text-wrap">${set['description']}</div>`
+            }
+            html += `</div>`
+            return html
         }
         default: {
             let option = `${checkClasses(['under-line'])} ${isReadOnly ? `readonly` : ``} ${integer ? `oninput="this.value=this.value.replace(/[^0-9]/g,'');"` : ``}`
-            return `
+            let html = `
                 <div class="input-wrap inline">
                     <p class="input-title">${name}</p>
-                    <input type="${type}" name="${key}" ${option} value="${value ?? ''}"/>
-                </div>`
+                    <input type="${type}" name="${key}" ${option} value="${value ?? ''}"/>`
+            if (set['description']) {
+                html += `<div class="info-text-wrap">${set['description']}</div>`
+            }
+            html += `</div>`
+            return html
         }
     }
 }
@@ -329,7 +343,6 @@ function editInputPopup(className, id) {
     $parent.find(`.form-wrap .button-wrap`).remove();
     $parent.find(`.popup-inner .control-button-wrap`).remove();
 
-    console.log("1")
     $parent.find(`.popup-inner`).append(`
     <div class="control-button-wrap absolute line-before">
         <div class="control-button-box">

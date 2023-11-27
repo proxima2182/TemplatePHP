@@ -77,6 +77,8 @@
                 code: {
                     type: 'text',
                     name: '<?=lang('Service.code')?>',
+                    //todo : translation
+                    description: '* 코드는 영어로 입력해 주세요'
                 },
                 alias: {
                     type: 'text',
