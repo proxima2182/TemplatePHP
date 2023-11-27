@@ -286,19 +286,11 @@ body {
     }
 
     #header .logo {
-        width: auto;
+        width: auto !important;
         max-width: 300px;
-        height: 60px;
-        line-height: 60px;
-        position: static;
-    }
-
-    #header.downsized .logo {
-        width: auto;
-        max-width: 300px;
-        height: 60px;
-        line-height: 60px;
-        position: static;
+        height: 60px !important;
+        line-height: 60px !important;
+        position: static !important;
     }
 
     #header .logo a img {
