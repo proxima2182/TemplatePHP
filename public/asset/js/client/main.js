@@ -45,7 +45,8 @@ $(document).ready(function () {
         onLeave: function (index, nextIndex, direction) {
             mainPageIndex = index;
             mainPageNextIndex = nextIndex;
-            setMainPageHeaderShape(index, nextIndex);
+            let isMobile = $('body').hasClass('mobile');
+            setMainPageHeaderShape(index, nextIndex, isMobile);
 
             if (nextIndex == 1) {
                 refreshMainStartPageContentHeight();
@@ -338,14 +339,12 @@ function refreshMainStartPageContentHeight() {
     })
 }
 
-function setMainPageHeaderShape(index, nextIndex, isAnimation = true) {
+function setMainPageHeaderShape(index, nextIndex, isMobile = false) {
     let $header = $('#header');
-    let $body = $('body');
     $header.css({
         'animation-duration': '',
         'animation-name': '',
     })
-    let isMobile = $body.hasClass('mobile');
     if (isMobile) {
         $header.removeClass('downsized');
     }
