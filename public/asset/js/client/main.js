@@ -31,6 +31,8 @@ let handleStorage = {
 };
 
 $(document).ready(function () {
+    mainPageIndex = 1;
+    mainPageNextIndex = 2;
     let $sections = $('.section');
     let anchors = [];
     for (let i = 0; i < $sections.length; i++) {
