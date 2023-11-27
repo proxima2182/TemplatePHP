@@ -38,8 +38,8 @@ function editSlider() {
     html += `
             <div class="slick-item upload-item-add"
                  style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
-                <label for="file" class="button"></label>
-                <input type="file" name="file" multiple id="file"
+                <label for="image-file" class="button"></label>
+                <input type="file" name="file" multiple id="image-file"
                        onchange="onFileUpload(this, 'image', 'main');"
                        accept="image/*"/>
             </div>
@@ -53,6 +53,14 @@ function editSlider() {
         autoplay: false,
         draggable: false,
     });
+    // slick element 를 지웠다 다시 등록했기 때문에 setOnResolutionChanged 를 재등록 해줘야 한다
+    $slick.setOnResolutionChanged((event) => {
+        $slick.setCustomSlick(event.detail.isMobile, {
+            infinite: false,
+            autoplay: false,
+            draggable: false,
+        });
+    })
     $parent.find('.slick').initDraggable({
         onDragFinished: onDragFinished
     });
@@ -98,8 +106,8 @@ function editVideo() {
         html += `
         <div class="upload-item-add"
              style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
-            <label for="file" class="button"></label>
-            <input type="file" name="file" multiple id="file"
+            <label for="video-file" class="button"></label>
+            <input type="file" name="file" multiple id="video-file"
                    onchange="onFileUpload(this, 'video', 'main', onVideoFileUploaded);"
                    accept="video/*"/>
         </div>`;
@@ -175,8 +183,8 @@ function deleteVideoFile(id) {
     $parent.append(`
     <div class="upload-item-add"
          style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
-        <label for="file" class="button"></label>
-        <input type="file" name="file" multiple id="file"
+        <label for="video-file" class="button"></label>
+        <input type="file" name="file" multiple id="video-file"
                onchange="onFileUpload(this, 'video', 'main', onVideoFileUploaded);"
                accept="video/*"/>
     </div>`);
