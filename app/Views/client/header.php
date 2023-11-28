@@ -11,7 +11,8 @@ $logo_url = isset($logos['logo']) ? "/file/{$logos['logo']['id']}" : '/asset/ima
     <meta charset="UTF-8">
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
-    <title>Template</title>
+    <title><?= $settings['web-title'] ?? '' ?></title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/default.css"/>

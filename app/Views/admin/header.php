@@ -10,7 +10,7 @@ $is_not_registration_page = !isset($is_registration_page) || ($is_registration_p
     <meta charset="UTF-8">
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
-    <title>Template</title>
+    <title><?= lang('Service.admin_title') ?></title>
 
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/default.css"/>

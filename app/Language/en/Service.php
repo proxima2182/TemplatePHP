@@ -78,8 +78,6 @@ return [
     "latitude" => "Latitude",
     "longitude" => "Longitude",
     "value" => "Value",
-    "video" => "Video",
-    "slider_images" => "Slider Images",
     "phone_number" => "Phone Number",
     "inquiry" => "Inquiry",
     "logo" => "Logo",
@@ -98,6 +96,11 @@ return [
     "location" => "Location",
     "graphic_setting" => "Graphic Setting",
     "setting" => "Setting",
+    "admin_title" => "Admin Page",
+    "favicon" => "Favicon",
+    "open_graph" => "Open Graph",
+    "main_video" => "Main Video",
+    "main_image" => "Main Images",
 
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",

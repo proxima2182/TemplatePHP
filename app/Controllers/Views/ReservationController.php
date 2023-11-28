@@ -2,7 +2,6 @@
 
 namespace Views;
 
-use App\Helpers\ServerLogger;
 use App\Helpers\Utils;
 use Exception;
 use Models\ReservationBoardModel;

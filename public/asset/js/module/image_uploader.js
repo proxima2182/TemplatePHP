@@ -30,13 +30,12 @@ $(document).ready(function () {
     });
 })
 
-function deleteImageFile(id) {
-    let type = 'image';
-    let index = files.get(type).indexOf(id);
+function deleteImageFile(id, key = 'image') {
+    let index = files.get(key).indexOf(id);
     if (index < 0) return;
     let $slick = $('.slick.uploader');
     $slick.removeCustomSlickItem(index)
-    files.splice(type, index);
+    files.splice(key, index);
     // apiRequest({
     //     type: 'DELETE',
     //     url: `/api/file/delete/${id}`,
@@ -51,7 +50,12 @@ function deleteImageFile(id) {
 }
 
 //todo make callback
-function onFileUpload(element, target = 'topic', type = 'image', callback) {
+function onFileUpload(
+    element,
+    custom_identifier = null,
+    target = 'topic',
+    type = 'image',
+    callback) {
     if (element.files.length == 0) return;
     let form = new FormData();
     for (let i in element.files) {
@@ -59,6 +63,7 @@ function onFileUpload(element, target = 'topic', type = 'image', callback) {
         form.append('file', file);
     }
 
+    form.append('custom_identifier', custom_identifier);
     form.append('target', target)
 
     apiRequest({
@@ -77,13 +82,21 @@ function onFileUpload(element, target = 'topic', type = 'image', callback) {
             let data = response.data;
             let file_id = data.id;
             let mime_type = data.mime_type;
-            files.push(type, file_id.toString());
 
-            if (type == 'image' && !callback) {
-                let $slick = $('.slick.uploader');
-                let index = $slick.attr('total') - 1;
-                $slick.addCustomSlickItem(index,
-                    `<div class="slick-item draggable-item upload-item" draggable="true"
+            if(isEmpty(data['custom_identifier'])) {
+                files.push(type, file_id.toString());
+            } else {
+                files.push(custom_identifier, file_id.toString());
+            }
+
+            if (callback && typeof callback == 'function') {
+                callback(target, type, file_id.toString(), mime_type);
+            } else {
+                if (type == 'image') {
+                    let $slick = $('.slick.uploader');
+                    let index = $slick.attr('total') - 1;
+                    $slick.addCustomSlickItem(index,
+                        `<div class="slick-item draggable-item upload-item" draggable="true"
                          style="background: url('/file/${file_id}') no-repeat center; background-size: cover; font-size: 0;">
                         Slider #${file_id}
                         <input hidden type="text" name="id" value="${file_id}">
@@ -95,11 +108,11 @@ function onFileUpload(element, target = 'topic', type = 'image', callback) {
                         </div>
                     </div>`);
 
-                $slick.initDraggable({
-                    onDragFinished: onDragFinished,
-                });
+                    $slick.initDraggable({
+                        onDragFinished: onDragFinished,
+                    });
+                }
             }
-            if (callback && typeof callback == 'function') callback(target, type, file_id, mime_type);
             // reset input file
             element.type = ''
             element.type = 'file'
@@ -132,13 +145,13 @@ function dropEditingFiles(target = 'topic', type = 'image', callback) {
     });
 }
 
-function confirmEditFiles(target = 'topic', type = 'image', callback) {
+function confirmEditFiles(key, target = 'topic', type = 'image', callback) {
     if (isEmpty(identifier)) return;
     apiRequest({
         type: 'POST',
         url: `/api/file/${target}/${type}/confirm/${identifier}`,
         data: {
-            files: files.get(type),
+            files: files.get(key),
         },
         dataType: 'json',
         success: function (response, status, request) {

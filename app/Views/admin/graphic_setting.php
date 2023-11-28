@@ -7,43 +7,28 @@ $identifier = $shortid->generate();
 ?>
 <script type="text/javascript">
     identifier = '<?=$identifier?>';
-    <?php if (isset($logos)) {
-    foreach ($logos as $index => $item) { ?>
-    files.push('logo', '<?=$item['id']?>');
+    <?php
+    if (isset($graphic_settings)) {
+    foreach ($graphic_settings as $key => $graphic_setting) {
+    foreach ($graphic_setting as $index => $item) { ?>
+    files.push('<?=$key?>', '<?=$item['id']?>');
     <?php }
     }
-    if (isset($footer_logos)) {
-    foreach ($footer_logos as $index => $item) { ?>
-    files.push('footer_logo', '<?=$item['id']?>');
-    <?php }
-    }
-    if (isset($slider_images)) {
-    foreach ($slider_images as $index => $item) { ?>
-    files.push('image', '<?=$item['id']?>');
-    <?php }
     }?>
-    let video_mime_types = {};
-    <?php if (isset($videos)) {
-    foreach ($videos as $index => $item) { ?>
-    files.push('video', '<?=$item['id']?>');
-    video_mime_types['<?=$item['id']?>'] = '<?=$item['mime_type']?>';
-    <?php }
-    }?>
-    console.log(files)
 </script>
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
             <?= lang('Service.graphic_setting') ?>
         </h3>
-        <div class="content-wrap logo">
+        <div class="content-box favicon">
             <h4 class="page-sub-title">
-                <?= lang('Service.logo') ?>
+                <?= lang('Service.favicon') ?>
             </h4>
-            <div class="logo-box">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($logos ?? null, 164)) { ?>
-                    <div class="logo-wrap lines-horizontal">
-                        <?php foreach ($logos as $index => $item) { ?>
+            <div class="content-wrap">
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['favicon'] ?? null, 164)) { ?>
+                    <div class="content-wrap-inner lines-horizontal">
+                        <?php foreach ($graphic_settings['favicon'] as $index => $item) { ?>
                             <div class="upload-item"
                                  style="background: url('/file/<?= $item['id'] ?>') no-repeat center; background-size: contain; font-size: 0;">
                             </div>
@@ -51,7 +36,53 @@ $identifier = $shortid->generate();
                     </div>
                 <?php } ?>
             </div>
-            <div class="control-button-wrap logo">
+            <div class="control-button-wrap">
+                <a href="javascript:editSettingFile('favicon');"
+                   class="button under-line edit">
+                    <img src="/asset/images/icon/edit.png"/>
+                    <span><?= lang('Service.edit') ?></span>
+                </a>
+            </div>
+        </div>
+        <div class="content-box open_graph">
+            <h4 class="page-sub-title">
+                <?= lang('Service.open_graph') ?>
+            </h4>
+            <div class="content-wrap">
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['open_graph'] ?? null, 164)) { ?>
+                    <div class="content-wrap-inner lines-horizontal">
+                        <?php foreach ($graphic_settings['open_graph'] as $index => $item) { ?>
+                            <div class="upload-item"
+                                 style="background: url('/file/<?= $item['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+                            </div>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+            </div>
+            <div class="control-button-wrap">
+                <a href="javascript:editSettingFile('open_graph');"
+                   class="button under-line edit">
+                    <img src="/asset/images/icon/edit.png"/>
+                    <span><?= lang('Service.edit') ?></span>
+                </a>
+            </div>
+        </div>
+        <div class="content-box logo">
+            <h4 class="page-sub-title">
+                <?= lang('Service.logo') ?>
+            </h4>
+            <div class="content-wrap">
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['logo'] ?? null, 164)) { ?>
+                    <div class="content-wrap-inner lines-horizontal">
+                        <?php foreach ($graphic_settings['logo'] as $index => $item) { ?>
+                            <div class="upload-item"
+                                 style="background: url('/file/<?= $item['id'] ?>') no-repeat center; background-size: contain; font-size: 0;">
+                            </div>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+            </div>
+            <div class="control-button-wrap">
                 <a href="javascript:editSettingFile('logo');"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
@@ -59,14 +90,14 @@ $identifier = $shortid->generate();
                 </a>
             </div>
         </div>
-        <div class="content-wrap footer_logo">
+        <div class="content-box footer_logo">
             <h4 class="page-sub-title">
                 <?= lang('Service.footer_logo') ?>
             </h4>
-            <div class="footer-logo-box">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($footer_logos ?? null, 164)) { ?>
-                    <div class="footer-logo-wrap lines-horizontal">
-                        <?php foreach ($footer_logos as $index => $item) { ?>
+            <div class="content-wrap">
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['footer_logo'] ?? null, 164)) { ?>
+                    <div class="content-wrap-inner lines-horizontal">
+                        <?php foreach ($graphic_settings['footer_logo'] as $index => $item) { ?>
                             <div class="upload-item"
                                  style="background: url('/file/<?= $item['id'] ?>') no-repeat center; background-size: contain; font-size: 0;">
                             </div>
@@ -75,7 +106,7 @@ $identifier = $shortid->generate();
                 <?php } ?>
             </div>
             <!-- class에 type 명 입력 필요-->
-            <div class="control-button-wrap footer_logo">
+            <div class="control-button-wrap">
                 <a href="javascript:editSettingFile('footer_logo');"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
@@ -83,14 +114,14 @@ $identifier = $shortid->generate();
                 </a>
             </div>
         </div>
-        <div class="content-wrap video">
+        <div class="content-box main_video">
             <h4 class="page-sub-title">
-                <?= lang('Service.video') ?>
+                <?= lang('Service.main_video') ?>
             </h4>
-            <div class="video-box">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($videos ?? null, 314)) { ?>
-                    <div class="video-wrap lines-horizontal">
-                        <?php foreach ($videos as $index => $item) { ?>
+            <div class="content-wrap">
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['main_video'] ?? null, 314)) { ?>
+                    <div class="content-wrap-inner lines-horizontal">
+                        <?php foreach ($graphic_settings['main_video'] as $index => $item) { ?>
                             <div class="upload-item"
                                  style="background: url('/file/<?= $item['id'] ?>/thumbnail') no-repeat center; background-size: cover; font-size: 0;">
                             </div>
@@ -98,24 +129,24 @@ $identifier = $shortid->generate();
                     </div>
                 <?php } ?>
             </div>
-            <div class="control-button-wrap video">
-                <a href="javascript:editSettingFile('video');"
+            <div class="control-button-wrap">
+                <a href="javascript:editSettingFile('main_video');"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span><?= lang('Service.edit') ?></span>
                 </a>
             </div>
         </div>
-        <div class="content-wrap slider">
+        <div class="content-box main_image">
             <h4 class="page-sub-title">
-                <?= lang('Service.slider_images') ?>
+                <?= lang('Service.main_image') ?>
             </h4>
-            <div class="slider-box">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($slider_images ?? null, 312)) { ?>
-                    <div class="slider-wrap lines-horizontal">
+            <div class="content-wrap">
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['main_image'] ?? null, 312)) { ?>
+                    <div class="content-wrap-inner slider-wrap lines-horizontal">
                         <div class="slick-wrap">
                             <div class="slick">
-                                <?php foreach ($slider_images as $index => $item) { ?>
+                                <?php foreach ($graphic_settings['main_image'] as $index => $item) { ?>
                                     <div class="slick-item button"
                                          style="background: url('/file/<?= $item['id'] ?>') no-repeat center; background-size: cover; font-size: 0;"
                                          onclick="openImagePopup(<?= $item['id'] ?>)">
@@ -127,8 +158,8 @@ $identifier = $shortid->generate();
                     </div>
                 <?php } ?>
             </div>
-            <div class="control-button-wrap slider">
-                <a href="javascript:editSlider();"
+            <div class="control-button-wrap">
+                <a href="javascript:editMainImage();"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span><?= lang('Service.edit') ?></span>

@@ -13,6 +13,8 @@ $sliderImages = [
 ];
 $logo_url = isset($logos['logo']) ? "/file/{$logos['logo']['id']}" : '/asset/images/include/logo.png';
 $footer_logo_url = isset($logos['footer_logo']) ? "/file/{$logos['footer_logo']['id']}" : '/asset/images/include/logo_footer.png';
+$favicon_url = isset($logos['favicon']) ? "/file/{$logos['favicon']['id']}" : '/asset/images/favicon.ico';
+$open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id']}" : '/asset/images/include/open_graph.png';
 ?>
 <!doctype html>
 <html lang="ko">
@@ -20,7 +22,12 @@ $footer_logo_url = isset($logos['footer_logo']) ? "/file/{$logos['footer_logo'][
     <meta charset="UTF-8">
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
-    <title>Template</title>
+    <title><?= $settings['web-title'] ?? '' ?></title>
+    <meta property="og:title" content="<?= $settings['web-title'] ?? '' ?>" />
+    <meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg" />
+    <meta property="og:description" content="A shiny red apple with a bite taken out" />
+
+    <link rel="icon" type="image/x-icon" href="<?=$favicon_url?>">
 
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/default.css"/>
@@ -337,7 +344,7 @@ $footer_logo_url = isset($logos['footer_logo']) ? "/file/{$logos['footer_logo'][
         </div>
         <footer id="footer">
             <div class="footer-inner">
-                <a href="/" class="logo"><img src="<?= $footer_logo_url ?> alt=" footer logo"></a>
+                <a href="/" class="logo"><img src="<?= $footer_logo_url ?>" alt=" footer logo"></a>
                 <div class="text-wrap">
                     <ul class="cf">
                         <?php if (isset($settings['footer-text'])) {

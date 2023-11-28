@@ -79,8 +79,6 @@ return [
     "latitude" => "위도",
     "longitude" => "경도",
     "value" => "값",
-    "video" => "비디오",
-    "slider_images" => "슬라이더 이미지",
     "phone_number" => "전화번호",
     "inquiry" => "문의",
     "logo" => "로고",
@@ -99,6 +97,11 @@ return [
     "location" => "지도",
     "graphic_setting" => "그래픽 설정",
     "setting" => "설정",
+    "admin_title" => "관리자 페이지",
+    "favicon" => "파비콘",
+    "open_graph" => "오픈그래프",
+    "main_video" => "메인 비디오",
+    "main_image" => "메인 이미지",
 
     //messages
     "message_membership_agreement" => "개인 정보 취급 방침에 동의",
