@@ -83,6 +83,8 @@ return [
     "slider_images" => "슬라이더 이미지",
     "phone_number" => "전화번호",
     "inquiry" => "문의",
+    "logo" => "로고",
+    "footer_logo" => "하단 로고",
 
     //main
     "show_detail" => "상세보기",

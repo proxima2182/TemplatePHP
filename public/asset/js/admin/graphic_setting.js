@@ -40,7 +40,7 @@ function editSlider() {
                  style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                 <label for="image-file" class="button"></label>
                 <input type="file" name="file" multiple id="image-file"
-                       onchange="onFileUpload(this, 'image', 'main');"
+                       onchange="onFileUpload(this, 'main', 'image');"
                        accept="image/*"/>
             </div>
         </div>
@@ -77,15 +77,64 @@ function editSlider() {
 }
 
 function cancelSliderEdit() {
-    dropEditingFiles('image', function () {
+    dropEditingFiles('main', 'image', function () {
         location.reload();
     });
 }
 
 function confirmSliderEdit() {
-    confirmEditFiles('image', function () {
+    confirmEditFiles('main', 'image', function () {
         location.reload();
     });
+}
+
+function editLogo(target) {
+    let className = target == 'footer_logo' ? 'footer-logo' : 'logo'
+    let elementId = target == 'footer_logo' ? 'footer-logo-file' : 'logo-file'
+    let $parent = $(`.container-inner .${className}-box`);
+    $parent.empty();
+
+    let html = `<div class="${className}-wrap lines-horizontal">`;
+    //todo change identifier
+    if (files.get(target).length == 0) {
+        html += `
+        <div class="upload-item-add"
+             style="background: url('/asset/images/icon/plus_circle_big_gray.png') no-repeat center; font-size: 0;">
+            <label for="${elementId}" class="button"></label>
+            <input type="file" name="file" multiple id="${elementId}"
+                   onchange="onFileUpload(this, '${target}', 'image', onLogoFileUploaded);"
+                   accept="image/png"/>
+        </div>`;
+    } else {
+        for (let i in files.get(target)) {
+            let file_id = files.get(target)[i];
+            html += `
+            <div class="upload-item" style="background: url('/file/${file_id}') no-repeat center; background-size: cover; font-size: 0;">
+                <div class="upload-item-hover">
+                    <a href="javascript:deleteLogoFile('${target}', '${file_id}')"
+                       class="button delete-image black">
+                        <img src="/asset/images/icon/cancel_white.png"/>
+                    </a>
+                </div>
+            </div>`
+        }
+    }
+    html += `
+        </div>`;
+    $parent.append(html);
+    let $wrapButtonControls = $(`.control-button-wrap.${target}`);
+    $wrapButtonControls.empty();
+    $wrapButtonControls.append(`
+    <a href="javascript:cancelLogoEdit('${target}', 'image');"
+       class="button under-line cancel">
+        <img src="/asset/images/icon/cancel.png"/>
+        <span>${lang('cancel')}</span>
+    </a>
+    <a href="javascript:confirmLogoEdit('${target}', 'image');"
+       class="button under-line confirm">
+        <img src="/asset/images/icon/check.png"/>
+        <span>${lang('confirm')}</span>
+    </a>`)
 }
 
 function editVideo() {
@@ -100,7 +149,7 @@ function editVideo() {
              style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
             <label for="video-file" class="button"></label>
             <input type="file" name="file" multiple id="video-file"
-                   onchange="onFileUpload(this, 'video', 'main', onVideoFileUploaded);"
+                   onchange="onFileUpload(this, 'main', 'video', onVideoFileUploaded);"
                    accept="video/*"/>
         </div>`;
     } else {
@@ -135,19 +184,48 @@ function editVideo() {
     </a>`)
 }
 
+function cancelLogoEdit(type, target) {
+    dropEditingFiles(type, target, function () {
+        location.reload();
+    });
+}
+
 function cancelVideoEdit() {
-    dropEditingFiles('video', function () {
+    dropEditingFiles('video', 'main', function () {
+        location.reload();
+    });
+}
+
+function confirmLogoEdit(target, type) {
+    confirmEditFiles(target, type, function () {
         location.reload();
     });
 }
 
 function confirmVideoEdit() {
-    confirmEditFiles('video', function () {
+    confirmEditFiles('main', 'video', function () {
         location.reload();
     });
 }
 
-function onVideoFileUploaded(file_id, mime_type) {
+function onLogoFileUploaded(target, file_id, mime_type) {
+    let className = target == 'footer_logo' ? 'footer-logo' : 'logo'
+    let $parent = $(`.container-inner .${className}-box`);
+    $parent.empty();
+    $parent.append(`
+    <div class="${className}-wrap lines-horizontal">
+        <div class="upload-item" style="background: url('/file/${file_id}') no-repeat center; background-size: cover; font-size: 0;">
+            <div class="upload-item-hover">
+                <a href="javascript:deleteLogoFile('${target}','${file_id}')"
+                   class="button delete-image black">
+                    <img src="/asset/images/icon/cancel_white.png"/>
+                </a>
+            </div>
+        </div>
+    </div>`);
+}
+
+function onVideoFileUploaded(target, file_id, mime_type) {
     let $parent = $(`.container-inner .video-box`);
     $parent.empty();
     $parent.append(`
@@ -160,6 +238,26 @@ function onVideoFileUploaded(file_id, mime_type) {
                 </a>
             </div>
         </div>
+    </div>`);
+}
+
+function deleteLogoFile(target, id) {
+    let className = target == 'footer_logo' ? 'footer-logo' : 'logo'
+    let elementId = target == 'footer_logo' ? 'footer-logo-file' : 'logo-file'
+    let index = files.get(target).indexOf(id);
+    if (index < 0) return;
+    files.splice(target, index);
+
+    let $parent = $(`.container-inner .${className}-box .${className}-wrap`);
+    $parent.empty();
+
+    $parent.append(`
+    <div class="upload-item-add"
+         style="background: url('/asset/images/icon/plus_circle_big_gray.png') no-repeat center; font-size: 0;">
+        <label for="${elementId}" class="button"></label>
+        <input type="file" name="file" multiple id="${elementId}"
+               onchange="onFileUpload(this, '${target}', 'image', onLogoFileUploaded);"
+               accept="image/png"/>
     </div>`);
 }
 
@@ -177,8 +275,7 @@ function deleteVideoFile(id) {
          style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
         <label for="video-file" class="button"></label>
         <input type="file" name="file" multiple id="video-file"
-               onchange="onFileUpload(this, 'video', 'main', onVideoFileUploaded);"
+               onchange="onFileUpload(this, 'main', 'video', onVideoFileUploaded);"
                accept="video/*"/>
     </div>`);
-
 }

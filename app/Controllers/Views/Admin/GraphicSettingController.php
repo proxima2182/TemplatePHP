@@ -32,6 +32,14 @@ class GraphicSettingController extends BaseAdminController
             $data = array_merge($data, [
                 'videos' => $videos,
             ]);
+            $logos = $this->customFileModel->get(['type' => 'image', 'target' => 'logo']);
+            $data = array_merge($data, [
+                'logos' => $logos,
+            ]);
+            $footer_logos = $this->customFileModel->get(['type' => 'image', 'target' => 'footer_logo']);
+            $data = array_merge($data, [
+                'footer_logos' => $footer_logos,
+            ]);
         } catch (Exception $e) {
             //todo(log)
             $this->handleException($e);

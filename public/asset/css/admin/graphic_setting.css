@@ -1,3 +1,21 @@
+.container-inner .logo-wrap .upload-item-add,
+.container-inner .logo-wrap .upload-item,
+.container-inner .footer-logo-wrap .upload-item-add,
+.container-inner .footer-logo-wrap .upload-item {
+    width: 400px;
+    height: 150px;
+    line-height: 200px;
+    text-align: center;
+    display: inline-block;
+    margin: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.container-inner .logo-box,
+.container-inner .footer-logo-box {
+    background-color: #efefef;
+}
 
 .container-inner .video-wrap {
     font-size: 0;
@@ -21,11 +39,6 @@
 .container-inner .video-wrap .upload-item video {
     width: 100%;
     height: auto;
-}
-
-.container-inner .no-data-box {
-    height: 314px;
-    line-height: 312px;
 }
 
 .container-inner .slider-wrap .slick-wrap {

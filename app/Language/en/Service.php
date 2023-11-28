@@ -82,6 +82,8 @@ return [
     "slider_images" => "Slider Images",
     "phone_number" => "Phone Number",
     "inquiry" => "Inquiry",
+    "logo" => "Logo",
+    "footer_logo" => "Footer Logo",
 
     //main
     "show_detail" => "Show Detail",

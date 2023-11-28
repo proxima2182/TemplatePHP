@@ -23,11 +23,13 @@ class CustomFileController extends BaseApiController
     }
 
     /**
-     * [post] /api/file/{type}/upload
-     * @param $identifier
+     * [post] /api/file/{target}/{type}/upload/{identifier}
+     * @param $target
+     * @param $type
+     * @param null $identifier
      * @return ResponseInterface
      */
-    public function uploadFile($type, $identifier = null): ResponseInterface
+    public function uploadFile($target, $type, $identifier = null): ResponseInterface
     {
         $body = $this->request->getPost();
         $response = [
@@ -116,8 +118,8 @@ class CustomFileController extends BaseApiController
                     'symbolic_path' => $symbolic_path,
                     'identifier' => $identifier,
                 ];
-                if (isset($body['target'])) {
-                    $data['target'] = $body['target'];
+                if (isset($target)) {
+                    $data['target'] = $target;
                 }
                 $inserted_row_id = $this->customFileModel->insert($data);
                 if (!$inserted_row_id) {
@@ -169,13 +171,14 @@ class CustomFileController extends BaseApiController
     }
 
     /**
-     * [post] /api/file/{type}/refresh/{identifier}
+     * [post] /api/file/{target}/{type}/refresh/{identifier}
      * 업로드 했으나 중간에 완료하지 않고 취소할 경우 호출
+     * @param $target
      * @param $type
      * @param $identifier
      * @return ResponseInterface
      */
-    public function refreshFile($type, $identifier): ResponseInterface
+    public function refreshFile($target, $type, $identifier): ResponseInterface
     {
         $response = [
             'success' => false,
@@ -183,11 +186,17 @@ class CustomFileController extends BaseApiController
         try {
             if (strlen($identifier) == 0) throw new Exception('wrong path parameter');
             $conditionQuery = "";
+            $conditionPrefix = "";
             if ($type != 'all') {
-                $conditionQuery = "type = '" . $type . "' AND ";
+                $conditionQuery .= "type = '" . $type . "'";
+                $conditionPrefix = " AND ";
+            }
+            if ($target != 'all') {
+                $conditionQuery .= $conditionPrefix . "target = '" . $target . "'";
+                $conditionPrefix = " AND ";
             }
             $result = BaseModel::transaction($this->db, [
-                "SELECT * FROM custom_file WHERE " . $conditionQuery . "identifier = '" . $identifier . "'",
+                "SELECT * FROM custom_file WHERE " . $conditionQuery . $conditionPrefix . "identifier = '" . $identifier . "'",
             ]);
 //          $ids = array_column($result, 'id');
             $ids = [];
@@ -207,14 +216,15 @@ class CustomFileController extends BaseApiController
     }
 
     /**
-     * [post] /api/file/{type}/confirm/{identifier}
+     * [post] /api/file/{target}/{type}/confirm/{identifier}
      * 메인용 리소스에만 적용됨
      * (topic 에 종속된 파일인 경우 topic 업데이트와 함께 일괄처리)
+     * @param $target
      * @param $type
      * @param $identifier
      * @return ResponseInterface
      */
-    public function confirmFile($type, $identifier): ResponseInterface
+    public function confirmFile($target, $type, $identifier): ResponseInterface
     {
         $data = $this->request->getPost();
         if (!isset($data['files'])) {
@@ -231,26 +241,37 @@ class CustomFileController extends BaseApiController
             foreach ($data['files'] as $index => $file_id) {
                 // 이미지에 priority 를 설정 해 준다
                 $conditionQuery = "";
+                $conditionPrefix = "";
                 if ($type != 'all') {
-                    $conditionQuery = "type = '" . $type . "' AND ";
+                    $conditionQuery .= "type = '" . $type . "'";
+                    $conditionPrefix = " AND ";
+                }
+                if ($target != 'all') {
+                    $conditionQuery .= $conditionPrefix . "target = '" . $target . "'";
+                    $conditionPrefix = " AND ";
                 }
                 $queries[] = "UPDATE custom_file SET identifier = NULL, priority = " . $index + 1
-                    . " WHERE (id = '" . $file_id . "' AND " . $conditionQuery . "target = 'main') OR (id = '" . $file_id . "' AND identifier = '" . $identifier . "')";
+                    . " WHERE (id = '" . $file_id . "' AND " . $conditionQuery . ") OR (id = '" . $file_id . "' AND identifier = '" . $identifier . "')";
                 $selectorQuery .= $prefix . $file_id;
                 $prefix = ',';
             }
             BaseModel::transaction($this->db, $queries);
 
             $conditionQuery = "";
+            $conditionPrefix = "";
             if ($type != 'all') {
-                $conditionQuery = "type = '" . $type . "' AND ";
+                $conditionQuery .= "type = '" . $type . "'";
+                $conditionPrefix = " AND ";
+            }
+            if ($target != 'all') {
+                $conditionQuery .= $conditionPrefix . "target = '" . $target . "'";
+                $conditionPrefix = " AND ";
             }
             if (sizeof($data['files']) > 0) {
-                $conditionQuery .= "target = 'main' AND id NOT IN(" . $selectorQuery . ")" .
+                $conditionQuery .= " AND id NOT IN(" . $selectorQuery . ")" .
                     " OR identifier = '" . $identifier . "'";
             } else {
-                $conditionQuery .= "target = 'main'" .
-                    " OR identifier = '" . $identifier . "'";
+                $conditionQuery .= " OR identifier = '" . $identifier . "'";
             }
             $this->handleFileDelete($conditionQuery);
             $response['success'] = true;

@@ -93,9 +93,9 @@ $routes->get('/file/(:any)', [\Views\CustomFileController::class, 'getFile']);
 /**
  * API Routes
  */
-$routes->post('/api/file/(image|video)/upload/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'uploadFile']);
-$routes->post('/api/file/(image|video|all)/refresh/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'refreshFile']);
-$routes->post('/api/file/(image|video)/confirm/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'confirmFile']);
+$routes->post('/api/file/(main|topic|logo|footer_logo)/(image|video)/upload/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'uploadFile']);
+$routes->post('/api/file/(main|topic|logo|footer_logo|all)/(image|video|all)/refresh/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'refreshFile']);
+$routes->post('/api/file/(main|topic|logo|footer_logo)/(image|video|logo|footer_logo)/confirm/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'confirmFile']);
 $routes->delete('/api/file/delete/([0-9]+)', [\API\CustomFileController::class, 'deleteFile']);
 
 $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);

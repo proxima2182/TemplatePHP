@@ -51,7 +51,7 @@ function deleteImageFile(id) {
 }
 
 //todo make callback
-function onFileUpload(element, type = 'image', target = 'topic', callback) {
+function onFileUpload(element, target = 'topic', type = 'image', callback) {
     if (element.files.length == 0) return;
     let form = new FormData();
     for (let i in element.files) {
@@ -63,7 +63,7 @@ function onFileUpload(element, type = 'image', target = 'topic', callback) {
 
     apiRequest({
         type: 'POST',
-        url: `/api/file/${type}/upload/${identifier}`,
+        url: `/api/file/${target}/${type}/upload/${identifier}`,
         data: form,
         processData: false,
         contentType: false,
@@ -83,7 +83,7 @@ function onFileUpload(element, type = 'image', target = 'topic', callback) {
                 let $slick = $('.slick.uploader');
                 let index = $slick.attr('total') - 1;
                 $slick.addCustomSlickItem(index,
-                `<div class="slick-item draggable-item upload-item" draggable="true"
+                    `<div class="slick-item draggable-item upload-item" draggable="true"
                          style="background: url('/file/${file_id}') no-repeat center; background-size: cover; font-size: 0;">
                         Slider #${file_id}
                         <input hidden type="text" name="id" value="${file_id}">
@@ -99,7 +99,7 @@ function onFileUpload(element, type = 'image', target = 'topic', callback) {
                     onDragFinished: onDragFinished,
                 });
             }
-            if (callback && typeof callback == 'function') callback(file_id, mime_type);
+            if (callback && typeof callback == 'function') callback(target, file_id, mime_type);
             // reset input file
             element.type = ''
             element.type = 'file'
@@ -113,11 +113,11 @@ function onFileUpload(element, type = 'image', target = 'topic', callback) {
     });
 }
 
-function dropEditingFiles(type = 'image', callback) {
+function dropEditingFiles(target = 'topic', type = 'image', callback) {
     if (isEmpty(identifier)) return;
     apiRequest({
         type: 'POST',
-        url: `/api/file/${type}/refresh/${identifier}`,
+        url: `/api/file/${target}/${type}/refresh/${identifier}`,
         dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) {
@@ -132,11 +132,11 @@ function dropEditingFiles(type = 'image', callback) {
     });
 }
 
-function confirmEditFiles(type = 'image', callback) {
+function confirmEditFiles(target = 'topic', type = 'image', callback) {
     if (isEmpty(identifier)) return;
     apiRequest({
         type: 'POST',
-        url: `/api/file/${type}/confirm/${identifier}`,
+        url: `/api/file/${target}/${type}/confirm/${identifier}`,
         data: {
             files: files.get(type),
         },
@@ -185,5 +185,5 @@ async function onDragFinished(from, to) {
 };
 
 window.onbeforeunload = function () {
-    dropEditingFiles('all')
+    dropEditingFiles('all', 'all')
 }
