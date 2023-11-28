@@ -10,7 +10,9 @@ $sliderImages = [
     '/asset/images/slider/geometry-7209216_1280.jpeg',
     '/asset/images/slider/record-player-1851576_1280.jpeg',
     '/asset/images/slider/vacation-2302013_1280.jpeg',
-]
+];
+$logo_url = isset($logos['logo']) ? "/file/{$logos['logo']['id']}" : '/asset/images/include/logo.png';
+$footer_logo_url = isset($logos['footer_logo']) ? "/file/{$logos['footer_logo']['id']}" : '/asset/images/include/logo_footer.png';
 ?>
 <!doctype html>
 <html lang="ko">
@@ -82,7 +84,7 @@ $sliderImages = [
                     <span class="middle" style="opacity: 1;"></span>
                     <span class="bottom" style="transform: rotate(0deg); top: 25px;"></span>
                 </a>
-                <h1 class="logo"><a href="/"><img src="/asset/images/include/logo.png" alt="header logo"></a></h1>
+                <h1 class="logo"><a href="/"><img src="<?= $logo_url ?>" alt="header logo"></a></h1>
             </div>
             <div class="line mobile-only"></div>
             <div class="header-inner">
@@ -101,7 +103,7 @@ $sliderImages = [
                         <?php } ?>
                     </ul>
                 </div>
-                <h1 class="logo pc-only"><a href="/"><img src="/asset/images/include/logo.png" alt="header logo"></a>
+                <h1 class="logo pc-only"><a href="/"><img src="<?= $logo_url ?>" alt="header logo"></a>
                 </h1>
                 <ul class="gnb cf">
                     <?php foreach ($links as $i => $link) { ?>
@@ -114,7 +116,7 @@ $sliderImages = [
                                 <?php if ($link['has_local'] == 1) {
                                     foreach ($link['locals'] as $j => $localLink) { ?>
                                         <li>
-                                            <a <?= "onclick=\"clickClientNavigation(this, '" . Utils::parseUrl($link['path']) . "')\"" ?>
+                                            <a <?= "onclick=\"clickClientNavigation(this, '" . Utils::parseUrl($localLink['path']) . "')\"" ?>
                                                 class="button lnb-menu">
                                                 <?= $localLink['name'] ?>
                                             </a>
@@ -335,7 +337,7 @@ $sliderImages = [
         </div>
         <footer id="footer">
             <div class="footer-inner">
-                <a href="/" class="logo"><img src="/asset/images/include/logo_footer.png" alt="footer logo"></a>
+                <a href="/" class="logo"><img src="<?= $footer_logo_url ?> alt=" footer logo"></a>
                 <div class="text-wrap">
                     <ul class="cf">
                         <?php if (isset($settings['footer-text'])) {

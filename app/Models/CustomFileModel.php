@@ -39,4 +39,19 @@ class CustomFileModel extends BasePriorityModel
         'height',
         'created_at',
     ];
+
+    public function getLogos(): array
+    {
+        $queryResult = $this->db->query("SELECT * FROM {$this->table} WHERE (target = 'logo' OR target = 'footer_logo') AND type = 'image'")->getResultArray();
+        $result = [];
+        foreach ($queryResult as $row) {
+            $target = $row['target'];
+            switch ($target) {
+                case 'logo':
+                case 'footer_logo':
+                    $result[$target] = $row;
+            }
+        }
+        return $result;
+    }
 }

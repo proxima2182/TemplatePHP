@@ -34,12 +34,12 @@ class MainController extends BaseClientController
     {
         $data = $this->getViewData();
         try {
+            $data['logos'] = $this->customFileModel->getLogos();
             // for pagination
-            $result = $this->locationModel->getPaginated([
+            $data['locations'] = $this->locationModel->getPaginated([
                 'per_page' => 100,
                 'page' => 1,
             ]);
-            $data['locations'] = $result;
 //            // for loading total at first
 //            $result = $this->locationModel->get();
 //            $data['locations'] = [

@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Config\Services;
 use Models\CategoryLocalModel;
 use Models\CategoryModel;
+use Models\CustomFileModel;
 use Models\SettingModel;
 use Psr\Log\LoggerInterface;
 
@@ -15,6 +16,7 @@ class BaseClientController extends BaseViewController
     protected CategoryModel $categoryModel;
     protected CategoryLocalModel $categoryLocalModel;
     protected SettingModel $settingModel;
+    protected CustomFileModel $customFileModel;
     /**
      * links for pages
      * @var string[]
@@ -33,6 +35,7 @@ class BaseClientController extends BaseViewController
         $this->categoryModel = model('Models\CategoryModel');
         $this->categoryLocalModel = model('Models\CategoryLocalModel');
         $this->settingModel = model('Models\SettingModel');
+        $this->customFileModel = model('Models\CustomFileModel');
 
         // must be same with [\API\CategoryController - getCategoryAll()]
         $categories = $this->categoryModel->get();
@@ -79,8 +82,10 @@ class BaseClientController extends BaseViewController
      */
     protected function loadHeader(array $data, array $initData = []): string
     {
+        $logos = $this->customFileModel->getLogos();
         $initData = array_merge($initData, [
-            'links' => $this->links
+            'links' => $this->links,
+            'logos' => $logos,
         ]);
         return view('client/header', parent::loadDataForHeader($data, $initData));
     }

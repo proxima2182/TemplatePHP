@@ -45,14 +45,14 @@ $identifier = $shortid->generate();
                     <div class="logo-wrap lines-horizontal">
                         <?php foreach ($logos as $index => $item) { ?>
                             <div class="upload-item"
-                                 style="background: url('/file/<?= $item['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+                                 style="background: url('/file/<?= $item['id'] ?>') no-repeat center; background-size: contain; font-size: 0;">
                             </div>
                         <?php } ?>
                     </div>
                 <?php } ?>
             </div>
             <div class="control-button-wrap logo">
-                <a href="javascript:editLogo('logo');"
+                <a href="javascript:editSettingFile('logo');"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span><?= lang('Service.edit') ?></span>
@@ -68,7 +68,7 @@ $identifier = $shortid->generate();
                     <div class="footer-logo-wrap lines-horizontal">
                         <?php foreach ($footer_logos as $index => $item) { ?>
                             <div class="upload-item"
-                                 style="background: url('/file/<?= $item['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+                                 style="background: url('/file/<?= $item['id'] ?>') no-repeat center; background-size: contain; font-size: 0;">
                             </div>
                         <?php } ?>
                     </div>
@@ -76,7 +76,7 @@ $identifier = $shortid->generate();
             </div>
             <!-- class에 type 명 입력 필요-->
             <div class="control-button-wrap footer_logo">
-                <a href="javascript:editLogo('footer_logo');"
+                <a href="javascript:editSettingFile('footer_logo');"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span><?= lang('Service.edit') ?></span>
@@ -99,7 +99,7 @@ $identifier = $shortid->generate();
                 <?php } ?>
             </div>
             <div class="control-button-wrap video">
-                <a href="javascript:editVideo();"
+                <a href="javascript:editSettingFile('video');"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span><?= lang('Service.edit') ?></span>

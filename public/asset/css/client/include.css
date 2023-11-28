@@ -48,6 +48,7 @@ body {
 #header .logo a img {
     display: inline-block;
     vertical-align: middle;
+    max-height: 100%;
 }
 
 #header .mobile-utill {
@@ -74,6 +75,16 @@ body {
     top: 0;
     text-align: left;
     left: 10px;
+}
+
+#header.downsized .logo a {
+    padding: 5px 0;
+    box-sizing: border-box;
+}
+
+#header.downsized .logo a img {
+    height: 100%;
+    vertical-align: top;
 }
 
 .utill {
@@ -291,10 +302,17 @@ body {
         height: 60px !important;
         line-height: 60px !important;
         position: static !important;
+        box-sizing: border-box;
+    }
+
+    #header .logo a {
+        padding: 5px 0;
+        box-sizing: border-box;
     }
 
     #header .logo a img {
-        height: 40px;
+        height: 100%;
+        vertical-align: top;
     }
 
     .utill {

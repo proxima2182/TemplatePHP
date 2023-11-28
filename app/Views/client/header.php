@@ -3,6 +3,7 @@
 use App\Helpers\Utils;
 
 if (!isset($links) && !isset($is_login)) return;
+$logo_url = isset($logos['logo']) ? "/file/{$logos['logo']['id']}" : '/asset/images/include/logo.png';
 ?>
 <!doctype html>
 <html lang="ko">
@@ -46,7 +47,7 @@ if (!isset($links) && !isset($is_login)) return;
                 <span class="middle" style="opacity: 1;"></span>
                 <span class="bottom" style="transform: rotate(0deg); top: 25px;"></span>
             </a>
-            <h1 class="logo"><a href="/"><img src="/asset/images/include/logo.png" alt="header logo"></a></h1>
+            <h1 class="logo"><a href="/"><img src="<?= $logo_url ?>" alt="header logo"></a></h1>
         </div>
         <div class="line mobile-only"></div>
         <div class="header-inner">
@@ -64,7 +65,7 @@ if (!isset($links) && !isset($is_login)) return;
                     <?php } ?>
                 </ul>
             </div>
-            <h1 class="logo pc-only"><a href="/"><img src="/asset/images/include/logo.png" alt="header logo"></a></h1>
+            <h1 class="logo pc-only"><a href="/"><img src="<?= $logo_url ?>" alt="header logo"></a></h1>
             <ul class="gnb cf">
                 <?php
                 foreach ($links as $i => $link) {
@@ -78,7 +79,7 @@ if (!isset($links) && !isset($is_login)) return;
                                 <?php if ($link['has_local'] == 1) {
                                     foreach ($link['locals'] as $j => $localLink) { ?>
                                         <li>
-                                            <a <?= "onclick=\"clickClientNavigation(this, '" . Utils::parseUrl($link['path']) . "')\"" ?>
+                                            <a <?= "onclick=\"clickClientNavigation(this, '" . Utils::parseUrl($localLink['path']) . "')\"" ?>
                                                 class="button lnb-menu">
                                                 <?= $localLink['name'] ?>
                                             </a>

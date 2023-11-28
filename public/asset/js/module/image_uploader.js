@@ -99,7 +99,7 @@ function onFileUpload(element, target = 'topic', type = 'image', callback) {
                     onDragFinished: onDragFinished,
                 });
             }
-            if (callback && typeof callback == 'function') callback(target, file_id, mime_type);
+            if (callback && typeof callback == 'function') callback(target, type, file_id, mime_type);
             // reset input file
             element.type = ''
             element.type = 'file'
