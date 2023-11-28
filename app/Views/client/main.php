@@ -23,11 +23,11 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
     <title><?= $settings['web-title'] ?? '' ?></title>
-    <meta property="og:title" content="<?= $settings['web-title'] ?? '' ?>" />
-    <meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg" />
-    <meta property="og:description" content="A shiny red apple with a bite taken out" />
+    <meta property="og:title" content="<?= $settings['web-title'] ?? '' ?>"/>
+    <meta property="og:image" content="<?= $open_graph_url ?>"/>
+    <meta property="og:description" content="A shiny red apple with a bite taken out"/>
 
-    <link rel="icon" type="image/x-icon" href="<?=$favicon_url?>">
+    <link rel="icon" type="image/x-icon" href="<?= $favicon_url ?>">
 
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/default.css"/>
