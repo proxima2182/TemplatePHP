@@ -138,6 +138,8 @@ $routes->post('/api/setting/create', [\API\SettingController::class, 'createSett
 $routes->post('/api/setting/update/([0-9]+)', [\API\SettingController::class, 'updateSetting']);
 $routes->delete('/api/setting/delete/([0-9]+)', [\API\SettingController::class, 'deleteSetting']);
 
+$routes->get('/api/graphic-setting/get/all', [\API\GraphicSettingController::class, 'getGraphicSettings']);
+
 $routes->get('/api/category/get/all', [\API\CategoryController::class, 'getCategoryAll']);
 $routes->get('/api/category/get/([0-9]+)', [\API\CategoryController::class, 'getCategory']);
 $routes->post('/api/category/create', [\API\CategoryController::class, 'createCategory']);

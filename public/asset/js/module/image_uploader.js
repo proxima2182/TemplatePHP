@@ -21,7 +21,10 @@ let files = {
     splice(type, index) {
         this.checkEmpty(type);
         this.ids[type].splice(index, 1);
-    }
+    },
+    clear() {
+        this.ids = {};
+    },
 };
 
 $(document).ready(function () {

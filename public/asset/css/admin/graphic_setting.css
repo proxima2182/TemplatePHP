@@ -6,6 +6,25 @@
     position: relative;
 }
 
+/*no-data-box height*/
+.container-inner .content-box.favicon .no-data-box,
+.container-inner .content-box.open_graph .no-data-box,
+.container-inner .content-box.logo .no-data-box,
+.container-inner .content-box.footer_logo .no-data-box {
+    height: 164px;
+    line-height: 162px;
+}
+
+.container-inner .content-box.main_video .no-data-box {
+    height: 314px;
+    line-height: 312px;
+}
+
+.container-inner .content-box.main_image .upload-item {
+    height: 312px;
+    line-height: 310px;
+}
+
 .container-inner .content-box.favicon,
 .container-inner .content-box.open_graph {
     display: inline-block;

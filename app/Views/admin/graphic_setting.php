@@ -26,7 +26,7 @@ $identifier = $shortid->generate();
                 <?= lang('Service.favicon') ?>
             </h4>
             <div class="content-wrap">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['favicon'] ?? null, 164)) { ?>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['favicon'] ?? null)) { ?>
                     <div class="content-wrap-inner lines-horizontal">
                         <?php foreach ($graphic_settings['favicon'] as $index => $item) { ?>
                             <div class="upload-item"
@@ -49,7 +49,7 @@ $identifier = $shortid->generate();
                 <?= lang('Service.open_graph') ?>
             </h4>
             <div class="content-wrap">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['open_graph'] ?? null, 164)) { ?>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['open_graph'] ?? null)) { ?>
                     <div class="content-wrap-inner lines-horizontal">
                         <?php foreach ($graphic_settings['open_graph'] as $index => $item) { ?>
                             <div class="upload-item"
@@ -72,7 +72,7 @@ $identifier = $shortid->generate();
                 <?= lang('Service.logo') ?>
             </h4>
             <div class="content-wrap">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['logo'] ?? null, 164)) { ?>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['logo'] ?? null)) { ?>
                     <div class="content-wrap-inner lines-horizontal">
                         <?php foreach ($graphic_settings['logo'] as $index => $item) { ?>
                             <div class="upload-item"
@@ -95,7 +95,7 @@ $identifier = $shortid->generate();
                 <?= lang('Service.footer_logo') ?>
             </h4>
             <div class="content-wrap">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['footer_logo'] ?? null, 164)) { ?>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['footer_logo'] ?? null)) { ?>
                     <div class="content-wrap-inner lines-horizontal">
                         <?php foreach ($graphic_settings['footer_logo'] as $index => $item) { ?>
                             <div class="upload-item"
@@ -119,7 +119,7 @@ $identifier = $shortid->generate();
                 <?= lang('Service.main_video') ?>
             </h4>
             <div class="content-wrap">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['main_video'] ?? null, 314)) { ?>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['main_video'] ?? null)) { ?>
                     <div class="content-wrap-inner lines-horizontal">
                         <?php foreach ($graphic_settings['main_video'] as $index => $item) { ?>
                             <div class="upload-item"
@@ -142,7 +142,7 @@ $identifier = $shortid->generate();
                 <?= lang('Service.main_image') ?>
             </h4>
             <div class="content-wrap">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['main_image'] ?? null, 312)) { ?>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['main_image'] ?? null)) { ?>
                     <div class="content-wrap-inner slider-wrap lines-horizontal">
                         <div class="slick-wrap">
                             <div class="slick">
@@ -159,7 +159,7 @@ $identifier = $shortid->generate();
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
-                <a href="javascript:editMainImage();"
+                <a href="javascript:editSettingFile('main_image');"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span><?= lang('Service.edit') ?></span>

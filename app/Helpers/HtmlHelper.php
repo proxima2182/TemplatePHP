@@ -48,7 +48,7 @@ final class HtmlHelper
         return str_replace('\n', '&#10;', $string);
     }
 
-    public static function showDataEmpty($data, $height = 300): bool
+    public static function showDataEmpty($data, $height = null): bool
     {
         if (!isset($data) || is_array($data) && sizeof($data) == 0) {
             self::showMessage('err_empty_folder', 'No data available.', $height);
@@ -57,9 +57,13 @@ final class HtmlHelper
         return true;
     }
 
-    public static function showMessage($icon, $text, $height = 300): void
+    public static function showMessage($icon, $text, $height = null): void
     {
-        echo '<div class="no-data-box" style="height : ' . $height . 'px; line-height: ' . ($height - 2) . 'px;">
+        $style = '';
+        if (isset($height)) {
+            $style = ' style="height : ' . $height . 'px; line-height: ' . ($height - 2) . 'px;"';
+        }
+        echo '<div class="no-data-box"' . $style . '>
                 <div class="no-data-wrap">
                     <img src="/asset/images/icon/' . $icon . '.png">
                     <span>' . $text . '</span>
