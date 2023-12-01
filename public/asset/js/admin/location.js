@@ -60,6 +60,9 @@ async function openInputPopupCreate() {
             style: style,
             html: html,
         }, ($parent) => {
+            $parent.find(`.form-wrap .info-text-wrap`).css({
+                'display' : 'inline-block'
+            })
             $parent.find(`.popup-box`).addClass('has-control-button');
             $parent.find(`.popup-inner`).append(`
             <div class="control-button-wrap absolute line-before">
@@ -100,6 +103,10 @@ function editInputPopup(className, id) {
     $parent.find(`.form-wrap .editable`).not(`.readonly`).removeAttr('disabled')
     $parent.find(`.form-wrap .button-wrap`).remove();
     $parent.find(`.popup-inner .control-button-wrap`).remove();
+
+    $parent.find(`.form-wrap .info-text-wrap`).css({
+        'display' : 'inline-block'
+    })
 
     $parent.find(`.popup-inner`).append(`
     <div class="control-button-wrap absolute line-before">

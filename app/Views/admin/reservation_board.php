@@ -76,25 +76,26 @@
             const typeSet = {
                 code: {
                     type: 'text',
-                    name: '<?=lang('Service.code')?>',
-                    //todo : translation
-                    description: '* 코드는 영어로 입력해 주세요'
+                    name: `<?=lang('Service.code')?>`,
+                    description: `<?=lang('Service.message_info_english')?>`
                 },
                 alias: {
                     type: 'text',
-                    name: '<?=lang('Service.alias')?>',
+                    name: `<?=lang('Service.alias')?>`,
                 },
                 description: {
                     type: 'long-text',
-                    name: '<?=lang('Service.description')?>',
+                    name: `<?=lang('Service.description')?>`,
                 },
                 is_time_select: {
                     type: 'bool',
-                    name: '<?=lang('Service.time_select')?>',
+                    name: `<?=lang('Service.time_select')?>`,
+                    description: `<?=lang('Service.message_info_reservation_time')?>`,
                 },
                 default_accept_comment: {
                     type: 'long-text',
-                    name: '<?=lang('Service.default_accept_comment')?>',
+                    name: `<?=lang('Service.default_accept_comment')?>`,
+                    description: `<?=lang('Service.message_info_reservation_default_message')?>`,
                 },
             }
             let keys = Object.keys(typeSet);

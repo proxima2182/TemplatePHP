@@ -90,7 +90,7 @@ function fromDataToHtml(key, data, typeSet) {
             }
             html += `</select>`
             if (set['description']) {
-                html += `<div class="info-text-wrap">${set['description']}</div>`
+                html += `<div class="info-text-wrap" style="display: none;">${set['description']}</div>`
             }
             html += `</div>`
             return html;
@@ -103,7 +103,7 @@ function fromDataToHtml(key, data, typeSet) {
                 <p class="input-title">${name}</p>
                 <input type="checkbox" name="${key}" ${option}/>`
             if (set['description']) {
-                html += `<div class="info-text-wrap">${set['description']}</div>`
+                html += `<div class="info-text-wrap" style="display: none;">${set['description']}</div>`
             }
             html += `</div>`
             return html
@@ -115,7 +115,7 @@ function fromDataToHtml(key, data, typeSet) {
                     <p class="input-title">${name}</p>
                     <textarea name="${key}" onkeydown="resizeInputPopupTextarea(this)" onkeyup="resizeInputPopupTextarea(this)" ${option}>${value ? value.toTextareaString() : ''}</textarea>`
             if (set['description']) {
-                html += `<div class="info-text-wrap">${set['description']}</div>`
+                html += `<div class="info-text-wrap" style="display: none;">${set['description']}</div>`
             }
             html += `</div>`
             return html
@@ -127,7 +127,7 @@ function fromDataToHtml(key, data, typeSet) {
                     <p class="input-title">${name}</p>
                     <input type="${type}" name="${key}" ${option} value="${value ?? ''}"/>`
             if (set['description']) {
-                html += `<div class="info-text-wrap">${set['description']}</div>`
+                html += `<div class="info-text-wrap" style="display: none;">${set['description']}</div>`
             }
             html += `</div>`
             return html
@@ -310,6 +310,9 @@ async function openInputPopupCreate() {
             style: style,
             html: html,
         }, ($parent) => {
+            $parent.find(`.form-wrap .info-text-wrap`).css({
+                'display' : 'inline-block'
+            })
             $parent.find(`.popup-box`).addClass('has-control-button');
             $parent.find(`.popup-inner`).append(`
             <div class="control-button-wrap absolute line-before">
@@ -342,6 +345,10 @@ function editInputPopup(className, id) {
     $parent.find(`.form-wrap .editable`).not(`.readonly`).removeAttr('disabled')
     $parent.find(`.form-wrap .button-wrap`).remove();
     $parent.find(`.popup-inner .control-button-wrap`).remove();
+
+    $parent.find(`.form-wrap .info-text-wrap`).css({
+        'display' : 'inline-block'
+    })
 
     $parent.find(`.popup-inner`).append(`
     <div class="control-button-wrap absolute line-before">

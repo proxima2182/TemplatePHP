@@ -58,7 +58,7 @@
                                 name: 'Admin',
                             },
                         ],
-                        name: '<?=lang('Service.type')?>',
+                        name: `<?=lang('Service.type')?>`,
                         editable: false,
                     },
                 };
@@ -76,7 +76,7 @@
                                 name: 'User',
                             },
                         ],
-                        name: '<?=lang('Service.type')?>',
+                        name: `<?=lang('Service.type')?>`,
                     },
                 }
             }
@@ -84,20 +84,20 @@
                 ...typeSet,
                 username: {
                     type: 'text',
-                    name: '<?=lang('Service.username')?>',
+                    name: `<?=lang('Service.username')?>`,
                     editable: false,
                 },
                 name: {
                     type: 'text',
-                    name: '<?=lang('Service.name')?>',
+                    name: `<?=lang('Service.name')?>`,
                 },
                 email: {
                     type: 'text',
-                    name: '<?=lang('Service.email')?>',
+                    name: `<?=lang('Service.email')?>`,
                 },
                 created_at: {
                     type: 'text',
-                    name: '<?=lang('Service.created_at')?>',
+                    name: `<?=lang('Service.created_at')?>`,
                     editable: false,
                 },
             }

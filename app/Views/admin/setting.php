@@ -52,17 +52,17 @@
             const typeSet = {
                 code: {
                     type: 'text',
-                    name: '<?=lang('Service.code')?>',
+                    name: `<?=lang('Service.code')?>`,
                     editable: false,
                 },
                 name: {
                     type: 'text',
-                    name: '<?=lang('Service.name')?>',
+                    name: `<?=lang('Service.name')?>`,
                     editable: false,
                 },
                 value: {
                     type: data['type'],
-                    name: '<?=lang('Service.value')?>',
+                    name: `<?=lang('Service.value')?>`,
                 },
             }
             let keys = Object.keys(typeSet);

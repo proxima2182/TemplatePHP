@@ -64,11 +64,11 @@
             const typeSet = {
                 name: {
                     type: 'text',
-                    name: '<?=lang('Service.name')?>',
+                    name: `<?=lang('Service.name')?>`,
                 },
                 path: {
                     type: 'text',
-                    name: '<?=lang('Service.path')?>',
+                    name: `<?=lang('Service.path')?>`,
                 },
             }
             let keys = Object.keys(typeSet);

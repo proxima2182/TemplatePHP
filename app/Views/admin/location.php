@@ -62,20 +62,21 @@
             const typeSet = {
                 name: {
                     type: 'text',
-                    name: '<?=lang('Service.name')?>',
+                    name: `<?=lang('Service.name')?>`,
                 },
                 address: {
                     type: 'text',
-                    name: '<?=lang('Service.address')?>',
+                    name: `<?=lang('Service.address')?>`,
+                    description: `<?=lang('Service.message_info_location_address')?>`,
                 },
                 latitude: {
                     type: 'number',
-                    name: '<?=lang('Service.latitude')?>',
+                    name: `<?=lang('Service.latitude')?>`,
                     readonly: true,
                 },
                 longitude: {
                     type: 'number',
-                    name: '<?=lang('Service.longitude')?>',
+                    name: `<?=lang('Service.longitude')?>`,
                     readonly: true,
                 },
             }

@@ -70,14 +70,13 @@
             let typeSet = {
                 code: {
                     type: 'text',
-                    name: '<?=lang('Service.code')?>',
+                    name: `<?=lang('Service.code')?>`,
                     editable: is_editable,
-                    //todo : translation
-                    description: is_editable ? '* 코드는 영어로 입력해 주세요' : undefined
+                    description: is_editable ? `<?=lang('Service.message_info_english')?>` : undefined
                 },
                 alias: {
                     type: 'text',
-                    name: '<?=lang('Service.alias')?>',
+                    name: `<?=lang('Service.alias')?>`,
                 },
             };
             if (data && data['type'] == 'static') {
@@ -91,7 +90,7 @@
                                 name: 'Static',
                             },
                         ],
-                        name: '<?=lang('Service.type')?>',
+                        name: `<?=lang('Service.type')?>`,
                         editable: false,
                     },
                 };
@@ -110,8 +109,9 @@
                                 name: 'Table',
                             },
                         ],
-                        name: '<?=lang('Service.type')?>',
+                        name: `<?=lang('Service.type')?>`,
                         editable: is_editable,
+                        description: is_editable ? `<?=lang('Service.message_info_table_style')?>` : undefined
                     },
                 }
             }
@@ -119,17 +119,18 @@
                 ...typeSet,
                 is_reply: {
                     type: 'bool',
-                    name: '<?=lang('Service.reply')?>',
+                    name: `<?=lang('Service.reply')?>`,
                     editable: is_editable,
                 },
                 is_public: {
                     type: 'bool',
-                    name: '<?=lang('Service.public')?>',
+                    name: `<?=lang('Service.public')?>`,
                     editable: is_editable,
+                    description: is_editable ? `<?=lang('Service.message_info_public')?>` : undefined
                 },
                 description: {
                     type: 'long-text',
-                    name: '<?=lang('Service.description')?>',
+                    name: `<?=lang('Service.description')?>`,
                     editable: is_editable,
                 },
             }

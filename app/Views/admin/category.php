@@ -86,25 +86,26 @@
             const typeSet = {
                 code: {
                     type: 'text',
-                    name: '<?=lang('Service.code')?>',
-                    //todo : translation
-                    description: '* 코드는 영어로 입력해 주세요'
+                    name: `<?=lang('Service.code')?>`,
+                    description: `<?=lang('Service.message_info_english')?>`
                 },
                 name: {
                     type: 'text',
-                    name: '<?=lang('Service.name')?>',
+                    name: `<?=lang('Service.name')?>`,
                 },
                 path: {
                     type: 'text',
-                    name: '<?=lang('Service.path')?>',
+                    name: `<?=lang('Service.path')?>`,
                 },
                 is_main_only: {
                     type: 'bool',
-                    name: '<?=lang('Service.main_only')?>',
+                    name: `<?=lang('Service.main_only')?>`,
+                    description: `<?=lang('Service.message_info_category_main_only')?>`
                 },
                 has_local: {
                     type: 'bool',
-                    name: '<?=lang('Service.local_show')?>',
+                    name: `<?=lang('Service.local_show')?>`,
+                    description: `<?=lang('Service.message_info_category_local')?>`
                 },
             }
             let keys = Object.keys(typeSet);
@@ -119,7 +120,7 @@
             }
             return html;
         },
-        deleteMessage: '<?=lang('Service.message_popup_delete_topic')?>',
+        deleteMessage: `<?=lang('Service.message_popup_delete_topic')?>`,
     })
 
     $(document).ready(function () {
