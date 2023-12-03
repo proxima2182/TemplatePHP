@@ -456,7 +456,7 @@ function requestMembership() {
         type: 'POST',
         url: `/api/reservation/request`,
         data: {
-            reservation_board_id: 1,
+            reservation_board_code: 'enquiry-membership',
             temp_name: inputData['name'],
             temp_phone_number: inputData['phone_number'],
             question_comment: inputData['content'],

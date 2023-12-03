@@ -201,7 +201,6 @@ function refreshSettingFile() {
         $container.empty()
 
         if ($parent.hasClass('editing')) {
-            console.log(files.get(key))
             if (key == 'main_image') {
                 let html = `
                 <div class="content-wrap-inner slider-wrap lines-horizontal">
@@ -247,7 +246,6 @@ function refreshSettingFile() {
                     onDragFinished: generateOnDragFinished('main_image')
                 });
             } else {
-                console.log(files.get(key))
                 let html = `<div class="content-wrap-inner lines-horizontal">`;
                 if (files.get(key).length == 0) {
                     let icon_url = type == 'video' ? '/asset/images/icon/plus_circle_big.png' : '/asset/images/icon/plus_circle_big_gray.png';

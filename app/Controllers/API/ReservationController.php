@@ -17,13 +17,11 @@ class ReservationController extends EmailController
 
     public function __construct()
     {
-        $this->setLanguage();
+        parent::__construct();
         $this->db = db_connect();
         $this->boardModel = model('Models\ReservationBoardModel');
         $this->reservationModel = model('Models\ReservationModel');
         $this->reservationDateFragmentModel = model('Models\ReservationDateFragmentModel');
-        // inherited variable
-        $this->userModel = model('Models\UserModel');
     }
 
     /**
@@ -182,6 +180,10 @@ class ReservationController extends EmailController
                 'label' => 'Question Comment',
                 'rules' => 'required|min_length[1]',
             ],
+            'reservation_board_code' => [
+                'label' => 'Reservation Board Code',
+                'rules' => 'required',
+            ],
         ];
 
         if (!isset($data['expect_date']) && isset($data['date'])) {
@@ -209,6 +211,8 @@ class ReservationController extends EmailController
         if ($validationRules != null && !$this->validate($validationRules)) {
             $response['messages'] = $this->validator->getErrors();
         } else {
+            $board = $this->boardModel->findByCode($data['reservation_board_code']);
+            $data['reservation_board_id'] = $board['id'];
             try {
                 $data['datetime'] = date("Y-m-d H:i:s", $timeRaw);
                 $data['date'] = date("Y-m-d", $timeRaw);
