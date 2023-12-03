@@ -625,4 +625,11 @@ submit 페이지
         width: 75%;
     }
 
+    .page-popup {
+        max-width: calc(100% - 40px);
+    }
+
+    .page-popup .slider-wrap .slick-item {
+        max-height: calc(100vh - 140px);
+    }
 }
