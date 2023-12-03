@@ -1,4 +1,12 @@
 $(document).ready(function () {
+    try {
+        $('.slick.uploader').initDraggable({
+            onDragFinished: generateOnDragFinished('topic'),
+        });
+    } catch (e) {
+        // do nothing
+        // topic view page doesn't need initDraggable
+    }
     let $slick = $('.slider-wrap .slick');
     $slick.setOnResolutionChanged((event) => {
         let isSwipe = $slick.hasClass('uploader') ? false : true;
@@ -10,7 +18,7 @@ $(document).ready(function () {
         });
         try {
             $slick.initDraggable({
-                onDragFinished: onDragFinished,
+                onDragFinished: generateOnDragFinished('topic'),
             });
         } catch (e) {
             // do nothing

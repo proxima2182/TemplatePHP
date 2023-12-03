@@ -1,39 +1,33 @@
 let identifier = '';
 let files = {
     ids: {},
-    checkEmpty(type) {
-        if (!this.ids[type]) {
-            this.ids[type] = [];
+    checkEmpty(key) {
+        if (!this.ids[key]) {
+            this.ids[key] = [];
         }
     },
-    get(type) {
-        this.checkEmpty(type);
-        return this.ids[type];
+    get(key) {
+        this.checkEmpty(key);
+        return this.ids[key];
     },
-    set(type, index, value) {
-        this.checkEmpty(type);
-        this.ids[type][index] = value;
+    set(key, index, value) {
+        this.checkEmpty(key);
+        this.ids[key][index] = value;
     },
-    push(type, value) {
-        this.checkEmpty(type);
-        this.ids[type].push(value);
+    push(key, value) {
+        this.checkEmpty(key);
+        this.ids[key].push(value);
     },
-    splice(type, index) {
-        this.checkEmpty(type);
-        this.ids[type].splice(index, 1);
+    splice(key, index) {
+        this.checkEmpty(key);
+        this.ids[key].splice(index, 1);
     },
     clear() {
         this.ids = {};
     },
 };
 
-$(document).ready(function () {
-    $('.slick.uploader').initDraggable({
-        onDragFinished: onDragFinished,
-    });
-})
-
-function deleteImageFile(id, key = 'image') {
+function deleteImageFile(id, key = 'topic') {
     let index = files.get(key).indexOf(id);
     if (index < 0) return;
     let $slick = $('.slick.uploader');
@@ -55,7 +49,7 @@ function deleteImageFile(id, key = 'image') {
 //todo make callback
 function onFileUpload(
     element,
-    custom_identifier = null,
+    custom_identifier = 'topic',
     target = 'topic',
     type = 'image',
     callback) {
@@ -86,11 +80,7 @@ function onFileUpload(
             let file_id = data.id;
             let mime_type = data.mime_type;
 
-            if(isEmpty(data['custom_identifier'])) {
-                files.push(type, file_id.toString());
-            } else {
-                files.push(custom_identifier, file_id.toString());
-            }
+            files.push(custom_identifier, file_id.toString());
 
             if (callback && typeof callback == 'function') {
                 callback(target, type, file_id.toString(), mime_type);
@@ -112,7 +102,7 @@ function onFileUpload(
                     </div>`);
 
                     $slick.initDraggable({
-                        onDragFinished: onDragFinished,
+                        onDragFinished: generateOnDragFinished(custom_identifier),
                     });
                 }
             }
@@ -170,35 +160,65 @@ function confirmEditFiles(key, target = 'topic', type = 'image', callback) {
     });
 }
 
-async function onDragFinished(from, to) {
-    function getInputValue(parent) {
-        let elements = parent.getElementsByTagName('input');
-        if (elements.length == 0) return null;
-        return elements[0].value;
-    }
+function generateOnDragFinished(key) {
+    return async (from, to) => {
+        function getInputValue(parent) {
+            let elements = parent.getElementsByTagName('input');
+            if (elements.length == 0) return null;
+            return elements[0].value;
+        }
 
-    let fromId = getInputValue(from);
-    let toId = getInputValue(to);
-    if (!fromId || !toId) {
-        throw Error("can't find id value");
-        return false;
-    }
+        let fromId = getInputValue(from);
+        let toId = getInputValue(to);
+        if (!fromId || !toId) {
+            throw Error("can't find id value");
+            return false;
+        }
 
-    let type = 'image';
-    let fromIndex = files.get(type).indexOf(fromId);
-    let toIndex = files.get(type).indexOf(toId);
-    if (fromIndex < 0 || toIndex < 0) {
-        throw Error("can't find id value in temporary stored array");
-        return false;
-    }
-    files.set(type, fromIndex, toId);
-    files.set(type, toIndex, fromId);
+        let fromIndex = files.get(key).indexOf(fromId);
+        let toIndex = files.get(key).indexOf(toId);
+        if (fromIndex < 0 || toIndex < 0) {
+            throw Error("can't find id value in temporary stored array");
+            return false;
+        }
+        files.set(key, fromIndex, toId);
+        files.set(key, toIndex, fromId);
 
-    let temp = from.style.background;
-    from.style.background = to.style.background;
-    to.style.background = temp;
-    return true;
-};
+        let temp = from.style.background;
+        from.style.background = to.style.background;
+        to.style.background = temp;
+        return true;
+    }
+}
+// async function onDragFinished(from, to) {
+//     function getInputValue(parent) {
+//         let elements = parent.getElementsByTagName('input');
+//         if (elements.length == 0) return null;
+//         return elements[0].value;
+//     }
+//
+//     let fromId = getInputValue(from);
+//     let toId = getInputValue(to);
+//     if (!fromId || !toId) {
+//         throw Error("can't find id value");
+//         return false;
+//     }
+//
+//     let key = 'image';
+//     let fromIndex = files.get(key).indexOf(fromId);
+//     let toIndex = files.get(key).indexOf(toId);
+//     if (fromIndex < 0 || toIndex < 0) {
+//         throw Error("can't find id value in temporary stored array");
+//         return false;
+//     }
+//     files.set(key, fromIndex, toId);
+//     files.set(key, toIndex, fromId);
+//
+//     let temp = from.style.background;
+//     from.style.background = to.style.background;
+//     to.style.background = temp;
+//     return true;
+// };
 
 window.onbeforeunload = function () {
     dropEditingFiles('all', 'all')

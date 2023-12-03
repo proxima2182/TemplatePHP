@@ -13,7 +13,7 @@ $identifier = $shortid->generate();
     identifier = '<?=$identifier?>';
     <?php if (isset($data['files'])) {
     foreach ($data['files'] as $index => $item) { ?>
-    files.push('image', '<?=$item['id']?>');
+    files.push('topic', '<?=$item['id']?>');
     <?php }
     }?>
 </script>
@@ -80,7 +80,7 @@ $identifier = $shortid->generate();
 <script type="text/javascript">
     function confirmEditTopic(id) {
         let data = parseInputToData($(`.topic-wrap .form-wrap .editable`))
-        data['files'] = files.get('image');
+        data['files'] = files.get('topic');
 
         apiRequest({
             type: 'POST',
@@ -102,7 +102,7 @@ $identifier = $shortid->generate();
 
     function confirmCreateTopic() {
         let data = parseInputToData($(`.topic-wrap .form-wrap .editable`))
-        data['files'] = files.get('image');
+        data['files'] = files.get('topic');
 
         apiRequest({
             type: 'POST',

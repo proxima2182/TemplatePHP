@@ -244,7 +244,7 @@ function refreshSettingFile() {
                     draggable: false,
                 });
                 $container.find('.slick').initDraggable({
-                    onDragFinished: onDragFinished
+                    onDragFinished: generateOnDragFinished('main_image')
                 });
             } else {
                 console.log(files.get(key))
@@ -338,7 +338,7 @@ function refreshSettingFile() {
                         draggable: false,
                     });
                     $container.find('.slick').initDraggable({
-                        onDragFinished: onDragFinished
+                        onDragFinished: generateOnDragFinished('main_image')
                     });
                 } else {
                     let html = `<div class="content-wrap-inner lines-horizontal">`

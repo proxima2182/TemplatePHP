@@ -113,6 +113,7 @@ class TopicController extends CustomFileController
         if (!isset($data['files'])) {
             $data['files'] = [];
         }
+
         $validationRules = [
             'title' => [
                 'label' => 'Title',

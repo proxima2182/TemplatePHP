@@ -200,6 +200,10 @@ input[type=checkbox] {
     text-align: right;
 }
 
+.container-inner .control-button-wrap {
+    margin-bottom: 10px;
+}
+
 .control-button-wrap .button.under-line {
     height: 20px;
     line-height: 20px;
