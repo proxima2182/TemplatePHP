@@ -245,10 +245,13 @@ class EmailController extends BaseApiController
 
         $configPasswordKey = $this->settingModel->getInitialValue([
             'code' => 'gmail-password-key',
-        ], 'value');;
+        ], 'value');
         $configAddress = $this->settingModel->getInitialValue([
             'code' => 'gmail-address',
-        ], 'value');;
+        ], 'value');
+        $configFromName = $this->settingModel->getInitialValue([
+            'code' => 'gmail-from-name',
+        ], 'value');
         if (!isset($configPasswordKey) || strlen($configPasswordKey) == 0) {
             throw new Exception('configuration for mail password key is needed');
         }
@@ -257,7 +260,7 @@ class EmailController extends BaseApiController
         }
         $config = [
             'fromEmail' => $configAddress,
-            'fromName' => 'localhost',
+            'fromName' => $configFromName,
             'protocol' => 'smtp',
             'SMTPHost' => 'smtp.googlemail.com',
             'SMTPUser' => $configAddress,
@@ -332,8 +335,9 @@ class EmailController extends BaseApiController
                 } catch (Exception $e) {
                     //todo(log)
                 }
+
                 $email_address = '';
-                $email_title = '[' . \Config\Services::email()->fromName . '] ' . $title;
+                $email_title = $title;
                 switch ($type) {
                     case 'reset-password':
                         $users = $this->userModel->get(['username' => $data['username']]);
@@ -390,11 +394,12 @@ class EmailController extends BaseApiController
      */
     protected function sendReservationMail($data): void
     {
-        $email_address = $data['email'];
-        $email_title = '[' . \Config\Services::email()->fromName . '] ' . $data['title'];
+        if (!isset($data['email'])) {
+            throw new Exception('Email address is not valid.');
+        }
 
         $copies = $data['copies'] ?? [];
-        $service = $this->initService($email_address, $email_title, $copies);
+        $service = $this->initService($data['email'], $data['title'], $copies);
         $email_content = $this->getReservationMailStyle($service, $data['title'], $data);
         $service->setMessage($email_content);
         if (!$service->send()) {
