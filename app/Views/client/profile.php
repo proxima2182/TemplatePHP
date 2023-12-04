@@ -1,5 +1,4 @@
 <?php
-if (!isset($username) || !isset($name) || !isset($email)) return;
 if (!isset($sub)) $sub = 'view'
 ?>
 <div class="container-inner profile-container">

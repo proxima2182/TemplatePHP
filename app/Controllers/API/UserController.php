@@ -49,8 +49,23 @@ class UserController extends BaseApiController
             $response['message'] = 'session is expired';
             return $this->response->setJSON($response);
         } else {
-            $data = $this->request->getPost();
-            return $this->typicallyUpdate($this->userModel, $this->session->user_id, $data);
+            $validationRules = [
+                'email' => [
+                    'label' => 'Email',
+                    'rules' => 'regex_match[[a-z0-9]+@[a-z]+\.[a-z]{2,3}]',
+                    'errors' => [
+                        'regex_match' => '{field} format is not valid'
+                    ],
+                ],
+            ];
+
+            if ($validationRules != null && !$this->validate($validationRules)) {
+                $response['messages'] = $this->validator->getErrors();
+            } else {
+                $data = $this->request->getPost();
+                return $this->typicallyUpdate($this->userModel, $this->session->user_id, $data);
+            }
+            return $this->response->setJSON($response);
         }
     }
 
@@ -71,9 +86,26 @@ class UserController extends BaseApiController
      */
     public function updateUser($id): ResponseInterface
     {
-        //todo add limitation
-        $data = $this->request->getPost();
-        return $this->typicallyUpdate($this->userModel, $id, $data);
+        $response = [
+            'success' => false,
+        ];
+        $validationRules = [
+            'email' => [
+                'label' => 'Email',
+                'rules' => 'regex_match[[a-z0-9]+@[a-z]+\.[a-z]{2,3}]',
+                'errors' => [
+                    'regex_match' => '{field} format is not valid'
+                ],
+            ],
+        ];
+
+        if ($validationRules != null && !$this->validate($validationRules)) {
+            $response['messages'] = $this->validator->getErrors();
+        } else {
+            $data = $this->request->getPost();
+            return $this->typicallyUpdate($this->userModel, $id, $data);
+        }
+        return $this->response->setJSON($response);
     }
 
     /**
