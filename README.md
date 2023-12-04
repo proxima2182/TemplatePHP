@@ -1,62 +1,31 @@
-# CodeIgniter 4 Application Starter
+### 목적
 
-## What is CodeIgniter?
+* 첫 서버 개발언어로 접한 PHP 복습
+* 미래에 외주요청이 있을 시 프론트 페이지만 교체하여 빠르게 완성하기 위한 템플릿화
+---
+### 기능
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+* 로그인 회원가입(사용하지 않더라도 admin 페이지 접근을 위해 추가)
+* 이메일 전송
+  * 회원가입 시 인증 코드 이메일 전송
+  * 가맹점 문의(혹은 추가로 만든 예약 게시판에서의 예약요청)시 관리자로 이메일 전송
+* 파일 업로드 및 업로드 된 파일 관리
+* 게시판 기능
+  * 게시판 보기, 수정 기능
+  * 댓글(회원가입 사용할 시) 기능
+* 지도 기능
+  * kakao map 연동
+* admin 페이지 기능
+  * 설정값에 따른 내용 변경 기능
+  * 그래픽(파비콘, 로고, 메인화면 비디오, 메인화면 슬라이더) 변경 기능
+  * 카테고리 관리 기능
+  * 각 게시판 예약 관리 기능
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
-
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
-
-The user guide corresponding to the latest version of the framework can be found
-[here](https://codeigniter4.github.io/userguide/).
-
-## Installation & updates
-
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
-
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
-
-## Setup
-
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
-
-## Important Change with index.php
-
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
-
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
-
-**Please** read the user guide for a better explanation of how CI4 works!
-
-## Repository Management
-
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Server Requirements
-
-PHP version 7.4 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+---
+### 사용언어
+* PHP8.2
+* CodeIgniter4
+* HTML/CSS/javascript
+---
+### 배포
+* https://www.proxima.shop/
