@@ -96,6 +96,9 @@ class MainController extends BaseClientController
             . parent::loadFooter();
     }
 
+    public function getSslChallenge(string $key){
+        return $key;
+    }
     public function setSession()
     {
         $newdata = [

@@ -33,6 +33,7 @@ $routes->setAutoRoute(false);
 /**
  * View Routes
  */
+$routes->get('/.well-known/acme-challenge/(:any)', [\Views\MainController::class, 'getSslChallenge']);
 $routes->get('/', [\Views\MainController::class, 'index']);
 $routes->get('/frame-view', [\Views\MainController::class, 'getFrameView']);
 $routes->get('/get-session', [\Views\MainController::class, 'getSession']);
