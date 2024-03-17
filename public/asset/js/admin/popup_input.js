@@ -161,10 +161,11 @@ function initializeInputPopup(input) {
  * - 공통된 코드가 반복되어 함수 추가
  * @param data
  */
-function addInputPopupControlWrap(className, data, key = 'default') {
+function addInputPopupControlWrap(key, data) {
+    const className = initContainer[key].className;
     let controlHtml = initContainer[key].getControlHtml !== undefined &&
     initContainer[key].getControlHtml !== null ?
-        initContainer[key].getControlHtml(className, data, key) :
+        initContainer[key].getControlHtml(key, data) :
         initContainer[key].getControlHtml;
 
     if (typeof controlHtml == 'string' && controlHtml.length == 0) {
@@ -184,12 +185,12 @@ function addInputPopupControlWrap(className, data, key = 'default') {
         $parent.find(`.popup-inner`).append(`
         <div class="control-button-wrap absolute line-before">
             <div class="control-button-box">
-                <a href="javascript:editInputPopup('${className}', ${data['id']}, '${key}');"
+                <a href="javascript:editInputPopup('${key}', ${data['id']});"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span>${lang('edit')}</span>
                 </a>
-                <a href="javascript:openInputPopupDelete(${data['id']}, '${key}');"
+                <a href="javascript:openInputPopupDelete('${key}', ${data['id']});"
                     class="button under-line delete">
                     <img src="/asset/images/icon/delete.png"/>
                     <span>${lang('delete')}</span>
@@ -236,7 +237,7 @@ async function openInputPopup(id, key = 'default') {
                     style: style,
                     html: html,
                 }, ($parent) => {
-                    addInputPopupControlWrap(className, data, key);
+                    addInputPopupControlWrap(key, data);
                     let $textarea = $parent.find(`textarea`);
                     for (let i = 0; i < $textarea.length; ++i) {
                         resizeInputPopupTextarea($textarea.get(i));
@@ -258,7 +259,8 @@ async function openInputPopup(id, key = 'default') {
  * cancel 버튼 누를 때 호출
  * @param {string}id            API 에 전달 할 id
  */
-function refreshInputPopup(className, id, key = 'default') {
+function refreshInputPopup(key, id) {
+    const className = initContainer[key].className;
     apiRequest({
         type: 'GET',
         url: initContainer[key].getGetUrl(id),
@@ -274,7 +276,7 @@ function refreshInputPopup(className, id, key = 'default') {
                 <div class="error-message-wrap"></div>
             </div>`
             $(`.${className} .popup-inner`).append(html)
-            addInputPopupControlWrap(className, data, key);
+            addInputPopupControlWrap(key, data);
             let $textarea = $(`.${className} textarea`);
             for (let i = 0; i < $textarea.length; ++i) {
                 resizeInputPopupTextarea($textarea.get(i));
@@ -293,7 +295,7 @@ function refreshInputPopup(className, id, key = 'default') {
  * @returns {Promise<void>}
  */
 async function openInputPopupCreate(key = 'default') {
-    let className = `${key}-popup-create`;
+    const className = `${key}-popup-create`;
     if (!initContainer[key].getCreateUrl || !initContainer[key].getHtml) return;
     try {
         let css = await loadStyleFile('/asset/css/common/input.css', "." + className);
@@ -324,7 +326,7 @@ async function openInputPopupCreate(key = 'default') {
                         <img src="/asset/images/icon/cancel.png"/>
                         <span>${lang('cancel')}</span>
                     </a>
-                    <a href="javascript:confirmInputPopupCreate('${className}', '${key}');"
+                    <a href="javascript:confirmInputPopupCreate('${key}');"
                         class="button under-line confirm">
                         <img src="/asset/images/icon/check.png"/>
                         <span>${lang('confirm')}</span>
@@ -341,7 +343,8 @@ async function openInputPopupCreate(key = 'default') {
  * input 에 입력불가 옵션을 해제 하고 control 부분의 버튼을 변경하는 기능
  * @param {string}id
  */
-function editInputPopup(className, id, key = 'default') {
+function editInputPopup(key, id) {
+    const className = initContainer[key].className;
     let $parent = $(`.${className}`);
     $parent.find(`.form-wrap .editable`).not(`.readonly`).removeAttr('readonly')
     $parent.find(`.form-wrap .editable`).not(`.readonly`).removeAttr('disabled')
@@ -355,12 +358,12 @@ function editInputPopup(className, id, key = 'default') {
     $parent.find(`.popup-inner`).append(`
     <div class="control-button-wrap absolute line-before">
         <div class="control-button-box">
-            <a href="javascript:refreshInputPopup('${className}', ${id}, '${key}');"
+            <a href="javascript:refreshInputPopup('${key}', ${id});"
                 class="button under-line cancel">
                 <img src="/asset/images/icon/cancel.png"/>
                 <span>${lang('cancel')}</span>
             </a>
-            <a href="javascript:confirmInputPopupEdit('${className}', ${id}, '${key}');"
+            <a href="javascript:confirmInputPopupEdit('${key}', ${id});"
                 class="button under-line confirm">
                 <img src="/asset/images/icon/check.png"/>
                 <span>${lang('confirm')}</span>
@@ -382,7 +385,7 @@ function editInputPopup(className, id, key = 'default') {
  * @param id
  * @returns {Promise<void>}
  */
-async function openInputPopupDelete(id, key = 'default') {
+async function openInputPopupDelete(key, id) {
     let className = `${key}-popup-delete`;
     let css = await loadStyleFile('/asset/css/common/popup/delete.css', "." + className);
     let html = `
@@ -392,7 +395,7 @@ async function openInputPopupDelete(id, key = 'default') {
     <div class="error-message-wrap"></div>
     <div class="button-wrap controls">
         <a href="javascript:closePopup('${className}')" class="button cancel white">${lang('cancel')}</a>
-        <a href="javascript:confirmInputPopupDelete('${className}', ${id}, '${key}')" class="button confirm black">${lang('delete')}</a>
+        <a href="javascript:confirmInputPopupDelete('${key}', ${id})" class="button confirm black">${lang('delete')}</a>
     </div>`;
     openPopup({
         className: className,
@@ -452,7 +455,8 @@ function getErrorCallback(className) {
  * 데이터 수정을 완료 기능
  * @param {string}id
  */
-function confirmInputPopupEdit(className, id, key = 'default') {
+function confirmInputPopupEdit(key, id) {
+    const className = initContainer[key].className;
     if (!initContainer[key].getUpdateUrl) return;
     let data = parseInputToData($(`.${className} .editable`))
     $(`.${className} .error-message-wrap`).empty();
@@ -471,7 +475,8 @@ function confirmInputPopupEdit(className, id, key = 'default') {
  * 데이터 생성을 완료 기능
  * @param {string}id
  */
-function confirmInputPopupCreate(className, key = 'default') {
+function confirmInputPopupCreate(key = 'default') {
+    const className = `${key}-popup-create`;
     if (!initContainer[key].getCreateUrl) return;
     let data = parseInputToData($(`.${className} .editable`))
     $(`.${className} .error-message-wrap`).empty();
@@ -490,7 +495,8 @@ function confirmInputPopupCreate(className, key = 'default') {
  * 데이터 삭제 기능
  * @param {string}id
  */
-function confirmInputPopupDelete(className, id, key = 'default') {
+function confirmInputPopupDelete(key, id) {
+    const className = `${key}-popup-delete`;
     if (!initContainer[key].getDeleteUrl) return;
     apiRequest({
         type: 'DELETE',
