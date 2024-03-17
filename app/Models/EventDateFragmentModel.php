@@ -12,7 +12,7 @@ namespace Models;
  * updated_at           DATETIME
  */
 
-class ReservationDateFragmentModel extends BaseModel
+class EventDateFragmentModel extends BaseModel
 {
     protected $table = 'reservation_date_fragment';
     protected $allowedFields = [

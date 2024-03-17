@@ -5,23 +5,23 @@ namespace API;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\BaseModel;
-use Models\ReservationBoardModel;
-use Models\ReservationDateFragmentModel;
-use Models\ReservationModel;
+use Models\EventModel;
+use Models\EventDateFragmentModel;
+use Models\RewardModel;
 
 class ReservationController extends EmailController
 {
-    protected ReservationBoardModel $boardModel;
-    protected ReservationModel $reservationModel;
-    protected ReservationDateFragmentModel $reservationDateFragmentModel;
+    protected EventModel $boardModel;
+    protected RewardModel $reservationModel;
+    protected EventDateFragmentModel $reservationDateFragmentModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->db = db_connect();
-        $this->boardModel = model('Models\ReservationBoardModel');
-        $this->reservationModel = model('Models\ReservationModel');
-        $this->reservationDateFragmentModel = model('Models\ReservationDateFragmentModel');
+        $this->boardModel = model('Models\EventModel');
+        $this->reservationModel = model('Models\RewardModel');
+        $this->reservationDateFragmentModel = model('Models\EventDateFragmentModel');
     }
 
     /**
