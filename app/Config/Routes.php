@@ -72,8 +72,7 @@ $routes->addRedirect('/admin/user', '/admin/user/1');
 
 $routes->get('/admin/graphic-setting', [\Views\Admin\GraphicSettingController::class, 'index']);
 
-$routes->get('/admin/setting/([0-9]+)', [\Views\Admin\SettingController::class, 'index']);
-$routes->addRedirect('/admin/setting', '/admin/setting/1');
+$routes->get('/admin/setting', [\Views\Admin\SettingController::class, 'index']);
 
 $routes->get('/admin/category', [\Views\Admin\CategoryController::class, 'index']);
 $routes->get('/admin/category/([a-zA-Z][a-zA-Z0-9\-\_]*)', [\Views\Admin\CategoryController::class, 'getCategory']);

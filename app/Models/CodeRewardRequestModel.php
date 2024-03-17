@@ -2,9 +2,9 @@
 
 namespace Models;
 
-class CodeRequestModel extends BaseModel
+class CodeRewardRequestModel extends BaseModel
 {
-    protected $table = 'code_request';
+    protected $table = 'code_reward_request';
     protected $allowedFields = [
         'id',
         'code',

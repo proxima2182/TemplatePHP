@@ -1,11 +1,11 @@
 <div class="container-inner">
     <div class="container-wrap">
-        <h3 class="page-title">
+        <h4 class="page-sub-title">
             <?= lang('Service.setting') ?>
-        </h3>
+        </h4>
         <div class="table-box">
             <div class="table-wrap">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array ?? [])) { ?>
                     <div class="row-title">
                         <div class="row">
                             <span class="column code"><?= lang('Service.code') ?></span>
@@ -16,7 +16,8 @@
                     <ul>
                         <?php foreach ($array as $index => $item) { ?>
                             <li class="row">
-                                <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
+                                <a href="javascript:openInputPopup('<?= $item['id'] ?>', 'setting')"
+                                   class="button row-button">
                                     <span class="column code"><?= $item['code'] ?></span>
                                     <span class="column name"><?= $item['name'] ?></span>
                                     <span class="column value"><?= $item['value'] ?></span>
@@ -28,7 +29,7 @@
             </div>
         </div>
 
-        <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
+        <?= \App\Helpers\HtmlHelper::getPagination($pagination ?? null, $pagination_link ?? null); ?>
     </div>
 </div>
 <script type="text/javascript">
@@ -36,6 +37,7 @@
      * admin/popup_input
      */
     initializeInputPopup({
+        key: 'setting',
         getGetUrl: function (id) {
             return `/api/setting/get/${id}`
         },
@@ -77,16 +79,16 @@
             }
             return html;
         },
-        getControlHtml: function (className, data) {
+        getControlHtml: function (className, data, key) {
             let html = `
-            <a href="javascript:editInputPopup('${className}', ${data['id']});"
+            <a href="javascript:editInputPopup('${className}', ${data['id']}, '${key}');"
                class="button under-line edit">
                 <img src="/asset/images/icon/edit.png"/>
                 <span>${lang('edit')}</span>
             </a>`;
             if (data['is_deletable'] == 1) {
                 html += `
-                <a href="javascript:openInputPopupDelete(${data['id']});"
+                <a href="javascript:openInputPopupDelete(${data['id']}, '${key}');"
                 class="button under-line delete">
                     <img src="/asset/images/icon/delete.png"/>
                     <span>${lang('delete')}</span>
@@ -94,5 +96,5 @@
             }
             return html;
         }
-    })
+    }, 'setting')
 </script>

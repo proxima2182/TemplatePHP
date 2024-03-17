@@ -25,35 +25,6 @@ class GraphicSettingController extends BaseAdminController
         $data = $this->getViewData();
         try {
             $graphic_settings = [];
-            $queryResult = $this->customFileModel->getGraphicSettings();
-
-            foreach ($queryResult as $row) {
-                $target = $row['target'];
-                switch ($target) {
-                    case 'main':
-                        if (!isset($graphic_settings['main_video'])) $graphic_settings['main_video'] = [];
-                        $graphic_settings['main_video'][] = $row;
-                        break;
-                    case 'logo':
-                        if (!isset($graphic_settings['logo'])) $graphic_settings['logo'] = [];
-                        $graphic_settings['logo'][] = $row;
-                        break;
-                    case 'footer_logo':
-                        if (!isset($graphic_settings['footer_logo'])) $graphic_settings['footer_logo'] = [];
-                        $graphic_settings['footer_logo'][] = $row;
-                        break;
-                    case 'favicon':
-                        if (!isset($graphic_settings['favicon'])) $graphic_settings['favicon'] = [];
-                        $graphic_settings['favicon'][] = $row;
-                        break;
-                    case 'open_graph':
-                        if (!isset($graphic_settings['open_graph'])) $graphic_settings['open_graph'] = [];
-                        $graphic_settings['open_graph'][] = $row;
-                        break;
-                }
-            }
-
-            // priority 때문에 따로조회
             $images = $this->customFileModel->get(['type' => 'image', 'target' => 'main']);
             $graphic_settings = array_merge($graphic_settings, [
                 'main_image' => $images,

@@ -115,4 +115,24 @@ final class HtmlHelper
         ]);
         return HtmlHelper::setTranslations(array_merge($defaultTranslations, $translations));
     }
+
+
+    public static function getPaginationLink($pagination_link, $number, $params = null, $pagination_key = null): string
+    {
+        if (isset($params) && $pagination_key) {
+            $param_string = '';
+            $prefix = '';
+            foreach ($params as $key => $value) {
+                if ($key == $pagination_key) {
+                    $param_string .= $prefix. $key . "=" . $number;
+                } else {
+                    $param_string .= $prefix. $key . "=" . $value;
+                }
+                $prefix = "&";
+            }
+            return $pagination_link . "?" . $param_string;
+        } else {
+            return $pagination_link . "/" . $number;
+        }
+    }
 }

@@ -1,0 +1,12 @@
+body .table-box {
+    min-height: 300px;
+}
+.page-title-wrap {
+    padding-top: 40px;
+}
+.container-inner .container-wrap {
+    padding: 20px 0px;
+}
+.page-inner, .container-inner {
+    min-height: auto;
+}

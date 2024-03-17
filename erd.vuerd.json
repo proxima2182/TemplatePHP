@@ -3,8 +3,8 @@
     "version": "2.2.11",
     "width": 3000,
     "height": 3000,
-    "scrollTop": -984.2719999999997,
-    "scrollLeft": -966.4099666666671,
+    "scrollTop": -2059,
+    "scrollLeft": -1003.7685666666672,
     "zoomLevel": 0.9,
     "show": {
       "tableComment": true,
@@ -2019,7 +2019,7 @@
           }
         ],
         "ui": {
-          "active": true,
+          "active": false,
           "left": 1086.5804,
           "top": 1195.8883,
           "zIndex": 467,
@@ -2031,7 +2031,7 @@
       },
       {
         "id": "e4ff6b49-8e72-4d91-ac6f-eb56056213b4",
-        "name": "code_request",
+        "name": "code_reward_request",
         "comment": "",
         "columns": [
           {
@@ -2177,8 +2177,8 @@
           "active": false,
           "left": 2040.3611,
           "top": 2670.2219,
-          "zIndex": 429,
-          "widthName": 74.12391662597656,
+          "zIndex": 475,
+          "widthName": 116.47784423828125,
           "widthComment": 60,
           "color": "#2196F3"
         },

@@ -121,16 +121,16 @@
             }
             return html;
         },
-        getControlHtml: function (className, data) {
+        getControlHtml: function (className, data, key) {
             let html = `
-            <a href="javascript:editInputPopup('${className}', ${data['id']});"
+            <a href="javascript:editInputPopup('${className}', ${data['id']}, '${key}');"
                class="button under-line edit">
                 <img src="/asset/images/icon/edit.png"/>
                 <span>${lang('edit')}</span>
             </a>`;
             if (data['is_deletable'] == 1) {
                 html += `
-                <a href="javascript:openInputPopupDelete(${data['id']});"
+                <a href="javascript:openInputPopupDelete(${data['id']}, '${key}');"
                 class="button under-line delete">
                     <img src="/asset/images/icon/delete.png"/>
                     <span>${lang('delete')}</span>
