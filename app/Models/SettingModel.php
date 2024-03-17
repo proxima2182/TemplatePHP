@@ -5,7 +5,7 @@ namespace Models;
 /*
  * column_name      type            comment
  * -----------------------------------------
- * id               INT
+ * id               BIGINT
  * code             VARCHAR(20)
  * type             VARCHAR(20)     text|long-text|number|bool
  * name             VARCHAR(50)
@@ -29,11 +29,6 @@ class SettingModel extends BaseModel
 
     public function initialize(): void
     {
-        $this->createIfNotExist(['code' => 'kakao-map-appkey'], [
-            "code" => "kakao-map-appkey",
-            "type" => "text",
-            "name" => "카카오 맵 APPKEY",
-        ]);
         $this->createIfNotExist(['code' => 'gmail-password-key'], [
             "code" => "gmail-password-key",
             "type" => "text",

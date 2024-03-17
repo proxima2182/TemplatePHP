@@ -5,7 +5,7 @@ namespace Models;
 /*
  * column_name              type            comment
  * -----------------------------------------
- * id                       INT
+ * id                       BIGINT
  * code                     VARCHAR(20)
  * alias                    VARCHAR(50)
  * description              TEXT

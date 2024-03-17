@@ -67,9 +67,6 @@ $routes->get('/admin/topic/([0-9]+)/edit', [\Views\Admin\BoardController::class,
 $routes->get('/admin/topic/reply/([0-9]+)', [\Views\Admin\ReplyController::class, 'index']);
 $routes->addRedirect('/admin/topic/reply', '/admin/topic/reply/1');
 
-$routes->get('/admin/location/([0-9]+)', [\Views\Admin\LocationController::class, 'index']);
-$routes->addRedirect('/admin/location', '/admin/location/1');
-
 $routes->get('/admin/user/([0-9]+)', [\Views\Admin\UserController::class, 'index']);
 $routes->addRedirect('/admin/user', '/admin/user/1');
 
@@ -80,13 +77,6 @@ $routes->addRedirect('/admin/setting', '/admin/setting/1');
 
 $routes->get('/admin/category', [\Views\Admin\CategoryController::class, 'index']);
 $routes->get('/admin/category/([a-zA-Z][a-zA-Z0-9\-\_]*)', [\Views\Admin\CategoryController::class, 'getCategory']);
-
-$routes->get('/admin/reservation-board/([0-9]+)', [\Views\Admin\ReservationController::class, 'index']);
-$routes->addRedirect('/admin/reservation-board', '/admin/reservation-board/1');
-$routes->get('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)/([0-9]+)', [\Views\Admin\ReservationController::class, 'getBoard']);
-$routes->addRedirect('/admin/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/admin/reservation-board/$1/1');
-$routes->get('/admin/reservation-board/calendar/([a-zA-Z][a-zA-Z0-9\-\_]*)', [\Views\Admin\ReservationController::class, 'getCalendar']);
-$routes->get('/admin/reservation/([0-9]+)', [\Views\Admin\ReservationController::class, 'getReservation']);
 
 $routes->get('/file/(:any)/thumbnail', [\Views\CustomFileController::class, 'getFileThumbnail']);
 $routes->get('/file/(:any)', [\Views\CustomFileController::class, 'getFile']);
@@ -128,12 +118,6 @@ $routes->post('/api/topic/reply/([0-9]+)/create/nested-reply', [\API\TopicContro
 $routes->get('/api/topic/reply/get/([0-9]+)', [\API\TopicController::class, 'getReply']);
 $routes->delete('/api/topic/reply/delete/([0-9]+)', [\API\TopicController::class, 'deleteReply']);
 
-$routes->get('/api/location/get/all', [\API\LocationController::class, 'getLocationAll']);
-$routes->get('/api/location/get/([0-9]+)', [\API\LocationController::class, 'getLocation']);
-$routes->post('/api/location/create', [\API\LocationController::class, 'createLocation']);
-$routes->post('/api/location/update/([0-9]+)', [\API\LocationController::class, 'updateLocation']);
-$routes->delete('/api/location/delete/([0-9]+)', [\API\LocationController::class, 'deleteLocation']);
-
 $routes->get('/api/setting/get/([0-9]+)', [\API\SettingController::class, 'getSetting']);
 $routes->post('/api/setting/create', [\API\SettingController::class, 'createSetting']);
 $routes->post('/api/setting/update/([0-9]+)', [\API\SettingController::class, 'updateSetting']);
@@ -152,17 +136,6 @@ $routes->post('/api/category/local/create', [\API\CategoryController::class, 'cr
 $routes->post('/api/category/local/update/([0-9]+)', [\API\CategoryController::class, 'updateCategoryLocal']);
 $routes->delete('/api/category/local/delete/([0-9]+)', [\API\CategoryController::class, 'deleteCategoryLocal']);
 $routes->get('/api/category/local/exchange-priority/([0-9]+)/([0-9]+)', [\API\CategoryController::class, 'exchangeCategoryLocalPriority']);
-
-$routes->get('/api/reservation-board/get/([0-9]+)', [\API\ReservationController::class, 'getBoard']);
-$routes->post('/api/reservation-board/create', [\API\ReservationController::class, 'createBoard']);
-$routes->post('/api/reservation-board/update/([0-9]+)', [\API\ReservationController::class, 'updateBoard']);
-$routes->delete('/api/reservation-board/delete/([0-9]+)', [\API\ReservationController::class, 'deleteBoard']);
-
-$routes->post('/api/reservation-board/reservation/get/([a-zA-Z][a-zA-Z0-9\-\_]*)', [\API\ReservationController::class, 'getMonthlyReservation']);
-$routes->get('/api/reservation/get/([0-9]+)', [\API\ReservationController::class, 'getReservation']);
-$routes->post('/api/reservation/request', [\API\ReservationController::class, 'requestReservation']);
-$routes->post('/api/reservation/refuse/([0-9]+)', [\API\ReservationController::class, 'refuseReservation']);
-$routes->post('/api/reservation/accept/([0-9]+)', [\API\ReservationController::class, 'acceptReservation']);
 
 //$routes->post('/api/email/send', [\API\EmailController::class, 'send']);
 $routes->post('/api/email/send/verification-code', [\API\EmailController::class, 'sendVerificationCodeMail']);

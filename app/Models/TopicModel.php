@@ -5,7 +5,7 @@ namespace Models;
 /*
  * column_name      type            comment
  * -----------------------------------------
- * id               INT
+ * id               BIGINT
  * user_id          INT             FK(user)
  * board_id         INT             FK(board)
  * title            VARCHAR(100)

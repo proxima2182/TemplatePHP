@@ -6,7 +6,6 @@ use App\Helpers\ServerLogger;
 use Exception;
 use Models\BoardModel;
 use Models\CustomFileModel;
-use Models\LocationModel;
 use Models\TopicModel;
 
 class MainController extends BaseClientController
@@ -14,7 +13,6 @@ class MainController extends BaseClientController
 
     protected BoardModel $boardModel;
     protected TopicModel $topicModel;
-    protected LocationModel $locationModel;
     protected CustomFileModel $customFileModel;
 
     public function __construct()
@@ -22,7 +20,6 @@ class MainController extends BaseClientController
         parent::__construct();
         $this->boardModel = model('Models\BoardModel');
         $this->topicModel = model('Models\TopicModel');
-        $this->locationModel = model('Models\LocationModel');
         $this->customFileModel = model('Models\CustomFileModel');
     }
 
@@ -36,21 +33,6 @@ class MainController extends BaseClientController
         try {
             $data['logos'] = $this->customFileModel->getLogos();
             // for pagination
-            $data['locations'] = $this->locationModel->getPaginated([
-                'per_page' => 100,
-                'page' => 1,
-            ]);
-//            // for loading total at first
-//            $result = $this->locationModel->get();
-//            $data['locations'] = [
-//                'array' => $result,
-//                'pagination' => [
-//                    'page' => 0,
-//                    'per-page' => 0,
-//                    'total' => 0,
-//                    'total-page' => 0,
-//                ]
-//            ];
 
             // load table view
             $data['topics_table'] = $this->getTopics('notice');

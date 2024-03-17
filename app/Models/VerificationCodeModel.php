@@ -5,7 +5,7 @@ namespace Models;
 /*
  * column_name      type            comment
  * -----------------------------------------
- * id               INT
+ * id               BIGINT
  * email            VARCHAR(50)
  * code             VARCHAR(8)
  * is_used          TINYINT(1)

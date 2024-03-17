@@ -7,7 +7,7 @@ use Leaf\Helpers\Password;
 /*
  * column_name      type            comment
  * -----------------------------------------
- * id               INT
+ * id               BIGINT
  * username         VARCHAR(50)
  * type             VARCHAR(20)     admin | member | user
  * password         VARCHAR(100)    *hashed
@@ -22,6 +22,7 @@ class UserModel extends BaseModel
     protected $table = 'user';
     protected $allowedFields = [
         'id',
+        'artist_type_id',
         'username',
         'type',
         'password',

@@ -5,7 +5,7 @@ namespace Models;
 /*
  * column_name          type            comment
  * ---------------------------------------------
- * id                   INT
+ * id                   BIGINT
  * year                 INT
  * month                INT
  * created_at           DATETIME

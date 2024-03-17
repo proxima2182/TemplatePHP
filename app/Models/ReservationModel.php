@@ -5,7 +5,7 @@ namespace Models;
 /*
  * column_name          type            comment
  * ---------------------------------------------
- * id                   INT
+ * id                   BIGINT
  * reservation_board_id INT             FK(reservation_board)
  * questioner_id        INT             FK(user)
  * respondent_id        INT             FK(user)

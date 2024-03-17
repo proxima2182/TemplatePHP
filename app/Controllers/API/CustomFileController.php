@@ -2,6 +2,7 @@
 
 namespace API;
 
+use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 use Crisu83\ShortId\ShortId;
 use Exception;
@@ -211,6 +212,7 @@ class CustomFileController extends BaseApiController
             $response['success'] = true;
         } catch (Exception $e) {
             //todo(log)
+            ServerLogger::log($e->getMessage());
             $response['message'] = $e->getMessage();
         }
         return $this->response->setJSON($response);

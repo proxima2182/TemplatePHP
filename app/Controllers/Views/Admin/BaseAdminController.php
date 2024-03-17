@@ -45,16 +45,8 @@ class BaseAdminController extends BaseViewController
                 'link' => '/admin/topic/reply',
             ],
             [
-                'name' => lang('Service.reservation'),
-                'link' => '/admin/reservation-board',
-            ],
-            [
                 'name' => lang('Service.user'),
                 'link' => '/admin/user',
-            ],
-            [
-                'name' => lang('Service.location'),
-                'link' => '/admin/location',
             ],
             [
                 'name' => lang('Service.graphic_setting'),

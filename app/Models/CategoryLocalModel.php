@@ -5,7 +5,7 @@ namespace Models;
 /*
  * column_name      type            comment
  * -----------------------------------------
- * id               INT
+ * id               BIGINT
  * category_id      INT             FK(category_local)
  * name             VARCHAR(50)
  * path             VARCHAR(255)
