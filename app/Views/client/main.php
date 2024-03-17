@@ -55,13 +55,16 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
     <script type="text/javascript">
         addEventListener('customMapLoad', function () {
             let points = [];
-            <?php foreach ($locations['array'] as $index => $point) { ?>
+            <?php
+            if(isset($locations)) {
+            foreach ($locations['array'] as $index => $point) { ?>
             points.push({
                 name: '<?=$point['name']?>',
                 latitude: '<?=$point['latitude']?>',
                 longitude: '<?=$point['longitude']?>',
             })
             <?php
+            }
             }
             ?>
             setMapPoints(points)

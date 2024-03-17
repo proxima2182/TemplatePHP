@@ -4,7 +4,7 @@
             <?= lang('Service.location') ?>
         </h3>
         <div class="control-button-wrap">
-            <a href="javascript:openInputPopupCreate();"
+            <a href="javascript:openInputPopupCreate('location');"
                class="button under-line create">
                 <img src="/asset/images/icon/plus.png"/>
                 <span><?= lang('Service.create') ?></span>
@@ -24,7 +24,7 @@
                     <ul>
                         <?php foreach ($array as $index => $item) { ?>
                             <li class="row">
-                                <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
+                                <a href="javascript:openInputPopup('<?= $item['id'] ?>', 'location')" class="button row-button">
                                     <span class="column name"><?= $item['name'] ?? '' ?></span>
                                     <span class="column address"><?= $item['address'] ?></span>
                                     <span class="column latitude"><?= $item['latitude'] ?></span>
@@ -46,6 +46,7 @@
      * admin/popup_input
      */
     initializeInputPopup({
+        key: 'location',
         getGetUrl: function (id) {
             return `/api/location/get/${id}`
         },

@@ -29,7 +29,6 @@ class CustomFileModel extends BasePriorityModel
         'target',
         'path',
         'identifier',
-        'path',
         'symbolic_path',
         'file_name',
         'thumb_file_name',

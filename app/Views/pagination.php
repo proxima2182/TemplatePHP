@@ -1,4 +1,8 @@
-<?php if (isset($pagination) && isset($pagination_link)) { ?>
+<?php
+
+use App\Helpers\HtmlHelper;
+
+if (isset($pagination) && isset($pagination_link)) { ?>
     <style>
         .pages {
             height: 100px;
@@ -60,17 +64,19 @@
         if ($start == 1) { ?>
             <span class="button disabled"><a href="#" onclick="return false"></a></span>
         <?php } else { ?>
-            <span class="button left"><a href="<?= $pagination_link ?>/<?= $start - 5 ?>"></a></span>
+            <span class="button left"><a
+                    href="<?= HtmlHelper::getPaginationLink($pagination_link, $start - 5, $query_params ?? null, $pagination_key ?? null) ?>"></a></span>
         <?php }
         for ($i = $start; $i <= $end; ++$i) { ?>
             <span class="number <?= $i == $page ? 'now' : '' ?>">
-                    <a href="<?= $pagination_link ?>/<?= $i ?>"><?= $i ?></a></span>
+                    <a href="<?= HtmlHelper::getPaginationLink($pagination_link, $i, $query_params ?? null, $pagination_key ?? null) ?>"><?= $i ?></a></span>
         <?php }
         if ($total_page == $end) { ?>
             <span class="button disabled"><a href="#" onclick="return false"></a></span>
             <?php
         } else { ?>
-            <span class="button right"><a href="<?= $pagination_link ?>/<?= $start + 5 ?>"></a></span>
+            <span class="button right"><a
+                    href="<?= HtmlHelper::getPaginationLink($pagination_link, $start + 5, $query_params ?? null, $pagination_key ?? null) ?>"></a></span>
         <?php } ?>
     </div>
 <?php } ?>

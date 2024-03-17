@@ -40,9 +40,9 @@ function generateUnblockConfirm(className) {
  * override
  * @returns {Promise<void>}
  */
-async function openInputPopupCreate() {
-    let className = 'popup-create';
-    if (!getCreateUrl || !getHtml) return;
+async function openInputPopupCreate(key = 'default') {
+    let className = `${key}-popup-create`;
+    if (!initContainer[key].getCreateUrl || !initContainer[key].getHtml) return;
     try {
         let css = await loadStyleFile('/asset/css/common/input.css', "." + className);
         css += await loadStyleFile('/asset/css/common/popup/input.css', "." + className);
@@ -52,7 +52,7 @@ async function openInputPopupCreate() {
         </style>`
         let html = `
         <div class="form-wrap">
-            ${getHtml()}
+            ${initContainer[key].getHtml()}
             <div class="error-message-wrap"></div>
         </div>`
         openPopup({
@@ -61,7 +61,7 @@ async function openInputPopupCreate() {
             html: html,
         }, ($parent) => {
             $parent.find(`.form-wrap .info-text-wrap`).css({
-                'display' : 'inline-block'
+                'display': 'inline-block'
             })
             $parent.find(`.popup-box`).addClass('has-control-button');
             $parent.find(`.popup-inner`).append(`
@@ -77,8 +77,8 @@ async function openInputPopupCreate() {
                         <img src="/asset/images/icon/cancel.png"/>
                         <span>${lang('cancel')}</span>
                     </a>
-                    <a href="javascript:confirmInputPopupCreate('${className}');"
-                        class="button under-line confirm" style="display: none;">
+                    <a href="javascript:confirmInputPopupCreate('${key}');"
+                        class="button under-line confirm">
                         <img src="/asset/images/icon/check.png"/>
                         <span>${lang('confirm')}</span>
                     </a>
@@ -97,7 +97,8 @@ async function openInputPopupCreate() {
  * @param className
  * @param id
  */
-function editInputPopup(className, id) {
+function editInputPopup(key, id) {
+    const className = initContainer[key].className;
     let $parent = $(`.${className}`);
     $parent.find(`.form-wrap .editable`).not(`.readonly`).removeAttr('readonly')
     $parent.find(`.form-wrap .editable`).not(`.readonly`).removeAttr('disabled')
@@ -105,7 +106,7 @@ function editInputPopup(className, id) {
     $parent.find(`.popup-inner .control-button-wrap`).remove();
 
     $parent.find(`.form-wrap .info-text-wrap`).css({
-        'display' : 'inline-block'
+        'display': 'inline-block'
     })
 
     $parent.find(`.popup-inner`).append(`
@@ -116,12 +117,12 @@ function editInputPopup(className, id) {
                 <img src="/asset/images/icon/search.png"/>
                 <span>${lang('search')}</span>
             </a>
-            <a href="javascript:refreshInputPopup(${id});"
+            <a href="javascript:refreshInputPopup('${key}', ${id});"
                 class="button under-line cancel">
                 <img src="/asset/images/icon/cancel.png"/>
                 <span>${lang('cancel')}</span>
             </a>
-            <a href="javascript:confirmInputPopupEdit('${className}', ${id});"
+            <a href="javascript:confirmInputPopupEdit('${key}', ${id});"
                 class="button under-line confirm">
                 <img src="/asset/images/icon/check.png"/>
                 <span>${lang('confirm')}</span>
