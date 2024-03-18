@@ -477,8 +477,11 @@ function confirmInputPopupEdit(key, id) {
  */
 function confirmInputPopupCreate(key = 'default') {
     const className = `${key}-popup-create`;
+    console.log(className)
     if (!initContainer[key].getCreateUrl) return;
     let data = parseInputToData($(`.${className} .editable`))
+    console.log(data)
+
     $(`.${className} .error-message-wrap`).empty();
     apiRequest({
         type: 'POST',

@@ -1,25 +1,25 @@
-.table-wrap .column.code {
+.setting .table-wrap .column.code {
     width: 20%;
 }
 
-.table-wrap .column.name {
+.setting .table-wrap .column.name {
     width: 30%;
 }
 
-.table-wrap .column.value {
+.setting .table-wrap .column.value {
     width: 50%;
 }
 
 @media (max-width: 840px) {
-    .table-wrap .column.code {
+    .setting .table-wrap .column.code {
         width: 30%;
     }
 
-    .table-wrap .column.name {
+    .setting .table-wrap .column.name {
         width: 70%;
     }
 
-    .table-wrap .column.value {
+    .setting .table-wrap .column.value {
         display: none;
     }
 }

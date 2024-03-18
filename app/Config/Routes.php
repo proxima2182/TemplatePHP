@@ -122,6 +122,16 @@ $routes->post('/api/setting/create', [\API\SettingController::class, 'createSett
 $routes->post('/api/setting/update/([0-9]+)', [\API\SettingController::class, 'updateSetting']);
 $routes->delete('/api/setting/delete/([0-9]+)', [\API\SettingController::class, 'deleteSetting']);
 
+$routes->get('/api/code/artist/get/([0-9]+)', [\API\CodeController::class, 'getCodeArtist']);
+$routes->post('/api/code/artist/create', [\API\CodeController::class, 'createCodeArtist']);
+$routes->post('/api/code/artist/update/([0-9]+)', [\API\CodeController::class, 'updateCodeArtist']);
+$routes->delete('/api/code/artist/delete/([0-9]+)', [\API\CodeController::class, 'deleteCodeArtist']);
+
+$routes->get('/api/code/reward-request/get/([0-9]+)', [\API\CodeController::class, 'getCodeRewardRequest']);
+$routes->post('/api/code/reward-request/create', [\API\CodeController::class, 'createCodeRewardRequest']);
+$routes->post('/api/code/reward-request/update/([0-9]+)', [\API\CodeController::class, 'updateCodeRewardRequest']);
+$routes->delete('/api/code/reward-request/delete/([0-9]+)', [\API\CodeController::class, 'deleteCodeRewardRequest']);
+
 $routes->get('/api/graphic-setting/get/all', [\API\GraphicSettingController::class, 'getGraphicSettings']);
 
 $routes->get('/api/category/get/all', [\API\CategoryController::class, 'getCategoryAll']);

@@ -82,6 +82,7 @@ return [
     "inquiry" => "Inquiry",
     "logo" => "Logo",
     "footer_logo" => "Footer Logo",
+    "is_active" => "Active",
 
     //main
     "show_detail" => "Show Detail",

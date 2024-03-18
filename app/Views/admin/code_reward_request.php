@@ -1,26 +1,37 @@
-<div class="container-inner setting">
+<div class="container-inner code-reward-request">
     <div class="container-wrap">
         <h4 class="page-sub-title">
-            <?= lang('Service.setting') ?>
+            <?= lang('요청사항 설정') ?>
         </h4>
         <div class="table-box">
             <div class="table-wrap">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array ?? [])) { ?>
+                <?php if ($is_login) { ?>
+                    <div class="control-button-wrap">
+                        <a href="javascript:openInputPopupCreate('code-reward-request');"
+                           class="button under-line create">
+                            <img src="/asset/images/icon/plus.png"/>
+                            <span><?= lang('Service.create') ?></span>
+                        </a>
+                    </div>
+                <?php }
+                if (\App\Helpers\HtmlHelper::showDataEmpty($array ?? [])) { ?>
                     <div class="row-title">
                         <div class="row">
-                            <span class="column code"><?= lang('Service.code') ?></span>
-                            <span class="column name"><?= lang('Service.name') ?></span>
-                            <span class="column value"><?= lang('Service.value') ?></span>
+                            <span class="column code"><?= lang('코드') ?></span>
+                            <span class="column name"><?= lang('이름') ?></span>
+                            <span class="column is_active"><?= lang('Service.is_active') ?></span>
                         </div>
                     </div>
                     <ul>
                         <?php foreach ($array as $index => $item) { ?>
                             <li class="row">
-                                <a href="javascript:openInputPopup('<?= $item['id'] ?>', 'setting')"
+                                <a href="javascript:openInputPopup('<?= $item['id'] ?>', 'code-reward-request')"
                                    class="button row-button">
                                     <span class="column code"><?= $item['code'] ?></span>
                                     <span class="column name"><?= $item['name'] ?></span>
-                                    <span class="column value"><?= $item['value'] ?></span>
+                                    <span class="column is_active">
+                                    <img src="/asset/images/icon/<?= $item['is_active'] == 0 ? 'none.png' : 'check.png' ?>"/>
+                                    </span>
                                 </a>
                             </li>
                         <?php } ?>
@@ -37,34 +48,32 @@
      * admin/popup_input
      */
     initializeInputPopup({
-        key: 'setting',
+        key: 'code-reward-request',
         getGetUrl: function (id) {
-            return `/api/setting/get/${id}`
+            return `/api/code/reward-request/get/${id}`
         },
         getCreateUrl: function () {
-            return `/api/setting/create`
+            return `/api/code/reward-request/create`
         },
         getUpdateUrl: function (id) {
-            return `/api/setting/update/${id}`
+            return `/api/code/reward-request/update/${id}`
         },
         getDeleteUrl: function (id) {
-            return `/api/setting/delete/${id}`
+            return `/api/code/reward-request/delete/${id}`
         },
         getHtml: function (data) {
             const typeSet = {
                 code: {
                     type: 'text',
                     name: `<?=lang('Service.code')?>`,
-                    editable: false,
                 },
                 name: {
                     type: 'text',
                     name: `<?=lang('Service.name')?>`,
-                    editable: false,
                 },
-                value: {
-                    type: data['type'],
-                    name: `<?=lang('Service.value')?>`,
+                is_active: {
+                    type: 'bool',
+                    name: `<?=lang('Service.is_active')?>`,
                 },
             }
             let keys = Object.keys(typeSet);
@@ -80,21 +89,12 @@
             return html;
         },
         getControlHtml: function (key, data) {
-            let html = `
+            return `
             <a href="javascript:editInputPopup('${key}', ${data['id']});"
                class="button under-line edit">
                 <img src="/asset/images/icon/edit.png"/>
                 <span>${lang('edit')}</span>
             </a>`;
-            if (data['is_deletable'] == 1) {
-                html += `
-                <a href="javascript:openInputPopupDelete('${key}', ${data['id']});"
-                class="button under-line delete">
-                    <img src="/asset/images/icon/delete.png"/>
-                    <span>${lang('delete')}</span>
-                </a>`;
-            }
-            return html;
         }
     })
 </script>

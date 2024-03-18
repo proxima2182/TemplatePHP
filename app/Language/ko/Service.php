@@ -83,6 +83,7 @@ return [
     "inquiry" => "문의",
     "logo" => "로고",
     "footer_logo" => "하단 로고",
+    "is_active" => "활성화 여부",
 
     //main
     "show_detail" => "상세보기",
