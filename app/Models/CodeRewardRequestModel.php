@@ -10,6 +10,7 @@ class CodeRewardRequestModel extends BaseModel
         'code',
         'name',
         'is_active',
+        'is_deleted',
         'created_at',
         'updated_at',
     ];

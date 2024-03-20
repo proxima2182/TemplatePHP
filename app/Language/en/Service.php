@@ -102,6 +102,7 @@ return [
     "open_graph" => "Open Graph",
     "main_video" => "Main Video",
     "main_image" => "Main Images",
+    "artist" => "Artist",
 
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",

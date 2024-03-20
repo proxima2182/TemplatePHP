@@ -22,7 +22,6 @@ class UserModel extends BaseModel
     protected $table = 'user';
     protected $allowedFields = [
         'id',
-        'artist_type_id',
         'username',
         'type',
         'password',

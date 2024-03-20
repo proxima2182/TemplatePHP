@@ -4,6 +4,7 @@ namespace Views\Admin;
 
 use App\Helpers\Utils;
 use Exception;
+use Models\CodeArtistModel;
 use Models\CodeRewardRequestModel;
 use Models\SettingModel;
 
@@ -11,6 +12,7 @@ class SettingController extends BaseAdminController
 {
     protected SettingModel $settingModel;
     protected CodeRewardRequestModel $codeRewardRequestModel;
+    protected CodeArtistModel $codeArtistModel;
 
     public function __construct()
     {
@@ -18,6 +20,7 @@ class SettingController extends BaseAdminController
         $this->isRestricted = true;
         $this->settingModel = model('Models\SettingModel');
         $this->codeRewardRequestModel = model('Models\CodeRewardRequestModel');
+        $this->codeArtistModel = model('Models\CodeArtistModel');
     }
 
     /**
@@ -59,12 +62,22 @@ class SettingController extends BaseAdminController
             $result = $this->codeRewardRequestModel->getPaginated([
                 'per_page' => $per_page,
                 'page' => $code_reward_request_page,
-            ]);
+            ], ['is_deleted' => 0]);
             $code_request_data = array_merge($code_request_data, $result);
             $code_request_data = array_merge($code_request_data, [
                 'pagination_link' => '/admin/setting',
                 'pagination_key' => 'code-reward-request-page',
                 'query_params' => $queryParams
+            ]);
+        } catch (Exception $e) {
+            //todo(log)
+            $this->handleException($e);
+        }
+        $data = $this->getViewData();
+        try {
+            $result = $this->codeArtistModel->get();
+            $data = array_merge($data, [
+                'array' => $result,
             ]);
         } catch (Exception $e) {
             //todo(log)
@@ -79,6 +92,7 @@ class SettingController extends BaseAdminController
                 ],
                 'js' => [
                     '/admin/popup_input',
+                    '/module/draggable',
                 ],
             ])
             . view('/elements/title', [
@@ -86,6 +100,7 @@ class SettingController extends BaseAdminController
             ])
             . view('/admin/setting', $setting_data)
             . view('/admin/code_reward_request', $code_request_data)
+            . view('/admin/code_artist', $data)
             . parent::loadFooter();
     }
 }

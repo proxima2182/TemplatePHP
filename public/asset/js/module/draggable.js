@@ -4,7 +4,7 @@
 let draggableDragged = null;
 let draggableDropped = null;
 let $draggableHandle = null;
-let $draggableItems = [];
+let $draggableItemMap = {};
 
 /**
  * drag 시작 handler
@@ -47,23 +47,25 @@ function handleDrop(parentElement) {
 
         if (draggableDragged !== this) {
             draggableDropped = this;
-            // callback (onDragFinished) 가 비동기 작업일 경우
-            // e.dataTransfer.getData 에서 값이 바르게 전달이 안되므로
-            // 이벤트 발생 시 미리 변수에 값을 담아둔다
-            let transferredData = e.dataTransfer.getData('text/html');
-            let isExchanged;
+            if (draggableDragged.parentNode.className === draggableDropped.parentNode.className) {
+                // callback (onDragFinished) 가 비동기 작업일 경우
+                // e.dataTransfer.getData 에서 값이 바르게 전달이 안되므로
+                // 이벤트 발생 시 미리 변수에 값을 담아둔다
+                let transferredData = e.dataTransfer.getData('text/html');
+                let isExchanged;
 
-            if (parentElement.onDragFinished && typeof parentElement.onDragFinished == 'function') {
-                isExchanged = await parentElement.onDragFinished(draggableDragged, draggableDropped)
-            } else {
-                isExchanged = true;
+                if (parentElement.onDragFinished && typeof parentElement.onDragFinished == 'function') {
+                    isExchanged = await parentElement.onDragFinished(draggableDragged, draggableDropped)
+                } else {
+                    isExchanged = true;
+                }
+                if (isExchanged) {
+                    draggableDragged.innerHTML = this.innerHTML;
+                    draggableDropped.innerHTML = transferredData;
+                }
+                draggableDropped = null;
+                draggableDragged = null;
             }
-            if (isExchanged) {
-                draggableDragged.innerHTML = this.innerHTML;
-                draggableDropped.innerHTML = transferredData;
-            }
-            draggableDropped = null;
-            draggableDragged = null;
         }
 
         return false;
@@ -130,6 +132,7 @@ function handleTouchMove(event) {
 
 function handleTouchEnd(parentElement) {
     return async function (event) {
+        const $draggableItems = $draggableItemMap[parentElement.attr('class') ?? 'default']
         $('.draggable-handle').remove();
         if (draggableDropped) return;
         if ($draggableHandle) $draggableHandle.remove()
@@ -151,26 +154,28 @@ function handleTouchEnd(parentElement) {
                 offset.right -= window.scrollX;
                 offset.left -= window.scrollX;
                 if (offset.left < touchX && offset.right > touchX && offset.top < touchY && offset.bottom > touchY) {
-
                     draggableDropped = item.get(0);
-                    // callback (onDragFinished) 가 비동기 작업일 경우
-                    // e.dataTransfer.getData 에서 값이 바르게 전달이 안되므로
-                    // 이벤트 발생 시 미리 변수에 값을 담아둔다
-                    let transferredData = draggableDragged.innerHTML;
-                    let isExchanged;
 
-                    if (parentElement.onDragFinished && typeof parentElement.onDragFinished == 'function') {
-                        isExchanged = await parentElement.onDragFinished(draggableDragged, draggableDropped)
-                    } else {
-                        isExchanged = true;
+                    if (draggableDragged.parentNode.className === draggableDropped.parentNode.className) {
+                        // callback (onDragFinished) 가 비동기 작업일 경우
+                        // e.dataTransfer.getData 에서 값이 바르게 전달이 안되므로
+                        // 이벤트 발생 시 미리 변수에 값을 담아둔다
+                        let transferredData = draggableDragged.innerHTML;
+                        let isExchanged;
+
+                        if (parentElement.onDragFinished && typeof parentElement.onDragFinished == 'function') {
+                            isExchanged = await parentElement.onDragFinished(draggableDragged, draggableDropped)
+                        } else {
+                            isExchanged = true;
+                        }
+                        if (isExchanged) {
+                            draggableDragged.innerHTML = draggableDropped.innerHTML;
+                            draggableDropped.innerHTML = transferredData;
+                        }
+                        draggableDropped = null;
+                        draggableDragged = null;
+                        return;
                     }
-                    if (isExchanged) {
-                        draggableDragged.innerHTML = draggableDropped.innerHTML;
-                        draggableDropped.innerHTML = transferredData;
-                    }
-                    draggableDropped = null;
-                    draggableDragged = null;
-                    return;
                 }
             }
         }
@@ -180,14 +185,15 @@ function handleTouchEnd(parentElement) {
 
 jQuery.prototype.initDraggable = async function (input) {
     this.onDragFinished = input.onDragFinished;
-    $draggableItems = this.find('.draggable-item');
+    // $draggableItemMap[] = []
+    let $draggableItems = this.find('.draggable-item');
     for (let i = 0; i < $draggableItems.length; ++i) {
         $draggableItems.eq(i).attr({
             'draggable-index': i,
         });
         $draggableItems.eq(i).parent().unbind('dragstart')
         $draggableItems.eq(i).parent().bind('dragstart', (event) => {
-            if(!$(event.target).hasClass('draggable-item')) {
+            if (!$(event.target).hasClass('draggable-item')) {
                 let e = (event.originalEvent || event);
                 e.preventDefault();
             }
@@ -210,4 +216,5 @@ jQuery.prototype.initDraggable = async function (input) {
     $draggableItems.css({
         'cursor': 'grab',
     })
+    $draggableItemMap[this.attr('class') ?? 'default'] = $draggableItems;
 }

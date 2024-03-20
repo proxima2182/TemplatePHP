@@ -103,6 +103,7 @@ return [
     "open_graph" => "오픈그래프",
     "main_video" => "메인 비디오",
     "main_image" => "메인 이미지",
+    "artist" => "아티스트",
 
     //messages
     "message_membership_agreement" => "개인 정보 취급 방침에 동의",

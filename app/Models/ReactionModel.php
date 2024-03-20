@@ -8,6 +8,7 @@ class ReactionModel extends BaseModel
     protected $allowedFields = [
         'id',
         'user_id',
+        'artist_id',
         'purchase_item_id',
         'comment',
         'is_deleted',

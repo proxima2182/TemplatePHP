@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class CodeArtistModel extends BaseModel
+class CodeArtistModel extends BasePriorityModel
 {
     protected $table = 'code_artist';
     protected $allowedFields = [
@@ -10,6 +10,7 @@ class CodeArtistModel extends BaseModel
         'code',
         'name',
         'is_active',
+        'is_deleted',
         'priority',
         'created_at',
         'updated_at',
@@ -20,17 +21,17 @@ class CodeArtistModel extends BaseModel
         $this->createIfNotExist(['code' => 'artist'], [
             "code" => "artist",
             "name" => "ARTIST",
-            "priority" => "0",
+            "priority" => "1",
         ]);
         $this->createIfNotExist(['code' => 'actor'], [
             "code" => "actor",
             "name" => "ACTOR",
-            "priority" => "1",
+            "priority" => "2",
         ]);
         $this->createIfNotExist(['code' => 'creator'], [
             "code" => "creator",
             "name" => "CREATOR",
-            "priority" => "2",
+            "priority" => "3",
         ]);
     }
 }

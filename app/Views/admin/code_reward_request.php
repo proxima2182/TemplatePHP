@@ -17,8 +17,8 @@
                 if (\App\Helpers\HtmlHelper::showDataEmpty($array ?? [])) { ?>
                     <div class="row-title">
                         <div class="row">
-                            <span class="column code"><?= lang('코드') ?></span>
-                            <span class="column name"><?= lang('이름') ?></span>
+                            <span class="column code"><?= lang('Service.code') ?></span>
+                            <span class="column name"><?= lang('Service.name') ?></span>
                             <span class="column is_active"><?= lang('Service.is_active') ?></span>
                         </div>
                     </div>
@@ -88,13 +88,5 @@
             }
             return html;
         },
-        getControlHtml: function (key, data) {
-            return `
-            <a href="javascript:editInputPopup('${key}', ${data['id']});"
-               class="button under-line edit">
-                <img src="/asset/images/icon/edit.png"/>
-                <span>${lang('edit')}</span>
-            </a>`;
-        }
     })
 </script>

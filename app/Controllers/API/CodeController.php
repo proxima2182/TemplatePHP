@@ -3,6 +3,7 @@
 namespace API;
 
 use CodeIgniter\HTTP\ResponseInterface;
+use Exception;
 use Models\CodeArtistModel;
 use Models\CodeRewardRequestModel;
 
@@ -71,7 +72,33 @@ class CodeController extends BaseApiController
     public function deleteCodeArtist($id): ResponseInterface
     {
         $this->checkAdmin();
-        return $this->typicallyDelete($this->codeArtistModel, $id);
+        $body = [
+            'is_deleted' => 1,
+        ];
+        return $this->typicallyUpdate($this->codeArtistModel, $id, $body);
+    }
+
+    /**
+     * [get] /api/code/artist/exchange-priority/{from}/{to}
+     * @param $from
+     * @param $to
+     * @return ResponseInterface
+     */
+    public function exchangeCodeArtistPriority($from, $to): ResponseInterface
+    {
+        $this->checkAdmin();
+        $response = [
+            'success' => false,
+        ];
+
+        try {
+            $this->codeArtistModel->exchangePriority($from, $to);
+            $response['success'] = true;
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
+        return $this->response->setJSON($response);
     }
 
     /**
@@ -128,6 +155,9 @@ class CodeController extends BaseApiController
     public function deleteCodeRewardRequest($id): ResponseInterface
     {
         $this->checkAdmin();
-        return $this->typicallyDelete($this->codeRewardRequestModel, $id);
+        $body = [
+            'is_deleted' => 1,
+        ];
+        return $this->typicallyUpdate($this->codeRewardRequestModel, $id, $body);
     }
 }

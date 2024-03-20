@@ -126,6 +126,7 @@ $routes->get('/api/code/artist/get/([0-9]+)', [\API\CodeController::class, 'getC
 $routes->post('/api/code/artist/create', [\API\CodeController::class, 'createCodeArtist']);
 $routes->post('/api/code/artist/update/([0-9]+)', [\API\CodeController::class, 'updateCodeArtist']);
 $routes->delete('/api/code/artist/delete/([0-9]+)', [\API\CodeController::class, 'deleteCodeArtist']);
+$routes->get('/api/code/artist/exchange-priority/([0-9]+)/([0-9]+)', [\API\CodeController::class, 'exchangeCodeArtistPriority']);
 
 $routes->get('/api/code/reward-request/get/([0-9]+)', [\API\CodeController::class, 'getCodeRewardRequest']);
 $routes->post('/api/code/reward-request/create', [\API\CodeController::class, 'createCodeRewardRequest']);
