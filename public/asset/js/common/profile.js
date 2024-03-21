@@ -9,7 +9,6 @@
  * 입력 가능 페이지로 전환하는 기능
  */
 function editProfile() {
-    $('.profile-container .page-title').html('Edit Profile')
     $('.form-wrap .editable').removeAttr('readonly')
     $('.form-wrap .editable').removeAttr('disabled')
     $('.form-wrap .button-wrap').remove();
