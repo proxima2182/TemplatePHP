@@ -49,6 +49,10 @@ class BaseAdminController extends BaseViewController
                 'link' => '/admin/user',
             ],
             [
+                'name' => lang('Service.artist'),
+                'link' => '/admin/artist',
+            ],
+            [
                 'name' => lang('Service.graphic_setting'),
                 'link' => '/admin/graphic-setting',
             ],

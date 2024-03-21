@@ -9,7 +9,7 @@ const initContainer = {};
  * @param {string}key       data object 에서 어떤 데이터를 가져올 것인지 결정
  * @param {Object}data      실제 key-value 를 담고 있는 object
  * @param {Object}typeSet   각 input 에 대한 세부 설정을 실제 호출하는 부분에서 설정하도록 object 를 입력 받도록 함
- * @returns {string}
+ * @returns {string|null}
  */
 function fromDataToHtml(key, data, typeSet) {
     let set = typeSet[key];
@@ -49,6 +49,10 @@ function fromDataToHtml(key, data, typeSet) {
     } else {
         isReadOnly = readonly;
     }
+
+    // create 에서 editable 속성이 아닌경우는 표기할 필요 없음
+    // TODO 다른 케이스에서 테스트 좀 더 필요, 테스트 후 data 없는 경우가 create 뿐이면 변수명 바꿀 필요가 있음
+    if (!data && !editable) return false;
 
     function checkClasses(classes = []) {
         if (editable) {
@@ -477,7 +481,6 @@ function confirmInputPopupEdit(key, id) {
  */
 function confirmInputPopupCreate(key = 'default') {
     const className = `${key}-popup-create`;
-    console.log(className)
     if (!initContainer[key].getCreateUrl) return;
     let data = parseInputToData($(`.${className} .editable`))
     console.log(data)

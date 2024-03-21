@@ -70,6 +70,9 @@ $routes->addRedirect('/admin/topic/reply', '/admin/topic/reply/1');
 $routes->get('/admin/user/([0-9]+)', [\Views\Admin\UserController::class, 'index']);
 $routes->addRedirect('/admin/user', '/admin/user/1');
 
+$routes->get('/admin/artist/([0-9]+)', [\Views\Admin\ArtistController::class, 'index']);
+$routes->addRedirect('/admin/artist', '/admin/artist/1');
+
 $routes->get('/admin/graphic-setting', [\Views\Admin\GraphicSettingController::class, 'index']);
 
 $routes->get('/admin/setting', [\Views\Admin\SettingController::class, 'index']);
@@ -132,6 +135,11 @@ $routes->get('/api/code/reward-request/get/([0-9]+)', [\API\CodeController::clas
 $routes->post('/api/code/reward-request/create', [\API\CodeController::class, 'createCodeRewardRequest']);
 $routes->post('/api/code/reward-request/update/([0-9]+)', [\API\CodeController::class, 'updateCodeRewardRequest']);
 $routes->delete('/api/code/reward-request/delete/([0-9]+)', [\API\CodeController::class, 'deleteCodeRewardRequest']);
+
+$routes->get('/api/artist/get/([0-9]+)', [\API\ArtistController::class, 'getArtist']);
+$routes->post('/api/artist/create', [\API\ArtistController::class, 'createArtist']);
+$routes->post('/api/artist/update/([0-9]+)', [\API\ArtistController::class, 'updateArtist']);
+$routes->delete('/api/artist/delete/([0-9]+)', [\API\ArtistController::class, 'deleteArtist']);
 
 $routes->get('/api/graphic-setting/get/all', [\API\GraphicSettingController::class, 'getGraphicSettings']);
 
