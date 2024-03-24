@@ -6,7 +6,7 @@ $shortid = ShortId::create();
 $identifier = $shortid->generate();
 ?>
 <script type="text/javascript">
-    identifier = '<?=$identifier?>';
+    default_identifier = '<?=$identifier?>';
     <?php
     if (isset($graphic_settings)) {
     foreach ($graphic_settings as $key => $graphic_setting) {

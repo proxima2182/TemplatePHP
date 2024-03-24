@@ -48,13 +48,45 @@ class ArtistController extends BaseAdminController
         return parent::loadHeader([
                 'css' => [
                     '/common/table',
-                    '/admin/user',
+                    '/admin/artist/table',
                 ],
                 'js' => [
-                    '/admin/popup_input',
                 ],
             ])
-            . view('/admin/artist', $data)
+            . view('/admin/artist/table', $data)
+            . parent::loadFooter();
+    }
+    /**
+     * /admin/artist/create
+     * @return string
+     */
+    public function createArtist(): string
+    {
+        $data = $this->getViewData();
+        try {
+            $data = array_merge($data, [
+                'type' => 'create'
+            ]);
+        } catch (Exception $e) {
+            //todo(log)
+            $this->handleException($e);
+        }
+        return parent::loadHeader([
+                'css' => [
+                    '/common/uploader',
+                    '/common/uploader_slider_box',
+                    '/common/input',
+                    '/admin/artist/artist',
+                ],
+                'js' => [
+                    '/library/slick/slick.min.js',
+                    '/module/slick_custom',
+                    '/module/draggable',
+                    '/module/image_uploader',
+                    '/common/artist',
+                ],
+            ])
+            . view('/admin/artist/input', $data)
             . parent::loadFooter();
     }
 }

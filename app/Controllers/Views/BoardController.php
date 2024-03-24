@@ -126,6 +126,7 @@ class BoardController extends BaseClientController
         return parent::loadHeader([
                 'css' => [
                     '/client/board/topic',
+                    '/common/uploader_slider_box',
                     '/client/board/topic_view',
                 ],
                 'js' => [
@@ -168,6 +169,8 @@ class BoardController extends BaseClientController
         }
         return parent::loadHeader([
                 'css' => [
+                    '/common/uploader',
+                    '/common/uploader_slider_box',
                     '/client/board/topic',
                     '/client/board/topic_input',
                 ],
@@ -208,6 +211,8 @@ class BoardController extends BaseClientController
         }
         return parent::loadHeader([
                 'css' => [
+                    '/common/uploader',
+                    '/common/uploader_slider_box',
                     '/client/board/topic',
                     '/client/board/topic_input',
                 ],

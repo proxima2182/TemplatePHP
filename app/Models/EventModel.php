@@ -9,6 +9,7 @@ class EventModel extends BaseModel
         'id',
         'event_date_fragment_id',
         'artist_group_id',
+        'background_id',
         'status',
         'start_date',
         'end_date',

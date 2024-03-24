@@ -8,8 +8,7 @@ class CustomFileModel extends BasePriorityModel
     protected $allowedFields = [
         'id',
         'topic_id',
-        'user_id',
-        'event_id',
+        'artist_id',
         'type',
         'target',
         'path',

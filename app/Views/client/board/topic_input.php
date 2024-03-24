@@ -10,7 +10,7 @@ $shortid = ShortId::create();
 $identifier = $shortid->generate();
 ?>
 <script type="text/javascript">
-    identifier = '<?=$identifier?>';
+    default_identifier = '<?=$identifier?>';
     <?php if (isset($data['files'])) {
     foreach ($data['files'] as $index => $item) { ?>
     files.push('topic', '<?=$item['id']?>');

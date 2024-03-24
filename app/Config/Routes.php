@@ -72,6 +72,9 @@ $routes->addRedirect('/admin/user', '/admin/user/1');
 
 $routes->get('/admin/artist/([0-9]+)', [\Views\Admin\ArtistController::class, 'index']);
 $routes->addRedirect('/admin/artist', '/admin/artist/1');
+$routes->get('/admin/artist/create', [\Views\Admin\ArtistController::class, 'createArtist']);
+$routes->get('/admin/artist/([0-9]+)', [\Views\Admin\ArtistController::class, 'getArtist']);
+$routes->get('/admin/artist/([0-9]+)/edit', [\Views\Admin\ArtistController::class, 'editArtist']);
 
 $routes->get('/admin/graphic-setting', [\Views\Admin\GraphicSettingController::class, 'index']);
 
@@ -86,9 +89,10 @@ $routes->get('/file/(:any)', [\Views\CustomFileController::class, 'getFile']);
 /**
  * API Routes
  */
-$routes->post('/api/file/(main|topic|logo|footer_logo|favicon|open_graph)/(image|video)/upload/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'uploadFile']);
-$routes->post('/api/file/(main|topic|logo|footer_logo|favicon|open_graph|all)/(image|video|all)/refresh/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'refreshFile']);
-$routes->post('/api/file/(main|topic|logo|footer_logo|favicon|open_graph)/(image|video|logo|footer_logo)/confirm/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'confirmFile']);
+$targets = 'topic|event|main|main_relation|event|user_profile|artist_profile|artist_preview';
+$routes->post('/api/file/(' . $targets . ')/(image|video)/upload/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'uploadFile']);
+$routes->post('/api/file/(' . $targets . '|all)/(image|video|all)/refresh/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'refreshFile']);
+$routes->post('/api/file/(' . $targets . ')/(image|video)/confirm/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'confirmFile']);
 $routes->delete('/api/file/delete/([0-9]+)', [\API\CustomFileController::class, 'deleteFile']);
 
 $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);

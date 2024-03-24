@@ -8,7 +8,9 @@ class ArtistModel extends BaseModel
     protected $allowedFields = [
         'id',
         'code_artist_id',
+        'profile_id',
         'name',
+        'introduction',
         'password',
         'is_public',
         'is_posted',

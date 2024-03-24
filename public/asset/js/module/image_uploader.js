@@ -1,6 +1,7 @@
-let identifier = '';
+let default_identifier = '';
 let files = {
     ids: {},
+    identifiers: {},
     checkEmpty(key) {
         if (!this.ids[key]) {
             this.ids[key] = [];
@@ -24,14 +25,25 @@ let files = {
     },
     clear() {
         this.ids = {};
+        this.identifiers = {};
+    },
+    getIdentifier(key) {
+        return this.identifiers[key];
+    },
+    setIdentifier(key, index, value) {
+        this.identifiers[key] = value;
     },
 };
 
-function deleteImageFile(id, key = 'topic') {
+function deleteImageFile(id, key = 'topic', callback) {
     let index = files.get(key).indexOf(id);
     if (index < 0) return;
-    let $slick = $('.slick.uploader');
-    $slick.removeCustomSlickItem(index)
+    if (callback && typeof callback === 'function') {
+        callback();
+    } else {
+        let $slick = $('.slick.uploader');
+        $slick.removeCustomSlickItem(index)
+    }
     files.splice(key, index);
     // apiRequest({
     //     type: 'DELETE',
@@ -49,7 +61,7 @@ function deleteImageFile(id, key = 'topic') {
 //todo make callback
 function onFileUpload(
     element,
-    custom_identifier = 'topic',
+    uploader_key = 'topic',
     target = 'topic',
     type = 'image',
     callback) {
@@ -60,7 +72,10 @@ function onFileUpload(
         form.append('file', file);
     }
 
-    form.append('custom_identifier', custom_identifier);
+    const identifier = default_identifier;
+    files.setIdentifier(uploader_key, identifier);
+
+    form.append('uploader_key', uploader_key);
     form.append('target', target)
 
     apiRequest({
@@ -80,7 +95,7 @@ function onFileUpload(
             let file_id = data.id;
             let mime_type = data.mime_type;
 
-            files.push(custom_identifier, file_id.toString());
+            files.push(uploader_key, file_id.toString());
 
             if (callback && typeof callback == 'function') {
                 callback(target, type, file_id.toString(), mime_type);
@@ -102,7 +117,7 @@ function onFileUpload(
                     </div>`);
 
                     $slick.initDraggable({
-                        onDragFinished: generateOnDragFinished(custom_identifier),
+                        onDragFinished: generateOnDragFinished(uploader_key),
                     });
                 }
             }
@@ -120,10 +135,10 @@ function onFileUpload(
 }
 
 function dropEditingFiles(target = 'topic', type = 'image', callback) {
-    if (isEmpty(identifier)) return;
+    if (isEmpty(default_identifier)) return;
     apiRequest({
         type: 'POST',
-        url: `/api/file/${target}/${type}/refresh/${identifier}`,
+        url: `/api/file/${target}/${type}/refresh/${default_identifier}`,
         dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) {
@@ -138,13 +153,14 @@ function dropEditingFiles(target = 'topic', type = 'image', callback) {
     });
 }
 
-function confirmEditFiles(key, target = 'topic', type = 'image', callback) {
+function confirmEditFiles(uploader_key, target = 'topic', type = 'image', callback) {
+    const identifier = files.getIdentifier(uploader_key);
     if (isEmpty(identifier)) return;
     apiRequest({
         type: 'POST',
         url: `/api/file/${target}/${type}/confirm/${identifier}`,
         data: {
-            files: files.get(key),
+            files: files.get(uploader_key),
         },
         dataType: 'json',
         success: function (response, status, request) {
@@ -160,7 +176,7 @@ function confirmEditFiles(key, target = 'topic', type = 'image', callback) {
     });
 }
 
-function generateOnDragFinished(key) {
+function generateOnDragFinished(uploader_key) {
     return async (from, to) => {
         function getInputValue(parent) {
             let elements = parent.getElementsByTagName('input');
@@ -175,14 +191,14 @@ function generateOnDragFinished(key) {
             return false;
         }
 
-        let fromIndex = files.get(key).indexOf(fromId);
-        let toIndex = files.get(key).indexOf(toId);
+        let fromIndex = files.get(uploader_key).indexOf(fromId);
+        let toIndex = files.get(uploader_key).indexOf(toId);
         if (fromIndex < 0 || toIndex < 0) {
             throw Error("can't find id value in temporary stored array");
             return false;
         }
-        files.set(key, fromIndex, toId);
-        files.set(key, toIndex, fromId);
+        files.set(uploader_key, fromIndex, toId);
+        files.set(uploader_key, toIndex, fromId);
 
         let temp = from.style.background;
         from.style.background = to.style.background;
@@ -190,6 +206,7 @@ function generateOnDragFinished(key) {
         return true;
     }
 }
+
 // async function onDragFinished(from, to) {
 //     function getInputValue(parent) {
 //         let elements = parent.getElementsByTagName('input');

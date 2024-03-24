@@ -225,8 +225,20 @@ async function openInputPopup(id, key = 'default') {
                     return;
                 const className = initContainer[key].className;
                 let data = response.data;
-                let css = await loadStyleFile('/asset/css/common/input.css', "." + className);
-                css += await loadStyleFile('/asset/css/common/popup/input.css', "." + className);
+                let css = ``;
+                try {
+                    css += await loadStyleFile('/asset/css/common/input.css', "." + className);
+                    css += await loadStyleFile('/asset/css/common/popup/input.css', "." + className);
+                    if (initContainer[key].getCssFiles) {
+                        const files = initContainer[key].getCssFiles();
+                        console.log(files)
+                        for (let file of files) {
+                            css += await loadStyleFile(file, "." + className);
+                        }
+                    }
+                } catch (e) {
+                    console.error(e)
+                }
                 let style = `
                 <style>
                 ${css}
@@ -302,8 +314,20 @@ async function openInputPopupCreate(key = 'default') {
     const className = `${key}-popup-create`;
     if (!initContainer[key].getCreateUrl || !initContainer[key].getHtml) return;
     try {
-        let css = await loadStyleFile('/asset/css/common/input.css', "." + className);
-        css += await loadStyleFile('/asset/css/common/popup/input.css', "." + className);
+        let css = ``;
+        try {
+            css += await loadStyleFile('/asset/css/common/input.css', "." + className);
+            css += await loadStyleFile('/asset/css/common/popup/input.css', "." + className);
+            if (initContainer[key].getCssFiles) {
+                const files = initContainer[key].getCssFiles();
+                console.log(files)
+                for (let file of files) {
+                    css += await loadStyleFile(file, "." + className);
+                }
+            }
+        } catch (e) {
+            console.error(e)
+        }
         let style = `
         <style>
         ${css}

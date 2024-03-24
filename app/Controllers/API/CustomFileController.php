@@ -130,7 +130,7 @@ class CustomFileController extends BaseApiController
                     $response['data'] = [
                         'id' => $inserted_row_id,
                         'mime_type' => $mime_type,
-                        'custom_identifier' => $body['custom_identifier'] ?? null
+                        'uploader_key' => $body['uploader_key'] ?? null
                     ];
                 }
             } else {

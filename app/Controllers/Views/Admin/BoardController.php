@@ -146,6 +146,7 @@ class BoardController extends BaseAdminController
 
         return parent::loadHeader([
                 'css' => [
+                    '/common/uploader_slider_box',
                     '/admin/board/topic',
                     '/admin/board/topic_view',
                 ],
@@ -189,6 +190,8 @@ class BoardController extends BaseAdminController
         }
         return parent::loadHeader([
                 'css' => [
+                    '/common/uploader',
+                    '/common/uploader_slider_box',
                     '/admin/board/topic',
                     '/admin/board/topic_input',
                 ],
@@ -229,6 +232,8 @@ class BoardController extends BaseAdminController
         }
         return parent::loadHeader([
                 'css' => [
+                    '/common/uploader',
+                    '/common/uploader_slider_box',
                     '/admin/board/topic',
                     '/admin/board/topic_input',
                 ],

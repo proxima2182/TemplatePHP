@@ -1,0 +1,21 @@
+.uploader.profile .upload-item-add,
+.uploader.profile .upload-item {
+    width: 200px;
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    margin: 10px;
+}
+
+.form-wrap .input-wrap input:not([type=checkbox]),
+.form-wrap .input-wrap textarea {
+    width: 100%;
+    font-weight: 200;
+}
+
+.form-wrap .input-wrap .uploader,
+.form-wrap .input-wrap input:not([type=checkbox]),
+.form-wrap .input-wrap textarea {
+    width: calc(100% - 40px);
+    margin: 10px 20px 20px 20px;
+}

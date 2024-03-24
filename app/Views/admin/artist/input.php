@@ -3,8 +3,8 @@
 use Crisu83\ShortId\ShortId;
 
 if ($type == 'create') {
-    $data['title'] = '';
-    $data['content'] = '';
+    $data['name'] = '';
+    $data['introduction'] = '';
 }
 $shortid = ShortId::create();
 $identifier = $shortid->generate();
@@ -13,33 +13,54 @@ $identifier = $shortid->generate();
     default_identifier = '<?=$identifier?>';
     <?php if (isset($data['files'])) {
     foreach ($data['files'] as $index => $item) { ?>
-    files.push('topic', '<?=$item['id']?>');
+    files.push('preview', '<?=$item['id']?>');
     <?php }
-    }?>
+    }
+    if (isset($data['profile_id'])) {?>
+    files.push('profile', '<?=$data['profile_id']?>');
+    <?php }?>
 </script>
 <div class="container-inner topic-input-container">
     <div class="container-wrap">
-        <h3 class="page-title">
-            <?= $board['alias'] ?>
-        </h3>
-        <div class="topic-wrap">
-            <div class="form-wrap">
-                <div class="row row-title line-after black">
-                    <input placeholder="<?= lang('Service.title') ?>"
-                           type="text" name="title"
-                           class="column title editable"
-                           value="<?= $data['title'] ?>"/>
+        <div class="artist-wrap">
+            <div class="form-wrap line-after">
+                <div class="input-wrap">
+                    <p class="input-title"><?= lang('Service.name') ?></p>
+                    <input type="name" name="name" class="under-line" value="<?= $data['name'] ?>"/>
                 </div>
-                <div class="text-wrap line-after">
-                    <textarea placeholder="<?= lang('Service.content') ?>"
-                              name="content"
-                              class="content editable"><?= $data['content'] ?></textarea>
+                <div class="input-wrap">
+                    <p class="input-title"><?= lang('소개') ?></p>
+                    <textarea name="description"><?= $data['introduction'] ?></textarea>
                 </div>
-                <input hidden type="text" name="board_id" class="editable" value="<?= $board['id'] ?>"/>
+                <div class="input-wrap">
+                    <p class="input-title"><?= lang('프로필 이미지') ?></p>
+                    <div class="uploader profile">
+                        <?php if (isset($data['profile_id'])) { ?>
+                            <div class="upload-item"
+                                 style="background: url('/file/<?= $data['profile_id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+                                Profile #<?= $data['profile_id'] ?>
+                                <input hidden type="text" name="id" value="<?= $data['profile_id'] ?>">
+                                <div class="upload-item-hover">
+                                    <a href="javascript:deleteImageFile('<?= $data['profile_id'] ?>')"
+                                       class="button delete-image black">
+                                        <img src="/asset/images/icon/cancel_white.png"/>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php } ?>
+                        <div class="upload-item-add"
+                             style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
+                            <label for="${key}-file" class="button"></label>
+                            <input type="file" name="file" multiple id="${key}-file"
+                                   onchange="onFileUpload(this, 'artist_profile', 'artist_profile', 'image', generateOnDragFinished('artist_profile'));"
+                                   accept="${accept}"/>
+                        </div>
+                    </div>
+                </div>
                 <input hidden type="text" name="identifier" class="editable" value="<?= $identifier ?>"/>
-                <input hidden type="text" name="user_id" class="editable" value="<?= $user_id ?>">
             </div>
             <div class="slider-box">
+                <p class="title"><?= lang('샘플 영상') ?></p>
                 <div class="slider-wrap">
                     <div class="slick uploader">
                         <?php if (isset($data['files'])) {
@@ -49,7 +70,7 @@ $identifier = $shortid->generate();
                                     Slider #<?= $file['id'] ?>
                                     <input hidden type="text" name="id" value="<?= $file['id'] ?>">
                                     <div class="upload-item-hover">
-                                        <a href="javascript:deleteImageFile('<?= $file['id'] ?>')"
+                                        <a href="javascript:deleteImageFile('<?= $file['id'] ?>', 'artist_preview')"
                                            class="button delete-image black">
                                             <img src="/asset/images/icon/cancel_white.png"/>
                                         </a>
@@ -61,7 +82,7 @@ $identifier = $shortid->generate();
                              style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                             <label for="file" class="button"></label>
                             <input type="file" name="file" multiple id="file"
-                                   onchange="onFileUpload(this);"
+                                   onchange="onFileUpload(this, 'artist_preview', 'artist_preview', 'video');"
                                    accept="image/*"/>
                         </div>
                     </div>
@@ -71,20 +92,21 @@ $identifier = $shortid->generate();
                 <?= lang('Service.message_info_drag') ?>
             </div>
             <div class="button-wrap">
-                <a href="<?= $type == 'create' ? 'javascript:confirmCreateTopic()' : 'javascript:confirmEditTopic(' . $data['id'] . ')' ?>"
+                <a href="<?= $type == 'create' ? 'javascript:confirmCreateArtist()' : 'javascript:confirmCreateArtist(' . $data['id'] . ')' ?>"
                    class="button confirm black"><?= lang('Service.confirm') ?></a>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    function confirmEditTopic(id) {
+    function confirmCreateArtist(id) {
         let data = parseInputToData($(`.topic-wrap .form-wrap .editable`))
-        data['files'] = files.get('topic');
+        data['files'] = files.get('artist_preview');
+        data['profile_id'] = files.get('artist_profile');
 
         apiRequest({
             type: 'POST',
-            url: `/api/topic/update/${id}`,
+            url: `/api/artist/update/${id}`,
             data: data,
             dataType: 'json',
             success: function (response, status, request) {
@@ -100,13 +122,14 @@ $identifier = $shortid->generate();
         });
     }
 
-    function confirmCreateTopic() {
+    function confirmCreateArtist() {
         let data = parseInputToData($(`.topic-wrap .form-wrap .editable`))
-        data['files'] = files.get('topic');
+        data['files'] = files.get('artist_preview');
+        data['profile_id'] = files.get('artist_profile');
 
         apiRequest({
             type: 'POST',
-            url: `/api/topic/create`,
+            url: `/api/artist/create`,
             data: data,
             dataType: 'json',
             success: function (response, status, request) {
